@@ -1,0 +1,58 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>FVWM Beginners Guide - Modules</title>
+<link rel="stylesheet" href="FVWM%20Beginners%20Guide%20-%20Modules_files/fvwm.css">
+</head>
+
+<body>
+<p>The FvwmModules are bits of software launched from within FVWM using the 'Module' command
+to add more functionality and versatility to the Desktop. There are a hand full of different
+modules out there, but the main ones I'm gonna focus on in this part of the guide is
+the FvwmTaskBar, FvwmPager and FvwmButtons. To launch a module you first need to configure
+it and then launch it using the Module Command. These modules will all use colorsets
+as an option, so I will first generate two colorsets to be used though out the
+module section. The three main modules, FvwmTaskBar, FvwmPager and FvwmButtons can all
+use RootTransparent colorsets, so if you like transparency feel free to make
+these colorsets RootTransparent like for the menu. To my knowledge the Translucency
+patch only affects menus and Translucent colorsets cannot be used.</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#0000ff">#####</font>
+<font color="#0000ff"># Module Colorsets</font>
+<font color="#0000ff">###########</font>
+<font color="#a52a2a"><b>Colorset</b></font> 9 fg <font color="#2e8b57"><b>rgb:00/00/00</b></font>, hi <font color="#2e8b57"><b>rgb:00/00/00</b></font>, sh <font color="#2e8b57"><b>rgb:00/00/00</b></font>, bg <font color="#2e8b57"><b>rgb:e9/e9/d9</b></font>
+<font color="#a52a2a"><b>Colorset</b></font> 10 fg <font color="#2e8b57"><b>rgb:00/00/00</b></font>, hi <font color="#2e8b57"><b>rgb:dd/00/00</b></font>, sh <font color="#2e8b57"><b>rgb:dd/00/00</b></font>, bg <font color="#2e8b57"><b>rgb:fb/fc/ec</b></font>
+</pre>
+</td></tr></tbody></table></center>
+
+<p>To see how the basic syntax for module configuration works, lets take a look
+at the FvwmIdent Module. This module is used to identify a window and gives
+us info about it that can be useful in configuring fvwm. As with most things in FVWM
+the first thing that should be done is to destroy any previous config.
+After that send some options to the module as follows:</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#0000ff">#####</font>
+<font color="#0000ff"># FvwmIdent</font>
+<font color="#0000ff">###########</font>
+<font color="#008b8b">DestroyModuleConfig</font> FvwmIdent: *
+<font color="#a020f0">*FvwmIdent</font>: <font color="#a52a2a"><b>Colorset</b></font> 9
+<font color="#a020f0">*FvwmIdent</font>: <font color="#a52a2a"><b>Font</b></font> <font color="#ff00ff">"xft:Sans:Bold:size=12:antialias=True"</font>
+</pre>
+</td></tr></tbody></table></center>
+
+<p>The config for this module is quite simple, I just tell FvwmIdent
+what font and colorset to use. To launch the module, just add
+'Module FvwmIdent' to an action (such as I have in the window ops menu).</p>
+
+<hr>
+<table cellpadding="0" border="0" width="100%">
+<tbody><tr><td align="left" width="33%"><a href="http://zensites.net/fvwm/guide/menu.html">Menu</a></td>
+<td align="center" width="34%"><a href="http://zensites.net/fvwm/guide/index.html">index</a></td>
+<td align="right" width="33%"><a href="http://zensites.net/fvwm/guide/fvwmtaskbar.html">FvwmTaskBar</a>
+</td></tr></tbody></table>
+
+
+</body></html>

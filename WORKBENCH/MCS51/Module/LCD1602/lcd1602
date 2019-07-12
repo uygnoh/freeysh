@@ -1,0 +1,84 @@
+#include <reg51.h>
+#define uint unsigned int
+#define uchar unsigned char
+
+uchar code tab1[] = "I LIKE MCU !";	//字符串一定是双引号
+uchar code tab2[] = "I LIKE MCU !";	//字符串一定是双引号 
+uchar num;
+sbit RS = P2^6;
+sbit RW = P2^5;
+sbit EN = P2^7;
+
+void lcd1602_write_cmd(uchar cmd)
+{
+	RS = 0;
+	RW = 0;
+	EN = 0;
+	P0 = cmd;
+	delay_ms(2);
+	EN = 1;
+	delay_ms(5);
+	EN = 0;
+	delay_ms(2);
+}
+
+void lcd1602_write_dat(uchar dat)
+{
+	RS = 1;
+	RW = 0;
+	EN = 0;
+	P0 = cmd;
+	delay_ms(2);
+	EN = 1;
+	delay_ms(5);
+	EN = 0;
+	delay_ms(2);
+}
+
+/* LCD1602 初始化函数 */
+void lcd1602_init(void)
+{
+	lcd1602_write_cmd(0x38);
+	lcd1602_write_cmd(0x0C);
+	lcd1602_write_cmd(0x06);
+	lcd1602_write_cmd(0x01);
+}
+
+int main(void)
+{
+	lcd1602_init();
+	lcd1602_write_cmd(0x80);
+	for (num = 0; num < 12; num++)
+	{
+		lcd1602_write_dat(tab1[num]);
+		delay_ms(200);
+	}
+	
+	lcd1602_write_cmd(0x80+0x40);
+	for (num = 0; num < 16; num++)
+	{
+		lcd1602_write_dat(tab2[num]);
+		delay_ms(200);
+	}
+	while (1);
+}
+
+
+
+###############################################################################
+
+/* 定义一个带指针的函数 */
+void lcd1602_write_string(uchar *ch)
+{
+	while (*ch != 0)
+		lcd1602_write_dat(*ch++);
+}
+/* 定义一个带指针的函数的调用 */
+lcd1602_write_string("I LOVE YOU !");
+
+
+###############################################################################
+
+
+
+

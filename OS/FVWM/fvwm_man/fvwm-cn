@@ -1,0 +1,1001 @@
+### ======================================================= FVWM
+% http://www.ctex.org/documents/shredder/fvwm_frame.html
+
+
+
+
+
+### ====================================================================== 简介
+FVWM 或者按字面意义简易虚拟视窗管理系统（Feeble Virtual Window Manager），
+是一个X视窗系统中功能十分强大的桌面/视窗管理器。
+
+FVWM 都是由一个位于$HOME/.fvwm2rc或者$HOME/.fvwm/.fvwm2rc这样一个单一的文件来设置的。
+该文件可以通过“Read”命令 来读取其他的设置文件，这样就可以将一个文件拆分成一些较小的文件。
+不过在本指南中，我们还是将所有的设置都放在一个文件中。
+为了统一，我们将所有的设置 资源都放在$HOME/.fvwm这个目录中并创建一个空白的.fvwm2rc文件。
+启动FVWM后，不要因为她的简陋而惊讶，顾忌许多人都会这样反应， 
+但这的确是一个创建您自己桌面的良好开端。
+
+
+
+### =================================================================== 全局定义
+% 在设置中我们首先要通过全局定义来设定例如：环境变量、桌面的基本定义等事项。
+% 环境变量是我们存储的一种可以脱离fvwm2rc文件并在终端中使用的变量。
+% 我所使用的环境变量主要是用于告诉FVWM到哪里去寻找我所定义的事项。
+% 注意：环境变量使用过滥会造成FVWM资源的“浪费”，
+% 所以尽量不要去定义那些一年才使用几次的变量。
+% 有关于环境变量的社区讨论和使用细节，可以通过这里取得。
+% 举例而言，您可以这样定义您的环境变量：
+
+#####
+# Set Environment variables
+###########
+SetEnv fvwm_img $[FVWM_USERDIR]/images
+SetEnv fvwm_icon $[FVWM_USERDIR]/icons
+SetEnv fvwm_scrpt $./scripts
+SetEnv fvwm_wallpapers $[FVWM_USERDIR]/wallpaper
+
+
+% 当然您也可以在环境变量中定义您所使用的软件,例如：
+SetEnv fvwm_webbrowser /usr/bin/firefox
+SetEnv fvwm_term /usr/bin/aterm
+SetEnv fvwm_mail /usr/bin/mutt
+SetEnv fvwm_media_player /usr/bin/xmms
+SetEnv fvwm_video_player /usr/bin/mplayer 
+
+
+% 接下来我们设置图片文件的路径，这个设置方式与终端中的变量$PATH比较相似，
+% 下面是一个典型的设置语句：
+#####
+# Set the image path
+###########
+ImagePath $[fvwm_icon]:$[fvwm_icon];.png:$[fvwm_wallpapers]:+
+% 我 将所有使用的ICON文件都放在$[fvwm_icon]目录中。
+% 在这里出现两次$[fvwm_icon]并且后面一次跟着.png是因为FVWM可交替 使用.xpm和.png文件，
+% 当然也可以使用'/usr/local/share/icon'目录定义广义图标的路径，
+% 用$HOME/images定义私 人图标文件的路径。
+
+
+
+### =================================================================== 虚拟桌面
+% 接下来我们设置虚拟桌面。FVWM允许我们定义并使用许多的虚拟桌面，
+% 而且允许每个虚拟桌面拥有众多的桌面页。
+% 在下面的例子中，我们共设立了三个虚拟桌面，
+% 每个桌面以3x3的格式拥有9个桌面页：
+#####
+# Virtual Desktops
+###########
+DesktopSize 3x3
+DesktopName 0 Main
+DesktopName 1 Work
+DesktopName 2 Games
+EdgeScroll 100 100
+EdgeResistance 150 150
+EdgeThickness 1
+% 然 后我分别命名三个虚拟桌面为Main、Work和Games（分别对应数字0、1、2）。
+% "EdgeScroll 100 100"语句则用于定义滚屏，
+% 即当鼠标到达桌面页的边缘（宽或高为100%时）滚动到下一个虚拟页。
+% EdgeThickness语句用于定义滚屏前等待的 毫秒数。
+% EdgeThickness语句用于定义滚屏前像素的灵敏度。
+% 如果您不希望自动滚屏，也可以定义“EdgeResistance 0 0”和“EdgeThickness 0”。
+
+
+
+### ========================================================== 鼠标和获得焦点的特性
+% 下面定义鼠标和获得焦点的特性：
+#####
+# Mouse and Focus Behavior
+###########
+ClickTime 350
+MoveThreshold 3
+Style * SloppyFocus, MouseFocusClickRaises
+% 
+% ClickTime定义了鼠标单击操作时按下和松开间的时间毫秒数，
+% 小于这个数值FVWM认为这是单击，大于这个数值则认为是点住。
+% MoveThreshold定义点住并移动多少像素算做是移动。
+% 这些定义要根据自己的感觉设置并且对以后的功能定义操作具有意义。
+% 
+% 风 格的定义是用于对窗体物件的行为、外表和特性进行的设置。
+% 风格定义十分丰富，不过在开始的时候我们先定义风格线。
+% 在风格语句中，*号是统配符，所以 “Style *”表示所有的窗体。
+% 其后是一些用逗号分割开的列表，这里我首先定义的是SloppyFocus，
+% 表示当鼠标经过该窗体时窗体获得焦点。（这个窗体的概念 包含根窗体root window）。
+% 其后的MouseFocusClickRaises表示鼠标单击焦点窗体后该窗体升至桌面最前面。
+% 其他可定义的风格还 有：“ClickToFocus”、“ClickToFocusPassesClick”、
+% “ClickToFocusPassesClickOff”、 “ClickToFocusRaises”
+% 和“ClickToFocusRaisesOff”，它们的具体意义建议您从MAN文档中查找。
+
+
+
+
+
+
+
+### ======================================================= 默认的桌面环境
+% 除此之外要定义的是一些特殊的关键词，以定义默认的桌面环境特性。
+% 
+EwmhBaseStruts 62 162 0 48
+IgnoreModifiers L25
+% 
+% 这 里的第一行定义可使用桌面的空间，命令格式为“EwmhBaseStruts 左 右 上 下”。
+% % 这里的数字表示分别距离屏幕边缘的像素值，以定义窗体的最大尺寸的不具以及窗体可存放的空间。
+% 这个设定分别在左、右和下部预留了一些给按钮栏、状态 栏和桌面页的空间。
+% 如果您希望窗体超出这个布局，可以在风格定义中加上EWMHMaximizeIgoreWorkingArea的选项。
+% 下面一行定义忽 略的变量，例如该行表示忽略数字锁定，这在许多时候是非常有用的。
+
+
+
+
+
+
+
+### =======================================================
+% 在我提供的FVWM设置中，还有一些关于风格的设定，在这里我就不一一解释它们的用途了，
+% 我只是希望您指导还有许多的风格选项可以对FVWM进行更多的设定：
+
+#####
+# Global Styles and options
+###########
+Style * TileCascadePlacement, GrabFocusOff
+Style * NoPPosition, ResizeOpaque
+OpaqueMoveSize -1
+Emulate MWM
+HideGeometryWindow Never
+SnapAttraction 5 SameType Screen
+SnapGrid 3 3
+XorValue 55555
+Style * DecorateTransient, DontRaiseTransient
+Style * DontLowerTransient, StackTransientParent
+Style * GrabFocusTransientOff
+Style * WindowShadeSteps 20, WindowShadeScrolls
+SetAnimation 10 -.01 0 .01 .03 .08 .18 .3 .45 .6 .75 .85 .90 .94 .97 .99 1.0
+Style * MwmDecor, SlipperyIcon
+Style * IconBox screen w 15 15 -165 -15, IconGrid 3 3, IconFill right top 
+% 
+% 
+% 下面要设置的是一些关于不同程序窗体的个性风格。
+% 这些设定的语句格式 为：“Style [字符串] [风格]”。
+% FVWM将对比[字符串]与程序的名称、类型或者窗体的资源，然后分别按照名称、类型和资源进行窗体的创建。
+% 下面是特殊应用程序的风格设置， 尽管各种风格特性都能够进行设置，我这里仅对程序的图标资源进行了定义。
+#####
+# Program Styles
+###########
+Style "*" Icon 48x48/unknown.xpm
+Style "XTerm" Icon 48x48/xterm.png, NoActiveIconOverride, MiniIcon mini/xterm.png
+Style "gvim" Icon 48x48/gvim.png, IconOverride, MiniIcon mini/gvim.png, EWMHMiniIconOverride
+Style "Firefox-bin" Icon 48x48/firefox.png, MiniIcon mini/firefox.png, EWMHMiniIconOverride
+Style "irssi" Icon 48x48/gaim.png, MiniIcon mini/irc.png
+Style "xmms" WindowListSkip, CirculateSkip
+Style "MPlayer" Icon 48x48/mplayer.png 
+
+
+
+
+### ======================================================= 功能选项
+% 功能选项可以在设置文件的不同地方出现并被FVWM所执行。
+% 在这里我仅仅介绍一些简单的语法并提供一些简单功能的设置，
+% 高级功能的介绍将在本文的附录部分被提到。
+% 在开始设定功能前，让我们先了解一些关于功能设置的语法句形，
+% 我已经在这里给出一个注释框，您可以将它复制到您的设置文档中以便于提醒您如何运用功能的设定。
+#####
+#
+# DestroyFunc FuncName
+# AddToFunc FuncName
+# + I (Action to happen immediately)
+# + C (Action to happen on a mouse 'click)
+# + D (Action to happen on a mouse 'double click')
+# + H (Action to happen on a mouse 'hold')
+# + M (Action to happen on a mouse 'motion')
+#
+###########
+% 您将使用DestroyFunc语句定义您所需要的功能名 称，
+% 然后用AddToFunc语句对于该名称代表的功能进行细节的描述，
+% 这些功能将根据鼠标的不同行为运行。另外功能的设置还可以提供运行参数，
+% 例如我们 可以通过
+'FuncName "$0" "$1" "$2" "$3" "$4"'语句调用一个功能并将$0-$4等多个参数传递给该项功能，
+% 并以不同的结果来表现。现在让我们来思考以下的几个功能：
+
+
+
+
+#####
+# Basic Functions
+###########
+DestroyFunc FvwmDeleteOrDestroy
+AddToFunc FvwmDeleteOrDestroy
++ H Nop
++ M Nop
++ C Delete
++ D Destroy
+
+DestroyFunc FvwmIconifyOrShade
+AddToFunc FvwmIconifyOrShade
++ C Iconify
++ D WindowShade
+
+DestroyFunc FvwmMaximize
+AddToFunc FvwmMaximize
++ H Nop
++ M Nop
++ C Maximize $0 $1
+
+DestroyFunc FvwmMoveOrIconify
+AddToFunc FvwmMoveOrIconify
++ M Move
++ D Iconify
+
+DestroyFunc FvwmWindowShade
+AddToFunc FvwmWindowShade
++ D WindowShade $0 
+%
+% 第一个名为FvwmDeleteOrDestroy的功能在鼠标点住和移动时 无作用，
+% 但是在单击窗体时会删除该窗体，在双击时则彻底去除该窗体。
+%
+% 第二个名为FvwmIconifyOrShade的功能将在单击时图标化窗体，在双击 时隐藏窗体。
+%
+% 名为FvwmMaximized的功能可以传递两个变量以窗体如何最大化，
+% 例如您可以使用FvwmMaximized 100 100以使得该窗体在水平和垂直两方面都变成最大，
+% 也可以用FvwmMaximized 100 0使得窗体水平最大化而垂直保持原状，
+% 或者使用FvwmMaximized 0 100以达到垂直最大而水平保持原状。
+%
+% 功能FvwmMoveOrIconify将在鼠标移动时移动窗体而双击是图标化窗体。 
+% FvwmWindowShade在通过FvwmWindowShade True隐藏窗体，
+% 或者通过FvwmWindowShade False不隐藏窗体。
+
+
+
+% 下面我将写一些启动我的程序的功能，以便于我能够调用它们。
+% 尽管这些功能看似简单，但我仍要有组织地来写它们。这些功能如下：
+#####
+# Program Launching Functions
+###########
+DestroyFunc FvwmXTerm
+AddToFunc FvwmXTerm
++ I Exec exec xterm
+
+DestroyFunc FvwmATerm
+AddToFunc FvwmATerm
++ I Exec exec aterm
+
+DestroyFunc FvwmGVim
+AddToFunc FvwmGVim
++ I Exec exec gvim
+
+DestroyFunc FvwmGimp
+AddToFunc FvwmGimp
++ I Exec exec gimp-2.0
+
+DestroyFunc FvwmFireFox
+AddToFunc FvwmFireFox
++ I Exec exec firefox
+
+DestroyFunc FvwmIrssi
+AddToFunc FvwmIrssi
++ I Exec exec aterm -e irssi
+
+DestroyFunc FvwmXmms
+AddToFunc FvwmXmms
++ I Exec exec xmms
+
+DestroyFunc FvwmViewManPage
+AddToFunc FvwmViewManPage
++ I Exec exec xterm -fg White -bg DarkBlue -g 80x40 -fn 7x14 -fb 7x14bold \
+-n "Manual Page - $0" -T "Manual Page - $0" -e man "$0" 
+% 这些功能我就不详细解释了。最后一个功能是将MAN文档作为一个参数来启动 MAN程序，
+% 如果使用“FvwmViewManPage fvwm”语句调用该功能将跳出一个名为“Manual Page fvwm”的fvwm的MAN文档终端窗体。
+% 其中符号“\”为换行符使得fvwm可以将下面一行作为本行的续写内容处理。
+
+
+
+
+
+
+
+
+
+
+### =======================================================
+% 现在让我们花一 些精力来看一下三个重要且特殊的功能：
+% “StartFunction”、“InitFunction”和“RestartFunction”，
+% 功能 StartFunction将在FVWM每次启动是运行，
+% InitFunction将在FVWM首次启动时在StartFunction后运行，
+% 而 RestartFunction将在FVWM再次启动时跟在StartFunction后运行。这里的示范为：
+#####
+# Startup Functions
+###########
+DestroyFunc StartFunction
+AddToFunc StartFunction
++ I Module FvwmTaskBar
++ I Module FvwmPager 0 2
++ I Module FvwmButtons MyButtons
+
+DestroyFunc InitFunction
+AddToFunc InitFunction
++ I Exec exec xscreensaver
++ I Exec exec fvwm-root -r $[fvwm_wallpapers]/background.png
++ I FvwmXmms
++ I FvwmATerm
+
+DestroyFunc RestartFunction
+AddToFunc RestartFunction
++ I Nop 
+% 
+% 当FVWM启动时，她将调用三个模块：FvwmTaskBar、FvwmPager和FvwmButtons，
+% 如果是首次启动她还将启动屏保系统、桌面壁纸并运行XMMS和aTerm终端。
+% 如果是重启则不再运行这些后续的程序。
+
+
+
+
+
+
+% 功 能可以是十分地丰富，并且可以给桌面加上许多有用的内容。
+% 功能可以加上参数运行（例如$0、$1、$2、$3等等）也可以根据鼠标的不同动作进行合并。
+% 功 能可以使用FVWM保留名以外的各种名称命名，
+% 这些保留名有：Nop、Delete、Destroy、Restart、Exec等等。
+% 这里有一些简单的复合功能的例子：
+#####
+# Screenshot Functions (uses ImageMagick)
+###########
+DestroyFunc FvwmWindowScreenshot
+AddToFunc FvwmWindowScreenshot
++ I ThisWindow (!Shaded !Iconic Iconifiable) \
+Exec import -window $[w.id] -quality 100 -silent \
+"$[fvwm_home]/screenshot/screenshot-`date +%F[%R]`.$[w.id].jpg"
+
+DestroyFunc FvwmDesktopScreenshot
+AddToFunc FvwmDesktopScreenshot
++ I Exec sleep $0; import -window root -quality 100 -silent \
+"$[fvwm_home]/screenshot/screenshot-`date +%F[%R]`.jpg"
+
+#####
+# XRoach Invasion
+###########
+DestroyFunc XRoachInvasion
+AddToFunc XRoachInvasion
++ I Exec exec xroach -roaches 5 -rc Cyan -speed 17
++ I Exec exec xroach -roaches 3 -rc Red -speed 15
++ I Exec exec xroach -roaches 7 -rc Green -speed 10
++ I Exec exec xroach -roaches 3 -rc Blue -speed 20
++ I Exec exec xroach -roaches 1 -rc Black -speed 30
++ I Exec exec xroach -roaches 1 -rc White -speed 40
+
+DestroyFunc XRoachExterminate
+AddToFunc XRoachExterminate
++ I Exec killall xroach 
+% 这 里的第一项功能是利用imagemagick中的import工具保留全屏或者单一窗体的图象。
+% 要创建一个单一窗体的保留图象可以通过Pick FvwmWindowScreenshot来获得一个指针让您能够用指针点击所要的窗体，
+% 并取得保留的图象。其后一个是获取全屏的保留图象，可以用例如 FvwmDesktopScreenshot 5来调用并在5秒之后摄取图片。
+% 下一个功能是设定一个比较老的X玩偶，它将分别启动不同眼色的玩偶，当然前提是你已经成功地安装了xroach的程序。
+
+
+
+
+
+
+### ======================================================================= 绑定
+% 总 共有两种形式的绑定，绑定鼠标或者是绑定键盘。
+% 要理解绑定的概念和运作，
+% 首先让我们来研究一下一个拥有一个窗体和两个图标化窗体的典型桌面。
+% 下图显示桌面 是如何分别由以下成员组成的：
+% R代表根视窗，I代表图标，F代表窗体的角，S代表窗体的边，T代表窗体的标题栏，W代表应用窗体，
+% 另外还有0-9的按钮位 置。注意字符A代表着鼠标的位置可以在桌面的任何地方。
+绑 定如下例设置，您可以用“Key X Context Modifier Action”绑定一个触键到一个动作，
+也可以用“Mouse X Context Modifier Action”绑定鼠标到一个动作。
+其中Context是鼠标所在的位置，Modifier可以是这些键的任意组合：
+（A）任何键、（C）Ctrl键、 （S）上档键、（M）Meta键、（N）无键，
+% 或者是1~5（代表X窗体的mod1~mod5，详见xmodmap的MAN文档）。下面是一个简单的例 子：
+#####
+# Basic Bindings
+###########
+Key F1 A M Menu MenuFvwmRoot
+Key Tab A M WindowList Root c c NoDeskSort, SelectOnRelease Meta_L
+Key Super_L A A FvwmATerm
+Mouse 1 R A Menu FvwmRootMenu
+Mouse 3 R A Menu FvwmWindowOpsMenu
+Mouse 1 1 A FvwmDeleteOrDestroy
+Mouse 1 3 A FvwmIconifyOrShade
+Mouse 1 5 A FvwmMaximize 100 100
+Mouse 2 5 A FvwmMaximize 0 100
+Mouse 3 5 A FvwmMaximize 100 0
+Mouse 1 W M FvwmMoveOrIconify
+Mouse 1 I A FvwmMoveOrIconify
+Mouse 4 T A FvwmWindowShade True
+Mouse 5 T A FvwmWindowShade False 
+% 以上这些绑定自上而下分别代表这些动作：
+1、  鼠标在任何地方且按下Alt-F1时启动内建根菜单；
+2、  按下Alt-Tab键时显示窗体列表并使选中的列表窗体获得焦点；
+3、  当按下左面的命令键（Win）时启动aTerm终端；
+4、  在根视窗上按鼠标左键时打开根菜单；
+5、  在根视窗上按鼠标右键时打开窗体对象菜单；
+6、  在窗体1号按钮位单击或双击删除或清除该视窗；
+7、  在窗体3号按钮位单击或双击图标化或隐藏该视窗；
+8、  在窗体5号按钮位左键单击使得窗体水平及垂直两方面最大化；
+9、  在窗体5号按钮为右键单击使得窗体垂直最大化，水平方向不变；
+10、 在窗体5号按钮位中键单击使得窗体水平最大化，垂直方向不变；
+11、 在窗体任何位置时按Alt及单击左键移动窗体，双击使窗体图标化；
+12、 在图标化窗体上按Alt及单击左键移动图标，双击使图标恢复为窗体；
+13、 在窗体标题栏向上滚动鼠标滑轮两次隐藏窗体；
+14、 在窗体标题栏向下滚动鼠标滑轮两次展开窗体。
+
+
+
+
+
+### ================================================================== 视窗修饰
+% 视 窗修饰定义的是窗体的外观。
+% FVWM的窗体修饰可采用彩色图线或位图。
+% 这里给出的第一个例子是无位图的简单视窗修饰方案。
+% 在开始的时候，我们要来定义一些 您视窗中将使用的色彩结构（colorsets）。
+% 色彩结构的定义可在设置文档的任何地方出现，这里是三个简单的色彩结构的设置。
+#####
+# Window Colorsets
+###########
+Colorset 3 fg #101060, bg #e6e7d7
+Colorset 4 fg Black, bg #a6a797
+Colorset 5 fg White, bg Black 
+% 这 里的三个色彩结构，分别用3、4、5的序号代表，
+% 定义了前景（fg）和背景（bg）的颜色，其中颜色的定义即可以采用16进制，
+% 也可以使用色彩的名称，关 于色彩的名称可查阅/etc/X11/RGB.txt文档。
+% 另外还可以定义高亮（hi）和隐藏（sh）色。色彩结构的设定可以是任意的长整型数字，
+% 但是请 尽量减少色彩结构设置的数量，因为它会为您一个人的运行占据大量的内存空间。
+% 关于色彩结构的详细内容可参阅FvwmThemes的MAN文档。
+
+
+
+% 视窗修饰可以分成三个组成部分：标题栏修饰、按钮修饰和边框修饰。下面是一个简单的例子：
+%
+#####
+# Window Decor
+###########
+DestroyDecor MyDecor
+AddToDecor MyDecor
++ TitleStyle LeftJustified Height 18
++ ButtonStyle 1 ActiveUp Vector 4 30x30@3 60x60@3 60x30@4 30x60@3 -- Flat
++ ButtonStyle 1 ActiveDown Vector 4 30x30@3 60x60@3 60x30@4 30x60@3 -- Flat
++ ButtonStyle 1 Inactive Vector 4 30x30@3 60x60@3 60x30@4 30x60@3 -- Flat
++ ButtonStyle 3 ActiveUp Vector 5 30x60@3 60x60@3 60x50@3 30x50@3 30x60@3 -- Flat
++ ButtonStyle 3 ActiveDown Vector 5 30x60@3 60x60@3 60x50@3 30x50@3 30x60@3 -- Flat
++ ButtonStyle 3 Inactive Vector 5 30x60@3 60x60@3 60x50@3 30x50@3 30x60@3 -- Flat
++ ButtonStyle 5 ActiveUp Vector 7 30x30@3 30x60@3 60x60@3 60x30@3 30x30@3 30x35@3 60x35@3 -- Flat
++ ButtonStyle 5 ActiveDown Vector 7 30x30@3 30x60@3 60x60@3 60x30@3 30x30@3 30x35@3 60x35@3 -- Flat
++ ButtonStyle 5 Inactive Vector 7 30x30@3 30x60@3 60x60@3 60x30@3 30x30@3 30x35@3 60x35@3 -- Flat
++ TitleStyle -- Flat
++ BorderStyle Simple -- NoInset Flat
++ ButtonStyle All -- UseTitleStyle 
+% 以上视窗修饰定义三个矢量按钮：1、3、5（分别与绑定设置相对应）。
+注意：每个修饰 按钮都首先要通过绑定来建立与某些动作的关联。
+每行最后的“-- Flat”表示按钮和标题栏不要显示突出或凹陷。
+矢量是简单的线条描绘。每个矢量图的大小都在100x100的像素内，
+它的语法是“Vector [number of points] [[point1] [point2] ...]”，
+其中每个point的定义为XxY@Z，Z可以是0-4的数字，
+% 分别代表0高亮、1隐藏、2背景、3前景和4不可见。
+
+
+
+
+% 下面的一个例子是使用位图定义按钮和标题栏。
+% 
+#####
+# Ukkosta Decor
+###########
+DestroyDecor UkkostaDecor
+AddToDecor UkkostaDecor
++ TitleStyle LeftJustified Height 24
++ ButtonStyle 1 \
+ActiveUp (Pixmap $[fvwm_img]/button/close-activeup.png -- Flat) \
+ActiveDown (Pixmap $[fvwm_img]/button/close-activedown.png -- Flat) \
+Inactive (Pixmap $[fvwm_img]/button/inactive.png -- Flat)
++ ButtonStyle 3 \
+ActiveUp (Pixmap $[fvwm_img]/button/iconify-activeup.png -- Flat) \
+ActiveDown (Pixmap $[fvwm_img]/button/iconify-activedown.png -- Flat) \
+Inactive (Pixmap $[fvwm_img]/button/inactive.png -- Flat)
++ ButtonStyle 5 \
+ActiveUp (Pixmap $[fvwm_img]/button/maximize-activeup.png -- Flat) \
+ActiveDown (Pixmap $[fvwm_img]/button/maximize-activedown.png -- Flat) \
+Inactive (Pixmap $[fvwm_img]/button/inactive.png -- Flat)
++ ButtonStyle 1 - Clear
++ ButtonStyle 3 - Clear MwmDecorMin
++ ButtonStyle 5 - Clear MwmDecorMax
++ TitleStyle AllActive MultiPixmap \
+Main AdjustedPixmap $[fvwm_img]/decor/title-main-active.xpm, \
+LeftEnd AdjustedPixmap $[fvwm_img]/decor/title-leftend-active.xpm, \
+RightEnd AdjustedPixmap $[fvwm_img]/decor/title-rightend-active.xpm, \
+UnderText AdjustedPixmap $[fvwm_img]/decor/title-undertext-active.xpm, \
+LeftOfText AdjustedPixmap $[fvwm_img]/decor/title-leftoftext-active.xpm, \
+RightOfext AdjustedPixmap $[fvwm_img]/decor/title-rightoftext-active.xpm
++ TitleStyle AllInactive MultiPixmap \
+Main AdjustedPixmap $[fvwm_img]/decor/title-main-inactive.xpm, \
+LeftEnd AdjustedPixmap $[fvwm_img]/decor/title-leftend-inactive.xpm, \
+RightEnd AdjustedPixmap $[fvwm_img]/decor/title-rightend-inactive.xpm, \
+UnderText AdjustedPixmap $[fvwm_img]/decor/title-undertext-inactive.xpm, \
+LeftOfText AdjustedPixmap $[fvwm_img]/decor/title-leftoftext-inactive.xpm, \
+RightOfext AdjustedPixmap $[fvwm_img]/decor/title-rightoftext-inactive.xpm
++ TitleStyle -- Flat
++ BorderStyle Simple -- NoInset Flat
++ ButtonStyle All -- UseTitleStyle 
+
+
+
+
+
+
+
+
+
+
+
+% 现在我们就可以定义我们视窗的外观了。定义的方式如下：
+%
+#####
+# Window Styles
+###########
+Style "*" UseDecor MyDecor
+Style "*" Font "xft:Sans:Bold:size=8:minspace=False:antialias=True"
+Style "*" BorderWidth 1, HandleWidth 1
+Style "*" MWMBorder, FirmBorder
+Style "*" Colorset 4
+Style "*" HilightColorset 3
+Style "*" BorderColorset 5
+Style "*" HilightBorderColorset 4
+% 上面的设置告诉系统按照MyDecor的格式修饰视窗，并规范了字体、边框以及普通、高亮和边框的色彩结构。
+% 我喜欢所有窗体都采用简单的视窗修饰，当然您也可以分别设置它们。
+
+
+
+
+
+
+
+
+
+
+
+### ====================================================================== 菜单
+% 菜单是一种根据绑定或点击状态栏开始菜单钮启动的清单。
+% 菜单的内容可以是运行程序，也可以动态产生，例如我们可以显示目录的内容或启动某些程序。
+首先我们要做的还是色彩结构定义，一般来说菜单的色彩结构有两种：
+% 主色彩结构和选种色彩结构。下面是一个简单的例子：
+% 
+#####
+# Menu Colorsets
+###########
+Colorset 7 fg Black, bg #e6e7d7, sh Black, hi #202070
+Colorset 8 fg DarkRed, bg #e6e7d7, sh Black, hi #202070
+
+
+% 2.5.10版本的FVWM可以使用一种伪透明色彩，
+% 它是将根视窗的图像作为一种底色来使用，但是使用这种色彩仅能看到根视窗图像，
+% 上面的原有窗体都没有。这里是一个关于伪透明色彩结构的定义：
+Colorset 7 RootTransparent, fg Black, bg average, sh Black, \
+hi #202070, Tint White 60, bgTint White 60
+% 跟在色彩后面的颜色代表百分比值，为0时则完全透明，为100时则显示原定义色彩。
+
+% 如果安装了真透明插件，您还可以实现真正的透明效果。
+% 如果您这个插件能够正确安装，那么可以用“Translucent [颜色] [百分比值]”来定义真透明色彩。就像下面的例子一样：
+Colorset 7 fg Black, Translucent White 75, \
+hi Black, sh Black
+
+
+
+% 在定义完色彩结构之后，我们要来定义菜单的风格。菜单风格与风格定义相似，也可以使用通配符“*”，
+% 以使得菜单的风格一致或设计各自不同的菜单。一个全局菜单风格的定义大致如下：
+#####
+# MenuStyles
+###########
+MenuStyle * PopupDelayed, PopupDelay 300, PopdownImmediately
+MenuStyle * PopupOffset -5 100, TitleWarpOff
+MenuStyle * TitleUnderlines2, SeparatorsLong, TrianglesSolid
+MenuStyle * AnimationOff, AutomaticHotkeysOff
+MenuStyle * BorderWidth 2
+MenuStyle * PopupAsSubmenu, HoldSubmenus, SubmenusRight
+MenuStyle * ItemFormat "%|%5.5i%1.3l%2.3>%|"
+MenuStyle * VerticalItemSpacing 1 1, VerticalTitleSpacing 2 2
+MenuStyle * MenuColorset 7
+MenuStyle * ActiveFore, Hilight3DOff
+MenuStyle * ActiveColorset 8
+MenuStyle * Font "Shadow=2:xft:Sans:Bold:size=11:antialias=True"
+% 您最好通过MAN文档来查阅每个项目的意义，不过大多数的内容已经从这个例子 中能够反应并得到理解，
+% % 例如如何控制菜单跳出、菜单的行为、色彩应用、字体以及菜单内容和标题等等。
+% 如果您希望不同的菜单有不同的格式，可以替代其中的 “*”并自己来定义。
+% 例如：您可以使用“MenuStyle FvwmMenu*”和“MenuStyle MyMenu*”来分别定义，
+% 以使得这两种菜单有所不同。
+
+
+
+
+% 现在可以来定义菜单的内容了。定义菜单与定义功能有些相似：
+% 您需要首先创建一个菜单，然后将菜单的内容逐一增加进去。这里是一个简单的根菜单的定义：
+#####
+# FvwmRootMenu
+###########
+DestroyMenu FvwmRootMenu
+AddToMenu FvwmRootMenu "Root Menu" Title
++ "Programs%menu/programs.png%" Popup FvwmProgramsMenu
++ "Console%menu/terminal.png%" FvwmATerm
++ "FVWM Console%menu/terminal.png%" Module FvwmConsole
++ "" Nop
++ "Help%menu/help.png%" Popup FvwmManPagesMenu
++ "Restart FVWM%menu/restart.png%" Restart
++ "Quit FVWM%menu/quit.png%" Quit
+% 菜单定义的基本语法是‘+ "[菜单项目名称]%[图标]%" [动作]’，图标在菜单的前后都可以，
+% 例如‘+ "%[图标]%[菜单项目名称]" [动作]’的显示结果与前面是完全一致的。
+% 要调整图标显示在菜单名称的左面或者右面，则需要在菜单风格中定义。
+% 这里创建了一个名为根菜单的菜单列表，您可 以通过单击根视窗调用它（已在绑定中进行了定义）。
+% 在这个菜单中总共定义了5项内容，其中第一项是打开一个名为FvwmProgramsMenu的子菜 单。
+% 第二项是通过调用FvwmATerm功能来运行aterm终端。
+% 第三项是运行一个名为FvwmConsole模块，它将启动一个终端并可以在其中直接 以FVWM语法调用程序并使之立刻执行。‘+ “” NOP’将添加一个隔断。
+% 下面的项目是启动FVWM的MAN文档帮助文件和退出FVWM。
+
+
+
+
+% 上面提到了两个子菜单一个是运行程序的菜单，一个是包含FVWM所有帮助文档的菜单，让我们现在就来定义它们：
+#####
+# Programs Menu
+###########
+DestroyMenu FvwmProgramsMenu
+AddToMenu FvwmProgramsMenu "Programs" Title
++ "GVim%menu/vim.png%" FvwmGVim
++ "Gimp%menu/gimp.png%" FvwmGimp
++ "FireFox%menu/firefox.png%" FvwmFireFox
++ "Irssi%menu/irc.png%" FvwmIrssi
++ "Xmms%menu/xmms.png%" FvwmXmms
++ "XRoach-Invasion%menu/xroach.png%" XRoachInvasion
++ "XRoach-Exterminate%menu/xroach.png%" XRoachExterminate
+
+#####
+# FVWM Help Menu
+###########
+DestroyMenu FvwmManPagesMenu
+AddToMenu FvwmManPagesMenu "FVWM Man Pages" Title
++ "%menu/help.png%fvwm" FvwmViewManPage fvwm
++ "%menu/help.png%FvwmAnimate" FvwmViewManPage FvwmAnimate
++ "%menu/help.png%FvwmAuto" FvwmViewManPage FvwmAuto
++ "%menu/help.png%FvwmBacker" FvwmViewManPage FvwmBacker
++ "%menu/help.png%FvwmBanner" FvwmViewManPage FvwmBanner
++ "%menu/help.png%FvwmButtons" FvwmViewManPage FvwmButtons
++ "%menu/help.png%FvwmCommand" FvwmViewManPage FvwmCommand
++ "%menu/help.png%FvwmConsole" FvwmViewManPage FvwmConsole
++ "%menu/help.png%FvwmConsoleC.pl" FvwmViewManPage FvwmConsoleC.pl
++ "%menu/help.png%FvwmCpp" FvwmViewManPage FvwmCpp
++ "%menu/help.png%FvwmDebug" FvwmViewManPage FvwmDebug
++ "%menu/help.png%FvwmDragWell" FvwmViewManPage FvwmDragWell
++ "%menu/help.png%FvwmEvent" FvwmViewManPage FvwmEvent
++ "%menu/help.png%FvwmForm" FvwmViewManPage FvwmForm
++ "%menu/help.png%FvwmGtk" FvwmViewManPage FvwmGtk
++ "%menu/help.png%FvwmGtkDebug" FvwmViewManPage FvwmGtkDebug
++ "%menu/help.png%FvwmIconBox" FvwmViewManPage FvwmIconBox
++ "%menu/help.png%FvwmIconMan" FvwmViewManPage FvwmIconMan
++ "%menu/help.png%FvwmIdent" FvwmViewManPage FvwmIdent
++ "%menu/help.png%FvwmM4" FvwmViewManPage FvwmM4
++ "%menu/help.png%FvwmPager" FvwmViewManPage FvwmPager
++ "%menu/help.png%FvwmPerl" FvwmViewManPage FvwmPerl
++ "%menu/help.png%FvwmProxy" FvwmViewManPage FvwmProxy
++ "%menu/help.png%FvwmRearrange" FvwmViewManPage FvwmRearrange
++ "%menu/help.png%FvwmSave" FvwmViewManPage FvwmSave
++ "%menu/help.png%FvwmSaveDesk" FvwmViewManPage FvwmSaveDesk
++ "%menu/help.png%FvwmScript" FvwmViewManPage FvwmScript
++ "%menu/help.png%FvwmScroll" FvwmViewManPage FvwmScroll
++ "%menu/help.png%FvwmTaskBar" FvwmViewManPage FvwmTaskBar
++ "%menu/help.png%FvwmTheme" FvwmViewManPage FvwmTheme
++ "%menu/help.png%FvwmWharf" FvwmViewManPage FvwmWharf
++ "%menu/help.png%FvwmWinList" FvwmViewManPage FvwmWinList
++ "%menu/help.png%FvwmWindowMenu" FvwmViewManPage FvwmWindowMenu
++ "" Nop
++ "%menu/help.png%fvwm-config" FvwmViewManPage fvwm-config
++ "%menu/help.png%fvwm-perllib" FvwmViewManPage fvwm-perllib
++ "%menu/help.png%fvwm-root" FvwmViewManPage fvwm-root
++ "%menu/help.png%fvwm-bug" FvwmViewManPage fvwm-bug
++ "%menu/help.png%fvwm-convert-2.2" FvwmViewManPage fvwm-convert-2.2
++ "%menu/help.png%fvwm-convert-2.4" FvwmViewManPage fvwm-convert-2.4
++ "" Nop
++ "%menu/help.png%fvwm-menu-desktop" FvwmViewManPage fvwm-menu-desktop
++ "%menu/help.png%fvwm-menu-directory" FvwmViewManPage fvwm-menu-directory
++ "%menu/help.png%fvwm-menu-headlines" FvwmViewManPage fvwm-menu-headlines
++ "%menu/help.png%fvwm-menu-xlock" FvwmViewManPage fvwm-menu-xlock 
+
+
+
+
+
+下面的菜单是关于窗体操作以及保留视图的。在绑定设置中我将这个菜单定义由右击根视窗时调用。
+其中最后一项是调用一个名为FvwmIdent的模块，以显示窗体的名称、类型、资源以及其他的有用信息。
+#####
+# fvwm Window Operation Menu
+###########
+DestroyMenu FvwmWindowOpsMenu
+AddToMenu FvwmWindowOpsMenu "Window Operations" Title
++ "Move%menu/window-move.xpm%" Move
++ "Resize%menu/window-resize.xpm%" Resize
++ "(De)Iconify%menu/window-iconify.xpm%" Iconify
++ "(Un)Maximize%menu/window-maximize.xpm%" Maximize
++ "(Un)Shade%menu/window-shade.xpm%" WindowShade
++ "(Un)Stick%menu/window-stick.xpm%" Stick
++ "" Nop
++ "Close%menu/window-close.xpm%" Close
++ "Delete%menu/window-delete.xpm%" Delete
++ "Destroy%menu/window-destroy.xpm%" Destroy
++ "" Nop
++ "StaysOnTop%menu/window-raise.xpm%" Pick (CirculateHit) Layer 0 6
++ "Layer +1%menu/window-raise.xpm%" Pick (CirculateHit) Layer +1
++ "StaysPut%menu/window.xpm%" Pick (CirculateHit) Layer 0 4
++ "Layer -1%menu/window-lower.xpm%" Pick (CirculateHit) Layer -1
++ "StaysOnBottom%menu/window-lower.xpm%" Pick (CirculateHit) Layer 0 2
++ "" Nop
++ "%menu/window.xpm%Window Screenshot" Pick (CirculateHit) FvwmWindowScreenshot
++ "%menu/display.xpm%Screenshot" FvwmDesktopScreenshot 5
++ "" Nop
++ "Identify%menu/window-identify.xpm%" Module FvwmIdent 
+
+
+
+
+
+
+
+
+### ======================================================= 模块
+% 模 块是一些使用“Module”命令并能使得桌面十分有效的程式。
+% 尽管现有的模块已经有相当的多，在这里我将重点介绍的是三种模块：
+% 状态栏模块、桌面页模块 和按钮模块。要使用这些模块就要首先用模块命令定义它们。
+% 这些模块也要使用色彩结构选项，所以我先来定义两个将要使用到的色彩结构。
+% 这三个模块都可以使用 伪透明色彩，而在我的印象中真透明色彩都不能运用到这些模块中。
+
+#####
+# Module Colorsets
+###########
+Colorset 9 fg rgb:00/00/00, hi rgb:00/00/00, sh rgb:00/00/00, bg rgb:e9/e9/d9
+Colorset 10 fg rgb:00/00/00, hi rgb:dd/00/00, sh rgb:dd/00/00, bg rgb:fb/fc/ec 
+
+
+% 让我们通过对FvwmIdent模块的分析来看看模块的基本语法。
+% 这是一个用于报告窗体信息的模块，这些信息对我们的设置会有很大帮助。
+% 就像以往我们遇到的一样，首先要创建并设置这个模块。
+% 
+#####
+# FvwmIdent
+###########
+DestroyModuleConfig FvwmIdent: *
+*FvwmIdent: Colorset 9
+*FvwmIdent: Font "xft:Sans:Bold:size=12:antialias=True"
+% 这个设置十分地简单，告诉系统用什么样的色彩结构和字体，
+% 要调用它时使用“Module FvwmIdent”命令（就像先前我在窗体菜单中使用的一样）。
+
+
+
+
+
+
+
+
+
+
+### ======================================================= FVWM状态栏
+% 状态栏与微软的视窗状态栏十分相似。它包含启动菜单、快捷启动、运行视窗列表和末段的时间等项目。
+% 首先来对状态栏的风格进行设置，我希望状态栏本身不含窗体的形状，也不将自身列入运行视窗列表。
+% 另外我还设置属性“Sticky”，这样所有的虚拟桌面运行程序都反应在上面，同时还要自我调解尺寸。这样的设置如下：
+#####
+# FvwmTaskBar
+###########
+Style "FvwmTaskBar" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \
+CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
+
+
+% 然后您要设置这个模块的部分选项，如下所示：
+DestroyModuleConfig FvwmTaskBar: *
+*FvwmTaskBar: Geometry +0-0
+*FvwmTaskBar: Rows 3
+*FvwmTaskBar: Font "xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"
+*FvwmTaskBar: SelFont "xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"
+*FvwmTaskBar: StatusFont "xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"
+*FvwmTaskBar: Colorset 9
+*FvwmTaskBar: IconColorset 9
+*FvwmTaskBar: FocusColorset 9
+*FvwmTaskBar: TipsColorset 9
+*FvwmTaskBar: UseSkipList
+*FvwmTaskBar: UseIconNames
+*FvwmTaskBar: ShowTips
+*FvwmTaskBar: StartName FVWM
+*FvwmTaskBar: StartMenu FvwmRootMenu
+*FvwmTaskBar: Button Title ATerm, Icon mini/xterm.png, Action (Mouse 1) FvwmATerm
+*FvwmTaskBar: Action Click3 Menu FvwmWindowOpsMenu
+*FvwmTaskBar: StartIcon mini/fvwm.png
+% 第 一行表示以下设置为默认，其后的各项含义可以通过查阅FvwmTaskBar的MAN文档了解。
+% 其中重要的是设置其色彩结构和各种使用的字体。我还告诉系 统使用UseSkipList，
+% 这样凡是有WindowSkipList属性的窗体将不反应在视窗列表中，我还另外定义了一个动作，
+% 当右击状态栏时启动窗 体菜单，同时定义的还有一个启动aterm终端的按钮。
+% 要启动这个模块就要运行“Module FvwmTaskBar”命令，不过您不需要单独去启动它，
+% 因为我已经将这个命令写入功能StartFunction，这样在启动时系统会自动调用它。
+
+
+
+
+
+
+
+
+
+
+
+### ======================================================= FVWM页
+% FVWM页模块用于显示您的虚拟桌面，它将显示您定义的每个虚拟桌面、页以及在上面运行的窗体。
+% 同样的您需要首先定义它的色彩结构和风格，不过在这里我使用与状态栏相同的设置。
+#####
+# FvwmPager
+###########
+Style "FvwmPager" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \
+CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
+
+DestroyModuleConfig FvwmPager: *
+*FvwmPager: Geometry 150x150-0+0
+*FvwmPager: Colorset * 9
+*FvwmPager: HilightColorset * 10
+*FvwmPager: BalloonColorset * 9
+*FvwmPager: WindowColorsets 9 10
+*FvwmPager: Font "xft:Sans:Bold:pixelsize=12:minspace=True:antialias=True"
+*FvwmPager: Balloons All
+*FvwmPager: BalloonFont "xft:Sans:Bold:pixelsize=12:minspace=True:antialias=True"
+*FvwmPager: BallonYOffset +2
+*FvwmPager: Window3dBorders
+*FvwmPager: MiniIcons
+*FvwmPager: UseSkipList
+*FvwmPager: Rows 3
+% 相 关的内容请参见MAN文档。要启动它则要使用“Module FvwmPager [起始桌面] [完结桌面]”命令。
+% 我同样在功能StartFunction中让其自动启动，我用的命令是“Module FvwmPager 0 2”，
+% 如果不告诉它桌面的参数，它将仅显示当前桌面。
+
+
+
+
+
+### ======================================================= FVWM按钮
+% FVWM按钮可能是一种最为精彩的模块了。所以Taviso曾这样说：
+#####
+# FvwmButtons is an incredible piece of software.
+#
+# It can create freeform panels of any size, shape (including Non-Rectangular windows),
+# Colour and function. It can swallow other applications, even applications not designed
+# for docking, have "panels" that slide out consisting of other panels, has a "startup-notification"
+# like feature, hundreds of possible bindings, uses the powerful fvwm Colorsets feature, and
+# can even change dynamically and respond to window manager events.
+#
+# The widgets can be transparent, use Xft fonts, and using fvwm's font definitions can render drop shadows
+# at any direction, offset, size and colour. Buttons can all use different Colorsets, and can have different
+# reliefs, shapes, anything!
+#
+# FvwmButtons is even tolerant to errors in configuration, and can workaround bad or impossible
+# definitions!
+#
+# As it's an fvwm module, it has 100% integration with the window manager and can use
+# internal fvwm commands, functions, etc.
+#
+# as you can tell, i am a big FvwmButtons fan :)
+#
+# I've written a quick introduction into making panels with FvwmButtons, you can read it here
+# http://forums.gentoo.org/viewtopic.php?t=162177
+#
+###########
+% 摘自：Taviso的配置文件
+% 尽管FVWM按钮模块的功能十分强大，但这里我们仅介绍一些简单的用法。
+% 当然您也可以将其设置成为您所希望的那样。
+% 我将使用您已经熟悉的语法设置一个名为MyButtons的按钮模块。
+% 在附录的高级设定中，我会介绍一些更加漂亮的复杂设置。
+
+% 按 钮模块的基本设置是矩形的（尽管Taviso认为它可以设置成任意形状）。
+% 你可以用“宽x高”的方式来确定它的尺寸和布局，然后您可以将其按照行、纵分割 成各个小格子。
+% 这是十分重要的因为它可以被分割成任意多的各种尺寸的格子并使得按钮嵌入其中。
+% 然后您可以设置每个按钮的标题、图标和动作，甚至可以嵌入一 些运行的程序（参见附录高级设置），
+% 按钮按照从上左到下右的方式分布，可以见下表的示意：
+% 为了显示基本的语法，这里我提供了一个简单的例子。这是一个单列的拥有一个标题和少量按钮并可对应启动部分程序的模块。
+#####
+# MyButtons
+###########
+Style "MyButtons" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \
+CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
+
+DestroyModuleConfig MyButtons: *
+*MyButtons: Geometry 60x420+0+0
+*MyButtons: Colorset 9
+*MyButtons: Rows 38
+*MyButtons: Columns 1
+*MyButtons: Frame 0
+*MyButtons: Font "Shadow=3:xft:Sans:Bold:pixelsize=14:minspace=True:antialias=True"
+*MyButtons: (1x2, Frame 0, Title(Center) "FVWM")
+*MyButtons: (1x5, Frame 0, Icon 48x48/terminal.png, \
+Action(Mouse 1) "FvwmATerm", \
+Action(Mouse 3) "FvwmXTerm")
+*MyButtons: (1x5, Frame 0, Icon 48x48/xmms.png, \
+Action(Mouse 1) "FvwmXmms")
+*MyButtons: (1x5, Frame 0, Icon 48x48/vim.png, \
+Action(Mouse 1) "FvwmGvim")
+*MyButtons: (1x5, Frame 0, Icon 48x48/gimp.png, \
+Action(Mouse 1) "FvwmGimp")
+*MyButtons: (1x5, Frame 0, Icon 48x48/firefox.png, \
+Action(Mosue 1) "FvwmFireFox")
+*MyButtons: (1x5, Frame 0, Icon 48x48/irc.png, \
+Action(Mouse 1) "FvwmIrssi")
+*MyButtons: (1x5, Frame 0, Icon 48x48/tux.png, \
+Action(Mouse 1) "FvwmXLock")
+*MyButtons: (1x1, Frame 0) 
+
+
+
+
+
+
+### ====================================================================== 附录
+
+% 现在您已经设置了第一个FVWM的设定文件，而且也对语法有了一些了解。
+% 现在让我们一起来研究一些高级项目并给您的桌面增加更多的特性。
+% 其中一些特效需要用到ImageMagick的工具，所以请您首先安装这些软件工具。
+% 
+% 一 个更加复杂而功能强大的工具是对终端特性的设置（您可以用“ExecUseShell /bin/bash”来设定终端）。
+% 这是通过命令PipeRead来实现的。PipeRead所做的是从终端取得输出并用它来设定FVWM。
+% 这将使得终端 脚本（或运行的程序）的结果对FVWM进行设置。举例而言，您可以写一个输出结果为FVWM语句的脚本，
+% 并通过设置文件中“PipeRead 该脚本”的命令来调用其结果对FVWM的设置。
+% 
+% 在下面的例子中，我们将首先创建一个可以从您的壁纸目录（在全局变量中定义）中提 取.png文件并修改您的壁纸的功能。
+% 请注意我在X视窗中使用的fvwm-root命令可以调用png和xpm文件作为您的壁纸，只不过我更喜欢png格 式的文件。
+% 如果您喜欢使用jpg文件，那么就需要对这个功能进行修改。下面我给出三个调用png（作为壁纸）所需的功能。
+% 
+DestroyFunc BuildWallPaperMenu
+AddToFunc BuildWallPaperMenu
++ I Exec rm $[fvwm_icon]/wallpaper/*.png
++ I PipeRead 'for i in $[fvwm_img]/wallpaper/*.png; \
+do convert -scale 64 $i \
+"$[fvwm_icon]/wallpaper/`basename $i`"; done && echo Nop'
++ I Exec rm $[fvwm_home]/WallpaperMenu
++ I Exec echo "DestroyMenu FvwmWallpaperMenu" > \
+$[fvwm_home]/WallpaperMenu
++ I Exec echo "AddToMenu FvwmWallpaperMenu "Wallpapers\" Title" >> \
+$[fvwm_home]/WallpaperMenu
++ I PipeRead 'for i in $[fvwm_img]/wallpaper/*.png; \
+do echo "AddToMenu FvwmWallpaperMenu \
+\"`basename $i`%wallpaper/`basename $i`%" \
+FvwmChangeBackground \"`basename $i`"" \
+>> $[fvwm_home]/WallpaperMenu; done && echo Nop'
++ I Read $[fvwm_home]/WallpaperMenu
+
+DestroyFunc FvwmChangeBackground
+AddToFunc FvwmChangeBackground
++ I Exec fvwm-root --retain-pixmap $[fvwm_img]/wallpaper/$0
++ I Exec echo "fvwm-root --retain-pixmap \
+$[fvwm_img]/wallpaper/$0" > $[fvwm_home]/cfg/background.cfg
+
+DestroyFunc InitWallpaper
+AddToFunc InitWallpaper
++ I Exec source $[fvwm_home]/cfg/background.cfg
+% 当功能BuildWallPaperMenu被调用时，它将首先删除所有以往的图标资料（以往使用的壁纸资源）。
+% 然后将利用软件ImageMagick中 的convert工具在创建目录$[fvwm_wallpaper]中png文件的图标文件，
+% 然后再将它们写入到位于$[fvwm_home]目录中的 WallpaperMenu菜单里。最后在通过FVWM的菜单打开并使用您所喜欢的壁纸。
+% 我喜欢将这些写入WallpaperMenu菜单是因为可以在启 动功能StartFunction中加入Read $[fvwm_home]/WallpaperMenu，或者直接引入到子菜单。
+%%  以后每当我增加了可以作为壁纸的png文件时只要重新运行这个功能就可以 重新自动建立我的壁纸菜单。您一定也注意到我定义的FvwmChangeBackground功能，
+% 它在更换壁纸的同时将信息写入了配置文件，同时我也将 功能InitWallpaper功能写入InitFunction，这样系统就可以自动调用我选的壁纸。
+% 
+% 在我使用FVWM的过程中，我收 集并改写了大量的脚本，以使得我的桌面符合我的想像。
+% 在高级主题中我引用了许多这些通过我使用并修改的脚本和功能，我不能保证它们在您那里是否可以正常运 行，
+% 但我希望能给予您一些思路，并指导您从何处起步设定您的FVWM。我将这些主题分为三个部分，希望您能够获益。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

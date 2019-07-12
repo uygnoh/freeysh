@@ -1,0 +1,48 @@
+### ==================================================================  GDB-TUI
+% 打开tui模式(Text User Interface)
+
+  使用"gdbtui -q" 或 "gdb -tui -q"开始一个调试
+$ gdbtui -q test_struct
+(gdb) ....
+
+___________________________________________________________
+$ gcc -gdb3 simple_gdb.c -o simple_gdb
+$ gdb simple_gdb 
+(gdb) start
+"ctrl+x ctrl+a" or "ctrl+x A"
+
+___________________________________________________________
+% TUI模式下有4个窗口
+
+command                         命令窗口. 可以键入调试命令
+source                          源代码窗口. 显示当前行,断点等信息
+assembly                        汇编代码窗口
+register                        寄存器窗口
+除command 窗口外,其他三个窗口不可同时显示.其可用 layout 命令来进行选择
+自己需要的窗口. 可参见 `help layout`   
+  
+  
+
+
+__________________________________________________________ 
+% GDB指令
+
+list			    #查看程序源代码
+break function		#在某函数的入口设定断点
+break 行号		    #在指定行添加断点
+break 行号 if 条件 	#当条件为真时，指定行号处断点生效
+info break		    #查看断点
+delete			    #删除断点
+run			        #开始运行程序
+next			    #单步运行程序，不进入子函数
+step			    #单步运行程序，进入子函数
+continue		    #继续运行程序
+print 变量名		    #查看指定变量的值
+finish			    #运行程序，直到当前函数结束
+display             #
+quit			    #Exit GDB
+
+
+
+
+

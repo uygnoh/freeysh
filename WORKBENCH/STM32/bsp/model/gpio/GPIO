@@ -1,0 +1,130 @@
+/**
+  *****************************************************************************
+  * 2018.10.30
+  * @freeysh
+  */
+void gpio_configure(void)
+{
+
+	/* Configure all the GPIOA in Input Floating mode */
+	GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+	/* Configure all the GPIOA in Output Floating mode */
+	GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+	/* I2C1_SCL on PB.08, I2C1_SDA on PB.09 */
+	GPIO_PinRemapConfig(GPIO_Remap_I2C1, ENABLE);
+	
+}
+
+###############################################################################
+
+USART1 端口重映射
+
+GPIO_PinRemapConfig(GPIO_Remap_USART1, ENABLE);
+
+
+
+
+
+
+
+###############################################################################
+General-purpose and alternate-function I/O	通用功能和复用功能I/O
+Medium-density devices				中密度器件
+
+
+GPIOx_CRL和GPIOx_CRH 配置表
+						CNF1  CNF0  MODE1  MODE0  PxODR
+
+InputAnalog			模拟输入		  0     0     0      0      x
+Input 		Input floating	浮空输入           0     1     0      0      x
+input 		Input pull-down	下拉输入           1     0     0      0      0
+input 		input pull-up	上拉输入           1     0     0      0      1
+
+output		Push-pull	通用推完输出       0     0     01-10-11      0 or 1
+output		Open-drain	通用开漏输出       0     1     01-10-11      0 or 1
+output		Push-pull	推挽式复用功能     1     0     01-10-11         x
+output		Open-drain 	开漏式复用功能     1     1     01-10-11         x
+
+
+注意：
+	下拉输入和上拉输入是同过端口输出寄存器 GPIOxODR 来区分。
+	01-10-11  输出最大速度分别是： 10 MHz, 2 MHz, 50 MHz.
+
+
+###############################################################################
+GPIOx 端口配置
+
+1. 设置GPIOA引脚的工作模式 [ GPIOA.0 GPIO.1, 推挽式输出，50MHz ]
+
+	GPIOA->CRL = 0x00000033
+
+
+2. 在GPIOA.0，GPIO.1引脚输出一个高电平
+
+	GPIOA->ODR = 0x00000003
+
+
+
+
+###############################################################################
+AFIO 复用功能输入输出
+
+AFIO_EVCR	事件控制寄存器
+AFIIO_MAPR	复用重映射和调试 I/O 配置寄存器
+
+AFIO_EXTICR1	外部中断配置寄存器 1
+AFIO_EXTICR2	外部中断配置寄存器 2
+AFIO_EXTICR3	外部中断配置寄存器 3
+AFIO_EXTICR4	外部中断配置寄存器 4
+
+
+
+GPIO 通用功能输入输出寄存器
+
+2个32位配置寄存器	GPIOx_CRL, GPIOx_CRH
+2个32位数据寄存器	GPIOx_IDR, GPIOx_ODR
+1个32端口位设置/清除寄存器	GPIOx_BSRR
+1个32位端口位清除寄存器	GPIOx_BRR
+1个32位锁定寄存器	GPIOx_LCKR
+
+
+
+
+###############################################################################
+端口复用功能和重映射功能
+
+1.端口复用功能 AFIO
+
+	如果一个端口配置成复用功能，将使引脚和输出寄存器断开，并和片上外设的输出信号连接。
+	复用功能最好配置成 浮空输入模式， 模拟输入不支持复用功能
+
+	开启复用功能相关端口
+
+2.重映射
+
+	将芯片内部的外设模块固定分配的端口重新映射到其他端口的功能。
+
+	没有重映射， 部分重映射， 完全重映射
+
+	重映射功能可以额外的增加资源
+###############################################################################
+
+
+
+
+
+
+
+
+
+

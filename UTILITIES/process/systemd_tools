@@ -1,0 +1,253 @@
+### ===================================================Basic systemctl usage
+监视和控制systemd的主要命令是systemctl,该命令可用于查看系统状态和管理系统及服务
+
+所有可用的单元文件存放在 
+/usr/lib/systemd/system/ 和 /etc/systemd/system/ 目录（后者优先级更高）
+
+systemctl status                显示 系统状态
+systemctl list-units            输出激活的单元
+systemctl --failed              输出运行失败的单元
+systemctl status pid            显示 cgroup slice, 内存和父 PID
+systemctl list-unit-files       查看所有已安装服务：
+
+
+### ===================================================使用单元, Using units
+一个单元配置文件可以描述如下内容之一,详情参阅 systemd.unit(5)
+系统服务(.service)   挂载点  (.mount)    sockets(.sockets)
+系统设备(.device )   交换分区(.swap )    文件路径(.path)
+启动目标(.target )   计时器  (.timer)
+
+使用 systemctl 控制单元时，通常需要使用单元文件的全名，
+包括扩展名（例如 sshd.service ）
+但是有些单元可以在 systemctl 中使用简写方式。
+如果无扩展名，systemctl 默认把扩展名当作 .service 。
+例如 netcfg 和 netcfg.service 是等价的。
+挂载点会自动转化为相应的 .mount单元.  例如 /home 等价于 home.mount 。
+设备会自动转化为相应的   .device单元，所以 /dev/sda2 等价于 dev-sda2.device 。
+
+注意: 有一些单元的名称包含一个 @ 标记（例如： name@string.service ），
+    这意味着它是模板单元 name@.service 的一个 实例。 
+    string 被称作实例标识符，在 systemctl 调用模板单元时，会将其当作一个参数传给模板单元，
+    模板单元会使用这个传入的参数代替模板中的 %I 指示符。
+	在实例化之前，systemd 会先检查 name@string.suffix 文件是否存在
+	（如果存在，就直接使用这个文件，而不是模板实例化）。
+	大多数情况下，包含 @ 标记都意味着这个文件是模板。
+	如果一个模板单元没有实例化就调用，该调用会返回失败，
+	因为模板单元中的 %I 指示符没有被替换。 
+
+
+
+
+
+### ===========================================================================
+提示：
+    下面的大部分命令都可以跟多个单元名, 详细信息参见 systemctl(1)。
+    systemctl命令在enable、disable和mask子命令中增加了--now选项，
+    可以实现激活的同时启动服务，取消激活的同时停止服务。
+    一个软件包可能会提供多个不同的单元。
+    如果你已经安装了软件包，可以通过pacman -Qql package | grep systemd命令检查这个软件包提供了哪些单元。
+systemctl start <unit>              立即激活单元
+systemctl stop <unit>               立即停止单元
+systemctl restart <unit>            重启单元
+systemctl reload <unit>             重新加载配置
+systemctl status <unit>             输出单元运行状态
+systemctl is-enable <unit>          检查单元是否配置为自动启动
+systemctl enable <unit>             开机自动激活单元
+systemctl enable --now <unit>       设置单元为自动启动并立即启动这个单元
+systemctl disable <unit>            取消开机自动激活单元
+systemctl mask <unit>               禁用一个单元（禁用后，间接启动也是不可能的）： 
+systemctl unmask <unit>             取消禁用一个单元
+systemctl help <unit>               显示单元的手册页（必须由单元文件提供）
+systemctl daemon-reload             重新载入 systemd 系统配置，扫描单元文件的变动
+systemctl reboot                    重启
+systemctl poweroff                  退出系统并关闭电源
+systemctl suspend                   待机
+systemctl hibernate                 休眠
+systemctl hybrid-sleep              混合休眠模式（同时休眠到硬盘并待机）
+
+
+systemctl isolate graphical.target  切换当前运行目标,该命令仅更改当前运行目标，对下次启动无影响
+systemctl get-default               用 systemctl 检查当前的默认启动目标
+
+用 systemctl 修改default.target以变更开机默认启动目标
+systemctl set-default multi-user.target
+
+
+### ======================================================================
+编写单元文件
+
+systemd 单元文件的语法来源于 XDG 桌面项配置文件.desktop文件，
+最初的源头则是Microsoft Windows的.ini文件。
+单元文件可以从多个地方加载，systemctl show --property=UnitPath 
+可以按优先级从低到高显示加载目录：
+    /usr/lib/systemd/system/    软件包安装的单元
+    /etc/systemd/system/        系统管理员安装的单元
+    
+注意:
+    当 systemd 运行在用户模式下时，使用的加载路径是完全不同的。
+    systemd 单元名仅能包含 ASCII 字符，下划线和点号和有特殊意义的字符('@', '-')。
+    其它字符需要用 C-style "\x2d" 替换。参阅 systemd.unit(5) 和 systemd-escape(1) 。    
+    
+单元文件的语法，可以参考系统已经安装的单元，
+也可以参考 systemd.service(5) 中的EXAMPLES章节。
+提示： 以 # 开头的注释可能也能用在 unit-files 中，但是只能在新行中使用。
+不要在 systemd 的参数后面使用行末注释， 否则 unit 将会启动失败。
+    
+    
+### ======================================================================
+处理依赖关系
+
+使用 systemd 时，可通过正确编写单元配置文件来解决其依赖关系。
+典型的情况是，单元 A 要求单元 B 在 A 启动之前运行。
+在此情况下，向单元 A 配置文件中的 [Unit] 段添加 Requires=B 和 After=B 即可。
+若此依赖关系是可选的，可添加 Wants=B 和 After=B 。
+请注意 Wants= 和 Requires= 并不意味着 After= ，
+即如果 After= 选项没有制定，这两个单元将被并行启动。
+
+依赖关系通常被用在服务（service）而不是目标（target）上。
+例如， network.target 一般会被某个配置网络接口的服务引入，
+所以，将自定义的单元排在该服务之后即可，因为 network.target 已经启动。     
+    
+
+
+
+### ======================================================================
+服务类型
+
+编写自定义的 service 文件时，可以选择几种不同的服务启动方式。
+启动方式可通过配置文件 [Service] 段中的 Type= 参数进行设置。
+   　Type=simple  ：（默认值） systemd认为该服务将立即启动。服务进程不会 fork 。
+   　              如果该服务要启动其他服务，不要使用此类型启动，除非该服务是socket 激活型。
+   　              
+    Type=forking ：systemd认为当该服务进程fork，且父进程退出后服务启动成功。
+                  对于常规的守护进程（daemon），除非你确定此启动方式无法满足需求，使用此类型启动即可。
+                  使用此启动类型应同时指定 PIDFile=，以便 systemd 能够跟踪服务的主进程。
+                  
+    Type=oneshot ：这一选项适用于只执行一项任务、随后立即退出的服务。
+    可能需要同时设置 RemainAfterExit=yes 使得 systemd 在服务进程退出之后仍然认为服务处于激活状态。
+    
+    Type=notify 　：与 Type=simple 相同，但约定服务会在就绪后向 systemd 发送一个信号。
+    　　　　　　　　这一通知的实现由 libsystemd-daemon.so 提供。
+    　　　　　　　　
+    Type=dbus 　　：若以此方式启动，当指定的 BusName 出现在DBus系统总线上时，systemd认为服务就绪。
+    Type=idle 　　：systemd会等待所有任务处理完成后，才开始执行 idle 类型的单元。
+                    其他行为与 Type=simple 类似。
+
+type 的更多解释可以参考 systemd.service(5)。 
+
+
+
+### ===========================================================================
+修改现存单元文件
+
+为了避免和 pacman 冲突，不应该直接编辑软件包提供的文件。
+有两种方法可以不改动原始文件就做到修改单元文件：
+创建一个优先级更高的本地单元文件或创建一个片段，应用到原始单元文件之上。
+两种方法都需要在修改后重新加载单元，
+用 systemctl edit 编辑单元(会自动重载单元)或通过下面命令重新加载单元：
+
+# systemctl daemon-reload
+
+提示：
+    systemd-delta 命令用来查看哪些单元文件被覆盖、哪些被修改。
+    系统维护的时候需要及时了解哪些单元已经有了更新。
+    使用 systemctl cat unit 可以查看单元的内容和所有相关的片段.
+
+替换单元文件
+要替换 /usr/lib/systemd/system/unit, 
+创建文件 /etc/systemd/system/unit 并重新启用单元以更新链接：
+
+# systemctl reenable unit
+或者运行：
+# systemctl edit --full unit
+
+这将会在记事本中打开 /etc/systemd/system/unit，
+如果文件不存在，可以将安装的版本复制到这里，在编辑完成之后，会自动加载新版本。
+
+注意: 即使 Pacman 更新了新的单元文件，软件包中的版本也不会被使用，
+所以这个方式会增加系统维护的难度，推荐使用下面一种方法。
+
+
+
+
+### ===========================================================================
+附加配置片段
+
+要附加配置片段，先创建名为 /etc/systemd/system/<单元名>.d/ 的目录，
+然后放入 *.conf 文件，其中可以添加或重置参数。
+这里设置的参数优先级高于原来的单元文件。下面的更新方式比较简单：
+# systemctl edit unit
+这将会在编辑器中打开文件 /etc/systemd/system/unit.d/override.conf，编辑完成之后自动加载。
+
+Note: 并不是所有参数都会被子配置文件覆盖。例如要修改 Conflicts= 就必须 替换原始文件。
+
+
+### ===========================================================================
+重置到软件包版本
+
+要回退单元的变更，使用 systemctl edit 并执行:
+# systemctl revert unit
+
+示例
+例如，如果想添加一个额外的依赖，创建如下文件即可：
+/etc/systemd/system/<unit>.d/customdependency.conf
+[Unit]
+Requires=<新依赖>
+After=<新依赖>
+
+
+要修改一个非 oneshot 单元的 ExecStart 命令，创建下面文件:
+/etc/systemd/system/unit.d/customexec.conf
+[Service]
+ExecStart=
+ExecStart=new command
+修改 ExecStart 前必须将其置空，参见 ([1] 。
+所有可能多次赋值的变量都需要这个操作，例如定时器的 OnCalendar 。
+
+
+下面是自动重启服务的一个例子：
+/etc/systemd/system/unit.d/restart.conf
+[Service]
+Restart=always
+RestartSec=30
+
+
+
+
+### ===========================================================================
+获取当前目标
+不要使用 runlevel 命令了：
+$ systemctl list-units --type=target
+
+创建自定义目标
+在 sysvinit 中有明确定义的运行级别（如：0、1、3、5、6）与 systemd 中特定的 目标 存在一一对应的关系。
+然而，对于用户自定义运行级别（2、4）却没有。
+如需要同样功能，建议你以原有运行级别所对应的 systemd 目标为基础，
+新建一个/etc/systemd/system/<目标名>.target（可参考/usr/lib/systemd/system/graphical.target）, 
+然后创建目录/etc/systemd/system/<目标名>.wants，并向其中加入需启用的服务链接（指向/ur/lib/systemd/system/）
+
+"SysV 运行级别" 与 "systemd 目标" 对照表
+Mapping between SysV runlevels and systemd targets
+SysV Runlevel       systemd Target 	                     Notes
++________________+_____________________________________________________________
+|  0             |runlevel0.target, poweroff.target 	/Halt the system.
+|________________|_____________________________________________________________
+|  1             |runlevel1.target, rescue.target 	    /Single user mode.单用户模式 
+|________________|_____________________________________________________________
+|  2, 4          |runlevel2.target, runlevel4.target,  /用户自定义运行级别，
+|                |    multi-user.target                  通常识别为级别3                
+|________________|_____________________________________________________________        
+|  3             |runlevel3.target, multi-user.target  /多用户,无图形界面,
+|                |                                     用户可以通过终端或网络登录
+|________________|_____________________________________________________________    
+|  5             |runlevel5.target, graphical.target   /多用户，图形界面
+|                |                                       继承级别3的服务，
+|                |                                       并启动图形界面服务
+|________________|_____________________________________________________________                                 
+|  6             |runlevel6.target, reboot.target 	   /Reboot,重启 
+|________________|_____________________________________________________________
+|    emergency 	 |emergency.target 	                  /Emergency shell,急救模式
++________________+_____________________________________________________________
+
+
+

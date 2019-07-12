@@ -1,0 +1,117 @@
+### ===========================================================================
+简介
+
+wpa_supplicant是Linux BSD, Mac OSX和Windows的WPA的服务,支持WPA和WPA2(IEEE 802.11i/RSN)，
+它适用于台式机/笔记本和嵌入式系统，Supplicant是在客户端站中使用的IEEE 802.1X/WPA组件，
+它使用WPA身份验证器实现秘钥协商，并控制漫游和IEEEE802.11认证/关联的WLAN驱动程序
+
+wpa_supplicant被设计成一个在后台运行的"守护进程"程序，并作为控制无线连接的后端组件，
+wpa_supplicant支持单独的前端程序，包含基于文本的前端(wpa_cli)和GUI(wpa_gui)
+
+wpa_supplicant使用灵活的构建配置，可用于选择包含哪些功能.
+允许最小代码大小(WPA/WPA2-Personal 50kb 130kb的WPA/WPA2-Enterprise中没有调试代码，
+450kb大小具有大多数功能和全面的调试支持，这些示例大小来自X86平台的构建)
+
+
+
+### ===========================================================================
+wpa_supplicant是一个连接、配置WIFI的工具，它主要包含 wpa_supplicant与wpa_cli 两个程序. 
+可以通过wpa_cli来进行WIFI的配置与连接,前提要保证wpa_supplicant正常启动
+启动wpa_supplicant应用
+
+wpa_supplicant -D nl80211 -i wlan0 -c /etc/wpa_supplicant.conf -B
+
+    -D 驱动程序名称（可以是多个驱动程序：nl80211，wext）
+    -i 接口名称
+    -c 配置文件　
+    -B 在后台运行守护进程 
+
+
+
+
+### ===========================================================================
+配置文件 /etc/wpa_supplicant.conf文件里，添加下面代码:
+
+ctrl_interface=/var/run/wpa_supplicant　// 
+update_config=1  // 强制更新覆盖配置　
+
+
+    ctrl_interface指向的是一个目录，在这个目录中默认会生成一个文件/var/run/wpa_supplicant/wlan0，
+这是local socket address，相当于UNIX Domain Socket,程序和后台程序wpa_supplicant进行通信
+（其实是wpa_supplicant作为后台服务程序是通过本地socket和客户端进行通信的）
+
+
+
+
+### ===========================================================================
+启动wpa_cli
+
+wpa_cli -i wlan0 scan         　//搜索附件wifi热点
+wpa_cli -i wlan0 scan_result 　 //显示搜索wifi热点
+wpa_cli -i wlan0 status        //当前WPA/EAPOL/EAP通讯状态
+wpa_cli -i wlan0 ping          //pings wpa_supplicant
+
+
+
+### ===========================================================================
+添加新的连接
+
+wpa_cli -i wlan0 add_network   //添加一个网络连接,会返回<network id> 
+wpa_cli set_network <network id>  ssid '"name"'  //ssid名称 
+wpa_cli set_network <network id>  psk '“psk”'　　//密码
+wpa_cli set_network <network id>  scan_ssid 1   
+wpa_cli set_network <network id>  priority  1   //优先级
+
+
+
+
+### ===========================================================================
+保存连接
+
+wpa_cli -i wlan0 save_config   //信息保存到默认的配置文件中
+
+
+
+
+### ===========================================================================
+断开连接
+
+wpa_cli -i wlan0 disable_network <network id> 
+
+
+
+
+### ===========================================================================
+连接已有连接
+
+wpa_cli -i wlan0 list_network  //列举保存过得连接
+wpa_cli -i wlan0 select_network  <network id>  //连接指定的ssid 
+wpa_cli -i wlan0 enable_network  <network id>  //使能制定的ssid 
+
+
+
+### ===========================================================================
+配置文件示例: /etc/wpa_supplicant.conf
+
+ctrl_interface=/var/run/wpa_supplicant/
+ap_scan=1
+network={
+    scan_ssid=1
+    ssid="xxxx"
+    psk="xxxx"
+    bssid=
+    priority=2
+}
+
+
+
+ip link set wlp3s0 up
+wpa_supplicant -i wlp3s0 -c /etc/wpa_supplicant.conf
+dhclinet wlp3s0
+
+
+
+
+
+
+

@@ -1,0 +1,186 @@
+### =======================================================
+Save As							另存为 
+Save All						全部保存 
+Find							查找
+Find and Replace				查找和替换
+Clear Highlight					清除高亮
+Go to line						跳到行
+
+
+### ===================================================== View
+Side Panel						查看----->侧边栏	✔ 
+Highlight Mode					高亮模式
+Check spelling					工具拼写检查
+Set Language					设置语言
+Highlight Misspelled Words		高亮显示拼写错误的单词
+Insert Date and Time 			插入日期和时间     
+Document Statistics				文档统计
+Close All						全部关闭
+Close							关闭
+___________________________________________________________	
+Matlab							纯文本
+Tab Width						制表符
+Ln, Col							行,列 
+Automatic Indentation			自动缩进
+Diplay line numbers				显示行号 
+Diplay right margin				显示右侧提示线	
+Highlight current line			突出显示当前行
+Test Wrapping					文本折行
+Use Spaces						使用空格
+    
+    
+		
+文本编辑器--->首选项  ====================================================
+⬤查看
+Display line numbers				显示行号                    
+display right margin at column		右边对齐线显示的位置(列):80   
+Display statusbar					显示状态栏                   
+Display overview map				显示概览图                   
+Display grid pattern				显示网格图案                 
+Text Wrapping						文本折行                    
+Enable text wrapping				启用自动折行                 
+Do not split words over two lines	避免在单词内换行             
+Highlighting						高亮                         
+Highlight current line				突出显示当前行                 
+Highlight matching brackets			突出显示匹配的括号               
+___________________________________________________________
+⬤编辑器
+Tab Stops							制表符
+Tab width							制表符宽度:8
+Insert spaces instead of tabs		使用空格代替制表符插入
+Enable automaitc indentation		启用自动缩进
+File Saving							文件保存
+Create a backup copy of file before saving###在保存前创建备份文件
+autosave files every 10 minutes		自动保存间隔: 10 分钟
+
+___________________________________________________________
+⬤字体和颜色                      Font & Colors
+Font								字体
+### 使用系统等宽字体(U)(Monospace 11)
+Use the system fixed width font(Monospace 11)
+### 编辑器字体(F): Monospace Regular 12	
+Editor font(Monospace Regular 20)
+Color Scheme						配色方案
+
+
+
+插件 ===================================================
+⬤	Dashboard
+		新标签页的 Dashboard
+
+⬤	Git
+		高亮最后一行提交后修改的行
+
+⬤	Python　控制台
+		位于底部面板的交互式　Python　控制台
+		
+⬤	SyncTeX
+		使用 gedit 和 evince 在LaTex 与PDF之间同...
+
+⬤	Zeitgeist 数据供应商
+		为使用 gedit的文档提供日志访问和离开事件
+
+⬤	代码注释
+		添加或取消选中代码的注释
+	
+
+⬤	插入日期/时间
+		在光标处插入当前日期和时间
+
+⬤	单词补全
+		使用补全框架的单词补全
+
+⬤	多文件编辑
+		一次编辑多个地方的文档
+
+⬤	合并拆分行
+		合并多行和拆分长行
+
+⬤	绘制空白字符
+		绘制空格和制表符
+
+⬤	嵌入终端
+		在底部面板中嵌入一个终端
+
+⬤	括号补全
+		自动添加闭合括号
+
+⬤	命令工具
+		高级编辑的命令行接口
+
+⬤	快速打开
+		快速打开文件
+
+⬤	模式行
+		gedit　的Emacs，Kate和Vim风格的模式
+
+⬤	排序
+		对文档或所选中的文本排序
+	
+⬤	片段
+		快速插入常用的文本片段
+
+⬤	拼写检查器
+		检查当前文档的拼写
+		
+⬤	色彩方案编辑器
+		源代码的色彩方案编辑器
+	
+⬤	书签
+		使用书签的简单文本导航
+		
+⬤	文本大小
+		方便地增大或减小文本
+		
+⬤	外部工具
+		执行外部命令和　Shell　脚本
+
+⬤	文档统计
+	报告文档中的单词数，行数和字符数
+	
+⬤	文件浏览器面板
+		从侧边栏轻松访问文件
+
+⬤	颜色拾取器
+		从对话框中拾取一个颜色,然后插入其16进制
+		
+⬤	在文件中查找
+		在文件夹的所有文件查找文本
+		
+⬤	智能空格
+		忘记使用制表符的年代
+
+⬤	字符映射表
+		只需单击即可插入特殊字符
+
+
+
+### ======================================================== gedit-plugins
+% 插入文字片段,用 快捷键 输入常用的地址,大量文字.
+	
+
+一.开启文字片段插件
+開啟gedit後，依序按下〔文件编辑器〕→【首选项】 
+
+第2步  切換到〔插件〕設定頁面，勾選「文字片段」外掛程式後，
+再按一下〔關閉〕按鈕即可啟用此外掛程式。 
+
+二、為常用文字片段設定快速鍵
+1  當我們在gedit編輯器啟用了「文字片段」外掛程式後，
+請依序按下〔文本编辑器〕→【Manage Snippets】，
+準備幫你常用的文字片段設定快速鍵
+
+2  開啟「文字片段管理程式」視窗後，按一下左下角的〔建立新的文字片段〕，
+然後幫這個文字片段隨便取個名字。 
+
+3  接著請在上面的「編輯」方框中輸入你要用的文字片段或地址、特殊符號...等，
+輸入完後點一下「捷徑鍵」右邊的空白欄位，再按下你慣用的鍵盤快速鍵組合，
+如〔Alt〕+〔1〕之類的，設定完後再按下〔關閉〕。 
+
+4  以後當我們需要在giedt中快速輸入常用的文字片段時，
+ 可以直接按下鍵盤快速鍵如〔Alt〕+〔1〕，
+ 快速貼上各種預先設定好的文字
+
+
+		
+### ========================================================

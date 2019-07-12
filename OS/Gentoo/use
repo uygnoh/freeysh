@@ -1,0 +1,212 @@
+### ===========================================================================
+使用Gentoo/USE标记
+
+USE标志的指导思想
+你在安装gentoo（或者是其他发行版，甚至于其他特定操作系统）的时候，你要依据你工作的环境做出选择。
+服务器跟工作站的组织结构不同，游戏机跟3D工作站也会不一样。
+
+不单只是选择你想要安装的包时如此，选择某一个包需要的特性时同样如此。
+如果你不需要OpenGL，为什么还要花费时间安装OpenGL并在其他包中加入对OpenGL的支持？
+如果你不用KDE，而且软件包没有KDE也能完美运行，为什么还要在编译这些包的时候加入KDE支持？
+
+为了帮用户判断什么需要安装或激活，什么不需要；我们希望用户能用简单的方式设定他们自己的环境。
+这能促使用户判断他真正需要的东西，并让Portage做出有用的决定的过程变得简单。 
+
+
+
+
+### ===========================================================================
+USE标志的设定
+
+我们来具体看看USE标志。每一个标志都是代表对某特定概念的支持和依赖关系信息的关键字。
+如果你设定了某个USE标志，Portage会明白你选择了支持这个选项。当然这同时也改变了这个包的依赖关系信息。
+
+让我们看一个特殊示例：关键字 kde 。
+如果你的 USE 变量里面没有这个关键字，所有具有可选KDE支持的包在编译时都 不会 编译KDE支持。
+所有具有可选KDE依赖关系的包在安装时都 不会 （做为一个依赖关系而）安装KDE库。
+如果你设定了kde关键字，这些包在安装时都 会 编译KDE支持，而且KDE库也 会 （作为一个依赖关系而）被安装。
+
+通过正确设定关键字，你会得到一个根据你的需要而定制的系统。 
+
+
+
+### ===========================================================================
+有哪些USE标志
+
+USE标志分两类：全局和局部USE标志。
+    1 全局USE标志适用范围是整个系统，可以被许多包使用。
+    这就是大多数人眼里的USE标志。
+    当前可用的全局USE标志列表可以在网上 main site 或者本机的
+    /usr/portage/profiles/use.desc 文件里找到。
+    
+    2 局部USE标志只被单个包用来做该包特有的决定。 
+    当前可用的局部USE标志列表可以在网上 main site当前可用的局部USE标志列表可以在本机的
+    /usr/portage/profiles/use.local.desc文件里找到。
+
+
+### ===========================================================================
+使用USE标志
+
+声明永久USE标志
+
+就像前面提到的，所有USE标志都声明在 USE 变量里面。
+为了让用户能方便地查找和选择USE标志，我们提供了一份默认的USE设定。
+这些设定是我们觉得Gentoo用户通常都要用到的USE标志的集合。这个默认设置在make.defaults 文件──你的profile声明。
+
+你的系统使用的profile是符号链接 /etc/portage/make.profile 所指向的目录。
+每个profile叠加于某个更大的profile之上，最终的结果是这些profile的并集。
+初始profile是base profile(/usr/portage/profiles/base)。
+
+要查看当前正在使用的USE标志（全部），请使用 emerge --info：
+root #emerge --info | grep ^USE
+
+USE="a52 aac acpi alsa branding cairo cdr dbus dts ..."
+
+就像你看到的那样，这个变量已经包括了非常多的关键字。
+不要通过修改make.defaults 文件里的 USE 变量来满足你的需要：在升级Portage的时候，这个文件将会被覆盖。
+
+要改变这个默认设置，你需要在 USE 变量里添加或移去关键字。
+这是通过在/etc/portage/make.conf里定义USE全局变量来实现的。
+在这个变量里，添加你需要的额外的USE标志，或者移去你不需要的USE标志。后者可通过在标记前面加个负号 (-).前缀来实现。
+
+
+例如，要移除对 KDE 和 QT 的支持，并添加对 LDAP 的支持，可以在/etc/portage/make.conf里声明USE如下：
+vim /etc/portage/make.confUpdating USE in make.conf
+USE="-kde -qt4 -qt5 ldap"
+
+
+
+
+### ===========================================================================
+为单个包声明USE标志
+
+Sometimes users want to declare a certain USE flag for one (or a couple) of applications but not system-wide.
+ To accomplish this, edit /etc/portage/package.use. package.use is typically a single file, 
+ however it can also be a directory filled with children files; 
+ see the tip below and then man 5 portage for more information on how to use this convention. 
+ The following examples assume package.use is a single file.
+
+For instance, to only have Blu-ray support for the VLC media player package:
+vim /etc/portage/package.use                ### Enabling Blu-ray support for VLC
+media-video/vlc bluray
+
+
+Tip
+If package.use is pre-existing as a directory (opposed to a single file),
+ packages can have their local USE flags modified by simply creating files under the package.use/ directory. 
+ Any file naming convention can work, however it is wise to implement a coherent naming scheme. 
+ One convention is to simply use the package name as the title for the child file. For example, 
+ setting the bluray USE flag locally for the media-video/vlc package can be performed as follows:
+
+root #echo "media-video/vlc bluray" >> /etc/portage/package.use/vlc
+
+你当然也可以直接为某一个程序禁用USE标志。比如说，禁用PHP的bzip2支持（但通过make.conf中的USE标志为其他包提供支持）：
+vim /etc/portage/package.use          ### 禁用 PHP 对 bzip2 的支持
+dev-lang/php -bzip2
+
+
+
+
+### ===========================================================================
+声明临时USE标志
+
+有时，你只想暂时改变一个USE设置。你可以仅仅把USE 变量声明成一个环境变量，
+而不必两次修改/etc/portage/make.conf 。
+但是要记住，当你重新emerge或者升级这个程序的时候（不管是单独地还是作为系统升级的一部分），你的修改会被重置。
+
+The following example temporarily removes the pulseaudio value from the USE variable during the installation of SeaMonkey:
+root #USE="-pulseaudio" emerge www-client/seamonkey
+
+
+### ===========================================================================
+优先级
+
+当然，在什么设置优先于USE设置有一定的优先级。 USE设置的优先级，按优先级排序（第一优先级最低）：
+    1 make.defaults 里面的USE默认设定
+    2 用户在/etc/portage/make.conf里面的USE默认设定
+    3 用户在 /etc/portage/package.use里面的USE默认设定
+    4 用户作为环境变量的USE设定
+
+运行 emerge --info可以看到Portage识别的最终的USE设定。它会列出Portage使用的所有相关变量（包括 USE 变量）。
+root #emerge --info
+
+
+
+
+### ===========================================================================
+在整个系统上应用新的USE标志
+
+如果你已经修改了你的USE标志，而且你想用新的USE标志更新你的系统，可以使用emerge的 --newuse选项：
+root #emerge --update --deep --newuse @world
+
+
+然后运行Portage的depclean来移除已经安装到你的"旧"系统里但是在新USE标志中被废除的条件依赖关系。
+警告!!!
+运行emerge --depclean是一项危险的操作，必须小心。请反复检查要删除的包的列表里确定没有你仍然需要的包。
+下面这个例子里，我们添加了-p 选项来
+root #emerge -p --depclean
+──只列出这些包而不删除他们。
+
+depclean完成之后，运行revdep-rebuild来重新构建那些动态链接到由可能已经删除的包提供的公共对象的程序。
+revdep-rebuild是app-portage/gentoolkit包的一部分，不要忘了先安装它。
+root #revdep-rebuild
+
+这些都完成之后，你的系统就已经应用上了新的USE标志的设定。 
+
+
+
+### ===========================================================================
+软件包特有的USE标志
+查看可用USE标志
+
+让我们以seamonkey来作例子，看看它接收什么USE标志。我们可以以--pretend和 --verbose为选项执行 emerge来查看：
+root #emerge --pretend --verbose www-client/seamonkey
+These are the packages that would be merged, in order:
+ 
+Calculating dependencies... done!
+[ebuild  N     ] www-client/seamonkey-2.48_beta1::gentoo  USE="calendar chatzilla 
+crypt dbus gmp-autoupdate ipc jemalloc pulseaudio roaming skia startup-notification 
+-custom-cflags -custom-optimization -debug -gtk3 -jack -minimal (-neon) (-selinux) 
+(-system-cairo) -system-harfbuzz -system-icu -system-jpeg -system-libevent 
+-system-libvpx -system-sqlite {-test} -wifi" L10N="-ca -cs -de -en-GB -es-AR 
+-es-ES -fi -fr -gl -hu -it -ja -lt -nb -nl -pl -pt-PT -ru -sk -sv -tr -uk -zh-CN -zh-TW" 216,860 KiB
+ 
+Total: 1 package (1 new), Size of downloads: 216,860 KiB
+
+
+
+emerge 并不是做这件事的唯一工具。事实上，我们有一个专门的包信息工具叫equery，它属于app-portage/gentoolkit。
+root #emerge --ask app-portage/gentoolkit
+
+现在以为参数执行 equery 来查看指定包的USE标志。例如：gnumeric包：
+user $equery --nocolor uses =gnumeric-1.12.31
+
+[ Legend : U - final flag setting for installation]
+[        : I - package is installed with flag     ]
+[ Colors : set, unset                             ]
+ * Found these USE flags for app-office/gnumeric-1.12.31:
+ U I
+ + + introspection            : Add support for GObject based introspection
+ - - libgda                   : Enable database support through gnome-extra/libgda.
+ - - perl                     : Enable perl plugin loader.
+ + + python                   : Enable python plugin loader.
+ + + python_targets_python2_7 : Build with Python 2.7
+ 
+ 
+ 
+### ===========================================================================
+满足 REQUIRED_USE
+
+一些ebuild需要或禁止USE标志的某些组合才能正常工作。 这通过放置在 REQUIRED_USE，用一组条件来表示。 
+此条件确保所有功能和依赖性都已完成，并且构建将成功并按预期执行。 
+如果任何一个不符合，emerge会提醒你，并要求你解决这个问题。
+
+下面是REQUIRED_USE的一个例子：
+Example                                     Description
+REQUIRED_USE="foo? ( bar )" 	            如果 foo 被设定, 则必须设定bar 。
+REQUIRED_USE="foo? ( !bar )"                如果 foo 被设定， 则必须不设定 bar。
+REQUIRED_USE="foo? ( || ( bar baz ) )" 	    如果 foo被设定， 则必须设定 bar 或baz 。
+REQUIRED_USE="^^ ( foo bar baz )" 	        foo bar 或baz 中必须有一个被设定
+REQUIRED_USE="|| ( foo bar baz )" 	        foo bar 或 baz 中至少有一个被设定。
+REQUIRED_USE="?? ( foo bar baz )" 	        foo bar 或 baz中必须同时被设定多个USE 
+

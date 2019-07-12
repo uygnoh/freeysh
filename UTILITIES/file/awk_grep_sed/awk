@@ -1,0 +1,166 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### ======================================================================== awk
+
+awk -W version
+
+
+Why awk ......?
+
+Headers with BEGIN
+Footers with END
+Conditions and Loops Internal Function
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% cat user.awk
+BEGIN {FS=":"; print "Username"}
+END {print "Total users = " NR}
+
+awk -f user.awk /etc/passwd
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% cat user.awk
+BEGIN { FS=":"; print "Username" }
+
+$3 > 499 {
+    print $1
+} 
+
+END { print "Total users = " NR }
+
+awk -f user.awk /etc/passwd
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% cat user.awk
+BEGIN { FS=":"; print "Username" }
+
+/^root/ { 
+    print $1
+    count++
+}
+
+END { print "Total users = " count }
+
+awk -f user.awk /etc/passwd
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+___________________________________________________________
+
+                Choosing the right tool
+                
+awk -F"," ' { print toupper($1), tolower($2), $3 } ' employees
+
+sed ' s@\([^,]*\),\([^,]*\)@\U\1\L\2@ ' employees
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% cat lastlog.awk
+BEGIN {
+    printf "%8s %11s\n", "Username", "Login date"
+    print "================================================"
+}
+
+!(/Never logged in/ || /^Username/ || /^root/) {
+    count++
+    if ( NF == 8 )
+        printf "%8s %2s %3s %4s\n", $1, $5, $4, $8
+    else
+        printf "%8s %2s %3s %4s\n", $1, $6, $5, $9
+}
+
+END {
+    print "================================================"
+    print "Total Number of Users Processed: ", count
+}
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% cat tool.sh
+
+#!/bin/bash
+OLDIFS=$IFS
+IFS=","
+
+while read product price quantity
+do
+    echo -e "\033[41;37m$product =====================\033[37;0m\n\
+    price : \t $price \n\
+    Quantity : \t $quantity \n"
+    
+done <$1
+IFS=$OLDIFS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+__________________
+% cat tool
+
+drill,99,5
+hamner,10,50
+brush,3,100
+lamp,24,40
+scdhi,4,67
+__________________
+
+
+
+./tool.sh tool
+./tool.sh tool | grep -A2 hamner
+./tool.sh tool | grep -B2 hamner
+./tool.sh tool | grep -C2 hamner
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+___________________________________________________________
+ifconfig etho|awk -F":" ' /HWaddr/{ print $# $4 $5 $6 $7 }'
+
+ysh@debian:~$ awk ' { print } ' ~/test.bak 
+
+
+awk ' BEGIN { print "start ..." } { print } END { print NR } ' ~/test.bak 
+
+
+awk ' BEGIN { print "start ..." } { print NR, $0 } END { print NR } ' ~/test.bak
+
+ifconfig eth0 | awk -F":" ' /HWaddr/{print $3 $4 $5 $6 $7}'
+
+

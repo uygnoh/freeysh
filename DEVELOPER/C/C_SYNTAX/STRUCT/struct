@@ -1,0 +1,58 @@
+### ======================================================== 声明结构的形式
+
+声明结构的形式 1
+~~~~~~~~~~~~~~
+struct point {
+	int x;
+	int y;
+};
+
+struct point p1, p2;
+### p1 and p2都是point里面有x和y的值。
+
+声明结构的形式 2
+~~~~~~~~~~~~~~
+struct {
+	int x;
+	int y;
+} p1, p2;
+### p1 and p2都是一种无名结构，里面有x和y的值。
+
+声明结构的形式 3
+~~~~~~~~~~~~~~
+struct point {
+	int x;
+	int y;
+} p1, p2;
+
+struct point p1, p2;
+### p1 and p2都是point里面有x和y的值。
+
+
+
+### ========================================================
+
+#include <stdio.h>
+
+struct date {
+	int day;
+	int month;
+	int year;
+};
+
+int main(int argc, cahr const *argv[]) {
+
+	struct date today;
+	today.month = 07;
+	today.day   = 31;
+	today.year  = 2019;
+	
+	printf("Todat's date is %i-%i-%i.\n", today.year, today.month, today.day);
+	
+	return 0;
+	
+}
+
+### ========================================================
+### ========================================================
+### ========================================================

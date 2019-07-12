@@ -1,0 +1,76 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>FVWM Beginners Guide - FvwmTaskBar</title>
+<link rel="stylesheet" href="FVWM%20Beginners%20Guide%20-%20FvwmTaskBar_files/fvwm.css">
+</head>
+
+
+<body>
+<p>FvwmTaskBar is a task-bar that is quite similar to the one in Windows.
+There is a start menu button you can bind any menu to, a place for quick
+launch buttons, a list of running tasks and finally have a clock at the far end.</p>
+
+<p>To start with lets set up some Styles for FvwmTaskBar. We want to set
+up the task-bar so it has no window decorations and also so it won't include itself
+in the list of running tasks. I also make the task-bar 'Sticky' so it will be shown
+on all your Virtual desktops and make its size and position fixed.
+You can achieve this as follows:</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#0000ff">#####</font>
+<font color="#0000ff"># FvwmTaskBar</font>
+<font color="#0000ff">###########</font>
+<font color="#008b8b">Style</font> <font color="#ff00ff">"FvwmTaskBar"</font> <font color="#a52a2a"><b>NoTitle</b></font>, !<font color="#a52a2a"><b>Handles</b></font>, !Borders, <font color="#008b8b">Sticky</font>, <font color="#a52a2a"><b>WindowListSkip</b></font>, \
+  <font color="#a52a2a"><b>CirculateSkip</b></font>, <font color="#a52a2a"><b>StaysOnBottom</b></font>, <font color="#a52a2a"><b>FixedPosition</b></font>, FixedSize, !Iconifiable
+</pre>
+</td></tr></tbody></table></center>
+
+<p>Next you need to set up the various options for the FvwmTaskBar Module.
+That is achieved as follows:</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#008b8b">DestroyModuleConfig</font> FvwmTaskBar: *
+<font color="#a020f0">*FvwmTaskBar</font>: Geometry +0-0
+<font color="#a020f0">*FvwmTaskBar</font>: Rows 3
+<font color="#a020f0">*FvwmTaskBar</font>: <font color="#a52a2a"><b>Font</b></font> <font color="#ff00ff">"xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"</font>
+<font color="#a020f0">*FvwmTaskBar</font>: SelFont <font color="#ff00ff">"xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"</font>
+<font color="#a020f0">*FvwmTaskBar</font>: StatusFont <font color="#ff00ff">"xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"</font>
+<font color="#a020f0">*FvwmTaskBar</font>: <font color="#a52a2a"><b>Colorset</b></font> 9
+<font color="#a020f0">*FvwmTaskBar</font>: IconColorset 9
+<font color="#a020f0">*FvwmTaskBar</font>: FocusColorset 9
+<font color="#a020f0">*FvwmTaskBar</font>: TipsColorset 9
+<font color="#a020f0">*FvwmTaskBar</font>: UseSkipList
+<font color="#a020f0">*FvwmTaskBar</font>: UseIconNames
+<font color="#a020f0">*FvwmTaskBar</font>: ShowTips
+<font color="#a020f0">*FvwmTaskBar</font>: StartName <font color="#a52a2a"><b>FVWM</b></font>
+<font color="#a020f0">*FvwmTaskBar</font>: StartMenu FvwmRootMenu
+<font color="#a020f0">*FvwmTaskBar</font>: <font color="#a52a2a"><b>Button</b></font> <font color="#008b8b">Title</font> ATerm, <font color="#a52a2a"><b>Icon</b></font> mini/xterm.png, Action (<font color="#a52a2a"><b>Mouse</b></font> 1) FvwmATerm
+<font color="#a020f0">*FvwmTaskBar</font>: Action Click3 <font color="#008b8b">Menu</font> FvwmWindowOpsMenu
+<font color="#a020f0">*FvwmTaskBar</font>: StartIcon mini/fvwm.png
+</pre>
+</td></tr></tbody></table></center>
+
+<p>The first line destroys the default config and allows you to start you config
+from scratch. The following lines set up various options, all of which are explained
+in the FvwmTaskBar man page.  The main ones are to set up the colorset that the
+TaskBar uses, along with the font.  I also tell the TaskBar to UseSkipList,
+so any windows that have the Style 'WindowSkipList' won't be shown on the TaskBar.
+I also set up an action, so if your right click
+on a button it will open the WindowOps menu so you can perform actions on the window
+you click on. I also set up one button that will launch an aterm by clicking on it.</p>
+
+<p>Now once you have the module configured, you need only launch it.
+The module is launched by running 'Module FvwmTaskBar', but this is already
+done in the StartFunction, so it shouldn't need to be put in the config.</p>
+
+<hr>
+<table cellpadding="0" border="0" width="100%">
+<tbody><tr><td align="left" width="33%"><a href="http://zensites.net/fvwm/guide/modules.html">Modules</a></td>
+<td align="center" width="34%"><a href="http://zensites.net/fvwm/guide/index.html">index</a></td>
+<td align="right" width="33%"><a href="http://zensites.net/fvwm/guide/fvwmpager.html">FvwmPager</a>
+</td></tr></tbody></table>
+
+
+</body></html>

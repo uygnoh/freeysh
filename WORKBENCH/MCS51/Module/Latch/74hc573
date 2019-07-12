@@ -1,0 +1,57 @@
+/**
+74hc595 锁存器 ***********
+FUNCTION TABLE	功能表
+Output Enable	输出使能端
+Latch Enable	锁存端
+X = don't care	不关心
+Z = high impedance 高阻状态
+***/
+
+
+#include <reg51.h>
+#define uchar unsigned char
+sbit wei=P2^0;
+sbit duan=P2^1;
+
+
+
+/* 共阴极数码管编码表 */
+uchar code table[] = {0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,
+			0x7f,0x6f,0x77,0x7c,0x39,0x5e,0x79,0x71};
+
+
+int main(void)
+{
+	duan = 0;	//段码锁存器关闭(锁存住)
+	wei = 1;	//位码锁存器打开
+	P1 = 0xFE;	//送入数据到位码，打开第一位数码管
+	
+	wei = 0;	//位码锁存器锁住，保持数据不变
+	duan = 1;	//段码锁存器打开
+	P1 = table[1];
+	delay_ms(2);
+	
+	duan = 0;	//段码锁存器关闭(锁存住)
+	wei = 1;	//位码锁存器打开
+	P1 = 0xFD;	//送入数据到位码，打开第 2 位数码管
+	
+	wei = 0;	//位码锁存器锁住，保持数据不变
+	duan = 1;	//段码锁存器打开
+	P1 = table[2];
+	delay_ms(2);
+	
+	return 0;
+}
+
+
+
+
+
+
+void delay_ms(int z)
+{
+	int x, y;
+	for (x = z; x > 0; x--)
+		for (y = 110; y > 0; y--);
+}
+

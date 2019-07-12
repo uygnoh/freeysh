@@ -1,0 +1,24 @@
+### ========================================================== const,关键字
+
+char a = 'a';
+const char *p = &a;
+char const *p = &a;
+它表示 p 可以改变， *p 不可以改变。const修饰 *p;
+
+
+char a = 'w';
+char * const p = &a;
+它表示 *p可以改变，但是 p不可改变。const修饰 p;
+
+
+const char * const p = &a;
+const即修饰p,又修饰*p;所以p和*p都不可改变
+
+
+
+
+
+
+
+
+

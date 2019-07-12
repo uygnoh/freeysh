@@ -1,0 +1,386 @@
+### ======================================================
+[dmtsai@study ~]$ sed [-nefr] [動作]
+選項與參數：
+-n  ：使用安靜(silent)模式。
+      在一般 sed 的用法中，所有來自 STDIN 的資料一般都會被列出到螢幕上。
+      但如果加上 -n 參數後，則只有經過 sed 特殊處理的那一行(或者動作)才會被列出來。
+-e  ：直接在指令列模式上進行 sed 的動作編輯；
+-f  ：直接將 sed 的動作寫在一個檔案內， 
+      -f filename 則可以執行 filename 內的 sed 動作；
+-r  ：sed 的動作支援的是延伸型正規表示法的語法。(預設是基礎正規表示法語法)
+-i  ：直接修改讀取的檔案內容，而不是由螢幕輸出。
+
+動作說明：  [n1[,n2]]function
+n1, n2 ：不見得會存在，一般代表『選擇進行動作的行數』，舉例來說，如果我的動作
+         是需要在 10 到 20 行之間進行的，則『 10,20[動作行為] 』
+_________________________________________________________________
+function 有底下這些咚咚：
+a   ：新增， a 的後面可以接字串，而這些字串會在新的一行出現(目前的下一行)～
+c   ：取代， c 的後面可以接字串，這些字串可以取代 n1,n2 之間的行！
+d   ：刪除，因為是刪除啊，所以 d 後面通常不接任何咚咚；
+i   ：插入， i 的後面可以接字串，而這些字串會在新的一行出現(目前的上一行)；
+p   ：列印，亦即將某個選擇的資料印出。通常 p 會與參數 sed -n 一起運作～
+s   ：取代，可以直接進行取代的工作哩！通常這個 s 的動作可以搭配正規表示法！
+      例如 1,20s/old/new/g 就是啦！
+___________________________________________________________
+% 字符串替换
+sed '1,2s/old_string/new_string/g'
+
+
+範例一：將 /etc/passwd 的內容列出並且列印行號，同時，請將第 2~5 行刪除！
+[dmtsai@study ~]$ nl /etc/passwd | sed '2,5d'
+
+範例二：承上題，在第二行後(亦即是加在第三行)加上『drink tea?』字樣！
+[dmtsai@study ~]$ nl /etc/passwd | sed '2a drink tea'
+
+範例三：在第二行後面加入兩行字，例如『Drink tea or .....』與『drink beer?』
+[dmtsai@study ~]$ nl /etc/passwd | sed '2a Drink tea or ......\
+> drink beer ?'
+
+
+範例四：我想將第2-5行的內容取代成為『No 2-5 number』呢？
+[dmtsai@study ~]$ nl /etc/passwd | sed '2,5c No 2-5 number'
+
+
+範例五：僅列出 /etc/passwd 檔案內的第 5-7 行
+[dmtsai@study ~]$ nl /etc/passwd | sed -n '5,7p'
+
+
+除了整行的處理模式之外， sed 還可以用行為單位進行部分資料的搜尋並取代的功能喔！ 
+基本上 sed 的搜尋與取代的與 vi 相當的類似！他有點像這樣：
+% sed 's/要被取代的字串/新的字串/g'
+
+### ========================================================
+讓我們再來繼續研究 sed 與正規表示法的配合練習！
+假設我只要 MAN 存在的那幾行資料， 但是含有 # 在內的註解我不想要，
+而且空白行我也不要！此時該如何處理呢？可以透過這幾個步驟來實作看看：
+
+步驟一：先使用 grep 將關鍵字 MAN 所在行取出來
+[dmtsai@study$ cat /etc/man_db.conf | grep 'MAN'
+
+步驟二：刪除掉註解之後的資料！
+[dmtsai@study ~]$ cat /etc/man_db.conf | grep 'MAN'| sed 's/#.*$//g'
+
+步驟二：刪除空行
+% $ cat /etc/man_db.conf | grep 'MAN'| sed 's/#.*$//g' | sed '/^$/d'
+
+
+
+
+### ========================================================
+步驟一：先觀察原始訊息，利用 ip addr 查詢 IP 為何？
+1 [dmtsai@study ~]$ ip addr
+
+
+
+步驟二：利用關鍵字配合 grep 擷取出關鍵的一行資料
+2 ysh@debian:~$ ip addr |grep "192.168"
+    inet 192.168.0.109/24 brd 192.168.0.255 scope global dynamic wlp3s0
+
+步驟三：將 IP 前面的部分予以刪除
+3 ysh@debian:~$ ip addr |grep "192.168"|sed 's/^.*inet //g'
+	192.168.0.109/24 brd 192.168.0.255 scope global dynamic wlp3s0
+
+步驟四：將 IP 後面的部分予以刪除
+ip addr |grep "192.168"|sed 's/^.*inet //g'|sed 's/*brd.*$//g'
+
+
+
+
+
+
+### ======================================================== 
+___________________________________________________________
+tail -f pppd.log | sed 's/145\.37\.23\.26/桥西/g'
+
+tail -f pppd.log | sed -f sed.cmd
+
+% sed.cmd 
+s/145\.37\.23\.26/桥西/g
+s/102\.157\.23\.109/柳荫街/g
+s/145\.37\.123\.57/大山子/g
+	
+___________________________________________________________
+% 模式描述中增加\(和\)
+在正则表达式中圆括号,仍然代表它自身,
+在正则表达式中出现的\(和\)不影响匹配操作
+[a-zA-Z_][a-zA-Z0-9_]*->number
+\([a-zA-Z_][a-zA-Z0-9_]*\)->number
+
+
+___________________________________________________________
+% 替换字符串中的 \0 \1 \2 ......
+
+
+___________________________________________________________
+举例: root->num, subs->number; adc = number;
+s/\([a-zA-Z_][a-zA-Z0-9_]*\)->number/\1->num/g
+
+
+___________________________________________________________
+将日期格式“月-日-年”改为“年.月.日”,
+比如:将 04-26-1997替换为1997.04.26使用命令:
+s/\([0-9][0-9]\)-\([0-9][0-9]\)-\([0-9][0-9]*\)/\3.\1.\2/g
+
+
+
+
+### ===================================================== sed
+sed -i.commented '/^#/d;/^$/d' /etc/ntp.conf
+
+
+sed 'p' /etc/passwd             # 打印/etc/passwd中的内容
+sed -n 'p' /etc/passwd          # -n; 只显示被处理的内容
+sed -n ' 1,5 p ' /etc/passwd    # 1,5; 打印第1到第5行
+sed -n ' /^ysh/ p ' /etc/passwd # /^ysh/; 打印以"ysh"开头的行
+sed ' /^#/ d ' ~/test           # 删除以"#"开头的行
+sed ' /^#/ d; /^$/ d ' ~/test   # 删除以"#"开头的行和空白行
+
+___________________________________________________________
+### 删除以"#"开头的行和空白行;
+### -i.bak; 表示直接修改原文件，并且备份原文件中的内空，以".bak"作为后缀名
+sed -i.bak ' /^#/ d; /^$/ d ' ~/test
+
+
+
+
+
+
+
+
+### ======================================================================= sed
+
+sed --version
+
+______________________________________________________________________sed print
+
+sed ' p ' /etc/passwd
+sed -n ' p ' /etc/passwd
+sed -n '1,3 p ' /etc/passwd
+sed -n '/^root/ p ' /etc/passwd
+
+
+Using the sed PRINT command
+The command P will print the pattern space(Matched lines)
+The -n option supresses standard output so only matched lines display
+Adding a range will print only those matched lines
+
+
+__________________________________________________________________sed substitute
+
+sed ' [range] s/<string>/<replacement>/ ' /etc/passwd
+sed ' /^ysh/ s@/bin/bash@/bin/sh@ ' /etc/passwd
+
+Using the sde SUBSTITUTE command
+
+The substitute command in sed is your search and replace tool
+
+The first character following the s represents the delimiters, often the / is used
+
+Replacing the default shell of the user ysh from /bin/bash to /bin/sh
+
+
+
+
+sed -n ' 6,9 s/^/    /p ' /etc/passwd
+sed -n ' /^ysh/ s@/bin/bash@/bin/sh@p ' /etc/passwd
+
+
+
+
+
+
+___________________________________________________________ append\insert\delete
+
+sed ' /^server 3/ a server ntp.example.com ' /etc/ntp.conf
+sed ' /^server 0/ i server ntp.example.com ' /etc/ntp.conf
+sed ' /^server\s[0-9]\.ubuntu/ d ' /etc/ntp.conf
+
+Using the sed APPEND\INSERT\DELETE commands
+
+Append a new line after a line
+
+Insert a new line before a line
+
+Delete lines from a file
+
+
+
+______________________________________________________________ sed command line
+ysh@debian:~$ sed ' {
+> /^server 0/ i ntp.example.com
+> /^server\s[0-9]\.ubuntu/ d
+> } ' /etc/ntp.conf
+
+
+
+Multiple sed expressions
+
+Multiple expressions can be written on the command line by including brace 
+brackets within the quoted sed instructions
+
+
+
+
+
+_____________________________________________________________________ sed file
+% cat ntp.sed
+/^server 0/ i ntp.example.com
+/^server\s[0-9]\.ubuntu/ d
+sed -f ntp.sed /etc/ntp.conf
+
+
+For code-reuse implement sed files
+
+The sed file can be referenced with the -f option
+
+*****Nothing is written to the file
+      unless the -i option is used.
+       with -i.bak a backup file is
+        created prior to the edit *****
+
+
+
+% cat ntp.sed
+/^$/ d
+/^\s*#/ d
+/^server 0/ i ntp.example.com prefer
+/^server\s[0-9]\.ubuntu/ d
+
+sed -f ntp.sed /etc/ntp.conf
+sudo sed -i.bak -f ntp.sed /etc/ntp.conf
+
+
+
+
+______________________________________________________________________ sed ssh
+
+Putting it all together with remote edits using SSH
+
+ssh -t user@server sudo sed -i.bak -f /tmp/ntp.sed /etc/ntp.conf
+
+-t      ;Assigns a TTY allowing for sudo password
+-i      ;Creates backup with .bak extension
+ntp.sed ;Sed file on the remote server
+Danny can effectively update the ntp.conf files on multiple servers quickly and easily
+
+
+
+scp ntp.sed ysh@192.168.0.105:/tmp/
+ssh -t ysh@192.168.0.105 sudo sed -i.bak -f /tmp/ntp.sed /etc/ntp.conf
+
+
+
+
+____________________________________________________________________ sed group
+
+                    Substitution Grouping
+
+s/              \([^,]*\)               /\U\1/
+
+substitution    Groupint defined with   Replace string: upper cases
+                escaped parentheses             first grouping
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+sed ' s@\([^,]*\)@\U\1@ ' employees
+sed ' s@\([^,]*\),\([^,]*\)@\U\1\L\2@ ' employees
+
+\([^,]*\)   ;The search string identifies all characters up to the first comma
+\U\1        ;The replace string uppercases the first group
+,           ;Each grouping is, itself, comma-separated
+
+Working with the employyees file
+
+Uppercase the first field of a comma separated file
+
+Uppercase the first and lowercase the second field of acomma separated file
+
+
+
+Demo Time: Format teh employees file
+
+sed ' s/\([^,]*\)/\U\1/ ' empoyees
+sed ' s/\([^,]*\),\([^,]*\)/\U\1\L\2/ ' empoyees
+sed ' s/\([^,]*\),\([^,]*\)/\u\1,\L\1/ ' empoyees
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+sed ' s/\(^\|[^0-9.]\)\([0-9]\+\)\([0-9]\{3\}\)/\1\2,\3/g ' /catlog
+
+
+% cat catalog.sed
+s/,/:/g
+s/\(^\|[^0-9.]\)\([0-9]\+\)\([0-9]\{3\}\)/\1\2,\3/g
+s@\(^\|[^0-9.]\)\([0-9]\+\)\([0-9]\{3\}\)@\1\2,\3@g
+
+sed -f catalog.sed /proc/loadavg
+
+
+
+
+
+__________________________________________________  Executing Commands with sed
+					
+
+sed ' s/^/ls -l /e listoffiles.txt
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Making full use of the ever useful sed substitute
+command coupled with execute, we can read arguments from the imput file.
+We then substitute the start of the line with the command to be run
+against the argument...let me show you
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sed ' /^\// s/^/tar -rf catalog.tar /e ' cat.list
+
+/^\//           ;Require a leading forward slash
+-rf catlog.tar  ;Append matching lint to TAR file
+cat.list        ;File will contain catalogs to archive
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sed ' /^\// s/^/rm -f /e ' cat .list
+
+rm -f           ;Teh origianl catalog is deleted
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% cat file.list
+/etc/hosts
+/etc/services
+
+sed ' s/^/ls -l /e ' file.list
+sed ' s/^/stat /e ' file.list
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% cat user.list
+ysh1
+ysh2
+
+sed ' s/^/sudo useradd /e ' user.list
+tail -n 2 /etc/passwd
+sed ' s/^/sudo userdel -r /e ' user.list
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% cat cat.list
+/home/ysh/catlog/garden
+
+sed ' /^\// s/^/tar -rf catalog.tar /e ' cat.list
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+

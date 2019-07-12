@@ -1,0 +1,132 @@
+#include <reg51.h>
+#define uchar unsigned char 
+
+sbit k;		//定义位变量，它只能是 0 or 1.
+
+sbit k1=P2^0
+sbit k2=P2^1
+sbit k3=P2^2
+sbit k4=P2^3
+sbit k5=P2^4
+sbit k6=P2^5
+sbit k7=P2^6
+sbit k8=P2^7
+
+/* 注意！ 用 code 是把后面的数据存储到程序存储区,如果没有则放在 RAM */
+/* 共阳极数码管编码表 */
+uchar code table[] = {0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,
+			0x80,0x90,0x88,0x83,0xc6,0xa1,0x86,0x8e};
+
+
+int main(void)
+{
+	
+			
+}
+
+
+/* 8位抢答器 */
+void key_scan(void)
+{
+	if (k1 == 0)
+	{
+		P0 = tab[1];
+		k = 1;
+	}
+	if (k2 == 0)
+	{
+		P0 = tab[2];
+		k = 1;
+	}
+	if (k3 == 0)
+	{
+		P0 = tab[3];
+		k = 1;
+	}
+	if (k4 == 0)
+	{
+		P0 = tab[4];
+		k = 1;
+	}	
+	if (k5 == 0)
+	{
+		P0 = tab[5];
+		k = 1;
+	}
+	if (k6 == 0)
+	{
+		P0 = tab[6];
+		k = 1;
+	}
+	if (k7 == 0)
+	{
+		P0 = tab[7];
+		k = 1;
+	}
+	if (k8 == 0)
+	{
+		P0 = tab[8];
+		k = 1;
+	}
+	
+	while (k);		
+}
+
+##################################################################
+
+#include <reg51.h>
+#define uchar usnsiged char
+
+sbit key_jia=P2^0;
+sbit key jian=P2^1;
+sbit gnd=P2^4;
+uchar num;
+/* 注意！ 用 code 是把后面的数据存储到程序存储区,如果没有则放在 RAM */
+/* 共阳极数码管编码表 */
+uchar code table[] = {0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,
+			0x80,0x90,0x88,0x83,0xc6,0xa1,0x86,0x8e};
+
+
+
+/* 独立按键加减按键 */
+
+int main(void)
+{
+	num = 0;
+	P0 = tab[num];
+	while (1)
+	{
+		if (key_jia == 0)
+		{
+			delay_ms(5);	//增强抗干扰能力
+			if (key_jia == 0)
+			{
+				while (!key_jia);	//松手检测
+				delay_ms(50);		//消抖延时	
+				num++;
+				if (num == 16)
+					num = 0;
+			}
+		}
+		
+		
+		
+		if (key_jia == 0)
+		{
+			delay_ms(5);	//增强抗干扰能力
+			if (key_jia == 0)
+			{
+				while (!key_jia);	//松手检测
+				delay_ms(50);		//消抖延时	
+				num--;
+				if (num == -1)
+					num = 0;
+			}
+		}
+		
+		P0 = tab[num];
+		
+	}
+}
+
+##################################################################

@@ -1,0 +1,17 @@
+### ===========================================================================
+Overview,概述			Hyperlinks,超链接			Cursor,光标
+Terminal,终端			View,终端					Search,搜索
+Contents,内容			Introduction,介绍;引言		emulator,仿真器
+
+
+
+### ===========================================================================
+Color Schemes,配色方案					Fullscreen session,全屏会议
+Character encoding,字符编码				Custom commands and shells,自定义命令和外壳
+Keyboard accessibility,键盘辅助功能		Login shells,登录外壳
+Advanced Settings,高级设置				Change profile character encoding,更改配置文件字符编码
+Keyboard shortcuts,键盘快捷键				Characters look too narrow,字符看起来太窄
+Troubleshooting,故障排除					Set audible bell,设置可听铃声
+Scrollbar preferences,滚动条首选项		Menubar visibility,菜单栏可见性
+Manage profile,管理配置文件
+Customize Behavior,自定义行为

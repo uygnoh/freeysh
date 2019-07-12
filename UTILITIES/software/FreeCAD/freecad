@@ -1,0 +1,71 @@
+### =======================================================
+1 Part Design
+2 Create a new empty document
+3 Create sketch ->Choose Orientation
+4 Create Polyline in teh sketch
+
+5 Create coincident constraint on the selectd item
+
+
+
+### ========================================================
+
+1 Create a new sketch
+2 Edit the seleted sketch
+3 Close the editing of the sketch
+4 View sketch perpendicular to sketch plane
+5 Map a sketch to a face
+
+
+### ========================================================
+
+1 Pad a selected sketch
+2 Create a pocket with the selected sketch
+3 Revolve a selected sketch
+4 Groove a selected sketch
+
+5 Make a fillet on an edge, face or body
+6 Chamfer the selected edges of a shape
+7 Make a draft on a face
+8 Create a mirrored feature 
+9 Create a linear pattern feature
+10 Create a polar pattern feature
+11 Create a multitransform feature
+
+
+
+
+
+
+Fits the whole content on the screen
+Fits the selected content on the screen
+Draw style
+
+Set to axonometric view
+Set to front view (1)
+Set to top view   (2)
+Set to right view (3)
+Set to rear view  (4)
+Set to bottom view(5)
+Set to left view  (6)
+
+Measure distance
+
+
+### ========================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+### ======================================================================
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <string.h>
+
+char *strcpy(char *dest, const char *src);
+char *strncpy(char *dest, const char *src, size_t n);
+
+
+typedef int lisi; /* 为int在重新多取一个名字，lisi == int */
+typedef struct student {
+    int uid;
+    char name[20];
+    char sex;
+}st, *pst;         /* pst == (struct student *) */
+                   /* st == (struct student) */
+int main(void)
+{
+    st location;   /* st == (struct student) */
+    struct student stm;
+    struct student *pstm = &stm;
+    pst ptr = &stm;
+
+
+    return 0;
+}

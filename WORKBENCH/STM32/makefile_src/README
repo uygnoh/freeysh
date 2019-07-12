@@ -1,0 +1,36 @@
+###############################################################################
+
+stm32烧写固件:
+
+sudo st-flash write main.bin 0x8000000
+
+
+###############################################################################
+
+			make 编译工程结构
+project\
+	+include/
+	+ldscripts/
+	+README
+	+Makefile
+	+Makefile.common
+	+Output/
+	|
+	+src/*  
+	|	main.c
+	|	startup.c
+	|	Makefile	
+	|
+	|
+	+libs/*
+	|	STM32F10x_StdPeriph_Lib_V3.5.0/
+	|	Makefile
+	|
+	|
+	/
+	
+make OptLIB=0 OptSRC=0 all tshow
+make clean	
+###############################################################################
+
+

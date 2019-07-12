@@ -1,0 +1,316 @@
+% https://www.w3cschool.cn/vim/gsenvozt.html
+
+### =======================================================  vim 语法基本特征
+"       注释
+\       续行
+let     关键字为变量赋值
+
+
+
+### ======================================================= Vimscript 变量范围
+
+%前缀            含义
+g: varname      变量为全局变量
+s: varname      变量的范围为当前的脚本文件
+w: varname      变量的范围为当前的编辑器窗口
+t: varname      变量的范围为当前的编辑器选项卡
+b: varname      变量的范围为当前的编辑器缓冲区
+l: varname      变量的范围为当前的函数
+a: varname      变量是当前函数的一个参数
+v: varname      变量是 Vim 的预定义变量
+
+
+
+### ======================================================= Vimscript 伪变量
+&varname 	    一个Vim 选项
+&l:varname 	    本地变量(局部变量)
+&g:varname 	    全局变量
+@varname 	    一个 Vim 寄存器
+$varname 	    一个环境变量
+
+
+
+### ======================================================= 比较操作(condition)
+% 在 Vimscript 中，比较函数始终执行数字比较，除非两个运算对象都是字符串。
+% 特别的，如果一个运算对象是字符串，另一个是数字，
+% 那么字符串将被转换为数字，然后再对两个数字进行数值比较
+
+let ident = 'Vim'
+if ident == 0       "Always true (string 'Vim' converted to number 0)
+
+% 在这种情况下，一种更健壮的解决方案是： if ident == '0'
+% 任何字符串比较函数都可以被显式地标记为大小写敏感（通过附加一个 #）或大小写不敏感（通过附加一个 ?）：
+if name == ?'vim'
+if name == #'Vim'
+
+
+
+
+### =================================================== 算术运算，注意整数和实数差别
+
+let filecount = 234
+echo filecount/100          " 显示2
+echo filecount/100.0        " 显示2.34
+
+
+
+### ======================================================= 语句 (statement)
+
+% 赋值语句：let
+let {variable} = {expression}
+
+% 条件控制if 语句：
+if {condition}
+    {statements}
+elseif {condition}
+    {statements}
+else
+    {statements}
+endif
+
+% while 语句：
+while {condition}
+    {statements}
+    [ continue ]
+    [ break ]
+endwhile
+
+% for 语句：
+for {varname} in {listexpression}
+    {statements}
+endfor
+
+
+
+### ======================================================= command
+
+vim script 语句可以直接支持:命令。
+加上normal关键字，也支持normal模式命令。
+起码，把script做成批命令是没有问题了。
+
+
+
+
+### ======================================================= 函数
+% vim 有许多内置函数。还可以自定义函数。
+% 内置函数，内置寄存器，:命令等构成与编辑缓冲的连接，使可以编程控制。
+% 自定义函数，按照如下函数格式：
+function {Name}({var1}, {var2}, ...)
+    {body}
+    [ return ]
+endfunction
+
+
+%  例：求两数中最小值函数：
+function! s:Min(num1, num2)
+    return a:num1 < a:num2 ? a:num1 : a:num2
+endfunction
+
+### ======================================================= Vimscript 基本映射
+
+% 我们先从normal模式的键盘映射开始。我们将在下一章节讨论insert模式和其他模式下的 键盘映射。
+% 随意在文本中敲写几行文字，然后运行命令：
+% 将光标置于文本中的某处，按下-。注意Vim删除了当前光标下的字符，就好像你按了x一样。
+% 我们本来就有个按键用于 "删除当前光标下的字符" ，所以我们将-重新映射到稍微有用的 功能。执行命令：
+:map - x
+
+% 现在移动光标到任意一行，再按下-，这次Vim删除了整行的文本，因为dd的功能就是删除整行。
+:map - dd
+
+
+% 特殊字符; 你可以使用<keyname>告诉Vim一个特殊的按键。尝试如下命令：
+% 现在在键盘上按下Ctrl+d将执行dd命令。
+:map <c-d> dd
+
+
+### ======================================================= Vimscript 模式映射
+上一章中我们谈论了如何在Vim中映射按键。我们使用的命令map在normal模式下工作。 
+如果阅读本章之前你自己已经折腾了，可能会注意到这个映射在visual模式一样工作。
+% 你可以使用nmap、vmap和imap命令分别指定映射仅在normal、visual、insert模式有效。
+% 执行如下命令：
+:nmap \ dd
+% 在normal模式下，按下\。Vim会删除当前行。
+% 现在进入Visual模式，再次按下\。什么都不会发生，
+% 因为我们告诉了Vim这个映射仅在normal 模式下工作（同时\的默认行为是什么都不做）。
+
+
+% 进入visual模式并选中一些文字，按下\。Vim将把选中文本转换成大写格式。
+% 分别在normal模式和visual模式测试\按键，注意不同模式下的效应。
+:vmap \ U
+
+
+% 你可能猜想这个命令的作用是在insert模式下通过按键Ctrl+d删除整行。这个映射很实用， 
+% 因为你不必每次都要为了删除某些行而切回到normal模式。
+% 好的我们试一下。它并不如我们想象那般工作，而仅仅是在文件中添加了两个d字符！ 它压根就没用。
+% 问题就在于Vim只按我们说的做。这个例子中，我们说：“当我按下<c-d>时，相当于我 按了两次d”。
+% 而当你在insert模式下，按下两次d的作用就是输入两个字符d。
+:imap <c-d> dd
+
+
+% 要想让这个映射按我们的期望执行，我们需要更加明确的指令。修改映射并运行如下命令：
+:imap <c-d> <esc>dd
+% <esc>告诉Vim按下ESC按键，即退出insert模式。
+% 现在再试试这个映射。它能够正常工作，但是注意你是如何回到normal模式的。
+% 这是因为我们 告诉Vim<c-d>要退出insert模式并删除一行，但是我们没有告诉它再回到insert模式。
+
+% 运行如下命令，修复映射问题：
+:imap <c-d> <esc>ddi
+% 结尾的i告诉Vim进入insert模式，至此我们的映射才最终完成。
+
+
+
+
+### ======================================================= 非递归映射
+% 每一个*map系列的命令都有个对应的*noremap命令，
+% 包括：*noremap/nnoremap、 vnoremap和inoremap。
+% 这些命令将不递归解释映射的内容。
+% vim中键盘映射有三类：visual，insert和normal
+inoremap是用于insert模式的非递归映射，
+nnoremap是用于normal模式的非递归映射，
+vnoremap是用于visual模式的非递归映射.
+
+该何时使用这些非递归的映射命令呢？
+答案是： 任何时候 。
+是的，没开玩笑， 任何时候 。
+在安装插件或添加新的自定义映射时使用*map系列命令纯属是给自己 找 麻烦。 
+多敲几个字符以确保这个问题不会发生，救自己于火海。
+
+
+
+% 一个更为复杂的Mapping
+% 你已经见过很多简单的mappings了，是时候看看一些复杂的了。运行下面的命令：
+:nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+那是一个有趣的mappings！你自己可以先试试。
+进入normal模式，移动光标至一个单词， 输入<leader>"。Vim将那个单词用双引号包围！
+它是如何工作的呢？我们拆分这个映射并逐个解释：
+viw<esc>a"<esc>hbi"<esc>lel
+
+    viw: 高亮选中单词
+    <esc>: 退出visual模式，此时光标会在单词的最后一个字符上
+    a: 移动光标至当前位置之 后 并进入insert模式
+    ": 插入一个"
+    <esc>: 返回到normal模式
+    h: 左移一个字符
+    b: 移动光标至单词头部
+    i: 移动光标至当前位置之 前 并进入insert模式
+    ": 插入一个"
+    <esc>: 返回到normal模式
+    l: 右移一个字符，光标置于单词的头部
+    e: 移动光标至单词尾部
+    l: 右移一个字符，置光标位置在第一个添加的引号上
+% 记住：因为我们使用的是nnoremap而不是nmap，所以尽管你映射了字符序列中的字符 也不会有影响。
+% Vim会将其中的字符按默认功能执行。
+% 希望你能看出Vim mappings的潜能及随之引发的阅读困难。
+
+
+
+
+
+
+
+
+### ======================================================= Vimscript Leaders
+% 这就意味着你可以用一个你不常用的按键（如-）作为“前缀”，
+% 后接其它字符作为一个整体 进行映射。
+% 你需要多敲一个按键以执行这些映射，多一个按键而已，很容易就记住了。
+
+% 如果你也认为这是个好方法，我可以告诉你，Vim已经支持这种机制。
+% Leader，我们称这个“前缀”为“leader”。你可以按你的喜好设置你的leader键。运行命令：
+:let mapleader = "-"
+
+% 你可以替换-为你喜欢的按键。尽管会屏蔽一个有用的功能，但我个人使用的是,，因为这个键比较 比较容易按到。
+% 当你创建新的映射时，你可以使用<leader>表示“我设置的leader按键”。运行命令：
+:nnoremap <leader>d dd
+
+% 现在试试按下你的leader按键和d。Vim会删除当前行。
+% 然而为何每次都要繁琐的设置<leader>？为什么创建映射时不直接敲入你的“前缀”按键？ 原因主要有三个。
+% 首先，你某天可能会想要更换你的“leader”。在一个地方定义它使得更方便更换它。
+% 第二，其他人看你的~/.vimrc文件时，一旦看到<leader>就能够立即知道你的用意。
+% 如果他们 喜欢你的~/.vimrc配置，即使他们使用不同的leader也可以简单的复制你的映射配置。
+% 最后，许多Vim插件都会创建以<leader>开头的映射。如果你已经设置了leader，你会更容易上手 使用那些插件。
+
+
+
+Local Leader ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% Vim有另外一个“leader”成为“local leader“。
+% 这个leader用于那些只对某类文件 （如Python文件、HTML文件）而设置的映射。
+% 本书将在后续章节讲述如何为特定类型的文件创建映射，但你可以现在创建一个“localleader”：
+:let maplocalleader = "\\"
+
+% 注意我们使用\\而不是\，因为\在Vimscript中是转义字符。我们将在后续章节 讲到这个。
+% 现在你就可以在映射中使用<localleader>了，使用方法和<leader>一样（当然， 你要使用另外一个前缀）。
+% 如果你不喜欢反斜线，请随意更改它。
+
+
+
+### ======================================================= Vimscript Abbreviations
+% Vim有个称为"abbreviations"的特性，与映射有点类似，但是它用于insert、replace和 command模式。
+% 这个特性灵活且强大，不过本节只会谈及最常用的用法。
+% 本书只会讲述insert模式下的abbreviations。运行如下命令：
+:iabbrev adn and
+
+进入insert模式并输入：One adn two.
+在输入adn之后输入空格键，Vim会将其替换为and。
+
+% 诸如这样的输入纠错是abbreviations的一个很实用的用法。运行命令：
+:iabbrev waht what
+:iabbrev tehn then
+
+再次进入insert模式并输入： Well, I don't know waht we should do tehn.
+注意 两个 abbreviations的替换时机，第二个没有输入空格却也替换了。
+
+
+
+Keyword Characters
+
+紧跟一个abbreviation输入"non-keyword character"后Vim会替换那个abbreviation。 "non-keyword character"指那些不在iskeyword选项中的字符。
+运行命令： :set iskeyword?
+你将看到类似于iskeyword=@,48-57,_,192-255的结果。这个格式很复杂，但本质上 "keyword characters"包含一下几种：
+    下划线字符 (_).
+    所有字母字符，包括大小写。
+    ASCII值在48到57之间的字符（数字0-9）。
+    ASCII值在192到255之间的字符（一些特殊ASCII字符）。
+如果你想阅读这个选项格式的 完整 描述，你可以运行命令:help isfname，另外 阅读之前最好准备点吃的。
+你只要记住输入非字母、数字、下划线的字符就会引发abbreviations替换。
+更多关于abbreviations
+
+
+
+% Abbreviations不仅仅只能纠错笔误。我们可以加几个日常编辑中常用的abbreviations。 运行如下命令：
+:iabbrev @@    steve@stevelosh.com
+:iabbrev ccopy Copyright 2013 Steve Losh, all rights reserved.
+
+随意更换我的名字和邮箱地址为你的，然后试试这两个abbreviations吧~
+这些abbreviations将你常用的一长串字符压缩至几个字符，省的每次都要那么麻烦。
+Why Not Use Mappings? 为什么不用Mappings?
+不错，abbreviations和mappings很像，但是他们的定位不同。看个例子：
+
+% 运行命令：
+:inoremap ssig -- <cr>Steve Losh<cr>steve@stevelosh.com
+这个 mapping 用于快速插入你的签名。进入insert模式并输入ssig试试看。
+看起来一切正常，但是还有个问题。进入insert模式并输入如下文字：
+Larry Lessig wrote the book "Remix".
+
+注意到Vim将Larry名字中的ssig也替换了！mappings不管被映射字符串的前后字符是什么-- 它只在文本中查找指定的字符串并替换他们。
+运行下面的命令删除上面的mappings并用一个abbreviation替换它：
+
+:iunmap ssig
+:iabbrev ssig -- <cr>Steve Losh<cr>steve@stevelosh.com
+再次试试这个abbreviation。
+这次Vim会注意ssig的前后字符，只会在需要的时候替换它。
+
+
+
+% Exercises
+在你的~/.vimrc文件中为经常拼写错误的单词增加abbreviations配置。
+一定要使用 上一章中你创建的mappings来重新打开读取~/.vimrc文件。
+为你的邮箱地址、博客网址、签名添加abbreviations配置。
+为你经常输入的文本添加abbreviations配置。
+
+
+
+
+
+
+### =======================================================
+

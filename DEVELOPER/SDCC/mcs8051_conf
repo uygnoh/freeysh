@@ -1,0 +1,35 @@
+### ====================================================== stcflash 下载工具
+github.com/laborer/stcflash
+sudo apt install python-serial
+
+### =======================
+#include <mcs51/8051.h>
+void delay(unsigned int t)
+{
+    unsigned int a, b;
+    for (a = t; a > 0; a--)
+        for (b = 100; b > 0; b--);
+}
+
+int main(void)
+{
+    while (1) {
+        P0_0 = 0;
+        delay(1000);
+        P0_0 = 1;
+        delay(1000);
+    }
+}
+### =================================
+8051单片机编译 ｜ 可执行文件格式转换
+
+sdcc main.o -o main.ihx
+packihx main.ihx
+packihx main.ihx > main.hex
+
+sudo stcflash main.hex --prot /dev/ttyUSB0
+
+
+
+
+

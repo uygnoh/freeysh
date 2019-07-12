@@ -1,0 +1,143 @@
+### ===========================================================================
+线性表顺序存储结构上基本操作的实现
+
+#define LIST_INIT_SIZE 100
+#define LIST_INCREAMENT 10
+typedef int ElemType;
+typedef char Status;
+
+typedef struct SqList
+{
+    ElemType *elem;
+    int length;
+    int list_size;
+}SqList, *SqlListPtr;
+
+
+enum STATUS{success, fatal, range_error};
+
+### ===========================================================================
+1 初始化--创建线性表
+
+Status List_Init(SqListPtr L)
+{
+    Status s = success;
+    L->list_size = LIST_INIT_SIZE;
+    L->length = 0;
+    L->elem = (ElemType *)malloc(sizeof(ElemType)*L->list_size);
+    if (L->elem == NULL)
+        s=fatal;
+    return s;
+}
+
+
+
+### ===========================================================================
+2 查找----按位置
+
+Status List_Retrival(SqListPtr L, int pos, ElemType *elem)
+{
+    Status s = range_error;
+    if (L)
+    {
+        if ((pos-1) >= 0 && (pos-1) < L->length)
+        {
+            *elem = L->elem[pos-1];
+            s = success;
+        }
+    }
+    else
+        s = fatal;
+    return s;
+}
+
+
+
+### ===========================================================================
+2 查找----按值查找位置
+
+Status List_Locate(SqListPtr L, ElemType elem, int *pos)
+{
+    Status s = range_error;
+    if (L)
+    {
+        for (int i = 0; i < L->length; ++i)
+        {
+            if (L->elem[i] == elem)
+            {
+                *pos = i+1;
+                s = success;
+                break;
+            }
+        }
+    }
+    else s = fatal;
+    return s;
+}
+
+
+
+
+### ===========================================================================
+3 插入元素操作
+步骤:
+    (1) 检查插入位置是否合法,如果合法则继续,否则退出;
+    (2) 判表是否已占满;因为是事先分配空间,可能存在所分配
+        存储空间全部被占用的情况,此时也不能实现插入。
+    (3) 若前面检查通过则数据元素依次向后移动一个位置;为避
+        免覆盖原数据,应从最后一个向前依次移动。
+    (4) 新数据元素放到恰当位置;
+    (5) 表长加1。
+
+Status List_Insert(SqListPtr L, int pos, ElemType elem)
+{
+    Status s = range_error;
+    if ((pos-1) >= 0 && (pos-1) <= L->length)
+    {
+        if (L && L->length <L-> list_size )
+        {
+            for (int i = L->length-1; i >= pos-1; --i)
+            {
+                L->elem[i+1] = L->elem[i];
+            }
+            L->elem[pos-1 ] = elem;
+            L->length++;
+            s = success;
+        }
+    }
+    else s = fail;
+    return s;
+}
+
+
+
+### ===========================================================================
+4 删除元素操作
+步骤
+– (1) 检查删除位置是否合法;
+– (2) 若检查通过,数据元素依次向前移动一个位置;
+– (3) 表长减1。
+
+Status List_delete(SqListPtr L, int pos)
+{
+    Status s = range_error;
+    if ((pos-1) >= 0 && (pos-1) < L->length)
+    {
+        if(L && L->length > 0)
+        {
+            for (int i = pos ; i < L->length; ++i)
+            {
+                L->elem[i-1] = L->elem[i ];
+                L->length--;
+                s=success;
+            }
+        }
+    }
+    else s = fail;
+    return s;
+}
+
+
+
+
+

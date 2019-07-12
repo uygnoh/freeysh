@@ -1,0 +1,460 @@
+### ===========================================================================
+Portage 系统是 Gentoo 在软件管理方面最显著的创新之一。
+由于 Portage 的高度灵活性和数量庞大的功能，它时常被誉为 Linux 下最好的软件管理工具。
+Portage 是用 Python 和 Bash 两种语言编写的。因为它们都是脚本语言所以用户可以直接阅读它的代码。
+大多数用户通过 emerge 来调用 Portage。本章的内容不是复述 emerge 的 man page。
+要了解 emerge 的所有可用选项，请查阅 emerge 的 man page： man emerge
+
+
+
+### ===========================================================================
+Gentoo 软件仓库                                                Gentoo repository
+Ebuilds
+
+当 Gentoo 的文档介绍关于某个软件包的时候，这意味着 Gentoo 的用户们可以在 Gentoo 的软件仓库里找到它。
+ebuild 是一种包含了所有 Portage 维护软件（比如安装，搜索，查询等等）所需信息的文件，而 Gentoo 的软件仓库是它们的一个集合。
+这些 ebuild 文件默认储存在 /usr/portage。
+
+Portage 的对于软件的行为都是基于本地的 ebuild。为了能收到新的软件包，安全更新等等，时常更新本地 ebuild 是一件很重要的事情。
+
+
+### ===========================================================================
+更新 Gentoo 软件仓库                               Updating the Gentoo repository
+
+Gentoo 的软件仓库通常使用 rsync 进行同步，rsync 是一个快速的文件增量传输工具。
+要使用它很简单，Portage 的命令行前端 emerge 提供了一个调用 rsync 的方法：
+root #emerge --sync
+
+有时一些防火墙会干扰 rsync 与镜像们的连接。在这时，我们可以使用 emerge-webrsync 来自动下载和安装 Portage 树的快照版本：
+root #emerge-webrsync
+
+使用 emerge-webrsync 的另一个好处是可以只安装由 Gentoo release engineering 团队的 GPG 密钥签名过的快照。
+与此有关的详细信息可以在 fetching validated Gentoo repository snapshots 找到 
+
+
+
+
+### ===========================================================================
+维护软件                                                    Maintaining software
+
+搜索软件, Searching for software
+有很多方法可以在 Gentoo 的软件仓库寻找软件。其中之一是使用 emerge 本身。在默认情况下 emerge --search 会返回所有符合搜索条件的包名。
+举个例子，找出所有名字里含有 “pdf” 的包：
+user $emerge --search pdf
+
+如果要根据描述进行搜索，可以使用 --searchdesc （或 -S）选项:
+user $emerge --searchdesc pdf
+
+需要注意的是它会输出很多信息。不过由于都有很清楚的标识，我们就不再赘述它们的意思了： 
+CODE Example output for a search command
+*  net-print/cups-pdf
+      Latest version available: 1.5.2
+      Latest version installed: [ Not Installed ]
+      Size of downloaded files: 15 kB
+      Homepage:    http://cip.physik.uni-wuerzburg.de/~vrbehr/cups-pdf/
+      Description: Provides a virtual printer for CUPS to produce PDF files.
+      License:     GPL-2
+
+
+
+### ===========================================================================
+安装软件                                                    Installing software
+
+当你找到了软件包的名字，安装它只需要简单得使用 emerge。举个例子，如果要安装 gnumeric：
+root #emerge --ask app-office/gnumeric
+
+由于很多软件依赖其它的软件，在安装该软件的同时很可能还会安装它的一些以来。不要担心，Portage 可以很好得处理依赖关系。
+如果要知道 Portage 会安装什么软件，可以在命令中加入 --pretend 选项。举个例子：
+root #emerge --pretend gnumeric
+
+在安装软件期间，Portage将从Internet下载必要的源代码（如果需要），并将其默认存储在 /usr/portage/distfiles/中。 
+之后，它将解压缩，编译和安装包。 要让Portage仅下载源代码而不安装软件，请添加--fetchonly选项到emerge命令：
+root #emerge --fetchonly gnumeric
+
+
+
+### ===========================================================================
+查找已安装软件的文档                       Finding installed package documentation
+
+许多软件包中包含有自己的文档，有些时候，doc的USE标记决定了软件包中的自带文档是否会被安装。
+您可以通过 emerge -vp category/包，名命令来检查是否存在doc USE 标志：
+root #emerge -vp media-libs/alsa-lib
+These are the packages that would be merged, in order:
+Calculating dependencies... done!
+[ebuild   R    ] media-libs/alsa-lib-1.1.3::gentoo  USE="python -alisp -debug -doc" ABI_X86="(64) -32 (-x32)" PYTHON_TARGETS="python2_7" 0 KiB
+最好的启用 doc USE 的方式是在 /etc/portage/package.use里对想要启用的包单独启用，这样你就能只获得你想要的软件文档。
+了解更多信息请阅读 USE flags chapter。
+
+
+当一个软件包安装结束后，它的文档通常会存放在/usr/share/doc/目录下的，以软件包名命名的子目录中：
+user $ls -l /usr/share/doc/alsa-lib-1.1.3
+total 16
+-rw-r--r-- 1 root root 3098 Mar  9 15:36 asoundrc.txt.bz2
+-rw-r--r-- 1 root root  672 Mar  9 15:36 ChangeLog.bz2
+-rw-r--r-- 1 root root 1083 Mar  9 15:36 NOTES.bz2
+-rw-r--r-- 1 root root  220 Mar  9 15:36 TODO.bz2
+
+
+
+列出已安装文档文件的更可靠方法是使用 equery 的 --filter 选项。 
+equery 用于查询Portage的数据库，并作为 app-portage/gentoolkit 包的一部分：
+user $equery files --filter=doc alsa-lib
+ * Searching for alsa-lib in media-libs ...
+ * Contents of media-libs/alsa-lib-1.1.3:
+/usr/share/doc/alsa-lib-1.1.3/ChangeLog.bz2
+/usr/share/doc/alsa-lib-1.1.3/NOTES.bz2
+/usr/share/doc/alsa-lib-1.1.3/TODO.bz2
+/usr/share/doc/alsa-lib-1.1.3/asoundrc.txt.bz2
+--filter 选项可与其他规则一起使用，以查看许多其他类型文件的安装位置。
+可以在 equery 的手册中查看其他功能: man 1 equery。 
+
+
+
+### ===========================================================================
+卸载软件                                                       Removing software
+
+当您想把一个软件包从系统中移除的时候，使用 emerge --unmerge命令。
+命令执行完成后，Portage将会移除此软件包安装到您系统中的所有文件，除了那些在安装软件后您修改过的配置文件。
+保留这些修改过的配置文件是为了便于您今后再次使用它。
+
+警告
+不过，您需要特别注意的是：Portage将不会检查您要删除的包是否仍被其他的包依赖。
+但是当您要删除一个可能破坏您系统的重要的软件包时，它还是会给予警告。
+root #emerge --unmerge gnumeric
+
+当您从系统中移除一个软件包时，之前那些为了满足其依赖关系而被自动安装的软件包将会被保留在系统中。
+要使Portage找到现在可以删除的所有依赖项，可以使用 --depclean 功能。稍后我们将介绍这一点。
+
+
+
+### ===========================================================================
+更新系统                                                     Updating the system
+
+要保持您的系统在最佳状态（更不用说安装那些最新的安全更新），您需要定期的更新您的系统。
+由于Portage只能检查本地已有文件，因此您首先应该更新您的Portage树。
+当您的Portage树更新后，您可以用 emerge --update @world命令来更新系统。
+在下一个例子里，我们还会使用 --ask 选项来控制Portage显示它要更新的软件包列表， 并让您决定是否继续更新。
+root #emerge --update --ask @world
+
+
+Portage将搜索已安装的程序的新版本。 
+但是，它只会验证安装的应用程序在/var/lib/portage/world- 中列出的应用程序的版本 - 它不会检查它们的依赖关系。
+要更新这些包的依赖关系，请添加 --deep选项：
+root #emerge --update --deep @world
+
+
+但是，这并不意味着更新所有的包：在编译和构建程序的过程中需要系统上的一些依赖程序，但是一旦安装了这些软件，就不再需要这些依赖。 
+Portage调用那些“构建依赖”。 要在更新这些内容，请添加--with-bdeps=y：
+root #emerge --update --deep --with-bdeps=y @world
+因为有时开发者会为那些您没有明确要求安装（但被其他软件包依赖而装入系统中）的包推出安全更新，我们也推荐偶尔运行一下这个命令。
+
+
+每当您改变了系统中任何的USE标记后，最好加入--newuse选项。
+这样Portage将会验证这个USE标记的变动是否导致需要安装新的软件包或者将现有的包重新编译。
+root #emerge --update --deep --with-bdeps=y --newuse @world
+
+
+
+### ===========================================================================
+Meta软件包                                                         Metapackages
+
+Gentoo中的一些软件包并没有包含任何实际的内容，而只是用来安装一系列软件包的集合。
+例如，kde-plasma/plasma-meta 包就是一个包含了一系列与Plasma相关的互相依赖的软件包的集合，
+您可以通过安装它来在系统中搭建起一个完整的KDE Plasma 桌面环境。
+
+如果您试图从系统中移除一个这样的软件包的集合体，
+只是单纯地使用 emerge --unmerge 命令并不能完成您的要求，原因在于这些包的依赖关系仍然保留在系统中。
+
+不用担心，Portage也提供了移除孤立依赖的软件包的功能，但由于软件包间的依赖关系是动态的，
+您首先需要充分地更新您的整个系统，包括更改USE标记设定而导致的变化。
+在这之后您可以运行emerge --depclean来移除那些完全没有被其他包依赖的软件包。
+移除之后你需要重新编译那些曾经与刚刚移除的这些包动态连接过的应用程序，因为实际上这些程序不需要那些包。
+
+所有这些可以用以下三个命令来实现：
+root #emerge --update --deep --newuse @world
+root #emerge --depclean
+root #revdep-rebuild
+
+revdep-rebuild工具由 app-portage/gentoolkit 包提供；使用前别忘了首先安装它：
+root #emerge --ask app-portage/gentoolkit
+
+
+
+
+### ===========================================================================
+授权协议                                                                Licenses
+
+从Portage版本2.1.7开始，可以根据其授权协议接受或拒绝安装软件。 
+portage 树中的所有包在其ebuild中包含一个LICENSE选项。 运行emerge --search package/category 将显示软件包的许可证。
+
+默认情况下，Portage允许所有授权协议，除了需要阅读和签署接受协议的“最终用户许可协议（EULA）”。
+
+控制允许的许可证的变量称为ACCEPT_LICENSE，可以在/etc/portage/make.conf文件中设置。 
+在下一个示例中，将显示他的默认值：
+
+vim /etc/portage/make.confThe default ACCEPT_LICENSE setting
+    ACCEPT_LICENSE="* -@EULA"
+
+使用此配置，在安装期间需要进行人机交互以接受其EULA的软件包将无法安装。 不带EULA的软件包将可安装。
+
+可以在ACCEPT_LICENSE中全局设置t ACCEPT_LICENSE，或者在/etc/portage/package.license 文进行配置。
+
+举个例子，要允许www-client/google-chrome 包的google-chrome的授权协议， 
+把下面的内容添加到 /etc/portage/package.license:
+vim /etc/portage/package.license        ### 接受www-client/google-chrome 包的 google-chrome 的授权协议
+    www-client/google-chrome google-chrome
+
+这允许安装www-client/google-chrome 程序包，但禁止安装www-plugins/chrome-binary-plugins 程序包，
+即使它具有相同的 授权协议。
+
+
+重要!
+授权协议存储在 /usr/portage/licenses/ ，授权协议组在/usr/portage/profiles/license_groups 里面。
+CAPITAL字母中每行的第一个条目是许可证组的名称，之后的每个条目都是单独的许可证。
+
+在 ACCEPT_LICENSE 变量中定义的许可证组前缀为@ 符号。 如果要设置成只允许安装自由软件和文档，要完成此操作：删除所有当前接受的许可证（使用(using -*)），然后只允许FREE组中的许可证如下：
+vim /etc/portage/make.conf      ### 只接受自由软件或文档
+    ACCEPT_LICENSE="-* @FREE"
+
+在这种情况下，“free”主要由 FSF 和 OSI 定义。 任何其许可证不符合这些要求的软件包将无法在系统上安装。 
+
+
+
+
+
+### ===========================================================================
+当Portage报错的时候                                  When Portage is complaining
+简介, Terminology
+
+正如我们之前指出的那样，Portage是一个非常强大并支持许多特性的软件包管理工具，而这是其他类似工具所欠缺的。
+为了理解这一点，我们为您粗略地解释一些Portage的面貌。
+
+通过使用Portage，一个软件的不同版本可以共存于一个系统中。
+其他发行版倾向于直接在软件包名字中包含版本号（例如freetype 和 freetype2），
+Gentoo的Portage使用一种我们称之为SLOT'的技术来实现这种并存。
+一个ebuild为它自身的版本声明了一个确切的SLOT。具有不同SLOT的同一软件的Ebuild可以共存于同一个系统中。
+例如，上例中那个freetype包就拥有不同的ebuilds，里面分别有 SLOT="1" 和SLOT="2"的标志
+
+有一些不同的软件包提供了类似的功能。比如metalogd，sysklogd和syslog-ng都是系统日志记录工具。
+那些依赖于“系统日志记录工具”的程序并不能随便的依赖于其中之一，比如metalogd。
+因为其他的系统日志工具可能也是很好的选择。
+好在Portage允许使用虚拟包：每一个系统日志记录工具都可以提供virtual/logger包，
+因此应用程序们可以设定成仅仅依赖于virtual/syslog即可。
+
+Portage树中的软件可以存在于不同的分支中。
+您的系统默认只会接受那些Gentoo认为稳定的软件包。
+绝大多数新提交的软件会被添加到测试分支里。
+这意味着在此软件被标示为稳定版前需要进行更多的测试。
+尽管您可以看到那些软件的ebuilds已经加入Portage数据库，
+在它们未被加入稳定分支前Portage将不会安装它们。
+
+有些软件只能在某几个体系结构上使用。或者在其他体系结构中还不能运行，或者仍需要对其进行更多的测试，
+或者将软件提交到Portage树中的开发者还不能确定这个软件能否运行于其他体系结构。
+
+每一个Gentoo安装都依附于一个确定的profile，此文件里除了其他信息外还包含了一个正常工作的系统需要的软件包的列表。
+
+
+### ===========================================================================
+被阻挡的包                                                       Blocked packages
+
+Portage关于被阻挡的包的警告(使用 --pretend参数)
+[blocks B     ] mail-mta/ssmtp (is blocking mail-mta/postfix-2.2.2-r1)
+
+
+Portage warning about blocked packages (without --pretend)
+!!! Error: the mail-mta/postfix package conflicts with another package.
+!!!        both can't be installed on the same system together.
+!!!        Please use 'emerge --pretend' to determine blockers.
+
+Ebuilds文件中包含了特定的字段，里面为Portage提供了此软件的各种依赖关系的信息。
+总计有两种可能的依赖关系：一种是编译依赖，在 DEPEND 区域进行声明;另一种是“运行时”依赖，在 DEPEND 区域中进行声明。
+如果上述两种依赖关系中任何一个明确指明某个实体或者虚拟包（译注：可能已安装和正要安装）与要安装的包不相容的时候，就会阻挡软件的安装。
+
+虽然Portage的最新版本足够聪明，可以在没有用户干预的情况下解决轻微的问题，但偶尔也需要手动解决此类问题。
+
+为了使安装得以继续进行，您可以选择不安装这个软件包，或者先将发生冲突的包卸载。
+例如，在我们给出的这个例子中，您可以选择不安装postfix，或者先卸载ssmtp。
+
+你也可能会遇到某些特定版本的包被屏蔽的情况，
+比如<media-video/mplayer-1.0_rc1-r2。在这种情况下，升级到一个更新的版本就能解决问题。
+
+也有可能两个需要安装的包互相阻挡。
+这种少见的情况下，您应该明确自己为什么需要同时安装它们。绝大多数时候您只需要安装它们之中的一个就可以了。
+如果不是这样，请您到 Gentoo's bugtracking system 中提交一个bug。
+
+
+### ===========================================================================
+被屏蔽的包                                                       Masked packages
+
+Portage关于被阻挡的包的警告
+!!! all ebuilds that could satisfy "bootsplash" have been masked.
+
+
+PPortage关于被屏蔽的包的警告——原因
+!!! possible candidates are:
+- gnome-base/gnome-2.8.0_pre1 (masked by: ~x86 keyword)
+- lm-sensors/lm-sensors-2.8.7 (masked by: -sparc keyword)
+- sys-libs/glibc-2.3.4.20040808 (masked by: -* keyword)
+- dev-util/cvsd-1.0.2 (masked by: missing keyword)
+- games-fps/unreal-tournament-451 (masked by: package.mask)
+- sys-libs/glibc-2.3.2-r11 (masked by: profile)
+- net-im/skype-2.1.0.81 (masked by: skype-eula license(s))
+
+当您想安装一个对于您系统不可用的软件包。
+您会收到类似这样的屏蔽错误提示。
+您应该试着安装那些对于您系统可用的程序或者等待那些不可用的包被置为可用的。
+通常一个软件包被屏蔽的原因在于：
+Reason for mask                 Description
+~arch keyword                   这个软件没有经过充分的测试，不能进入稳定分支，请等待一段时间后在尝试使用它。
+-arch keyword or -* keyword     这个软件不能工作在您机器的体系结构中。
+                                如果您确信它能工作那么请到我们的bugzilla网站提交一个bug报告。
+                                
+missing keyword                 这个软件还没有在您机器的体系结构中进行过测试。
+                                您可以咨询相应体系结构移植小组是否能对它进行测试，
+                                或者您自己为他们进行这样的测试并将您得到的结论提交到我们的bugzilla网站。
+                                
+package.mask 	                这个软件被认为是损坏的，不稳定的或者有更严重的问题，它被故意标识为“不应使用”。
+
+profile 	                    这个软件不适用于您的profile。安装这样的应用软件可能会破坏您的系统，
+                                或者只是不能与您使用的profile相兼容。
+                                
+license                         这个包的许可证的ACCEPT_LICENSE值不正确。 
+                                通过设置许可证或正确的许可证组来允许其许可证:
+                                /etc/portage/make.conf或 /etc/portage/package.license
+
+
+### ===========================================================================
+USE必要的更改                                         Necessary USE flag changes
+
+Portage 提示 USE 标志需要进行更改
+The following USE changes are necessary to proceed:
+#required by app-text/happypackage-2.0, required by happypackage (argument)
+>=app-text/feelings-1.0.0 test
+
+
+如果未使用--autounmask参数，则错误消息也可能显示如下：
+    Portage 提示USE标志设置错误
+emerge: there are no ebuilds built with USE flags to satisfy "app-text/feelings[test]".
+!!! One of the following packages is required to complete your request:
+- app-text/feelings-1.0.0 (Change USE: +test)
+(dependency required by "app-text/happypackage-2.0" [ebuild])
+(dependency required by "happypackage" [argument])
+
+当请求安装包时，发生这种警告或错误，这不仅取决于另一个包，而且还要求该包使用特定的USE标志（或一组USE标志）构建。 
+在给定的示例中，包应用文本/感觉需要使用 USE="test"构建，但此系统上未设置此USE标志。
+
+要解决这个问题， 到/etc/portage/make.conf编辑里面的USE标志, 或者去/etc/portage/package.use设置一个特殊的包.
+
+
+
+### ===========================================================================
+缺失依赖                                                    Missing dependencies
+
+Portage提示依赖性不满足
+emerge: there are no ebuilds to satisfy ">=sys-devel/gcc-3.4.2-r4".
+  
+!!! Problem with ebuild sys-devel/gcc-3.4.2-r2
+!!! Possibly a DEPEND/*DEPEND problem.
+
+这表示您正尝试安装的应用程序依赖于您的系统不可用的另外一些软件包。
+请到bugzilla查看是否有此问题的记录，如果没有查找到相关信息的话请提交一个报告。
+除非您的系统混用了不同分支，否则这类问题不应该发生，若发生了那就是一个bug。
+
+
+### ===========================================================================
+意指不明的软件包                                            Ambiguous ebuild name
+
+Portage对于意指不明的Ebuild名称的警告
+[ Results for search key : listen ]
+[ Applications found : 2 ]
+  
+*  dev-tinyos/listen [ Masked ]
+      Latest version available: 1.1.15
+      Latest version installed: [ Not Installed ]
+      Size of files: 10,032 kB
+      Homepage:      http://www.tinyos.net/
+      Description:   Raw listen for TinyOS
+      License:       BSD
+  
+*  media-sound/listen [ Masked ]
+      Latest version available: 0.6.3
+      Latest version installed: [ Not Installed ]
+      Size of files: 859 kB
+      Homepage:      http://www.listen-project.org
+      Description:   A Music player and management for GNOME
+      License:       GPL-2
+  
+!!! The short ebuild name "listen" is ambiguous. Please specify
+!!! one of the above fully-qualified ebuild names instead.
+
+您要安装的应用程序对应有多个同名的包。您需要同时指定类别的名称。Portage会列出所有可供选择的名称匹配的包。 
+
+
+### ===========================================================================
+循环依赖                                                   Circular dependencies
+
+Portage关于循环依赖问题的警告
+!!! Error: circular dependencies: 
+  
+ebuild / net-print/cups-1.1.15-r2 depends on ebuild / app-text/ghostscript-7.05.3-r1
+ebuild / app-text/ghostscript-7.05.3-r1 depends on ebuild / net-print/cups-1.1.15-r2
+
+两个（或多个）您想安装的包由于循环依赖而不能安装。这很可能源于Portage树中的bug。
+请等一段时间后重新sync再尝试安装。您也可以去 Bugzilla 看看是否已经有此问题的报告，或者提交一个关于它的报告。 
+
+
+
+### ===========================================================================
+下载失败                                                             Fetch failed
+
+Portage关于下载失败的警告
+!!! Fetch failed for sys-libs/ncurses-5.4-r5, continuing...
+(...)
+!!! Some fetch errors were encountered.  Please see above for details.
+
+当Portage下载指定软件的源代码失败时，它会尝试继续安装其它（若适用）的应用程序。
+源代码下载失败可能源于镜像服务器没有正确同步，也可能因为ebuild文件给出了错误的下载地址。
+那些保存源代码的服务器也可能因为某些原因宕机。
+
+一小时后重试一次，看看问题是否仍然存在。 
+
+
+### ===========================================================================
+系统Profile保护                                        System profile protection
+
+Portage关于profile中保护的包的警告
+!!! Trying to unmerge package(s) in system profile. 'sys-apps/portage'
+!!! This could be damaging to your system.
+
+您要求移除系统核心软件包中的一个。它是您的profile中所列出的必需的软件，因此不能从系统中移除。 
+
+
+### ===========================================================================
+Digest验证失败                                      Digest verification failure
+
+Digest验证失败
+>>> checking ebuild checksums
+!!! Digest verification failed:
+
+这是Portage树中出现了错误的迹象，通常是由于将ebuild提交到Gentoo ebuild存储库时出错造成的。
+
+当digest校验失败的时候，请不要尝试自己去为此软件包重新产生digest。使用ebuild foo manifest 并不能修复问题，反而很可能会使问题变得更糟。
+
+取而代之的应该是等待一至两个小时以便让软件仓库安定下来。一般来说错误很有可能马上就会被注意到，
+但是修复程序可能需要一点时间来逐步扫描rsync镜像。
+当您等待的时候，到Bugzilla或者#gentoo (IRC)看看是否已经有人报告了这个问题。
+如果没有，那就为那个损坏的ebuild提交一个bug报告吧。
+
+修复错误后，重新同步Gentoo ebuild仓库以获取修复的digest。 
+
+
+### ===========================================================================
+ 重要
+值得注意的是：不要每天多次同步Gentoo ebuild repository 仓库。
+正如（当您运行emerge --sync时）Gentoo官方网络礼节策略所指出的那样，
+那些短时间内过于频繁进行多次sync的用户将会被更新服务器软封禁一段时间，
+一再不遵守这一政策的滥用者可能会被硬封禁。除非绝对必要，否则通常最好等待24小时再进行同步，
+因为这样您不会使Gentoo的rsync镜像服务器过载而影响其他用户的正常使用。
+
+
+

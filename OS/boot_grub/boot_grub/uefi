@@ -1,0 +1,10 @@
+### ===========================================================================
+https://wiki.archlinux.org/index.php/GRUB#Installation_2
+
+UEFI    Unified Extensible Firmware Interface，统一可扩展固件界面，提供了启动操作系统的标准环境
+ESP     EFI System Partition，EFI分区
+GPT     GUID Partition Table，GUID分区表，是UEFI标准的一部分，使用GUID/UUID来标识分区等
+
+
+efibootmgr->Tool to modify UEFI Firmware Boot Manager Variables
+

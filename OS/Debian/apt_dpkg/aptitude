@@ -1,0 +1,45 @@
+### ===========================================================================
+aptitude 是 Debian GNU/Linux 系统中, 非常神奇的的软件包管理器,基于大名鼎鼎的APT机制, 
+整合了 dselect 和 apt-get的所有功能, 并提供的更多特性,特别是在依赖关系处理上
+
+
+
+### ===========================================================================
+命令	                        作用
+aptitude update             更新可用的包列表
+aptitude safe-upgrade       执行一次安全的升级
+aptitude full-upgrade       将系统升级到新的发行版
+aptitude install pkgname    安装包
+aptitude remove pkgname     删除包
+aptitude purge pkgname      删除包及其配置文件
+aptitude search string      搜索包
+aptitude show pkgname       显示包的详细信息
+aptitude clean              删除下载的包文件
+aptitude autoclean          仅删除过期的包文件
+
+
+### ===========================================================================
+aptitude软件包列表中的软件包状态:
+    v虚拟
+    B损坏
+    u解包
+    C预配置
+    H预安装
+    c卸载未清除
+    p清除软件包
+    i已经安装
+    E内部错误
+
+### ===========================================================================　　
+在aptitude软件包列表中的请求操作:
+    h保持
+    p清除
+    d删除（卸载）
+    B损坏
+    i安装
+    r重装
+    u升级
+
+
+
+

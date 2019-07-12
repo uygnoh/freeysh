@@ -1,0 +1,6 @@
+### =========================================================================
+RGB, 1#19CAAD, 2#D1BA74, 3#F4606C, 4#ECAD9E, #00FF00绿色
+vim配色方案 /usr/share/vim/vim80/colors/
+1   :colorscheme slate,
+2   :colorscheme delek
+

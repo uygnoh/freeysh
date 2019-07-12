@@ -1,0 +1,154 @@
+#### ========================================================== 利用 vim/vi 加密： 
+优点：加密后，如果不知道密码，就看不到明文，包括root用户也看不了；
+缺点：很明显让别人知道加密了，容易让别人把加密的文件破坏掉，包括内容破坏和删除；
+
+vi编辑器相信大家都很熟悉了吧，vi里有一个命令是给文件加密的，举个例子吧:
+1） 首先在root主目录/root/下建立一个实验文件text.txt：
+    [root@www ~]# vim/vi text.txt
+2） 进到编辑模式，输入完内容后按ESC，然后输入:X（注意是大写的X），回车；
+3） 这时系统提示让你输入密码，2次，如下所示：
+    输入密码: *******
+    请再输入一次: *******
+4） 保存后退出，现在这个文件已经加密了；
+5） 用cat或more查看文件内容，显示为乱码；用 vim/vi 重新编辑这个文件，
+   会提示输入密码，如果输入的密码不正确，同样会显示为乱码！
+注意：文件加密后，千万别忘了密码！
+___________________________________________
+二、 解密用vi加密的文件（前提是你知道加密的密码）：
+1） 用 vim/vi 打开文件如text.txt，要输入正确的密码，
+   然后在编辑时，将密码设置为空，方法是输入下面的命令：
+  ：set key=
+然后直接回车，保存文件后，文件已经解密了。
+2） 或者这样也行：
+在正确打开文件后用 “:X” 指令，然后给一个空密码也可以。保存用“wq!”保存。
+两种方法实际上效果是一样的。
+
+
+
+
+
+
+#### =================================================================ＺＩＰ加密
+
+1）文件加密
+使用命令"zip -e filename.zip filename" 即可出现输入密码的提示，输入2次密码。 
+此文件即被加密解压时候是需要密码的
+_______________________________
+下面开始为test.txt文件进行加密
+[root@centos6-vm02 ~]# cat test.txt
+this is a test!!!
+[root@centos6-vm02 ~]# zip -e test.txt.zip test.txt   //如下进行加密操作时，需要输入两次密码
+Enter password:                          
+Verify password:
+  adding: test.txt (stored 0%)
+[root@centos6-vm02 ~]# ls
+test.txt  test.txt.zip
+___________________________
+2)进行解压的时候，需要输入密码
+[root@centos6-vm02 ~]# rm -f test.txt
+[root@centos6-vm02 ~]# unzip test.txt.zip
+Archive:  test.txt.zip
+[test.txt.zip] test.txt password:
+ extracting: test.txt               
+[root@centos6-vm02 ~]# cat test.txt
+this is a test!!!
+
+____________
+2）文件夹加密
+使用命令"zip -re dirname.zip dirname"即可出现输入密码的提示，输入2次密码。 
+此文件即被加密解压时候是需要密码的。
+	
+下面开始对目录进行加密
+[root@centos6-vm02 ~]# mkdir dirtest
+[root@centos6-vm02 ~]# cat dirtest/haha.txt
+this is test of dir!!!
+[root@centos6-vm02 ~]# zip -re dirtest.zip dirtest
+Enter password:
+Verify password:
+  adding: dirtest/ (stored 0%)
+  adding: dirtest/haha.txt (stored 0%)
+_____________________________________
+解压目录时需要输入密码
+[root@centos6-vm02 ~]# rm -rf dirtest
+[root@centos6-vm02 ~]# unzip dirtest.zip
+Archive:  dirtest.zip
+   creating: dirtest/
+[dirtest.zip] dirtest/haha.txt password:
+ extracting: dirtest/haha.txt       
+[root@centos6-vm02 ~]# ls dirtest
+haha.txt
+[root@centos6-vm02 ~]# cat dirtest/haha.txt
+this is test of dir!!!
+_______________________________________________________________________________
+使用zip，创建加密的zip文件(几个文件组合在一起)。
+$ zip --password mypassword tecmint.zip tecmint.txt tecmint1.1txt tecmint2.txt
+这里，mypassword是用来加密文件所用的密码。
+创建的归档文件名称为tecmint.zip，压缩文件包括tecmint.txt、tecmint1.txt和tecmint2.txt。
+使用unzip，解密密码保护的压缩文件。
+$ unzip tecmint.zip
+
+
+
+
+#### ==========================================================================Openssl
+openssl是一个命令行加密工具包，可以用来加密文件及加密消息。
+如果openssl之前还没有安装，你需要安装它。
+$ sudo apt-get install openssl
+_______________________________________________________________________________
+使用openssl加密，加密文件。
+$ openssl enc -aes-256-cbc -in ~/Desktop/Tecmint/tecmint.txt -out ~/Desktop/Tecmint/tecmint.dat
+_______________________________________________________________________________
+使用Openssl，加密文件
+上述命令中所用的每个选项解释如下。
+enc             ：加密
+-aes-256-cbc    ：所使用的算法
+-in             ：待加密文件的完整路径。
+-out            ：将被解密所在的完整路径。
+_______________________________________________________________________________
+使用openssl，解密文件。
+$ openssl enc -aes-256-cbc -d -in ~/Desktop/Tecmint/tecmint.dat > ~/Desktop/Tecmint/tecmint1.txt
+
+
+
+
+
+
+#### ==========================================================================７-ＺＩＰ
+
+
+
+### ======================================================== GnuPG加密
+
+GnuPG的全称是GNU隐私保护(GNU Privacy Guard)，常常被称为GPG，它结合了一组加密软件。
+它是由GNU项目用C编程语言编写的。最新的稳定版本是2.0.27。
+在如今的大多数Linux发行版中，gnupg程序包都是默认随带的，
+所以万一它没有安装，你可以使用apt或yum从软件库来安装它（yum install gnupg）。
+% 注意：gpg只能对文件进行加密，对目录则无法完成加密！
+
+	
+% 下面开始使用GnuPG方式对test.txt文件进行加密
+[root@centos6-vm02 ~]# cat test.txt
+                       this is a test!!!
+[root@centos6-vm02 ~]# gpg -c test.txt   
+can't connect to `/root/.gnupg/S.gpg-agent': No such file or directory         //这个信息可以忽略
+% 注意：如上加密的时候，会弹出来一个对话框，要求Paraphrase输入两次密码，对这个特定的文件进行加密。%
+% 一旦运行带-c选项(完全使用对称密码算法加密)的gpg命令，它会生成一个文件.gpg文件。
+[root@centos6-vm02 ~]# ll test.txt*
+-rw-r--r--. 1 root root 18 Jan  4 10:08 test.txt
+-rw-r--r--. 1 root root 61 Jan  4 10:04 test.txt.gpg
+ 
+% 对文件进行加密后，最好将源文件删除！不要再保留源文件了！
+[root@centos6-vm02 ~]# rm -f test.txt
+==================================================
+%文件解密操作。
+注意出现Paraphrase提示时，需要提供加密时输入的同一个密码才能解密
+[root@centos6-vm02 ~]# gpg test.txt.gpg  
+gpg: 3DES encrypted data
+can't connect to `/root/.gnupg/S.gpg-agent': No such file or directory
+gpg: encrypted with 1 passphrase
+gpg: WARNING: message was not integrity protected
+[root@centos6-vm02 ~]# ll test.txt*
+-rw-r--r--. 1 root root 18 Jan  4 10:08 test.txt
+-rw-r--r--. 1 root root 61 Jan  4 10:04 test.txt.gpg
+[root@centos6-vm02 ~]# cat test.txt
+this is a test!!!

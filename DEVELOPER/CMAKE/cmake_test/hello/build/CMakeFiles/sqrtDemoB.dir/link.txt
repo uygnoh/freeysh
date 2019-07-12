@@ -1,0 +1,1 @@
+/usr/bin/cc     CMakeFiles/sqrtDemoB.dir/src/main.c.o  -o bin/sqrtDemoB -rdynamic 

@@ -1,0 +1,9 @@
+0.96寸OLED双色显示屏 SPI接口
+
+电源地		GND
+电源正 3.3~5	Vcc
+SPI_CLK		D0
+SPI_MOSI	D1
+普通IO		RES
+普通IO		DC
+SPI_NSS		CS

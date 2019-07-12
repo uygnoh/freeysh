@@ -1,0 +1,52 @@
+### ===========================================================================
+su -
+cat /proc/cpuinfo |grep processor
+
+
+
+### ===========================================================================
+vi /etc/portage/make.conf
+vi /etc/locale.gen
+    en_US.UTF-8 UTF-8
+locale-gen
+
+
+
+### ===========================================================================
+emerge sudo
+time emerge openssh
+vi /etc/sudoers
+    %wheel ALL=(ALL) ALL
+    
+sudo su -
+ 
+
+### ===========================================================================
+time emerge --ask x11-base/xorg-drivers
+Would you like merge these packages? [Yes/No] yes
+
+time emereg --quiet x11-base/xorg-server
+
+env-update
+
+time emerge --quiet sddm
+
+time emerge cpuid2cpuflags
+cpuid2cpuflags-x86
+
+cpuid2cpuflags-x86 >> /etc/portage/make.conf
+cat /etc/portage/make.conf
+
+
+### ===========================================================================
+time emerge --quiet kde-frameworks/plasma
+time emerge --quiet xterm
+
+vi /etc/conf.d/xdm
+    DIPLAYMANAGER="sddm"
+
+rc-update add xdm default
+reboot
+
+### ===========================================================================
+

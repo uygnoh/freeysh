@@ -1,0 +1,70 @@
+### ===========================================================================
+# dependence 1 依赖
+%.o: %.cpp
+	${CC} ${CFLAGS} ${INCLUDES} -c $< -o $@
+%.o: %.c
+	${CC} ${CFLAGS} ${INCLUDES} -c $< -o $@	
+
+# dependence 2 依赖
+.c.o:
+	${CC} ${CFLAGS} ${INCLUDES} -c $< -o $@
+
+# dependence 3 依赖
+.c.o:
+	${CC} ${CFLAGS} ${INCLUDES} -c $< 
+
+
+### ===========================================================================
+命令行中“$<”和“$@”是自动化变量,
+“$<”表示规则中的第一个依赖文件,“$@”表示规则中的目标文件。
+上边的这个规则描述了
+以下两个具体的规则:
+foo.o : foo.c
+	$(CC) -c $(CFLAGS) foo.c -o foo.o
+bar.o : bar.c
+	$(CC) -c $(CFLAGS) bar.c -o bar.o
+
+
+
+
+
+### =================================================================== function
+TOP=$(shell readlink -f "$(dir $(lastword $(MAKEFILE_LIST)))")
+
+功能： 返回（最近的）Makefile 真实绝对的路径 
+讲解：
+首先$(MAKEFILE_LIST) 会返回最近使用的Makefile文件
+（如果使用了include 包含了一个Makefile文件那么返回就是这个被include 包含的Makefile文件的路径，
+如果没有使用include 那么返回的是正在使用的Makefile文件所在的绝对路径）
+
+lastword这个函数表示提取最后一个MAKEFILE_LIST列表里的最后一个元素。
+元素与元素之间是以空格符分开。 $(lastword $(MAKEFILE_LIST)) 表示提取最后一个Makefile
+从文件名序列<names>中取出目录部分。目录部分是指最后一个反斜杠（“/”）之前的部分。如果没有反斜杠，那么返回“./”。
+最后使用readlink -f 返回绝对路径
+$(readlink -f .)	获得当前目录的真实路径
+$(readlink -f ../..	获得上上一级目录的真实路径
+
+
+
+### =============================================================== makefile 赋值
+ =  是最基本的赋值
+:=  是覆盖之前的值
+?=  是如果没有被赋值过就赋予等号后面的值
++=  是添加等号后面的值
+
+1、“=”
+	make会将整个makefile展开后，再决定变量的值。
+	也就是说，变量的值将会是整个makefile中最后被指定的值。看例子：
+	x = foo
+	y = $(x) bar
+	x = xyz
+　　在上例中，y的值将会是 xyz bar ，而不是 foo bar 。
+　　
+2、“:=”
+	“:=”表示变量的值决定于它在makefile中的位置，
+	而不是整个makefile展开后的最终值。
+	　　x := foo
+	y := $(x) bar
+	x := xyz
+	　　在上例中，y的值将会是 foo bar ，而不是 xyz bar 了。
+

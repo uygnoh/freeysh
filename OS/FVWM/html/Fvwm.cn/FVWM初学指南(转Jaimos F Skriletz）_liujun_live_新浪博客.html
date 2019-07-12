@@ -1,0 +1,1686 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>FVWM初学指南(转Jaimos&nbsp;F&nbsp;Skriletz）_liujun_live_新浪博客</title>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8,chrome=1">
+<meta name="renderer" content="webkit">
+<meta name="keywords" content="FVWM初学指南(转Jaimos&nbsp;F&nbsp;Skriletz）_liujun_live_新浪博客,liujun_live,fvwm,.fvwm2rc,轻量级桌面,自定义,杂谈">
+<meta name="description" content="FVWM初学指南(转Jaimos&nbsp;F&nbsp;Skriletz）_liujun_live_新浪博客,liujun_live,">
+<meta http-equiv="mobile-agent" content="format=html5; url=http://blog.sina.cn/dpool/blog/s/blog_8ea8e9d50102v1zn.html?vt=4">
+<meta http-equiv="mobile-agent" content="format=wml; url=http://blog.sina.cn/dpool/blog/ArtRead.php?nid=8ea8e9d50102v1zn&amp;vt=1">
+<!--–[if lte IE 6]-->
+<script id="sinaads-ck-script" charset="utf-8" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sinaads_ck.js"></script><script type="text/javascript">
+try{
+document.execCommand("BackgroundImageCache", false, true);
+}catch(e){}
+</script>
+<!--[endif]–-->
+<script type="text/javascript">
+window.staticTime=new Date().getTime();
+</script>
+<link rel="pingback" href="http://upload.move.blog.sina.com.cn/blog_rebuild/blog/xmlrpc.php">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://upload.move.blog.sina.com.cn/blog_rebuild/blog/xmlrpc.php?rsd">
+<link href="http://blog.sina.com.cn/blog_rebuild/blog/wlwmanifest.xml" type="application/wlwmanifest+xml" rel="wlwmanifest">
+<link rel="alternate" type="application/rss+xml" href="http://blog.sina.com.cn/rss/2393434581.xml" title="RSS">
+<link href="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/article.css" type="text/css" rel="stylesheet"><link href="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/common.css" type="text/css" rel="stylesheet"><link href="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/blog.css" type="text/css" rel="stylesheet"><link href="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/blog_002.css" type="text/css" rel="stylesheet"><style id="tplstyle" type="text/css">@charset "utf-8";@import url("http://simg.sinajs.cn/blog7newtpl/css/1/1_13/t.css");
+</style>
+<style id="positionstyle" type="text/css">
+.sinabloghead .blogtoparea{ left:154px;top:82.15px;}
+.sinabloghead .blognav{ left:134px;top:148.4px;}
+</style>
+<style id="bgtyle" type="text/css">
+</style>
+<style id="headtyle" type="text/css">
+</style>
+<style id="navtyle" type="text/css">
+</style>
+<script type="text/javascript" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sspnew.js"></script><script src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/ssologin.js" charset="utf-8" async=""></script><script src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/article.js" charset="utf-8"></script><script src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sinaads.js" charset="utf-8"></script><script src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/suda_s_v851c.js" charset="utf-8"></script><iframe src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/ckctl.html" id="ckctlFrame" style="height: 0px; width: 1px; overflow: hidden;" scrolling="no"></iframe><script src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/tmp_clone.js" charset="utf-8"></script><style type="text/css" id="stylefix">#bsPanelHolder,#sinaads_pdps54771{display:none;}</style><script src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/getSinaadsExParamsForBlog.js" charset="utf-8"></script><script src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/guess.js" charset="gb2312"></script><script src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/collect.js" charset="gb2312"></script><script id="seajsnode" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sea.js"></script><style type="text/css">@import url(http://simg.sinajs.cn/blog7style/css/module/layer/layer20.css)</style><script src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/blog_bottom_float.js" charset="utf-8"></script></head>
+<body><div id="sinaadToolkitBox1" class="sinaad-toolkit-box" style="position: fixed; width: 300px; height: 250px; z-index: 99999; display: none; left: 738px; top: 233px;"><ins class="sinaads sinaads-fail" id="PDPS000000060681" data-ad-status="done" data-ad-pdps="PDPS000000060681"></ins></div><div style="height: 1px; width: 1px; position: absolute; left: -9999px; top: -9999px;"><iframe src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/store2.html"></iframe></div><div id="sinaadToolkitBox0" class="sinaad-toolkit-box" style="position: fixed; width: 120px; height: 288px; z-index: 99999; display: block; left: 0px; top: 120px;"><div style="width: 120px; height: 18px; position: absolute; right: 0px; top: 270px; z-index: 10000; background: rgb(235, 235, 235) url(&quot;//d2.sina.com.cn/litong/zhitou/sinaads/60x18_1_close.gif&quot;) no-repeat scroll right center; margin: 0px; padding: 0px; cursor: pointer;"></div><div style="width: 120px; height: 270px; position: absolute; right: 0px; top: 0px;"><iframe adtypeturning="undefined" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" sandbox="allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="javascript:'<html><body style=background:transparent;></body></html>'" id="sinaadtk_sandbox_id_0" style="float:left;" name="sinaadtk_sandbox_id_0" height="270px" frameborder="0" width="120px"></iframe></div></div>
+<!--$sinatopbar-->
+<ins class="sinaads sinaads-done" data-ad-pdps="PDPS000000049439" style="width: 1000px; display: block; margin: 0px auto; overflow: hidden; text-decoration: none;" data-ad-status="done"><ins style="text-decoration:none;margin:0px auto;width:1000px;display:block;position:relative;overflow:hidden;"><a style="display:block;line-height:0;" href="http://saxn.sina.com.cn/dsp/click?t=MjAxOS0wNy0wOCAwMDoyMTowMy40MDUJMTEzLjgzLjEwMy4xNzAJMTEzLjgxLjE0OS4xNDNfMTU2MjM1NTQ1NC42MDMyNjIJZTY2M2ZlNDEtNjg4My00MWQwLTgyMWQtMjVjNDg2M2VhYThkCTM0ODQyMzAJNTkwNzg1Njk5Ml9QSU5QQUktQ1BDCTMyMTQ2NjcJMjQ5MzkzCTIuMEUtNAkxCXRydWUJUERQUzAwMDAwMDA0OTQzOQk0MDY3MjE4CVBDCWltYWdlCS0JMHwxNzVaY0w2TmdJSTZhWUVOYWttWGt2fG51bGx8bnVsbHxianwzNDg0MjMwfDJwRWJSeE9FbjRoQ280ZzhaT1pzeTB8MHx8fHxDfHwwfHx8MHwtMXwwfAkJMQktCS0JLQkwCTExMy44MS4xNDkuMTQzXzE1NjIzNTU0NTQuNjAzMjYyCVBDX0lNQUdFCS0Jbm9ybWFsfHV2Zm0tcnQJCXVzZXJfdGFnOjIwMTA3OjAuMHx1c2VyX2FnZTo2MDE6MC41NjYxMXx1c2VyX2dlbmRlcjo1MDI6MS4wfHZfem9uZTozMDYwMDc6MC4wfGNyb3dkczp8X2Nyb3dkczoJMwkyNTAwMDAJNTAwMDAJLQkJMAkJOGU5M2Q0YmYtNmVkYy0zOGNkLWJkZjItYTljMWU1YjBhNjBhCTA=&amp;userid=113.81.149.143_1562355454.603262&amp;auth=4f5ad902e31f5c26&amp;p=Xhw56TsbNfe3DDssc8tmRdlbHDmMob%2FMyy3woA%3D%3D&amp;url=http%3A%2F%2Fsaxn.sina.com.cn%2Fclick%3Fid%3D17%26t%3DNWUxYzM5ZTktM2IxYi0zNWY3LWI3MGMtM2IyYzczY2I2NjQ1CTE3CVBEUFMwMDAwMDAwNDk0MzkJNDA2NzIxOAkxCVJUQgktCVY1LjAuMF9fX0JYXzEwLjEzLjIyNC4xMjgJCQlwcm92aW5jZTozMDYwMDB8Y2l0eTozMDYwMDd8aXA6MTEzLjgzLjEwMy4xNzB8ZGV2aWNlaWQ6fGNvb2tpZToxMTMuODEuMTQ5LjE0M18xNTYyMzU1NDU0LjYwMzI2MnxkaWQ6fHBsYXQ6cGN8dHM6MTU2MjUxNjQ2M3x0ZjowfGFidGVzdDp8b3JpZ2luaXA6MTAuMTMuMjI0LjEyOHx0cmFmZmljOnBvcnRhbHxkeW5hbWljYWQ6fGNyZTp8YmFja2FkaW5kZXg6fGFjdGlvbjotMXx1cDotMXxkb3duOi0xfGNudG51bTotMXxwZGNvbnRyYWN0Oi18cGRkZXRhaWxpZDotfHByb2R1Y3RpZDotfHBkcGFja2FnZWlkOi0JOGU5M2Q0YmYtNmVkYy0zOGNkLWJkZjItYTljMWU1YjBhNjBh%26type%3D2%26url%3Dhttps%253A%252F%252Fwin.xhtjg.com%252Fweb%252F20190702cgnr-FY%252Findex.html%253Fbid%253D3510604%26sina_sign%3Dd32f5e135d250664&amp;sign=535e505e0535a643" target="_blank" data-ss="346a5350e505e535=ngis&amp;466052d531e5f23dD3%ngis_anis62%4060153D352%dibF352%lmth.xedniF252%YF-rngc20709102F252%bewF252%moc.gjthx.niwF252%F252%A352%sptthD3%lru62%2D3%epyt62%hBjNhBjY1UWMjlTYtIjZkJWLkNGOz0yYkVmNtYmY0Q2M5UGOJ0iOklWZnF2ajFGckBHftoDZpR3Y1R2byBHftoDZpxWahRXZkRGc81iO0NWYyRnbvNGZwxXMtoTb15GduNGfx0iOud3bkxXMtoDc1xXMtojbvlGdjFGf6gXZk5WakF2ajFmY8pTZyNGf6QWYjlWbh5WekxHbhRncvBnOjlmZmFmc0xHOyEjL0IjMuMTMuATM6AXaul2ZpJ3b8pDdzVGdiFGfwojZ0x3M2QjNxUjM2UTM6MHd8NGc6QXYsBHf6QWakxnM2IzMwYjL0UDN1UzMyYTNx81M0EjL5QTMuEDOuMTMxoTZpt2bvNGf6QWalNWa2VGZ8BzNx4yMwEjLzgjLzETM6AXa8dDMwYDMzoTe0l2Y8BDMwYDMzoTZj5Wa29mcwlQCJgjMx4CNyIjLzEjLwEzXYJ0Xf9FMuAjL1YVCtkgQUJVCxkAOxIzN2ADNJkzM0kDNwADMwADMwMFUEBVC3ETC1QjN2I2YzczYyI2MtMGM3IWL3YWNz0iYxI2MtkTZ5MzYxUWND3%t62%71D3%diF3%kcilcF2%nc.moc.anis.nxasF2%F2%A3%ptth=lru&amp;D3%D3%Aow3yyMF2%boMmDHbldRmt8cssDD3efNbsT65whX=p&amp;62c5f13e209da5f4=htua&amp;262306.4545532651_341.941.18.311=diresu&amp;=ATChBjNhBjY1UWMjlTYtIjZkJWLkNGOz0yYkVmNtYmY0Q2M5UGOJkAMJkQLJADMwATNJADMwATNykwMJozckd3byN2X8pzckd3byNGfw4CM6cDMwYDMzoTZu9mefZHfw4SM6IDM1ojclRmbld2XyV2c1xXMxYjN14CM6EDM2oTZnF2XyV2c1xHMuAjO3ATMwIjOnFGdfJXZzVXCJQnct0mZ2VHfsFWby9mbJ0SCFdUQNl0XDBVCyYjMzAjNuQTN0UTNzIjN1EzXzQTMukDNx4SM44yMxETCwkQLJ0SCtkQMJkAfwwXMtwHM8xHfwwHfDxHf8xHM8BTezp1TahzZ082QoRjbF9EeSJWRwJDfwMjM0gDNzwnaixHbsVnb8xGb15Gf2tGWttWYOVUWhZTSJdmT2w0YaVzNxwHMJ0SCldWYtlWCDBVC4EjM3YDM0kQOzQTO0ADMwADMwAzUQREUJUWdyRXCxkANtUEMuITCzkzM5QjMJcjN2QTMyMTCDB1QtkUQQ5USQ9lM5kjN1gzNwkTNJAzMyQDO0MTCkhTYhV2M2gDNjVjMtQWMygTLwQWM00yM4gjNtEDNlZ2M2YTZJIjNyMDM24CN1QTN1MjM2UTMfNDNx4SO0EjLxgjLzETMJAzNx4yMwEjLzgjLzETMJUDM04yMwoTMyoDMwACOw0yNw0SOxAjM=t?kcilc/psd/nc.moc.anis.nxas//:ptth" onmousedown="return sinaadToolkit.url.fortp(this, event);"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/249e200d2d76620655ee924efb634c73.jpg" style="width:1000px;height:90px;border:0" alt="广告" border="0"></a><div style="width: 26px; height: 13px; position: absolute; right: 1px; bottom: 1px; z-index: 99; background: rgba(0, 0, 0, 0) url(&quot;//d2.sina.com.cn/litong/zhitou/sinaads/release/ad_logo_update_IAB.gif&quot;) no-repeat scroll 0% 0%;"></div></ins></ins><div style="z-index: 512; display: block; position: fixed; top: 0px; width: 100%;" class="nsinatopbar">
+  <div style="position:absolute;left:0;top:0;" id="trayFlashConnetion"><object id="scache" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" style="undefined" height="1" width="1"><param name="movie" value="http://sjs.sinajs.cn/blog7swf/scache.swf"><param name="bgcolor" value="#00ff00"><param name="quality" value="high"><param name="wmode" value="transparent"><param name="allowScriptAccess" value="always"></object></div>
+  <div class="ntopbar_main"><div id="_5211562516462390_panel" class="horn" style=""><div id="_5211562516462390_tj" class="horn_con" style="">推荐：<a id="_5211562516462390_noticeAd1" target="_blank" href="http://blog.sina.com.cn/s/blog_4c5ad7e10102y1ba.html" title="比Ins风更高级的穿搭风" suda-uatrack="key=blog_notice&amp;value=h_SLOT_58_84_N">比Ins风更高级的穿搭风</a><a id="_5211562516462390_noticeAd2" target="_blank" href="http://blog.sina.com.cn/s/blog_547645590102ynwa.html" title="每个中年土豪都在悄悄吃土" suda-uatrack="key=blog_notice&amp;value=h_SLOT_59_84_N">每个中年土豪都在悄悄吃土</a></div><div id="_5211562516462390_announce" class="horn_con" style="display:none;"><p id="_5211562516462390_announceCon">公告：<em>请您及时更换请请请您正在使用的模版将于2周后被下线，请您及时更换</em></p></div><a class="close" title="关闭" id="_5211562516462390_close" style="float:none;">×</a></div> 
+    <a id="login_bar_logo_link_350" href="http://blog.sina.com.cn/" target="_blank" style="display: none;"><img class="ntopbar_logo" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/topbar_logo.gif" alt="新浪博客" width="100"></a>
+    <div class="ntopbar_floatL" style="display: none;">
+      <div class="ntopbar_search" id="traySearchBar"><div class="ntopbar_input" id="_6171562516462377_panel" style=""><form id="_6171562516462377_searchForm" method="get" target="_blank" action="http://search.sina.com.cn"><input id="_6171562516462377_queryTxt" class="ntopbar_txt" name="q" autocomplete="off" type="text"><input id="_6171562516462377_submit" onclick="v7sendLog('40_01_44')" class="ntopbar_searchBtn" value="" type="submit"><input name="ie" value="utf-8" type="hidden"><input name="e" value="utf-8" type="hidden"><input id="_6171562516462377_range" name="range" value="article" type="hidden"><input id="_6171562516462377_t" name="t" value="" type="hidden"><input id="_6171562516462377_s" name="s" value="sup" type="hidden"><input id="_6171562516462377_by" name="by" value="all" type="hidden"><input id="_6171562516462377_type" name="type" value="" type="hidden"><input id="_6171562516462377_stype" name="stype" value="1" type="hidden"><input id="_6171562516462377_c" name="c" value="blog" type="hidden"></form></div></div>
+	  <div class="ntopbar_ad" id="loginBarActivity" style=""><ins class="sinaads sinaads-fail" data-ad-pdps="PDPS000000033238" style="display:block;" data-ad-status="done"></ins></div>
+    </div>
+    <div class="ntopbar_loading" style="display: none;"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/loading.gif">加载中…</div>
+  <div id="_1371562516462275_panel" class="ntopbar_login" style="" login="1"><span class="link bk_home"><a href="http://www.sina.com.cn/" target="_blank" suda-uatrack="key=sinahome_from_blog&amp;value=sinahome_from_blogpage"><i class="SG_bkhome"></i>新浪首页</a></span><a class="login" onclick="v7sendLog('40_01_38');return false;" href="###" action-type="tray-login-btn"><span>登录</span></a><a class="register" onclick="v7sendLog('40_01_39')" target="_blank" href="https://login.sina.com.cn/signup/signupmail.php?entry=blog&amp;srcuid=2393434581&amp;src=blogicp">注册</a></div></div>
+</div><div style="height: 30px;" id="______noticeTrayHolder"></div>
+<!--$end sinatopbar-->
+
+<div class="sinabloga" id="sinabloga">
+	<div id="sinablogb" class="sinablogb">
+
+	   
+ <div id="sinablogHead" class="sinabloghead">
+     <div style="display: none;" id="headflash" class="headflash"></div>
+	   <div id="headarea" class="headarea">
+      <div id="blogTitle" class="blogtoparea">
+      <h1 id="blogname" class="blogtitle"><a href="http://blog.sina.com.cn/liujunhomepage"><span id="blognamespan">liujun_live的博客</span></a></h1>
+	  		
+					<div id="bloglink" class="bloglink"><a href="http://blog.sina.com.cn/liujunhomepage">http://blog.sina.com.cn/liujunhomepage</a>  <a onclick="return false;" class="CP_a_fuc" href="#" id="SubscribeNewRss">[<cite>订阅</cite>]</a><a class="CP_a_fuc" href="javascript:void(scope.pa_add.add('2393434581'));">[<cite>手机订阅</cite>]</a></div>
+      </div>
+      <div class="blognav" id="blognav">
+      			  <div id="blognavBg" class="blognavBg"></div> <div class="blognavInfo"> 
+		<span><a href="http://blog.sina.com.cn/liujunhomepage">首页</a></span>
+      <span><a class="on" href="http://blog.sina.com.cn/s/articlelist_2393434581_0_1.html">博文目录</a></span>
+      <span><a href="http://photo.blog.sina.com.cn/liujunhomepage">图片</a></span>
+      <span class="last"><a href="http://blog.sina.com.cn/s/profile_2393434581.html">关于我</a></span></div>
+      </div>      		      		 	
+      
+             <div class="autoskin" id="auto_skin">
+       </div>
+
+<div class="adsarea">
+     <a href="#"><div id="template_clone_pic" class="pic"></div></a>
+     <div id="template_clone_link" class="link wdc_HInf"></div>
+     <div id="template_clone_other" class="other"></div>        
+</div>
+    </div>
+    </div>
+    
+    <!--主题内容开始 -->
+    <div class="sinablogbody" id="sinablogbody">
+		
+	<!--第一列start-->
+    <div id="column_1" class="SG_colW21 SG_colFirst"><div class="SG_conn" id="module_901">
+    <div class="SG_connHead">
+            <span class="title" comp_title="个人资料">个人资料</span>
+            <span class="edit">
+                        </span>
+    </div>
+    <div class="SG_connBody">
+        <div class="info">
+                         
+            <div class="info_img" id="comp_901_head"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/180.jpeg" real_src="http://portrait6.sinaimg.cn/2393434581/blog/180" id="comp_901_head_image" alt="liujun_live" title="liujun_live" height="180" width="180"></div>
+            
+            <div class="info_txt">
+              <div class="info_nm">
+                <img id="comp_901_online_icon" style="display:none;" class="SG_icon SG_icon1" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" height="15" align="absmiddle" width="15">
+                <span class="SG_txtb"><strong id="ownernick">liujun_live</strong></span>
+                
+                <div class="clearit"></div>
+              </div>
+              <div class="info_btn1">
+                <a target="_blank" href="http://weibo.com/u/2393434581?source=blog" class="SG_aBtn SG_aBtn_ico"><cite><img class="SG_icon SG_icon51" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" height="15" align="absmiddle" width="15">微博</cite></a>
+                <div class="clearit"></div>
+              </div>
+    <div class="SG_j_linedot"></div>        <div class="info_locate" id="info_locate_id">
+<div class="SG_j_linedot"></div>
+<div class="info_btn2">
+    <p>
+    <a href="javascript:void(0)" class="SG_aBtn " id="comp901_btn_invite"><cite>加好友</cite></a>
+    <a href="javascript:void(0)" class="SG_aBtn" id="comp901_btn_sendpaper"><cite>发纸条</cite></a>
+    </p>
+    <p>
+    <a href="http://blog.sina.com.cn/s/profile_2393434581.html#write" class="SG_aBtn" id="comp901_btn_msninfo"><cite>写留言</cite></a>
+    <a href="#" onclick="return false;" class="SG_aBtn" id="comp901_btn_follow"><cite>加关注</cite></a>
+    </p>
+    <div class="clearit"></div>
+</div>
+<div class="SG_j_linedot"></div>
+</div>
+                  <div class="info_list"><a href="http://blog.sina.com.cn/lm/map/" target="_blank" title=""><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/ten_map.png" alt="博客十周年地图"></a></div><div class="info_list">     
+                                   <ul class="info_list1">
+                    <li><span class="SG_txtc">博客等级：</span><span id="comp_901_grade"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/1.gif"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/8.gif"></span></li>
+                    <li><span class="SG_txtc">博客积分：</span><span id="comp_901_score"><a href="http://control.blog.sina.com.cn/blog_rebuild/profile/controllers/points_action.php" title="积分"><strong>1124</strong><img title="积分" alt="积分" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="SG_icon SG_icon11" height="15" align="top" width="15"></a></span></li>
+                    </ul>
+                    <ul class="info_list2">
+                    <li><span class="SG_txtc">博客访问：</span><span id="comp_901_pv"><strong>316,035</strong></span></li>
+                    <li><span class="SG_txtc">关注人气：</span><span id="comp_901_attention"><strong>10</strong></span></li>
+                    <li><span class="SG_txtc">获赠金笔：</span><strong id="comp_901_d_goldpen">7</strong></li>
+                    <li><span class="SG_txtc">赠出金笔：</span><strong id="comp_901_r_goldpen">0</strong></li>
+					<li class="lisp" id="comp_901_badge"><span class="SG_txtc">荣誉徽章：</span><a href="http://control.blog.sina.com.cn/blog_rebuild/profile/controllers/points_action.php" title="元老博主"><img title="元老博主" alt="元老博主" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="badge" style="background-image:url(http://simg.sinajs.cn/blog7style/images/common/badge/badge07.png);_background-image: url(http://simg.sinajs.cn/blog7style/images/common/badge/badge07.gif);"></a><a href="http://control.blog.sina.com.cn/blog_rebuild/profile/controllers/points_action.php" title="兑换图片博主服务"><img title="兑换图片博主服务" alt="兑换图片博主服务" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="badge" style="background-image:url(http://simg.sinajs.cn/blog7style/images/common/badge/badge11.png);_background-image: url(http://simg.sinajs.cn/blog7style/images/common/badge/badge11.gif);"></a><a href="http://control.blog.sina.com.cn/blog_rebuild/profile/controllers/points_action.php" title="私密博文"><img title="私密博文" alt="私密博文" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="badge" style="background-image:url(http://simg.sinajs.cn/blog7style/images/common/badge/badge12.png);_background-image: url(http://simg.sinajs.cn/blog7style/images/common/badge/badge12.gif);"></a><a href="http://control.blog.sina.com.cn/blog_rebuild/profile/controllers/points_action.php" title="现有金笔1支"><img title="现有金笔1支" alt="现有金笔1支" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="badge" style="background-image:url(http://simg.sinajs.cn/blog7style/images/common/badge/badge14.png);_background-image: url(http://simg.sinajs.cn/blog7style/images/common/badge/badge14.gif);"></a></li>
+                    </ul>
+                  </div>
+<div class="clearit"></div>
+    </div>
+    <div class="clearit"></div>
+</div>
+            </div>       
+            <div class="SG_connFoot"></div>
+</div>
+<div class="SG_conn" suda-uatrack="key=blog_article&amp;value=h_article53" id="hotShangPin"><ins class="sinaads sinaads-fail" data-ad-pdps="PDPS000000057414" style="display:block;" data-ad-status="done"></ins></div><div id="module_903" class="SG_conn ">
+    <div class="SG_connHead">
+    <span comp_title="相关博文" class="title">相关博文</span>
+    <span class="edit"> </span>
+    </div>
+    <div class="SG_connBody">
+    <div class="atcTitList relaList">        <ul class="">
+
+                <li class="SG_j_linedot1" style="display:none;">
+            <p id="atcTitLi_SLOT_41" class="atcTitCell_tit SG_dot" style="display:none">
+        </p>
+        </li>
+        <li class="SG_j_linedot1" style="display:none;">
+            <p id="atcTitLi_SLOT_42" class="atcTitCell_tit SG_dot" style="display:none">
+        </p>
+        </li>
+        
+                	<li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_4b70cd200102yr9p.html#cre=blogpagepc&amp;mod=f&amp;loc=1&amp;r=0&amp;rfunc=100&amp;tj=none" target="_blank" title="恭喜你和志玲拥有同款风格，优雅偏自然型人日常怎么穿？">恭喜你和志玲拥有同款风格，优雅偏自然型人日常怎么穿？</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/1265683744" class="SG_linkb" target="_blank">刘纪辉</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_5c91c4f50102z62t.html#cre=blogpagepc&amp;mod=f&amp;loc=2&amp;r=0&amp;rfunc=100&amp;tj=none" target="_blank" title="【实拍】红歌飞起处，岭上白云飘">【实拍】红歌飞起处，岭上白云飘</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/1553057013" class="SG_linkb" target="_blank">美行天下</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_4fd644c90102z3v4.html#cre=blogpagepc&amp;mod=f&amp;loc=3&amp;r=0&amp;rfunc=100&amp;tj=none" target="_blank" title="身体4个信号说明你患了动脉硬化">身体4个信号说明你患了动脉硬化</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/1339442377" class="SG_linkb" target="_blank">叶金朝</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_4d2b38440102z5h7.html#cre=blogpagepc&amp;mod=f&amp;loc=4&amp;r=0&amp;rfunc=100&amp;tj=none" target="_blank" title="花店女子">花店女子</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/1294678084" class="SG_linkb" target="_blank">杨千意</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_632b6e280102yh0h.html#cre=blogpagepc&amp;mod=f&amp;loc=5&amp;r=0&amp;rfunc=100&amp;tj=none" target="_blank" title="家长如何鉴别训练课是否靠谱？">家长如何鉴别训练课是否靠谱？</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/1663790632" class="SG_linkb" target="_blank">足球之路2015</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_b10e98d60102yai1.html#cre=blogpagepc&amp;mod=f&amp;loc=6&amp;r=0&amp;rfunc=100&amp;tj=none" target="_blank" title="小米手环4这次依旧唱出耍猴戏，这些限量版手环你们肯定抢购困难">小米手环4这次依旧唱出耍猴戏，这些限量版手环你们肯定抢购困难</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/2970523862" class="SG_linkb" target="_blank">东书书</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_14ba73ad70102yss2.html#cre=blogpagepc&amp;mod=f&amp;loc=7&amp;r=0&amp;rfunc=100&amp;tj=none" target="_blank" title="#一城一夏#，山城重庆">#一城一夏#，山城重庆</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/5564218071" class="SG_linkb" target="_blank">海笛儿-</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_a1704aa10102ywsv.html#cre=blogpagepc&amp;mod=f&amp;loc=8&amp;r=0&amp;rfunc=100&amp;tj=none" target="_blank" title="相扑是一种“暧昧的美”">相扑是一种“暧昧的美”</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/2708490913" class="SG_linkb" target="_blank">黄文炜日本印象</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_7964e4ec0102zbqe.html#cre=blogpagepc&amp;mod=f&amp;loc=9&amp;r=0&amp;rfunc=100&amp;tj=none" target="_blank" title="好聚不好散！本想体面离婚的宋仲基宋慧乔，结果吃相很难看">好聚不好散！本想体面离婚的宋仲基宋慧乔，结果吃相很难看</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/2036655340" class="SG_linkb" target="_blank">一床情书</a></p></li><li class="SG_j_linedot1"><p class="atcTitCell_tit SG_dot"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/s/blog_ca108f4c0102z6qr.html#cre=blogpagepc&amp;mod=f&amp;loc=10&amp;r=0&amp;rfunc=100&amp;tj=none" target="_blank" title="中国经济五月份的进口数据出来了，背后意味着什么？">中国经济五月份的进口数据出来了，背后意味着什么？</a></p><p class="atcTitCell_nm"><a suda-uatrack="key=blog_xg&amp;value=h_blogxg" href="http://blog.sina.com.cn/u/3390082892" class="SG_linkb" target="_blank">品味观天下</a></p></li></ul>
+    <div class="atcTit_more"><span class="SG_more"><a href="http://blog.sina.com.cn/" target="_blank">更多&gt;&gt;</a></span></div></div>    </div>
+    <div class="SG_connFoot"></div>
+  </div><ins class="sinaads sinaads-done" data-ad-pdps="PDPS000000055124" style="display: block; overflow: hidden; text-decoration: none; margin-bottom: 10px;" data-ad-status="done"><ins style="text-decoration:none;margin:0px auto;width:210px;display:block;position:relative;overflow:hidden;"><iframe adtypeturning="false" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" sandbox="allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="javascript:'<html><body style=background:transparent;></body></html>'" id="sinaadtk_sandbox_id_1" style="float:left;" name="sinaadtk_sandbox_id_1" height="220px" frameborder="0" width="210px"></iframe></ins></ins><div class="SG_conn"><!--博客左侧推荐商讯210*220按钮(扶翼) Start--><ins class="sinaads sinaads-fail" data-ad-pdps="PDPS000000057669" data-ad-status="done"></ins><script>(sinaads = window.sinaads || []).push({})</script><!--博客左侧推荐商讯210*220按钮(扶翼) End—></div>--></div>
+<div id="module_904_top_ad"></div>
+<ins class="sinaads sinaads-done" data-ad-pdps="PDPS000000033239" style="display: block; overflow: hidden; text-decoration: none; margin-bottom: 10px;" data-ad-status="done"><ins style="text-decoration:none;margin:0px auto;width:210px;display:block;position:relative;overflow:hidden;"><iframe adtypeturning="false" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" sandbox="allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="javascript:'<html><body style=background:transparent;></body></html>'" id="sinaadtk_sandbox_id_2" style="float:left;" name="sinaadtk_sandbox_id_2" height="220px" frameborder="0" width="210px"></iframe></ins></ins><div id="notAe" class="SG_conn"><ins class="sinaads sinaads-fail" data-ad-pdps="593E0A43A6FE" style="display:block;" data-ad-status="done"></ins></div><div class="SG_conn " id="module_904">
+<div class="SG_connHead">
+<span class="title">推荐博文</span>
+</div>
+<div class="SG_connBody ">
+	<div class="atcTitList relaList">		<ul class="">
+					</ul>
+		<div id="atcPicList"><!--[346,152,100] published at 2019-05-06 09:21:02 from #106 by system-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <script language="javascript">document.domain="sina.com.cn";</script>
+
+<div class="relaPic SG_j_linedot1"> 
+	<ul>
+			<li>
+		<p><a href="http://blog.sina.com.cn/s/blog_59396c770102ymgx.html?tj=1" target="_blank"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/PqiZ-hmivixn4870973.jpg" alt="火山徒步奇遇记" height="58" border="0" width="80"></a></p>
+		<p><a href="http://blog.sina.com.cn/s/blog_59396c770102ymgx.html?tj=1" target="_blank">火山徒步奇遇记</a></p>
+	</li>
+	<li>
+		<p><a href="http://blog.sina.com.cn/s/blog_4d4b00710102yhq0.html?tj=1" target="_blank"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/J9GM-hmhhnqt1894189.jpg" alt="跟着圣经去旅行" height="58" border="0" width="80"></a></p>
+		<p><a href="http://blog.sina.com.cn/s/blog_4d4b00710102yhq0.html?tj=1" target="_blank">跟着圣经去旅行</a></p>
+	</li>
+	<li>
+		<p><a href="http://blog.sina.com.cn/s/blog_5e1ed3b40102yod2.html?tj=1" target="_blank"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/dslx-hnyuqhi4627031.jpg" alt="漂移赛车的发源地" height="58" border="0" width="80"></a></p>
+		<p><a href="http://blog.sina.com.cn/s/blog_5e1ed3b40102yod2.html?tj=1" target="_blank">漂移赛车的发源地</a></p>
+	</li>
+	<li>
+		<p><a href="http://blog.sina.com.cn/s/blog_663d73c00102yi86.html?tj=1" target="_blank"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/xXjR-hmhswin5593378.jpg" alt="最美白色悬崖小镇" height="58" border="0" width="80"></a></p>
+		<p><a href="http://blog.sina.com.cn/s/blog_663d73c00102yi86.html?tj=1" target="_blank">最美白色悬崖小镇</a></p>
+	</li>
+	<li>
+		<p><a href="http://blog.sina.com.cn/s/blog_5537f6ae0102z7lj.html?tj=1" target="_blank"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/k6wB-hnyuqhi4601676.jpg" alt="孤寂的欧洲最佳旅行目的地" height="58" border="0" width="80"></a></p>
+		<p><a href="http://blog.sina.com.cn/s/blog_5537f6ae0102z7lj.html?tj=1" target="_blank">孤寂的欧洲最佳旅行目的地</a></p>
+	</li>
+	<li>
+		<p><a href="http://blog.sina.com.cn/s/blog_ecfc193a0102yrbr.html?tj=1" target="_blank"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/OzND-hmhhnqt1846627.jpg" alt="等你邂逅的“老巷子”" height="58" border="0" width="80"></a></p>
+		<p><a href="http://blog.sina.com.cn/s/blog_ecfc193a0102yrbr.html?tj=1" target="_blank">等你邂逅的“老巷子”</a></p>
+	</li>
+
+	</ul>
+	<div class="clearfix"></div>
+</div>
+</div>
+	<div class="atcTit_more"><span class="SG_more"><a target="_blank" href="http://blog.sina.com.cn/">查看更多</a>&gt;&gt;</span></div></div></div>
+<div class="SG_connFoot"></div>
+</div>
+        <div class="SG_conn" id="module_47"><div class="SG_connHead">
+                <span class="title" comp_title="谁看过这篇博文">谁看过这篇博文</span>
+                                <span class="edit"></span>
+            </div>
+            <div class="SG_connBody"><div class="SG_nodata">暂无访客</div></div>
+            <div class="SG_connFoot"></div>
+                  </div></div>
+	<!--第一列end-->
+	
+	<!--第二列start-->
+	<div id="column_2" class="SG_colW73">	
+<div id="module_920" class="SG_conn">
+	<div class="SG_connHead">
+	    <span comp_title="正文" class="title">正文</span>
+	    <span class="edit"><span id="articleFontManage" class="fontSize">字体大小：<a href="javascript:;" onclick="changeFontSize(2);return false;">大</a> <strong>中</strong> <a href="javascript:;" onclick="changeFontSize(0);return false;">小</a></span></span>
+	</div>
+    <div class="SG_connBody" id="module_920_SG_connBody">
+<!--博文正文 begin -->
+	<div id="articlebody" class="artical" favmd5="{&quot;8ea8e9d50102v1zn&quot;:&quot;39b048368062bd6ef7e90f1155cc5b7c&quot;}">
+		<div class="articalTitle"> 
+			
+								<h2 id="t_8ea8e9d50102v1zn" class="titName SG_txta">FVWM初学指南(转Jaimos&nbsp;F&nbsp;Skriletz）</h2>
+			
+					<span class="img2">
+				<img title="此博文包含图片" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="SG_icon SG_icon18" height="15" align="absmiddle" width="15">	
+			</span>
+					<span class="time SG_txtc">(2014-09-05 11:57:35)</span><div class="turnBoxzz"><a href="javascript:;" class="SG_aBtn SG_aBtn_ico SG_turn" action-type="reblog" action-data="{srcBlog:1, blogId:'8ea8e9d50102v1zn'}"><cite><img class="SG_icon SG_icon111" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" height="15" align="absmiddle" width="15">转载<em class="arrow">▼</em></cite></a></div>		</div>
+		<div class="articalTag" id="sina_keyword_ad_area">
+			<table>
+				<tbody><tr>
+					<td class="blog_tag">
+					<script>
+					var $tag='fvwm,.fvwm2rc,轻量级桌面,自定义,杂谈';
+					var $tag_code='70e9d1c31bcb81533609321a4961d816';
+					var $r_quote_bligid='8ea8e9d50102v1zn';
+					var $worldcup='0';
+					var $worldcupball='0';
+					</script>
+											<span class="SG_txtb">标签：</span>
+																				<h3><a href="http://search.sina.com.cn/?c=blog&amp;q=fvwm&amp;by=tag" target="_blank">fvwm</a></h3>
+																				<h3><a href="http://search.sina.com.cn/?c=blog&amp;q=.fvwm2rc&amp;by=tag" target="_blank">.fvwm2rc</a></h3>
+																				<h3><a href="http://search.sina.com.cn/?c=blog&amp;q=%C7%E1%C1%BF%BC%B6%D7%C0%C3%E6&amp;by=tag" target="_blank">轻量级桌面</a></h3>
+																				<h3><a href="http://search.sina.com.cn/?c=blog&amp;q=%D7%D4%B6%A8%D2%E5&amp;by=tag" target="_blank">自定义</a></h3>
+																				<h3><a href="http://search.sina.com.cn/?c=blog&amp;q=%D4%D3%CC%B8&amp;by=tag" target="_blank">杂谈</a></h3>
+																</td>
+					<td class="blog_class">
+											<span class="SG_txtb">分类：</span>
+						<a target="_blank" href="http://blog.sina.com.cn/s/articlelist_2393434581_8_1.html">Fluxbox/FVWM</a>
+										</td>
+				</tr>
+			</tbody></table>
+		</div>
+						<!-- 正文开始 -->
+		<div id="sina_keyword_ad_area2" class="articalContent   newfont_family">
+			<h1 style="text-align: center;" align="center"><font color="#9C5A3C"><span style="font-weight: bold;"><font color="#A8E61D">FVWM</font>初学者指南</span></font></h1>
+<div style="text-align: justify;">
+<div style="text-align: center;">由Jaimos F Skriletz编写<br></div>
+<br>
+<div style="text-align: left;">
+<div style="text-align: left;"><br>
+<font style="font-size: 20px;"><b><a href="http://zensites.net/fvwm/" target="_blank">官方英文原版</a><br>
+http://zensites.net/fvwm/</b></font><br>
+<br>
+<span style="font-weight: bold; font-style: italic;">目录</span><br>
+<br>
+<span style="font-weight: bold; font-style: italic;">一、简介</span><br>
+<span style="font-weight: bold; font-style: italic;">二、全局定义</span><br>
+<span style="font-weight: bold; font-style: italic;">三、功能</span><br>
+<span style="font-weight: bold; font-style: italic;">四、绑定</span><br>
+<span style="font-weight: bold; font-style: italic;">五、视窗修饰</span><br>
+<span style="font-weight: bold; font-style: italic;">六、菜单</span><br>
+<span style="font-weight: bold; font-style: italic;">七、模块</span><br>
+<span style="font-weight: bold; font-style: italic;">1）FVWM状态栏(FvwmTaskBar）</span><br>
+
+<span style="font-weight: bold; font-style: italic;">2）FVWM页（FvwmPager）</span><br>
+
+<span style="font-weight: bold; font-style: italic;">3）FVWM按钮（FvwmButtons）</span><br>
+
+<span style="font-weight: bold; font-style: italic;">八、回顾/结论</span><br>
+<span style="font-weight: bold; font-style: italic;">九、附录</span><br>
+<span style="font-weight: bold; font-style: italic;">1）高级主题</span><br>
+<span style="font-weight: bold; font-style: italic;">a、高级功能</span><br>
+<span style="font-weight: bold; font-style: italic;">b、高级菜单</span><br>
+<span style="font-weight: bold; font-style: italic;">c、高级FVWM按钮</span><br>
+<span style="font-weight: bold; font-style: italic;">2）其他资源</span><br>
+<span style="font-weight: bold; font-style: italic;">3）开源协议（略）</span><br></div>
+</div>
+<hr style="width: 100%; height: 2px;">
+<p>版权(c)2004 Jaimos F Skriletz</p>
+<p>允许在自由软件基金会的开源协议1.2及以后版本的规定下，复制、修改和发布。</p>
+<hr style="width: 100%; height: 2px;">
+<h1>一、简介</h1>
+FVWM 或者按字面意义简易虚拟视窗管理系统（Feeble Virtual Window
+Manager），是一个X视窗系统中功能十分强大的桌面/视窗管理器。尽管她的名字会引起人们的误解，但最初的时候FVWM的确是一个TWM视窗管理器
+的分支，并且作为一种简易的（Feeble 功能微弱的）替代品。<a href="http://en.wikipedia.org/wiki/Image:Fvwm_family.png">这里</a>是
+一个关于FVWM管理器家族的发展树状图，尽管是从一个简易的管理器起步，FVWM现在已经成为一种极具定制性能的视窗管理系统。设想一下您需要一个桌面
+/视窗系统所提供的功能，FVWM大都能够完成甚至做得更加出色。因为名字中的简易（Feeble）一词不再适合对这个系统的描述，所以为了提供更换单词
+的可能，通常人们称其F? Virtual Window Manager，或者是FVWM的缩写。<br>
+<br>
+尽管FVWM是如此的多才多艺且时宜自我设置，但是人们还是因为缺少方便的调控界面而遗弃她。尽管人们尝试编写一些工具，例如<a href="http://fvwm-themes.sourceforge.net/">fvwm-themes</a>，来修饰她，但是一些复杂的功能还是难以调用，因此最好的办法仍然是编写自己的配置文件。本文将教<span style="font-weight: bold;">您</span>熟
+悉并使用FVWM的设置语法。本文的第一部分将带领您一步一步地创建一个简单的配置文件。我已经在配置文件中添加了注释，以便于根据本文的引导并通过简单
+地复制和粘贴就可以调用某些功能。我的观点是让您根据本指南复制设置文件，并在部分设置中按照您的设想，利用语法去设置您希望的功能。在您根据本指南创建
+了基本设置文件后，我将介绍一些高级的功能主题和设置，以使您能够按您的心愿操作您的桌面。最后，我的愿望是您将能够为自己的视窗管理器设计出您的配置文
+件。<br>
+<br>
+本指南将尽力解释我所提供的这些功能，但所有的功能都清楚地在FVWM MAN
+PAGES中得到解释。MAN文件的确非常的长，所以人们需要得到一些关键词之后才能方便地查阅并使用这些功能。有部分的设置是我省略和跳过的，希望您自
+己去查MAN文件以获取我所遗漏的全部信息和细节。注意：当你没有从我这里得到的希望的信息时，一定记住要去查MAN文件，那是一个十分有用的信息资源。<br>
+
+<br>
+本
+指南是为不稳定版本的语法编写设置的，现在的不稳定版本序号是fvwm-2.5.10。这些设置没有在稳定版本2.4.18中测试过，所以我不能肯定它们
+是否在稳定版本中可以一样工作。我推荐使用2.5.10，因为她的基本功能部分是稳定的，而且我还没有在运行中发现她有过出错的记录。同时我还使用了一些
+透明的功能（尽管我只是作为一种界面风格的选择来使用），如果您对这个功能感兴趣可以在菜单显示中加入它，不过您可能首先需要在安装时加入这个功能的选
+项，有关于安装的问题可以通过<a href="http://www.zensites.net/fvwm/guide/install.html">这里</a>查到。<br>
+<br>
+FVWM
+都是由一个位于$HOME/.fvwm2rc或者$HOME/.fvwm/.fvwm2rc这样一个单一的文件来设置的。该文件可以通过“Read”命令
+来读取其他的设置文件，这样就可以将一个文件拆分成一些较小的文件。不过在本指南中，我们还是将所有的设置都放在一个文件中。为了统一，我们将所有的设置
+资源都放在$HOME/.fvwm这个目录中并创建一个空白的.fvwm2rc文件。启动FVWM后，不要因为她的简陋而惊讶，顾忌许多人都会这样反应，
+但这的确是一个创建您自己桌面的良好开端。<br>
+<br>
+本指南中所用到的图片文件可以在<a href="http://www.zensites.net/fvwm/guide/fvwm-guide-icons.tar.bz2">这里下载</a>到。如果您希望按照本指南设置并且使用我的图片，可以下载它并在$HOME目录中解压该文件。它会创建一个包含所有我在本指南中使用的图片和装饰文件在内的.fvwm目录。同时还会有一个本指南的fvwm2rc文件。<br>
+
+<br>
+接下来用你习惯的文本编辑器打开它，它按照FVWM的语法编写，当FVWM启动时，她将按照这里的设置安排你桌面的形式、风格和装饰。注释栏用符号“#”标识。让我们先来对设置文件做一些注释，例如你可以按照下面的方法来注释你的设置文件：<br>
+
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">###########</font><br>
+<font color="#0000FF">#  ____________________________</font><br>
+<font color="#0000FF"># (   _________________________)</font><br>
+<font color="#0000FF">#  ) (__  _  _  _    _  </font><br>
+<font color="#0000FF"># (   __)( \/ )( \/\/ )/\/\</font><br>
+<font color="#0000FF">#  ) (    \  /  \    //    \</font><br>
+<font color="#0000FF"># (___)    \/    \/\/(_/\/\_) 2.5.10</font><br>
+<font color="#0000FF">#</font><br>
+<font color="#0000FF"># My personal fvwm2rc file</font><br>
+<font color="#0000FF">#</font><br>
+<font color="#0000FF">#######################</font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h1>二、全局定义</h1>
+在设置中我们首先要通过全局定义来设定例如：环境变量、桌面的基本定义等事项。环境变量是我们存储的一种可以脱离fvwm2rc文件并在终端中使用的变量。我所使用的环境变量主要是用于告诉FVWM到哪里去寻找我所定义的事项。<br>
+
+<br>
+注意：环境变量使用过滥会造成FVWM资源的“浪费”，所以尽量不要去定义那些一年才使用几次的变量。有关于环境变量的社区讨论和使用细节，可以通过<a href="http://fvwm.lair.be/viewtopic.php?t=1505">这里</a>取得。<br>
+
+<br>
+举例而言，您可以这样定义您的环境变量：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Set Environment variables</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">SetEnv</font> fvwm_img <font color="#A020F0">$[FVWM_USERDIR]</font>/images<br>
+<font color="#008B8B">SetEnv</font> fvwm_icon <font color="#A020F0">$[FVWM_USERDIR]</font>/<font color="#A52A2A"><b>icons</b></font><br>
+<font color="#008B8B">SetEnv</font> fvwm_scrpt <font color="#A020F0">$.</font>/scripts<br>
+<font color="#008B8B">SetEnv</font> fvwm_wallpapers <font color="#A020F0">$[FVWM_USERDIR]</font>/wallpaper<br>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+当然您也可以在环境变量中定义您所使用的软件,例如：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#008B8B">SetEnv</font> fvwm_webbrowser /usr/bin/firefox<br>
+<font color="#008B8B">SetEnv</font> fvwm_term /usr/bin/aterm<br>
+<font color="#008B8B">SetEnv</font> fvwm_mail /usr/bin/mutt<br>
+<font color="#008B8B">SetEnv</font> fvwm_media_player /usr/bin/xmms<br>
+<font color="#008B8B">SetEnv</font> fvwm_video_player /usr/bin/mplayer
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+接下来我们设置图片文件的路径，这个设置方式与终端中的变量$PATH比较相似，下面是一个典型的设置语句：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Set the image path</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">ImagePath</font> <font color="#A020F0">$[fvwm_icon]</font>:<font color="#A020F0">$[fvwm_icon]</font>;.png:$[fvwm_wallpapers]:+<br>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+我
+将所有使用的ICON文件都放在$[fvwm_icon]目录中。在这里出现两次$[fvwm_icon]并且后面一次跟着.png是因为FVWM可交替
+使用.xpm和.png文件，当然也可以使用'/usr/local/share/icon'目录定义广义图标的路径，用$HOME/images定义私
+人图标文件的路径。<br>
+<br>
+接下来我们设置虚拟桌面。FVWM允许我们定义并使用许多的虚拟桌面，而且允许每个虚拟桌面拥有众多的桌面页。在下面的例子中，我们共设立了三个虚拟桌面，每个桌面以3x3的格式拥有9个桌面页：<br>
+
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Virtual Desktops</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">DesktopSize</font> 3x3<br>
+DesktopName 0 Main<br>
+DesktopName 1 Work<br>
+DesktopName 2 Games<br>
+<font color="#008B8B">EdgeScroll</font> 100 100<br>
+<font color="#008B8B">EdgeResistance</font> 150  150<br>
+<font color="#008B8B">EdgeThickness</font> 1
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+3x3格式的桌面页将呈现如下形式：<br>
+<center>
+<table style="width: 50%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td><br></td>
+<td><br></td>
+<td><br></td>
+</tr>
+<tr>
+<td><br></td>
+<td><br></td>
+<td><br></td>
+</tr>
+<tr>
+<td><br></td>
+<td><br></td>
+<td style="text-align: center;"><br></td>
+</tr>
+</tbody>
+</table>
+</center>
+<br>
+然 后我分别命名三个虚拟桌面为Main、Work和Games（分别对应数字0、1、2）。"EdgeScroll 100
+100"语句则用于定义滚屏，即当鼠标到达桌面页的边缘（宽或高为100%时）滚动到下一个虚拟页。EdgeThickness语句用于定义滚屏前等待的
+毫秒数。EdgeThickness语句用于定义滚屏前像素的灵敏度。如果您不希望自动滚屏，也可以定义“EdgeResistance 0
+0”和“EdgeThickness 0”。<br>
+<br>
+下面定义鼠标和获得焦点的特性：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Mouse and Focus Behavior</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">ClickTime</font> 350<br>
+<font color="#008B8B">MoveThreshold</font> 3<br>
+<font color="#008B8B">Style</font> * <font color="#A52A2A"><b>SloppyFocus</b></font>, <font color="#A52A2A"><b>MouseFocusClickRaises</b></font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+ClickTime定义了鼠标单击操作时按下和松开间的时间毫秒数，小于这个数值FVWM认为这是单击，大于这个数值则认为是点住。MoveThreshold定义点住并移动多少像素算做是移动。这些定义要根据自己的感觉设置并且对以后的功能定义操作具有意义。<br>
+
+<br>
+风
+格的定义是用于对窗体物件的行为、外表和特性进行的设置。风格定义十分丰富，不过在开始的时候我们先定义风格线。在风格语句中，*号是统配符，所以
+“Style
+*”表示所有的窗体。其后是一些用逗号分割开的列表，这里我首先定义的是SloppyFocus，表示当鼠标经过该窗体时窗体获得焦点。（这个窗体的概念
+包含根窗体root
+window）。其后的MouseFocusClickRaises表示鼠标单击焦点窗体后该窗体升至桌面最前面。其他可定义的风格还
+有：“ClickToFocus”、“ClickToFocusPassesClick”、“ClickToFocusPassesClickO<wbr>ff”、
+“ClickToFocusRaises”和“ClickToFocusRaisesOff”，它们的具体意义建议您从MAN文档中查找。<br>
+
+<br>
+除此之外要定义的是一些特殊的关键词，以定义默认的桌面环境特性。下面是一个简单的例子：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre>EwmhBaseStruts 62 162 0 48<br>
+<font color="#008B8B">IgnoreModifiers</font> L25
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+这 里的第一行定义可使用桌面的空间，命令格式为“EwmhBaseStruts 左 右 上
+下”。这里的数字表示分别距离屏幕边缘的像素值，以定义窗体的最大尺寸的不具以及窗体可存放的空间。这个设定分别在左、右和下部预留了一些给按钮栏、状态
+栏和桌面页的空间。如果您希望窗体超出这个布局，可以在风格定义中加上EWMHMaximizeIgoreWorking<wbr>Area的选项。下面一行定义忽
+略的变量，例如该行表示忽略数字锁定，这在许多时候是非常有用的。<br>
+<br>
+在我提供的FVWM设置中，还有一些关于风格的设定，在这里我就不一一解释它们的用途了，我只是希望您指导还有许多的风格选项可以对FVWM进行更多的设定：<br>
+
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Global Styles and options</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">Style</font> * <font color="#A52A2A"><b>TileCascadePlacement</b></font>, <font color="#A52A2A"><b>GrabFocusOff</b></font><br>
+<font color="#008B8B">Style</font> * <font color="#A52A2A"><b>NoPPosition</b></font>, <font color="#A52A2A"><b>ResizeOpaque</b></font><br>
+<font color="#008B8B">OpaqueMoveSize</font> -1<br>
+<font color="#008B8B">Emulate</font> <font color="#A52A2A"><b>MWM</b></font><br>
+<font color="#008B8B">HideGeometryWindow</font> <font color="#A52A2A"><b>Never</b></font><br>
+<font color="#008B8B">SnapAttraction</font> 5 <font color="#A52A2A"><b>SameType</b></font> <font color="#A52A2A"><b>Screen</b></font><br>
+<font color="#008B8B">SnapGrid</font> 3 3<br>
+<font color="#008B8B">XorValue</font> 55555<br>
+<font color="#008B8B">Style</font> * <font color="#A52A2A"><b>DecorateTransient</b></font>, <font color="#A52A2A"><b>DontRaiseTransient</b></font><br>
+<font color="#008B8B">Style</font> * <font color="#A52A2A"><b>DontLowerTransient</b></font>, <font color="#A52A2A"><b>StackTransientParent</b></font><br>
+<font color="#008B8B">Style</font> * <font color="#A52A2A"><b>GrabFocusTransientOff</b></font><br>
+<font color="#008B8B">Style</font> * <font color="#A52A2A"><b>WindowShadeSteps</b></font> 20, <font color="#A52A2A"><b>WindowShadeScrolls</b></font><br>
+<font color="#008B8B">SetAnimation</font>  10  -.01 0 .01 .03 .08 .18 .3 .45 .6 .75 .85 .90 .94 .97 .99 1.0<br>
+<font color="#008B8B">Style</font> * <font color="#A52A2A"><b>MwmDecor</b></font>, <font color="#A52A2A"><b>SlipperyIcon</b></font><br>
+<font color="#008B8B">Style</font> * <font color="#A52A2A"><b>IconBox</b></font> <font color="#A52A2A"><b>screen</b></font> w 15 15 -165 -15, <font color="#A52A2A"><b>IconGrid</b></font> 3 3, <font color="#A52A2A"><b>IconFill</b></font> <font color="#008B8B">right</font> <font color="#008B8B">top</font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+下面要设置的是一些关于不同程序窗体的个性风格。这些设定的语句格式 为：“Style [字符串]
+[风格]”。FVWM将对比[字符串]与程序的名称、类型或者窗体的资源，然后分别按照名称、类型和资源进行窗体的创建。下面是特殊应用程序的风格设置，
+尽管各种风格特性都能够进行设置，我这里仅对程序的图标资源进行了定义。<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Program Styles</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"*"</font> <font color="#A52A2A"><b>Icon</b></font> 48x48/unknown.xpm<br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"XTerm"</font> <font color="#A52A2A"><b>Icon</b></font> 48x48/xterm.png, <font color="#A52A2A"><b>NoActiveIconOverride</b></font>, <font color="#A52A2A"><b>MiniIcon</b></font> mini/xterm.png<br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"gvim"</font> <font color="#A52A2A"><b>Icon</b></font> 48x48/gvim.png, <font color="#A52A2A"><b>IconOverride</b></font>, <font color="#A52A2A"><b>MiniIcon</b></font> mini/gvim.png, EWMHMiniIconOverride<br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"Firefox-bin"</font> <font color="#A52A2A"><b>Icon</b></font> 48x48/firefox.png, <font color="#A52A2A"><b>MiniIcon</b></font> mini/firefox.png, EWMHMiniIconOverride<br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"irssi"</font> <font color="#A52A2A"><b>Icon</b></font> 48x48/gaim.png, <font color="#A52A2A"><b>MiniIcon</b></font> mini/irc.png<br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"xmms"</font> <font color="#A52A2A"><b>WindowListSkip</b></font>, <font color="#A52A2A"><b>CirculateSkip</b></font><br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"MPlayer"</font> <font color="#A52A2A"><b>Icon</b></font> 48x48/mplayer.png
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h1>三、功能</h1>
+功能选项可以在设置文件的不同地方出现并被FVWM所执行。在这里我仅仅介绍一些简单的语法并提供一些简单功能的设置，高级功能的介绍将在本文的附录部分被提到。<br>
+
+<br>
+在开始设定功能前，让我们先了解一些关于功能设置的语法句形，我已经在这里给出一个注释框，您可以将它复制到您的设置文档中以便于提醒您如何运用功能的设定。<br>
+
+<center>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF">#</font><br>
+<font color="#0000FF"># DestroyFunc FuncName</font><br>
+<font color="#0000FF"># AddToFunc   FuncName</font><br>
+<font color="#0000FF"># + I (Action to happen immediately)</font><br>
+<font color="#0000FF"># + C (Action to happen on a mouse 'click)</font><br>
+<font color="#0000FF"># + D (Action to happen on a mouse 'double click')</font><br>
+<font color="#0000FF"># + H (Action to happen on a mouse 'hold')</font><br>
+<font color="#0000FF"># + M (Action to happen on a mouse 'motion')</font><br>
+<font color="#0000FF">#</font><br>
+<font color="#0000FF">###########</font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+</center>
+<br>
+您将使用DestroyFunc语句定义您所需要的功能名
+称，然后用AddToFunc语句对于该名称代表的功能进行细节的描述，这些功能将根据鼠标的不同行为运行。另外功能的设置还可以提供运行参数，例如我们
+可以通过'FuncName "$0" "$1" "$2" "$3"
+"$4"'语句调用一个功能并将$0-$4等多个参数传递给该项功能，并以不同的结果来表现。现在让我们来思考以下的几个功能：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Basic Functions</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">DestroyFunc</font> FvwmDeleteOrDestroy<br>
+<font color="#008B8B">AddToFunc</font>   FvwmDeleteOrDestroy<br>
++ H <font color="#008B8B">Nop</font><br>
++ M <font color="#008B8B">Nop</font><br>
++ C <font color="#008B8B">Delete</font><br>
++ D <font color="#008B8B">Destroy</font><br>
+<br>
+<font color="#008B8B">DestroyFunc</font> FvwmIconifyOrShade<br>
+<font color="#008B8B">AddToFunc</font>   FvwmIconifyOrShade<br>
++ C <font color="#008B8B">Iconify</font><br>
++ D <font color="#008B8B">WindowShade</font><br>
+<br>
+<font color="#008B8B">DestroyFunc</font> FvwmMaximize<br>
+<font color="#008B8B">AddToFunc</font>   FvwmMaximize<br>
++ H <font color="#008B8B">Nop</font><br>
++ M <font color="#008B8B">Nop</font><br>
++ C <font color="#008B8B">Maximize</font> <font color="#A020F0">$0</font> <font color="#A020F0">$1</font><br>
+<br>
+<font color="#008B8B">DestroyFunc</font> FvwmMoveOrIconify<br>
+<font color="#008B8B">AddToFunc</font>   FvwmMoveOrIconify<br>
++ M <font color="#008B8B">Move</font><br>
++ D <font color="#008B8B">Iconify</font><br>
+<br>
+<font color="#008B8B">DestroyFunc</font> FvwmWindowShade<br>
+<font color="#008B8B">AddToFunc</font>   FvwmWindowShade<br>
++ D <font color="#008B8B">WindowShade</font> <font color="#A020F0">$0</font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+第一个名为FvwmDeleteOrDestroy的功能在鼠标点住和移动时
+无作用，但是在单击窗体时会删除该窗体，在双击时则彻底去除该窗体。第二个名为FvwmIconifyOrShade的功能将在单击时图标化窗体，在双击
+时隐藏窗体。名为FvwmMaximized的功能可以传递两个变量以窗体如何最大化，例如您可以使用FvwmMaximized 100
+100以使得该窗体在水平和垂直两方面都变成最大，也可以用FvwmMaximized 100
+0使得窗体水平最大化而垂直保持原状，或者使用FvwmMaximized 0
+100以达到垂直最大而水平保持原状。功能FvwmMoveOrIconify将在鼠标移动时移动窗体而双击是图标化窗体。
+FvwmWindowShade在通过FvwmWindowShade True隐藏窗体，或者通过FvwmWindowShade
+False不隐藏窗体。<br>
+<br>
+下面我将写一些启动我的程序的功能，以便于我能够调用它们。尽管这些功能看似简单，但我仍要有组织地来写它们。这些功能如下：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Program Launching Functions</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">DestroyFunc</font> FvwmXTerm<br>
+<font color="#008B8B">AddToFunc</font>   FvwmXTerm<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> xterm<br>
+<br>
+<font color="#008B8B">DestroyFunc</font> FvwmATerm<br>
+<font color="#008B8B">AddToFunc</font>   FvwmATerm<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> aterm<br>
+<br>
+<font color="#008B8B">DestroyFunc</font> FvwmGVim<br>
+<font color="#008B8B">AddToFunc</font>   FvwmGVim<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> gvim<br>
+<br>
+<font color="#008B8B">DestroyFunc</font> FvwmGimp<br>
+<font color="#008B8B">AddToFunc</font>   FvwmGimp<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> gimp-2.0<br>
+<br>
+<font color="#008B8B">DestroyFunc</font> FvwmFireFox<br>
+<font color="#008B8B">AddToFunc</font>   FvwmFireFox<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> firefox<br>
+<br>
+<font color="#008B8B">DestroyFunc</font> FvwmIrssi<br>
+<font color="#008B8B">AddToFunc</font>   FvwmIrssi<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> aterm -e irssi<br>
+<br>
+<font color="#008B8B">DestroyFunc</font> FvwmXmms<br>
+<font color="#008B8B">AddToFunc</font>   FvwmXmms<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> xmms<br>
+<br>
+<font color="#008B8B">DestroyFunc</font> FvwmViewManPage<br>
+<font color="#008B8B">AddToFunc</font>   FvwmViewManPage<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> xterm -fg White -bg DarkBlue -g 80x40 -fn 7x14 -fb 7x14bold \<br>
+ -n <font color="#FF00FF">"Manual Page - $0"</font> -T <font color="#FF00FF">"Manual Page - $0"</font> -e man <font color="#FF00FF">"$0"</font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+这些功能我就不详细解释了。最后一个功能是将MAN文档作为一个参数来启动 MAN程序，如果使用“FvwmViewManPage
+fvwm”语句调用该功能将跳出一个名为“Manual Page
+fvwm”的fvwm的MAN文档终端窗体。其中符号“\”为换行符使得fvwm可以将下面一行作为本行的续写内容处理。<br>
+<br>
+现在让我们花一
+些精力来看一下三个重要且特殊的功能：“StartFunction”、“InitFunction”和“RestartFunction”，功能
+StartFunction将在FVWM每次启动是运行，InitFunction将在FVWM首次启动时在StartFunction后运行，而
+RestartFunction将在FVWM再次启动时跟在StartFunction后运行。这里的示范为：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Startup Functions</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">DestroyFunc</font> <font color="#6A5ACD">StartFunction</font><br>
+<font color="#008B8B">AddToFunc</font>   <font color="#6A5ACD">StartFunction</font><br>
++ I <font color="#008B8B">Module</font> FvwmTaskBar<br>
++ I <font color="#008B8B">Module</font> FvwmPager 0 2<br>
++ I <font color="#008B8B">Module</font> FvwmButtons MyButtons<br>
+<br>
+<font color="#008B8B">DestroyFunc</font> <font color="#6A5ACD">InitFunction</font><br>
+<font color="#008B8B">AddToFunc</font>   <font color="#6A5ACD">InitFunction</font><br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> xscreensaver<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> fvwm-root -r <font color="#A020F0">$[fvwm_wallpapers]</font>/background.png<br>
++ I FvwmXmms<br>
++ I FvwmATerm<br>
+<br>
+<font color="#008B8B">DestroyFunc</font> <font color="#6A5ACD">RestartFunction</font><br>
+<font color="#008B8B">AddToFunc</font>   <font color="#6A5ACD">RestartFunction</font><br>
++ I <font color="#008B8B">Nop</font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+当FVWM启动时，她将调用三个模块：FvwmTaskBar、FvwmPager和FvwmButtons，如果是首次启动她还将启动屏保系统、桌面壁纸并运行XMMS和aTerm终端。如果是重启则不再运行这些后续的程序。<br>
+
+<br>
+功
+能可以是十分地丰富，并且可以给桌面加上许多有用的内容。功能可以加上参数运行（例如$0、$1、$2、$3等等）也可以根据鼠标的不同动作进行合并。功
+能可以使用FVWM保留名以外的各种名称命名，这些保留名有：Nop、Delete、Destroy、Restart、Exec等等。<br>
+
+<br>
+这里有一些简单的复合功能的例子：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Screenshot Functions (uses ImageMagick)</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">DestroyFunc</font> FvwmWindowScreenshot<br>
+<font color="#008B8B">AddToFunc</font>   FvwmWindowScreenshot<br>
++ I ThisWindow (!<font color="#008B8B">Shaded</font> !<font color="#008B8B">Iconic</font> Iconifiable) \<br>
+  <font color="#008B8B">Exec</font> import -window <font color="#A020F0">$[w.id]</font> -quality 100 -silent \<br>
+  <font color="#FF00FF">"$[fvwm_home]/screenshot/screenshot-`date +%F[%R]`.$[w.id].jpg"</font><br>
+<br>
+<font color="#008B8B">DestroyFunc</font> FvwmDesktopScreenshot<br>
+<font color="#008B8B">AddToFunc</font>   FvwmDesktopScreenshot<br>
++ I <font color="#008B8B">Exec</font> sleep <font color="#A020F0">$0</font>; import -window <font color="#008B8B">root</font> -quality 100 -silent \<br>
+  <font color="#FF00FF">"$[fvwm_home]/screenshot/screenshot-`date +%F[%R]`.jpg"</font><br>
+<br>
+<font color="#0000FF">#####</font><br>
+<font color="#0000FF"># XRoach Invasion</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">DestroyFunc</font> XRoachInvasion<br>
+<font color="#008B8B">AddToFunc</font>   XRoachInvasion<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> xroach -roaches 5 -rc Cyan -speed 17<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> xroach -roaches 3 -rc Red -speed 15<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> xroach -roaches 7 -rc Green -speed 10<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> xroach -roaches 3 -rc Blue -speed 20<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> xroach -roaches 1 -rc Black -speed 30<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">exec</font> xroach -roaches 1 -rc White -speed 40<br>
+<br>
+<font color="#008B8B">DestroyFunc</font> XRoachExterminate<br>
+<font color="#008B8B">AddToFunc</font>   XRoachExterminate<br>
++ I <font color="#008B8B">Exec</font> killall xroach
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+这
+里的第一项功能是利用imagemagick中的import工具保留全屏或者单一窗体的图象。要创建一个单一窗体的保留图象可以通过Pick
+FvwmWindowScreenshot来获得一个指针让您能够用指针点击所要的窗体，并取得保留的图象。其后一个是获取全屏的保留图象，可以用例如
+FvwmDesktopScreenshot
+5来调用并在5秒之后摄取图片。下一个功能是设定一个比较老的X玩偶，它将分别启动不同眼色的玩偶，当然前提是你已经成功地安装了xroach的程序。<br>
+
+<hr style="width: 100%; height: 2px;">
+<h1>四、绑定</h1>
+总
+共有两种形式的绑定，绑定鼠标或者是绑定键盘。要理解绑定的概念和运作，首先让我们来研究一下一个拥有一个窗体和两个图标化窗体的典型桌面。下图显示桌面
+是如何分别由以下成员组成的：R代表根视窗，I代表图标，F代表窗体的角，S代表窗体的边，T代表窗体的标题栏，W代表应用窗体，另外还有0-9的按钮位
+置。注意字符A代表着鼠标的位置可以在桌面的任何地方。<br>
+<div style="text-align: center;"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/window_layout.png" real_src="http://www.zensites.net/fvwm/guide/window_layout.png" alt="FVWM初学指南(转Jaimos&nbsp;&lt;wbr&gt;F&nbsp;&lt;wbr&gt;Skriletz）" title="FVWM初学指南(转Jaimos&nbsp;&lt;wbr&gt;F&nbsp;&lt;wbr&gt;Skriletz）" action-data="http%3A%2F%2Fwww.zensites.net%2Ffvwm%2Fguide%2Fwindow_layout.png" action-type="show-slide"><br></div>
+绑 定如下例设置，您可以用“Key X Context Modifier Action”绑定一个触键到一个动作，也可以用“Mouse
+X Context Modifier
+Action”绑定鼠标到一个动作。其中Context是鼠标所在的位置，Modifier可以是这些键的任意组合：（A）任何键、（C）Ctrl键、
+（S）上档键、（M）Meta键、（N）无键，或者是1~5（代表X窗体的mod1~mod5，详见xmodmap的MAN文档）。下面是一个简单的例
+子：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Basic Bindings</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">Key</font> F1 A M <font color="#008B8B">Menu</font> MenuFvwmRoot<br>
+<font color="#008B8B">Key</font> Tab A M <font color="#008B8B">WindowList</font> <font color="#008B8B">Root</font> c c <font color="#A52A2A"><b>NoDeskSort</b></font>, <font color="#A52A2A"><b>SelectOnRelease</b></font> Meta_L<br>
+<font color="#008B8B">Key</font> Super_L A A FvwmATerm<br>
+<font color="#A52A2A"><b>Mouse</b></font> 1 R A <font color="#008B8B">Menu</font> FvwmRootMenu<br>
+<font color="#A52A2A"><b>Mouse</b></font> 3 R A <font color="#008B8B">Menu</font> FvwmWindowOpsMenu<br>
+<font color="#A52A2A"><b>Mouse</b></font> 1 1 A FvwmDeleteOrDestroy<br>
+<font color="#A52A2A"><b>Mouse</b></font> 1 3 A FvwmIconifyOrShade<br>
+<font color="#A52A2A"><b>Mouse</b></font> 1 5 A FvwmMaximize 100 100<br>
+<font color="#A52A2A"><b>Mouse</b></font> 2 5 A FvwmMaximize 0 100<br>
+<font color="#A52A2A"><b>Mouse</b></font> 3 5 A FvwmMaximize 100 0<br>
+<font color="#A52A2A"><b>Mouse</b></font> 1 W M FvwmMoveOrIconify<br>
+<font color="#A52A2A"><b>Mouse</b></font> 1 I A FvwmMoveOrIconify<br>
+<font color="#A52A2A"><b>Mouse</b></font> 4 T A FvwmWindowShade <font color="#A52A2A"><b>True</b></font><br>
+<font color="#A52A2A"><b>Mouse</b></font> 5 T A FvwmWindowShade <font color="#A52A2A"><b>False</b></font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+以上这些绑定自上而下分别代表这些动作：<br>
+1、鼠标在任何地方且按下Alt-F1时启动内建根菜单；<br>
+2、按下Alt-Tab键时显示窗体列表并使选中的列表窗体获得焦点；<br>
+3、当按下左面的命令键（Win）时启动aTerm终端；<br>
+4、在根视窗上按鼠标左键时打开根菜单；<br>
+5、在根视窗上按鼠标右键时打开窗体对象菜单；<br>
+6、在窗体1号按钮位单击或双击删除或清除该视窗；<br>
+7、在窗体3号按钮位单击或双击图标化或隐藏该视窗；<br>
+8、在窗体5号按钮位左键单击使得窗体水平及垂直两方面最大化；<br>
+9、在窗体5号按钮为右键单击使得窗体垂直最大化，水平方向不变；<br>
+10、在窗体5号按钮位中键单击使得窗体水平最大化，垂直方向不变；<br>
+11、在窗体任何位置时按Alt及单击左键移动窗体，双击使窗体图标化；<br>
+12、在图标化窗体上按Alt及单击左键移动图标，双击使图标恢复为窗体；<br>
+13、在窗体标题栏向上滚动鼠标滑轮两次隐藏窗体；<br>
+14、在窗体标题栏向下滚动鼠标滑轮两次展开窗体。<br>
+<hr style="width: 100%; height: 2px;">
+<h1>五、视窗修饰</h1>
+视
+窗修饰定义的是窗体的外观。FVWM的窗体修饰可采用彩色图线或位图。这里给出的第一个例子是无位图的简单视窗修饰方案。在开始的时候，我们要来定义一些
+您视窗中将使用的色彩结构（colorsets）。色彩结构的定义可在设置文档的任何地方出现，这里是三个简单的色彩结构的设置。<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Window Colorsets</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#A52A2A"><b>Colorset</b></font> 3 fg <font color="#2E8B57"><b>#101060</b></font>, bg <font color="#2E8B57"><b>#e6e7d7</b></font><br>
+<font color="#A52A2A"><b>Colorset</b></font> 4 fg Black, bg <font color="#2E8B57"><b>#a6a797</b></font><br>
+<font color="#A52A2A"><b>Colorset</b></font> 5 fg White, bg Black
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+这
+里的三个色彩结构，分别用3、4、5的序号代表，定义了前景（fg）和背景（bg）的颜色，其中颜色的定义即可以采用16进制，也可以使用色彩的名称，关
+于色彩的名称可查阅/etc/X11/RGB.txt文档。另外还可以定义高亮（hi）和隐藏（sh）色。色彩结构的设定可以是任意的长整型数字，但是请
+尽量减少色彩结构设置的数量，因为它会为您一个人的运行占据大量的内存空间。关于色彩结构的详细内容可参阅FvwmThemes的MAN文档。<br>
+
+<br>
+视窗修饰可以分成三个组成部分：标题栏修饰、按钮修饰和边框修饰。下面是一个简单的例子：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Window Decor</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">DestroyDecor</font> MyDecor<br>
+<font color="#008B8B">AddToDecor</font>   MyDecor<br>
++ <font color="#008B8B">TitleStyle</font> <font color="#A52A2A"><b>LeftJustified</b></font> <font color="#A52A2A"><b>Height</b></font> 18<br>
++ <font color="#008B8B">ButtonStyle</font> 1 <font color="#A52A2A"><b>ActiveUp</b></font> <font color="#A52A2A"><b>Vector</b></font> 4 30x30@3 60x60@3 60x30@4 30x60@3 -- <font color="#A52A2A"><b>Flat</b></font><br>
++ <font color="#008B8B">ButtonStyle</font> 1 <font color="#A52A2A"><b>ActiveDown</b></font> <font color="#A52A2A"><b>Vector</b></font> 4 30x30@3 60x60@3 60x30@4 30x60@3 -- <font color="#A52A2A"><b>Flat</b></font><br>
++ <font color="#008B8B">ButtonStyle</font> 1 <font color="#A52A2A"><b>Inactive</b></font> <font color="#A52A2A"><b>Vector</b></font> 4 30x30@3 60x60@3 60x30@4 30x60@3 -- <font color="#A52A2A"><b>Flat</b></font><br>
++ <font color="#008B8B">ButtonStyle</font> 3 <font color="#A52A2A"><b>ActiveUp</b></font> <font color="#A52A2A"><b>Vector</b></font> 5 30x60@3 60x60@3 60x50@3 30x50@3 30x60@3 -- <font color="#A52A2A"><b>Flat</b></font><br>
++ <font color="#008B8B">ButtonStyle</font> 3 <font color="#A52A2A"><b>ActiveDown</b></font> <font color="#A52A2A"><b>Vector</b></font> 5 30x60@3 60x60@3 60x50@3 30x50@3 30x60@3 -- <font color="#A52A2A"><b>Flat</b></font><br>
++ <font color="#008B8B">ButtonStyle</font> 3 <font color="#A52A2A"><b>Inactive</b></font> <font color="#A52A2A"><b>Vector</b></font> 5 30x60@3 60x60@3 60x50@3 30x50@3 30x60@3 -- <font color="#A52A2A"><b>Flat</b></font><br>
++ <font color="#008B8B">ButtonStyle</font> 5 <font color="#A52A2A"><b>ActiveUp</b></font> <font color="#A52A2A"><b>Vector</b></font> 7 30x30@3 30x60@3 60x60@3 60x30@3 30x30@3 30x35@3 60x35@3 -- <font color="#A52A2A"><b>Flat</b></font><br>
++ <font color="#008B8B">ButtonStyle</font> 5 <font color="#A52A2A"><b>ActiveDown</b></font> <font color="#A52A2A"><b>Vector</b></font> 7 30x30@3 30x60@3 60x60@3 60x30@3 30x30@3 30x35@3 60x35@3 -- <font color="#A52A2A"><b>Flat</b></font><br>
++ <font color="#008B8B">ButtonStyle</font> 5 <font color="#A52A2A"><b>Inactive</b></font> <font color="#A52A2A"><b>Vector</b></font> 7 30x30@3 30x60@3 60x60@3 60x30@3 30x30@3 30x35@3 60x35@3 -- <font color="#A52A2A"><b>Flat</b></font><br>
++ <font color="#008B8B">TitleStyle</font> -- <font color="#A52A2A"><b>Flat</b></font><br>
++ <font color="#008B8B">BorderStyle</font> <font color="#A52A2A"><b>Simple</b></font> -- <font color="#A52A2A"><b>NoInset</b></font> <font color="#A52A2A"><b>Flat</b></font><br>
++ <font color="#008B8B">ButtonStyle</font> <font color="#A52A2A"><b>All</b></font> -- <font color="#A52A2A"><b>UseTitleStyle</b></font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+以上视窗修饰定义三个矢量按钮：1、3、5（分别与绑定设置相对应）。注意：每个修饰
+按钮都首先要通过绑定来建立与某些动作的关联。每行最后的“--
+Flat”表示按钮和标题栏不要显示突出或凹陷。矢量是简单的线条描绘。每个矢量图的大小都在100x100的像素内，它的语法是“Vector
+[number of points] [[point1] [point2]
+...]”，其中每个point的定义为XxY@Z，Z可以是0-4的数字，分别代表0高亮、1隐藏、2背景、3前景和4不可见。<br>
+<br>
+下面的一个例子是使用位图定义按钮和标题栏。<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Ukkosta Decor</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">DestroyDecor</font> UkkostaDecor<br>
+<font color="#008B8B">AddToDecor</font>   UkkostaDecor<br>
++ <font color="#008B8B">TitleStyle</font> <font color="#A52A2A"><b>LeftJustified</b></font> <font color="#A52A2A"><b>Height</b></font> 24<br>
++ <font color="#008B8B">ButtonStyle</font> 1 \<br>
+        <font color="#A52A2A"><b>ActiveUp</b></font>     (<font color="#A52A2A"><b>Pixmap</b></font> <font color="#A020F0">$[fvwm_img]</font>/<font color="#A52A2A"><b>button</b></font>/close-activeup.png -- <font color="#A52A2A"><b>Flat</b></font>) \<br>
+        <font color="#A52A2A"><b>ActiveDown</b></font>   (<font color="#A52A2A"><b>Pixmap</b></font> <font color="#A020F0">$[fvwm_img]</font>/<font color="#A52A2A"><b>button</b></font>/close-activedown.png -- <font color="#A52A2A"><b>Flat</b></font>) \<br>
+        <font color="#A52A2A"><b>Inactive</b></font>     (<font color="#A52A2A"><b>Pixmap</b></font> <font color="#A020F0">$[fvwm_img]</font>/<font color="#A52A2A"><b>button</b></font>/inactive.png -- <font color="#A52A2A"><b>Flat</b></font>)<br>
++ <font color="#008B8B">ButtonStyle</font> 3 \<br>
+        <font color="#A52A2A"><b>ActiveUp</b></font>     (<font color="#A52A2A"><b>Pixmap</b></font> <font color="#A020F0">$[fvwm_img]</font>/<font color="#A52A2A"><b>button</b></font>/iconify-activeup.png -- <font color="#A52A2A"><b>Flat</b></font>) \<br>
+        <font color="#A52A2A"><b>ActiveDown</b></font>   (<font color="#A52A2A"><b>Pixmap</b></font> <font color="#A020F0">$[fvwm_img]</font>/<font color="#A52A2A"><b>button</b></font>/iconify-activedown.png -- <font color="#A52A2A"><b>Flat</b></font>) \<br>
+        <font color="#A52A2A"><b>Inactive</b></font>     (<font color="#A52A2A"><b>Pixmap</b></font> <font color="#A020F0">$[fvwm_img]</font>/<font color="#A52A2A"><b>button</b></font>/inactive.png -- <font color="#A52A2A"><b>Flat</b></font>)<br>
++ <font color="#008B8B">ButtonStyle</font> 5 \<br>
+        <font color="#A52A2A"><b>ActiveUp</b></font>     (<font color="#A52A2A"><b>Pixmap</b></font> <font color="#A020F0">$[fvwm_img]</font>/<font color="#A52A2A"><b>button</b></font>/maximize-activeup.png -- <font color="#A52A2A"><b>Flat</b></font>) \<br>
+        <font color="#A52A2A"><b>ActiveDown</b></font>   (<font color="#A52A2A"><b>Pixmap</b></font> <font color="#A020F0">$[fvwm_img]</font>/<font color="#A52A2A"><b>button</b></font>/maximize-activedown.png -- <font color="#A52A2A"><b>Flat</b></font>) \<br>
+        <font color="#A52A2A"><b>Inactive</b></font>     (<font color="#A52A2A"><b>Pixmap</b></font> <font color="#A020F0">$[fvwm_img]</font>/<font color="#A52A2A"><b>button</b></font>/inactive.png -- <font color="#A52A2A"><b>Flat</b></font>)<br>
++ <font color="#008B8B">ButtonStyle</font> 1 - <font color="#A52A2A"><b>Clear</b></font><br>
++ <font color="#008B8B">ButtonStyle</font> 3 - <font color="#A52A2A"><b>Clear</b></font> <font color="#A52A2A"><b>MwmDecorMin</b></font><br>
++ <font color="#008B8B">ButtonStyle</font> 5 - <font color="#A52A2A"><b>Clear</b></font> <font color="#A52A2A"><b>MwmDecorMax</b></font><br>
++ <font color="#008B8B">TitleStyle</font> AllActive MultiPixmap \<br>
+        Main AdjustedPixmap <font color="#A020F0">$[fvwm_img]</font>/decor/title-main-active.xpm, \<br>
+        LeftEnd AdjustedPixmap <font color="#A020F0">$[fvwm_img]</font>/decor/title-leftend-active.xpm, \<br>
+        RightEnd AdjustedPixmap <font color="#A020F0">$[fvwm_img]</font>/decor/title-rightend-active.xpm, \<br>
+        UnderText AdjustedPixmap <font color="#A020F0">$[fvwm_img]</font>/decor/title-undertext-active.xpm, \<br>
+        LeftOfText AdjustedPixmap <font color="#A020F0">$[fvwm_img]</font>/decor/title-leftoftext-active.xpm, \<br>
+        RightOfext AdjustedPixmap <font color="#A020F0">$[fvwm_img]</font>/decor/title-rightoftext-active.xpm<br>
++ <font color="#008B8B">TitleStyle</font> AllInactive MultiPixmap \<br>
+        Main AdjustedPixmap <font color="#A020F0">$[fvwm_img]</font>/decor/title-main-inactive.xpm, \<br>
+        LeftEnd AdjustedPixmap <font color="#A020F0">$[fvwm_img]</font>/decor/title-leftend-inactive.xpm, \<br>
+        RightEnd AdjustedPixmap <font color="#A020F0">$[fvwm_img]</font>/decor/title-rightend-inactive.xpm, \<br>
+        UnderText AdjustedPixmap <font color="#A020F0">$[fvwm_img]</font>/decor/title-undertext-inactive.xpm, \<br>
+        LeftOfText AdjustedPixmap <font color="#A020F0">$[fvwm_img]</font>/decor/title-leftoftext-inactive.xpm, \<br>
+        RightOfext AdjustedPixmap <font color="#A020F0">$[fvwm_img]</font>/decor/title-rightoftext-inactive.xpm<br>
++ <font color="#008B8B">TitleStyle</font> -- <font color="#A52A2A"><b>Flat</b></font><br>
++ <font color="#008B8B">BorderStyle</font> <font color="#A52A2A"><b>Simple</b></font> -- <font color="#A52A2A"><b>NoInset</b></font> <font color="#A52A2A"><b>Flat</b></font><br>
++ <font color="#008B8B">ButtonStyle</font> <font color="#A52A2A"><b>All</b></font> -- <font color="#A52A2A"><b>UseTitleStyle</b></font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+现在我们就可以定义我们视窗的外观了。定义的方式如下：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Window Styles</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"*"</font> <font color="#A52A2A"><b>UseDecor</b></font> MyDecor<br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"*"</font> <font color="#A52A2A"><b>Font</b></font> <font color="#FF00FF">"xft:Sans:Bold:size=8:minspace=False:antialias=True"</font><br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"*"</font> <font color="#A52A2A"><b>BorderWidth</b></font> 1, <font color="#A52A2A"><b>HandleWidth</b></font> 1<br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"*"</font> <font color="#A52A2A"><b>MWMBorder</b></font>, <font color="#A52A2A"><b>FirmBorder</b></font><br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"*"</font> <font color="#A52A2A"><b>Colorset</b></font> 4<br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"*"</font> <font color="#A52A2A"><b>HilightColorset</b></font> 3<br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"*"</font> <font color="#A52A2A"><b>BorderColorset</b></font> 5<br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"*"</font> <font color="#A52A2A"><b>HilightBorderColorset</b></font> 4
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+上面的设置告诉系统按照MyDecor的格式修饰视窗，并规范了字体、边框以及普通、高亮和边框的色彩结构。我喜欢所有窗体都采用简单的视窗修饰，当然您也可以分别设置它们。<br>
+
+<hr style="width: 100%; height: 2px;">
+<h1>六、菜单</h1>
+菜单是一种根据绑定或点击状态栏开始菜单钮启动的清单。菜单的内容可以是运行程序，也可以动态产生，例如我们可以显示目录的内容或启动某些程序。首先我们要做的还是色彩结构定义，一般来说菜单的色彩结构有两种：主色彩结构和选种色彩结构。下面是一个简单的例子：<br>
+
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Menu Colorsets</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#A52A2A"><b>Colorset</b></font> 7 fg Black, bg <font color="#2E8B57"><b>#e6e7d7</b></font>, sh Black, hi <font color="#2E8B57"><b>#202070</b></font><br>
+<font color="#A52A2A"><b>Colorset</b></font> 8 fg DarkRed, bg <font color="#2E8B57"><b>#e6e7d7</b></font>, sh Black, hi <font color="#2E8B57"><b>#202070</b></font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+2.5.10版本的FVWM可以使用一种伪透明色彩，它是将根视窗的图像作为一种底色来使用，但是使用这种色彩仅能看到根视窗图像，上面的原有窗体都没有。这里是一个关于伪透明色彩结构的定义：<br>
+
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#A52A2A"><b>Colorset</b></font> 7 RootTransparent, fg Black, bg average, sh Black, \<br>
+  hi <font color="#2E8B57"><b>#202070</b></font>, Tint White 60, bgTint White 60
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+跟在色彩后面的颜色代表百分比值，为0时则完全透明，为100时则显示原定义色彩。<br>
+<br>
+如果安装了<a href="http://www.zensites.net/fvwm/guide/install.html">真透明插件</a>，您还可以实现真正的透明效果。如果您这个插件能够正确安装，那么可以用“Translucent
+[颜色] [百分比值]”来定义真透明色彩。就像下面的例子一样：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#A52A2A"><b>Colorset</b></font> 7 fg Black, Translucent White 75, \<br>
+  hi Black, sh Black
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+在定义完色彩结构之后，我们要来定义菜单的风格。菜单风格与风格定义相似，也可以使用通配符“*”，以使得菜单的风格一致或设计各自不同的菜单。一个全局菜单风格的定义大致如下：<br>
+
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># MenuStyles</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">MenuStyle</font> * <font color="#A52A2A"><b>PopupDelayed</b></font>, <font color="#A52A2A"><b>PopupDelay</b></font> 300, <font color="#A52A2A"><b>PopdownImmediately</b></font><br>
+<font color="#008B8B">MenuStyle</font> * <font color="#A52A2A"><b>PopupOffset</b></font> -5 100, <font color="#A52A2A"><b>TitleWarpOff</b></font><br>
+<font color="#008B8B">MenuStyle</font> * <font color="#A52A2A"><b>TitleUnderlines2</b></font>, <font color="#A52A2A"><b>SeparatorsLong</b></font>, <font color="#A52A2A"><b>TrianglesSolid</b></font><br>
+<font color="#008B8B">MenuStyle</font> * <font color="#A52A2A"><b>AnimationOff</b></font>, <font color="#A52A2A"><b>AutomaticHotkeysOff</b></font><br>
+<font color="#008B8B">MenuStyle</font> * <font color="#A52A2A"><b>BorderWidth</b></font> 2<br>
+<font color="#008B8B">MenuStyle</font> * <font color="#A52A2A"><b>PopupAsSubmenu</b></font>, <font color="#A52A2A"><b>HoldSubmenus</b></font>, <font color="#A52A2A"><b>SubmenusRight</b></font><br>
+<font color="#008B8B">MenuStyle</font> * <font color="#A52A2A"><b>ItemFormat</b></font> <font color="#FF00FF">"%|%5.5i%1.3l%2.3&gt;%|"</font><br>
+<font color="#008B8B">MenuStyle</font> * <font color="#A52A2A"><b>VerticalItemSpacing</b></font> 1 1, <font color="#A52A2A"><b>VerticalTitleSpacing</b></font> 2 2<br>
+<font color="#008B8B">MenuStyle</font> * <font color="#A52A2A"><b>MenuColorset</b></font> 7<br>
+<font color="#008B8B">MenuStyle</font> * <font color="#A52A2A"><b>ActiveFore</b></font>, <font color="#A52A2A"><b>Hilight3DOff</b></font><br>
+<font color="#008B8B">MenuStyle</font> * <font color="#A52A2A"><b>ActiveColorset</b></font> 8<br>
+<font color="#008B8B">MenuStyle</font> * <font color="#A52A2A"><b>Font</b></font> <font color="#FF00FF">"Shadow=2:xft:Sans:Bold:size=11:antialias=True"</font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+您最好通过MAN文档来查阅每个项目的意义，不过大多数的内容已经从这个例子
+中能够反应并得到理解，例如如何控制菜单跳出、菜单的行为、色彩应用、字体以及菜单内容和标题等等。如果您希望不同的菜单有不同的格式，可以替代其中的
+“*”并自己来定义。例如：您可以使用“MenuStyle FvwmMenu*”和“MenuStyle
+MyMenu*”来分别定义，以使得这两种菜单有所不同。<br>
+<br>
+现在可以来定义菜单的内容了。定义菜单与定义功能有些相似：您需要首先创建一个菜单，然后将菜单的内容逐一增加进去。这里是一个简单的根菜单的定义：<br>
+
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># FvwmRootMenu</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">DestroyMenu</font> FvwmRootMenu<br>
+<font color="#008B8B">AddToMenu</font>   FvwmRootMenu <font color="#FF00FF">"Root Menu"</font> <font color="#008B8B">Title</font><br>
++ <font color="#FF00FF">"Programs</font><font color="#0000FF">%menu/programs.png%</font><font color="#FF00FF">"</font>  <font color="#008B8B">Popup</font> FvwmProgramsMenu<br>
++ <font color="#FF00FF">"Console</font><font color="#0000FF">%menu/terminal.png%</font><font color="#FF00FF">"</font>  FvwmATerm<br>
++ <font color="#FF00FF">"FVWM Console</font><font color="#0000FF">%menu/terminal.png%</font><font color="#FF00FF">"</font>  <font color="#008B8B">Module</font> FvwmConsole<br>
++ <font color="#FF00FF">""</font> <font color="#008B8B">Nop</font><br>
++ <font color="#FF00FF">"Help</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">"</font>  <font color="#008B8B">Popup</font> FvwmManPagesMenu<br>
++ <font color="#FF00FF">"Restart FVWM</font><font color="#0000FF">%menu/restart.png%</font><font color="#FF00FF">"</font>  <font color="#008B8B">Restart</font><br>
++ <font color="#FF00FF">"Quit FVWM</font><font color="#0000FF">%menu/quit.png%</font><font color="#FF00FF">"</font>  <font color="#008B8B">Quit</font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+菜单定义的基本语法是‘+ "[菜单项目名称]%[图标]%" [动作]’，图标在菜单的前后都可以，例如‘+
+"%[图标]%[菜单项目名称]"
+[动作]’的显示结果与前面是完全一致的。要调整图标显示在菜单名称的左面或者右面，则需要在菜单风格中定义。这里创建了一个名为根菜单的菜单列表，您可
+以通过单击根视窗调用它（已在绑定中进行了定义）。在这个菜单中总共定义了5项内容，其中第一项是打开一个名为FvwmProgramsMenu的子菜
+单。第二项是通过调用FvwmATerm功能来运行aterm终端。第三项是运行一个名为FvwmConsole模块，它将启动一个终端并可以在其中直接
+以FVWM语法调用程序并使之立刻执行。‘+ “”
+NOP’将添加一个隔断。下面的项目是启动FVWM的MAN文档帮助文件和退出FVWM。<br>
+<br>
+上面提到了两个子菜单一个是运行程序的菜单，一个是包含FVWM所有帮助文档的菜单，让我们现在就来定义它们：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Programs Menu</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">DestroyMenu</font> FvwmProgramsMenu<br>
+<font color="#008B8B">AddToMenu</font>   FvwmProgramsMenu <font color="#FF00FF">"Programs"</font> <font color="#008B8B">Title</font><br>
++ <font color="#FF00FF">"GVim</font><font color="#0000FF">%menu/vim.png%</font><font color="#FF00FF">"</font>  FvwmGVim<br>
++ <font color="#FF00FF">"Gimp</font><font color="#0000FF">%menu/gimp.png%</font><font color="#FF00FF">"</font>  FvwmGimp<br>
++ <font color="#FF00FF">"FireFox</font><font color="#0000FF">%menu/firefox.png%</font><font color="#FF00FF">"</font>  FvwmFireFox<br>
++ <font color="#FF00FF">"Irssi</font><font color="#0000FF">%menu/irc.png%</font><font color="#FF00FF">"</font>  FvwmIrssi<br>
++ <font color="#FF00FF">"Xmms</font><font color="#0000FF">%menu/xmms.png%</font><font color="#FF00FF">"</font>  FvwmXmms<br>
++ <font color="#FF00FF">"XRoach-Invasion</font><font color="#0000FF">%menu/xroach.png%</font><font color="#FF00FF">"</font>  XRoachInvasion<br>
++ <font color="#FF00FF">"XRoach-Exterminate</font><font color="#0000FF">%menu/xroach.png%</font><font color="#FF00FF">"</font>  XRoachExterminate<br>
+<br>
+<font color="#0000FF">#####</font><br>
+<font color="#0000FF"># FVWM Help Menu</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">DestroyMenu</font> FvwmManPagesMenu<br>
+<font color="#008B8B">AddToMenu</font>   FvwmManPagesMenu <font color="#FF00FF">"FVWM Man Pages"</font> <font color="#008B8B">Title</font><br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">fvwm"</font>                FvwmViewManPage <font color="#A52A2A"><b>fvwm</b></font><br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmAnimate"</font>         FvwmViewManPage FvwmAnimate<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmAuto"</font>            FvwmViewManPage FvwmAuto<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmBacker"</font>          FvwmViewManPage FvwmBacker<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmBanner"</font>          FvwmViewManPage FvwmBanner<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmButtons"</font>         FvwmViewManPage <font color="#A52A2A"><b>FvwmButtons</b></font><br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmCommand"</font>         FvwmViewManPage FvwmCommand<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmConsole"</font>         FvwmViewManPage FvwmConsole<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmConsoleC.pl"</font>     FvwmViewManPage FvwmConsoleC.pl<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmCpp"</font>             FvwmViewManPage FvwmCpp<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmDebug"</font>           FvwmViewManPage FvwmDebug<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmDragWell"</font>        FvwmViewManPage FvwmDragWell<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmEvent"</font>           FvwmViewManPage FvwmEvent<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmForm"</font>            FvwmViewManPage FvwmForm<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmGtk"</font>             FvwmViewManPage FvwmGtk<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmGtkDebug"</font>        FvwmViewManPage FvwmGtkDebug<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmIconBox"</font>         FvwmViewManPage FvwmIconBox<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmIconMan"</font>         FvwmViewManPage FvwmIconMan<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmIdent"</font>           FvwmViewManPage FvwmIdent<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmM4"</font>              FvwmViewManPage FvwmM4<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmPager"</font>           FvwmViewManPage FvwmPager<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmPerl"</font>            FvwmViewManPage FvwmPerl<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmProxy"</font>           FvwmViewManPage FvwmProxy<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmRearrange"</font>       FvwmViewManPage FvwmRearrange<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmSave"</font>            FvwmViewManPage FvwmSave<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmSaveDesk"</font>        FvwmViewManPage FvwmSaveDesk<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmScript"</font>          FvwmViewManPage FvwmScript<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmScroll"</font>          FvwmViewManPage FvwmScroll<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmTaskBar"</font>         FvwmViewManPage FvwmTaskBar<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmTheme"</font>           FvwmViewManPage FvwmTheme<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmWharf"</font>           FvwmViewManPage FvwmWharf<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmWinList"</font>         FvwmViewManPage FvwmWinList<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">FvwmWindowMenu"</font>      FvwmViewManPage FvwmWindowMenu<br>
++ <font color="#FF00FF">""</font> <font color="#008B8B">Nop</font><br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">fvwm-config"</font>         FvwmViewManPage fvwm-config<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">fvwm-perllib"</font>        FvwmViewManPage fvwm-perllib<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">fvwm-root"</font>           FvwmViewManPage fvwm-root<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">fvwm-bug"</font>            FvwmViewManPage fvwm-bug<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">fvwm-convert-2.2"</font>    FvwmViewManPage fvwm-convert-2.2<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">fvwm-convert-2.4"</font>    FvwmViewManPage fvwm-convert-2.4<br>
++ <font color="#FF00FF">""</font> <font color="#008B8B">Nop</font><br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">fvwm-menu-desktop"</font>   FvwmViewManPage fvwm-menu-desktop<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">fvwm-menu-directory"</font> FvwmViewManPage fvwm-menu-directory<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">fvwm-menu-headlines"</font> FvwmViewManPage fvwm-menu-headlines<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/help.png%</font><font color="#FF00FF">fvwm-menu-xlock"</font>     FvwmViewManPage fvwm-menu-xlock
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+下面的菜单是关于窗体操作以及保留视图的。在绑定设置中我将这个菜单定义由右击根视窗时调用。其中最后一项是调用一个名为FvwmIdent的模块，以显示窗体的名称、类型、资源以及其他的有用信息。<br>
+
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># fvwm Window Operation Menu</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">DestroyMenu</font> FvwmWindowOpsMenu<br>
+<font color="#008B8B">AddToMenu</font>   FvwmWindowOpsMenu <font color="#FF00FF">"Window Operations"</font> <font color="#008B8B">Title</font><br>
++ <font color="#FF00FF">"Move</font><font color="#0000FF">%menu/window-move.xpm%</font><font color="#FF00FF">"</font>  <font color="#008B8B">Move</font><br>
++ <font color="#FF00FF">"Resize</font><font color="#0000FF">%menu/window-resize.xpm%</font><font color="#FF00FF">"</font>  <font color="#008B8B">Resize</font><br>
++ <font color="#FF00FF">"(De)Iconify</font><font color="#0000FF">%menu/window-iconify.xpm%</font><font color="#FF00FF">"</font>  <font color="#008B8B">Iconify</font><br>
++ <font color="#FF00FF">"(Un)Maximize</font><font color="#0000FF">%menu/window-maximize.xpm%</font><font color="#FF00FF">"</font>  <font color="#008B8B">Maximize</font><br>
++ <font color="#FF00FF">"(Un)Shade</font><font color="#0000FF">%menu/window-shade.xpm%</font><font color="#FF00FF">"</font>  <font color="#008B8B">WindowShade</font><br>
++ <font color="#FF00FF">"(Un)Stick</font><font color="#0000FF">%menu/window-stick.xpm%</font><font color="#FF00FF">"</font>  <font color="#008B8B">Stick</font><br>
++ <font color="#FF00FF">""</font> <font color="#008B8B">Nop</font><br>
++ <font color="#FF00FF">"Close</font><font color="#0000FF">%menu/window-close.xpm%</font><font color="#FF00FF">"</font>  <font color="#008B8B">Close</font><br>
++ <font color="#FF00FF">"Delete</font><font color="#0000FF">%menu/window-delete.xpm%</font><font color="#FF00FF">"</font>  <font color="#008B8B">Delete</font><br>
++ <font color="#FF00FF">"Destroy</font><font color="#0000FF">%menu/window-destroy.xpm%</font><font color="#FF00FF">"</font>  <font color="#008B8B">Destroy</font><br>
++ <font color="#FF00FF">""</font> <font color="#008B8B">Nop</font><br>
++ <font color="#FF00FF">"StaysOnTop</font><font color="#0000FF">%menu/window-raise.xpm%</font><font color="#FF00FF">"</font>  Pick (<font color="#A52A2A"><b>CirculateHit</b></font>) <font color="#008B8B">Layer</font> 0 6<br>
++ <font color="#FF00FF">"Layer +1</font><font color="#0000FF">%menu/window-raise.xpm%</font><font color="#FF00FF">"</font>  Pick (<font color="#A52A2A"><b>CirculateHit</b></font>) <font color="#008B8B">Layer</font> +1<br>
++ <font color="#FF00FF">"StaysPut</font><font color="#0000FF">%menu/window.xpm%</font><font color="#FF00FF">"</font>  Pick (<font color="#A52A2A"><b>CirculateHit</b></font>) <font color="#008B8B">Layer</font> 0 4<br>
++ <font color="#FF00FF">"Layer -1</font><font color="#0000FF">%menu/window-lower.xpm%</font><font color="#FF00FF">"</font>  Pick (<font color="#A52A2A"><b>CirculateHit</b></font>) <font color="#008B8B">Layer</font> -1<br>
++ <font color="#FF00FF">"StaysOnBottom</font><font color="#0000FF">%menu/window-lower.xpm%</font><font color="#FF00FF">"</font>  Pick (<font color="#A52A2A"><b>CirculateHit</b></font>) <font color="#008B8B">Layer</font> 0 2<br>
++ <font color="#FF00FF">""</font> <font color="#008B8B">Nop</font><br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/window.xpm%</font><font color="#FF00FF">Window Screenshot"</font>  Pick (<font color="#A52A2A"><b>CirculateHit</b></font>) FvwmWindowScreenshot<br>
++ <font color="#FF00FF">"</font><font color="#0000FF">%menu/display.xpm%</font><font color="#FF00FF">Screenshot"</font> FvwmDesktopScreenshot 5<br>
++ <font color="#FF00FF">""</font> <font color="#008B8B">Nop</font><br>
++ <font color="#FF00FF">"Identify</font><font color="#0000FF">%menu/window-identify.xpm%</font><font color="#FF00FF">"</font>  <font color="#008B8B">Module</font> FvwmIdent
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h1>七、模块</h1>
+模
+块是一些使用“Module”命令并能使得桌面十分有效的程式。尽管现有的模块已经有相当的多，在这里我将重点介绍的是三种模块：状态栏模块、桌面页模块
+和按钮模块。要使用这些模块就要首先用模块命令定义它们。这些模块也要使用色彩结构选项，所以我先来定义两个将要使用到的色彩结构。这三个模块都可以使用
+伪透明色彩，而在我的印象中真透明色彩都不能运用到这些模块中。<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># Module Colorsets</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#A52A2A"><b>Colorset</b></font> 9 fg <font color="#2E8B57"><b>rgb:00/00/00</b></font>, hi <font color="#2E8B57"><b>rgb:00/00/00</b></font>, sh <font color="#2E8B57"><b>rgb:00/00/00</b></font>, bg <font color="#2E8B57"><b>rgb:e9/e9/d9</b></font><br>
+<font color="#A52A2A"><b>Colorset</b></font> 10 fg <font color="#2E8B57"><b>rgb:00/00/00</b></font>, hi <font color="#2E8B57"><b>rgb:dd/00/00</b></font>, sh <font color="#2E8B57"><b>rgb:dd/00/00</b></font>, bg <font color="#2E8B57"><b>rgb:fb/fc/ec</b></font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+让我们通过对FvwmIdent模块的分析来看看模块的基本语法。这是一个用于报告窗体信息的模块，这些信息对我们的设置会有很大帮助。就像以往我们遇到的一样，首先要创建并设置这个模块。<br>
+
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># FvwmIdent</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">DestroyModuleConfig</font> FvwmIdent: *<br>
+<font color="#A020F0">*FvwmIdent</font>: <font color="#A52A2A"><b>Colorset</b></font> 9<br>
+<font color="#A020F0">*FvwmIdent</font>: <font color="#A52A2A"><b>Font</b></font> <font color="#FF00FF">"xft:Sans:Bold:size=12:antialias=True"</font>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+这个设置十分地简单，告诉系统用什么样的色彩结构和字体，要调用它时使用“Module
+FvwmIdent”命令（就像先前我在窗体菜单中使用的一样）。<br>
+<hr style="width: 100%; height: 2px;">
+<h2>七.一、FVWM状态栏</h2>
+状态栏与微软的视窗状态栏十分相似。它包含启动菜单、快捷启动、运行视窗列表和末段的时间等项目。<br>
+<br>
+首先来对状态栏的风格进行设置，我希望状态栏本身不含窗体的形状，也不将自身列入运行视窗列表。另外我还设置属性“Sticky”，这样所有的虚拟桌面运行程序都反应在上面，同时还要自我调解尺寸。这样的设置如下：<br>
+
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># FvwmTaskBar</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"FvwmTaskBar"</font> <font color="#A52A2A"><b>NoTitle</b></font>, !<font color="#A52A2A"><b>Handles</b></font>, !Borders, <font color="#008B8B">Sticky</font>, <font color="#A52A2A"><b>WindowListSkip</b></font>, \<br>
+  <font color="#A52A2A"><b>CirculateSkip</b></font>, <font color="#A52A2A"><b>StaysOnBottom</b></font>, <font color="#A52A2A"><b>FixedPosition</b></font>, FixedSize, !Iconifiable
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+然后您要设置这个模块的部分选项，如下所示：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#008B8B">DestroyModuleConfig</font> FvwmTaskBar: *<br>
+<font color="#A020F0">*FvwmTaskBar</font>: Geometry +0-0<br>
+<font color="#A020F0">*FvwmTaskBar</font>: Rows 3<br>
+<font color="#A020F0">*FvwmTaskBar</font>: <font color="#A52A2A"><b>Font</b></font> <font color="#FF00FF">"xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"</font><br>
+<font color="#A020F0">*FvwmTaskBar</font>: SelFont <font color="#FF00FF">"xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"</font><br>
+<font color="#A020F0">*FvwmTaskBar</font>: StatusFont <font color="#FF00FF">"xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"</font><br>
+<font color="#A020F0">*FvwmTaskBar</font>: <font color="#A52A2A"><b>Colorset</b></font> 9<br>
+<font color="#A020F0">*FvwmTaskBar</font>: IconColorset 9<br>
+<font color="#A020F0">*FvwmTaskBar</font>: FocusColorset 9<br>
+<font color="#A020F0">*FvwmTaskBar</font>: TipsColorset 9<br>
+<font color="#A020F0">*FvwmTaskBar</font>: UseSkipList<br>
+<font color="#A020F0">*FvwmTaskBar</font>: UseIconNames<br>
+<font color="#A020F0">*FvwmTaskBar</font>: ShowTips<br>
+<font color="#A020F0">*FvwmTaskBar</font>: StartName <font color="#A52A2A"><b>FVWM</b></font><br>
+<font color="#A020F0">*FvwmTaskBar</font>: StartMenu FvwmRootMenu<br>
+<font color="#A020F0">*FvwmTaskBar</font>: <font color="#A52A2A"><b>Button</b></font> <font color="#008B8B">Title</font> ATerm, <font color="#A52A2A"><b>Icon</b></font> mini/xterm.png, Action (<font color="#A52A2A"><b>Mouse</b></font> 1) FvwmATerm<br>
+<font color="#A020F0">*FvwmTaskBar</font>: Action Click3 <font color="#008B8B">Menu</font> FvwmWindowOpsMenu<br>
+<font color="#A020F0">*FvwmTaskBar</font>: StartIcon mini/fvwm.png<br>
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+第
+一行表示以下设置为默认，其后的各项含义可以通过查阅FvwmTaskBar的MAN文档了解。其中重要的是设置其色彩结构和各种使用的字体。我还告诉系
+统使用UseSkipList，这样凡是有WindowSkipList属性的窗体将不反应在视窗列表中，我还另外定义了一个动作，当右击状态栏时启动窗
+体菜单，同时定义的还有一个启动aterm终端的按钮。<br>
+<br>
+要启动这个模块就要运行“Module
+FvwmTaskBar”命令，不过您不需要单独去启动它，因为我已经将这个命令写入功能StartFunction，这样在启动时系统会自动调用它。<br>
+
+<hr style="width: 100%; height: 2px;">
+<h2>七.二、FVWM页</h2>
+FVWM页模块用于显示您的虚拟桌面，它将显示您定义的每个虚拟桌面、页以及在上面运行的窗体。<br>
+<br>
+同样的您需要首先定义它的色彩结构和风格，不过在这里我使用与状态栏相同的设置。<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># FvwmPager</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"FvwmPager"</font> <font color="#A52A2A"><b>NoTitle</b></font>, !<font color="#A52A2A"><b>Handles</b></font>, !Borders, <font color="#008B8B">Sticky</font>, <font color="#A52A2A"><b>WindowListSkip</b></font>, \<br>
+  <font color="#A52A2A"><b>CirculateSkip</b></font>, <font color="#A52A2A"><b>StaysOnBottom</b></font>, <font color="#A52A2A"><b>FixedPosition</b></font>, FixedSize, !Iconifiable<br>
+<br>
+<font color="#008B8B">DestroyModuleConfig</font> FvwmPager: *<br>
+<font color="#A020F0">*FvwmPager</font>: Geometry 150x150-0+0<br>
+<font color="#A020F0">*FvwmPager</font>: <font color="#A52A2A"><b>Colorset</b></font> * 9<br>
+<font color="#A020F0">*FvwmPager</font>: <font color="#A52A2A"><b>HilightColorset</b></font> * 10<br>
+<font color="#A020F0">*FvwmPager</font>: BalloonColorset * 9<br>
+<font color="#A020F0">*FvwmPager</font>: WindowColorsets 9 10<br>
+<font color="#A020F0">*FvwmPager</font>: <font color="#A52A2A"><b>Font</b></font> <font color="#FF00FF">"xft:Sans:Bold:pixelsize=12:minspace=True:antialias=True"</font><br>
+<font color="#A020F0">*FvwmPager</font>: Balloons <font color="#A52A2A"><b>All</b></font><br>
+<font color="#A020F0">*FvwmPager</font>: BalloonFont <font color="#FF00FF">"xft:Sans:Bold:pixelsize=12:minspace=True:antialias=True"</font><br>
+<font color="#A020F0">*FvwmPager</font>: BallonYOffset +2<br>
+<font color="#A020F0">*FvwmPager</font>: Window3dBorders<br>
+<font color="#A020F0">*FvwmPager</font>: MiniIcons<br>
+<font color="#A020F0">*FvwmPager</font>: UseSkipList<br>
+<font color="#A020F0">*FvwmPager</font>: Rows 3
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+相 关的内容请参见MAN文档。要启动它则要使用“Module FvwmPager [起始桌面]
+[完结桌面]”命令。我同样在功能StartFunction中让其自动启动，我用的命令是“Module FvwmPager 0
+2”，如果不告诉它桌面的参数，它将仅显示当前桌面。<br>
+<hr style="width: 100%; height: 2px;">
+<h2>七.三、FVWM按钮</h2>
+FVWM按钮可能是一种最为精彩的模块了。所以Taviso曾这样说：<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># FvwmButtons is an incredible piece of software.</font><br>
+<font color="#0000FF">#</font><br>
+<font color="#0000FF"># It can create freeform panels of any size, shape (including Non-Rectangular windows), </font><br>
+<font color="#0000FF"># Colour and function. It can swallow other applications, even applications not designed</font><br>
+<font color="#0000FF"># for docking, have "panels" that slide out consisting of other panels, has a "startup-notification"</font><br>
+<font color="#0000FF"># like feature, hundreds of possible bindings, uses the powerful fvwm Colorsets feature, and</font><br>
+<font color="#0000FF"># can even change dynamically and respond to window manager events.</font><br>
+<font color="#0000FF">#</font><br>
+<font color="#0000FF"># The widgets can be transparent, use Xft fonts, and using fvwm's font definitions can render drop shadows</font><br>
+<font color="#0000FF"># at any direction, offset, size and colour. Buttons can all use different Colorsets, and can have different</font><br>
+<font color="#0000FF"># reliefs, shapes, anything! </font><br>
+<font color="#0000FF">#</font><br>
+<font color="#0000FF"># FvwmButtons is even tolerant to errors in configuration, and can workaround bad or impossible </font><br>
+<font color="#0000FF"># definitions!</font><br>
+<font color="#0000FF">#</font><br>
+<font color="#0000FF"># As it's an fvwm module, it has 100% integration with the window manager and can use</font><br>
+<font color="#0000FF"># internal fvwm commands, functions, etc.</font><br>
+<font color="#0000FF"># </font><br>
+<font color="#0000FF"># as you can tell, i am a big FvwmButtons fan :)</font><br>
+<font color="#0000FF">#</font><br>
+<font color="#0000FF"># I've written a quick introduction into making panels with FvwmButtons, you can read it here</font><br>
+<font color="#0000FF"># <a href="http://forums.gentoo.org/viewtopic.php?t=162177">http://forums.gentoo.org/viewtopic.php?t=162177</a></font><br>
+<font color="#0000FF">#</font><br>
+<font color="#0000FF">###########<br></font>
+</pre>
+<div style="text-align: right;">摘自：Taviso的配置文件</div>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+尽管FVWM按钮模块的功能十分强大，但这里我们仅介绍一些简单的用法。当然您也可以将其设置成为您所希望的那样。我将使用您已经熟悉的语法设置一个名为MyButtons的按钮模块。在附录的高级设定中，我会介绍一些更加漂亮的复杂设置。<br>
+
+<br>
+按
+钮模块的基本设置是矩形的（尽管Taviso认为它可以设置成任意形状）。你可以用“宽x高”的方式来确定它的尺寸和布局，然后您可以将其按照行、纵分割
+成各个小格子。这是十分重要的因为它可以被分割成任意多的各种尺寸的格子并使得按钮嵌入其中。然后您可以设置每个按钮的标题、图标和动作，甚至可以嵌入一
+些运行的程序（参见附录高级设置），按钮按照从上左到下右的方式分布，可以见下表的示意：<br>
+<div style="text-align: center;"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/fvwmbuttons_layout.png" real_src="http://www.zensites.net/fvwm/guide/fvwmbuttons_layout.png" alt="FVWM初学指南(转Jaimos&nbsp;&lt;wbr&gt;F&nbsp;&lt;wbr&gt;Skriletz）" title="FVWM初学指南(转Jaimos&nbsp;&lt;wbr&gt;F&nbsp;&lt;wbr&gt;Skriletz）" action-data="http%3A%2F%2Fwww.zensites.net%2Ffvwm%2Fguide%2Ffvwmbuttons_layout.png" action-type="show-slide"><br>
+</div>
+<br>
+为了显示基本的语法，这里我提供了一个简单的例子。这是一个单列的拥有一个标题和少量按钮并可对应启动部分程序的模块。<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#0000FF">#####</font><br>
+<font color="#0000FF"># MyButtons</font><br>
+<font color="#0000FF">###########</font><br>
+<font color="#008B8B">Style</font> <font color="#FF00FF">"MyButtons"</font> <font color="#A52A2A"><b>NoTitle</b></font>, !<font color="#A52A2A"><b>Handles</b></font>, !Borders, <font color="#008B8B">Sticky</font>, <font color="#A52A2A"><b>WindowListSkip</b></font>, \<br>
+  <font color="#A52A2A"><b>CirculateSkip</b></font>, <font color="#A52A2A"><b>StaysOnBottom</b></font>, <font color="#A52A2A"><b>FixedPosition</b></font>, FixedSize, !Iconifiable<br>
+<br>
+<font color="#008B8B">DestroyModuleConfig</font> MyButtons: *<br>
+<font color="#A020F0">*MyButtons</font>: Geometry 60x420+0+0<br>
+<font color="#A020F0">*MyButtons</font>: <font color="#A52A2A"><b>Colorset</b></font> 9<br>
+<font color="#A020F0">*MyButtons</font>: Rows 38<br>
+<font color="#A020F0">*MyButtons</font>: Columns 1<br>
+<font color="#A020F0">*MyButtons</font>: Frame 0<br>
+<font color="#A020F0">*MyButtons</font>: <font color="#A52A2A"><b>Font</b></font> <font color="#FF00FF">"Shadow=3:xft:Sans:Bold:pixelsize=14:minspace=True:antialias=True"</font><br>
+<font color="#A020F0">*MyButtons</font>: (1x2, Frame 0, <font color="#008B8B">Title</font>(Center) <font color="#FF00FF">"FVWM"</font>)<br>
+<font color="#A020F0">*MyButtons</font>: (1x5, Frame 0, <font color="#A52A2A"><b>Icon</b></font> 48x48/terminal.png, \<br>
+  Action(<font color="#A52A2A"><b>Mouse</b></font> 1) <font color="#FF00FF">"FvwmATerm"</font>, \<br>
+  Action(<font color="#A52A2A"><b>Mouse</b></font> 3) <font color="#FF00FF">"FvwmXTerm"</font>)<br>
+<font color="#A020F0">*MyButtons</font>: (1x5, Frame 0, <font color="#A52A2A"><b>Icon</b></font> 48x48/xmms.png, \<br>
+  Action(<font color="#A52A2A"><b>Mouse</b></font> 1) <font color="#FF00FF">"FvwmXmms"</font>)<br>
+<font color="#A020F0">*MyButtons</font>: (1x5, Frame 0, <font color="#A52A2A"><b>Icon</b></font> 48x48/vim.png, \<br>
+  Action(<font color="#A52A2A"><b>Mouse</b></font> 1) <font color="#FF00FF">"FvwmGvim"</font>)<br>
+<font color="#A020F0">*MyButtons</font>: (1x5, Frame 0, <font color="#A52A2A"><b>Icon</b></font> 48x48/gimp.png, \<br>
+  Action(<font color="#A52A2A"><b>Mouse</b></font> 1) <font color="#FF00FF">"FvwmGimp"</font>)<br>
+<font color="#A020F0">*MyButtons</font>: (1x5, Frame 0, <font color="#A52A2A"><b>Icon</b></font> 48x48/firefox.png, \<br>
+  Action(Mosue 1) <font color="#FF00FF">"FvwmFireFox"</font>)<br>
+<font color="#A020F0">*MyButtons</font>: (1x5, Frame 0, <font color="#A52A2A"><b>Icon</b></font> 48x48/irc.png, \<br>
+  Action(<font color="#A52A2A"><b>Mouse</b></font> 1) <font color="#FF00FF">"FvwmIrssi"</font>)<br>
+<font color="#A020F0">*MyButtons</font>: (1x5, Frame 0, <font color="#A52A2A"><b>Icon</b></font> 48x48/tux.png, \<br>
+  Action(<font color="#A52A2A"><b>Mouse</b></font> 1) <font color="#FF00FF">"FvwmXLock"</font>)<br>
+<font color="#A020F0">*MyButtons</font>: (1x1, Frame 0)
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h1>八、回顾/结论</h1>
+恭
+喜您，您刚刚完成了第一个设置文件的编写。我希望您已经了解到一些FVWM管理器设置的基本技能并且意识到您可以自由地设置她。在前面的文字中，我们讨论
+了全局变量、通过风格设计FVWM的外观。然后我们又研究了如何创建功能、绑定，建立视窗外观和菜单。最后我们还给她增加了一些模块。<br>
+
+<br>
+本文所建立的设置文件可以在<a href="http://www.zensites.net/fvwm/guide/fvwm2rc-guide.html">这里</a>下载。如果您直接使用这个配置文件，您的视窗将如下图所示：<br>
+
+<div style="text-align: center;"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/fvwm-guide-screenshot.jpg" real_src="http://www.zensites.net/fvwm/guide/fvwm-guide-screenshot.jpg" alt="FVWM初学指南(转Jaimos&nbsp;&lt;wbr&gt;F&nbsp;&lt;wbr&gt;Skriletz）" title="FVWM初学指南(转Jaimos&nbsp;&lt;wbr&gt;F&nbsp;&lt;wbr&gt;Skriletz）" style="max-width: 100%;" action-data="http%3A%2F%2Fwww.zensites.net%2Ffvwm%2Fguide%2Ffvwm-guide-screenshot.jpg" action-type="show-slide"><br>
+</div>
+<br>
+稍后的内容是根据我使用FVWM的经验，编写的更加令人兴奋的设置，您可以复制或参考它们。<br>
+<hr style="width: 100%; height: 2px;">
+<h1>九、附录</h1>
+现在您已经设置了第一个FVWM的设定文件，而且也对语法有了一些了解。现在让我们一起来研究一些高级项目并给您的桌面增加更多的特性。其中一些特效需要用到ImageMagick的工具，所以请您首先安装这些软件工具。<br>
+
+<br>
+一 个更加复杂而功能强大的工具是对终端特性的设置（您可以用“ExecUseShell
+/bin/bash”来设定终端）。这是通过命令PipeRead来实现的。PipeRead所做的是从终端取得输出并用它来设定FVWM。这将使得终端
+脚本（或运行的程序）的结果对FVWM进行设置。举例而言，您可以写一个输出结果为FVWM语句的脚本，并通过设置文件中“PipeRead
+该脚本”的命令来调用其结果对FVWM的设置。<br>
+<br>
+在下面的例子中，我们将首先创建一个可以从您的壁纸目录（在全局变量中定义）中提
+取.png文件并修改您的壁纸的功能。请注意我在X视窗中使用的fvwm-root命令可以调用png和xpm文件作为您的壁纸，只不过我更喜欢png格
+式的文件。如果您喜欢使用jpg文件，那么就需要对这个功能进行修改。下面我给出三个调用png（作为壁纸）所需的功能。<br>
+<table style="width: 80%;" border="1" align="baseline">
+<tbody>
+<tr>
+<td>
+<pre><font color="#008B8B">DestroyFunc</font> BuildWallPaperMenu<br>
+<font color="#008B8B">AddToFunc</font>   BuildWallPaperMenu<br>
++ I <font color="#008B8B">Exec</font> rm <font color="#A020F0">$[fvwm_icon]</font>/wallpaper/*.png<br>
++ I <font color="#008B8B">PipeRead</font> 'for i in <font color="#A020F0">$[fvwm_img]</font>/wallpaper/*.png; \<br>
+  do convert -scale 64 <font color="#A020F0">$i</font> \<br>
+  <font color="#FF00FF">"$[fvwm_icon]/wallpaper/`basename $i`"</font>; done &amp;&amp; <font color="#008B8B">echo</font> <font color="#008B8B">Nop</font>'<br>
++ I <font color="#008B8B">Exec</font> rm <font color="#A020F0">$[fvwm_home]</font>/WallpaperMenu<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">echo</font> <font color="#FF00FF">"DestroyMenu FvwmWallpaperMenu"</font> &gt; \<br>
+  <font color="#A020F0">$[fvwm_home]</font>/WallpaperMenu<br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">echo</font> <font color="#FF00FF">"AddToMenu FvwmWallpaperMenu "</font>Wallpapers\<font color="#FF00FF">" Title"</font> &gt;&gt; \<br>
+  <font color="#A020F0">$[fvwm_home]</font>/WallpaperMenu<br>
++ I <font color="#008B8B">PipeRead</font> 'for i in <font color="#A020F0">$[fvwm_img]</font>/wallpaper/*.png; \<br>
+  do <font color="#008B8B">echo</font> "<font color="#008B8B">AddToMenu</font> FvwmWallpaperMenu \<br>
+  \<font color="#FF00FF">"`basename $i`%wallpaper/`basename $i`%"</font> \<br>
+  FvwmChangeBackground \<font color="#FF00FF">"`basename $i`"</font>" \<br>
+  &gt;&gt; <font color="#A020F0">$[fvwm_home]</font>/WallpaperMenu; done &amp;&amp; <font color="#008B8B">echo</font> <font color="#008B8B">Nop</font>'<br>
++ I <font color="#A52A2A"><b>Read</b></font> <font color="#A020F0">$[fvwm_home]</font>/WallpaperMenu<br>
+<br>
+<font color="#008B8B">DestroyFunc</font> FvwmChangeBackground<br>
+<font color="#008B8B">AddToFunc</font>   FvwmChangeBackground<br>
++ I <font color="#008B8B">Exec</font> fvwm-root --retain-pixmap <font color="#A020F0">$[fvwm_img]</font>/wallpaper/<font color="#A020F0">$0</font><br>
++ I <font color="#008B8B">Exec</font> <font color="#008B8B">echo</font> "fvwm-root --retain-pixmap \<br>
+  <font color="#A020F0">$[fvwm_img]</font>/wallpaper/<font color="#A020F0">$0</font>" &gt; <font color="#A020F0">$[fvwm_home]</font>/cfg/background.cfg<br>
+<br>
+<font color="#008B8B">DestroyFunc</font> InitWallpaper<br>
+<font color="#008B8B">AddToFunc</font>   InitWallpaper<br>
++ I <font color="#008B8B">Exec</font> source <font color="#A020F0">$[fvwm_home]</font>/cfg/background.cfg
+</pre></td>
+</tr>
+</tbody>
+</table>
+<br>
+当功能BuildWallPaperMenu被调用时，它将首先删除所有以往的图标资料（以往使用的壁纸资源）。然后将利用软件ImageMagick中
+的convert工具在创建目录$[fvwm_wallpaper]中png文件的图标文件，然后再将它们写入到位于$[fvwm_home]目录中的
+WallpaperMenu菜单里。最后在通过FVWM的菜单打开并使用您所喜欢的壁纸。我喜欢将这些写入WallpaperMenu菜单是因为可以在启
+动功能StartFunction中加入Read
+$[fvwm_home]/WallpaperMenu，或者直接引入到子菜单。以后每当我增加了可以作为壁纸的png文件时只要重新运行这个功能就可以
+重新自动建立我的壁纸菜单。您一定也注意到我定义的FvwmChangeBackground功能，它在更换壁纸的同时将信息写入了配置文件，同时我也将
+功能InitWallpaper功能写入InitFunction，这样系统就可以自动调用我选的壁纸。<br>
+<br>
+在我使用FVWM的过程中，我收
+集并改写了大量的脚本，以使得我的桌面符合我的想像。在高级主题中我引用了许多这些通过我使用并修改的脚本和功能，我不能保证它们在您那里是否可以正常运
+行，但我希望能给予您一些思路，并指导您从何处起步设定您的FVWM。我将这些主题分为三个部分，希望您能够获益。</div>							
+		</div>
+						<!-- 正文结束 -->
+		<div id="share" class="shareUp nor">
+        	<div class="share SG_txtb clearfix">
+			<span class="share-title">分享：</span> 
+			<div class="bshare-custom" style="display:inline;margin-left:5px;">
+			<div class="share-pannel clearfix"><a class="bshare-sinaminiblog" target="__blank" title="分享到新浪微博" href="http://service.weibo.com/share/share.php?appkey=&amp;title=FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%20F%20Skriletz%EF%BC%89@%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2&amp;url=http://blog.sina.com.cn/s/blog_8ea8e9d50102v1zn.html&amp;pic="></a><a class="bshare-qzone" target="__blank" title="分享到QQ空间" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http%3A%2F%2Fblog.sina.com.cn%2Fs%2Fblog_8ea8e9d50102v1zn.html&amp;title=FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%20F%20Skriletz%EF%BC%89@%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2&amp;pics=&amp;summary=&amp;desc=FVWM%E5%88%9D%E5%AD%A6%E8%80%85%E6%8C%87%E5%8D%97%20%20%E7%94%B1Jaimos%20F%20Skriletz%E7%BC%96%E5%86%99%20%20%20%20%E5%AE%98%E6%96%B9%E8%8B%B1%E6%96%87%E5%8E%9F%E7%89%88%20http://zensites.net/fvwm/%20%20%E7%9B%AE%E5%BD%95%20%20%E4%B8%80%E3%80%81%E7%AE%80%E4%BB%8B%20%E4%BA%8C%E3%80%81%E5%85%A8%E5%B1%80...%20%20(%E6%9D%A5%E8%87%AA%20@%E5%A4%B4%E6%9D%A1%E5%8D%9A%E5%AE%A2)"></a><a class="bshare-douban" target="__blank" title="分享到豆瓣" href="https://www.douban.com/share/service?image=&amp;href=http://blog.sina.com.cn/s/blog_8ea8e9d50102v1zn.html&amp;name=FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%20F%20Skriletz%EF%BC%89@%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2&amp;text=FVWM%E5%88%9D%E5%AD%A6%E8%80%85%E6%8C%87%E5%8D%97%20%20%E7%94%B1Jaimos%20F%20Skriletz%E7%BC%96%E5%86%99%20%20%20%20%E5%AE%98%E6%96%B9%E8%8B%B1%E6%96%87%E5%8E%9F%E7%89%88%20http://zensites.net/fvwm/%20%20%E7%9B%AE%E5%BD%95%20%20%E4%B8%80%E3%80%81%E7%AE%80%E4%BB%8B%20%E4%BA%8C%E3%80%81%E5%85%A8%E5%B1%80...%20%20(%E6%9D%A5%E8%87%AA%20@%E5%A4%B4%E6%9D%A1%E5%8D%9A%E5%AE%A2)"></a><a class="bshare-weixin" title="分享到微信" href="javascript:void(0);"><div class="weixin-pannel"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/qr.asc"><div class="txt"><p>打开微信“扫一扫”</p><p>打开网页后点击屏幕</p><p>右上角“分享”按钮</p></div></div></a></div></div>
+			</div>
+            <div class="up">
+	        	<div title="喜欢后让更多人看到" id="dbox_8ea8e9d50102v1zn" class="upBox" style="cursor: pointer;">
+	            	<p ti_title="FVWM初学指南(转Jaimos&nbsp;F&nbsp;Skriletz）" id="dbox2_8ea8e9d50102v1zn" class="count" mnum="0">0</p>
+	                <p class="link"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="SG_icon SG_icon34" height="15" align="absmiddle" width="15">喜欢</p>
+	            </div>
+<!--
+                <div class="upBox upBox_add">
+                    <p class="count">0</p>
+                    <p class="link"><img width="20" height="16" align="absmiddle" title="推荐" src="http://simg.sinajs.cn/blog7style/images/common/sg_trans.gif" class="SG_icon SG_icon214">赠金笔</p>
+                </div>
+-->
+                                <div class="upBox upBox_add">
+                    <p class="count" id="goldPan-num">0</p>
+                    <p class="link" id="goldPan-give"><img class="SG_icon SG_icon214" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" title="赠金笔" height="16" align="absmiddle" width="20">赠金笔</p>
+                </div>
+                
+	        </div>
+            <div class="clearit"></div>
+		</div>
+		<div class="articalInfo">
+			<!-- 分享到微博 {$t_blog} -->
+			<div>
+				阅读<span id="r_8ea8e9d50102v1zn" class="SG_txtb">(464)</span><em class="SG_txtb">┊</em> 
+				<a href="#commonComment">评论</a> <span id="c_8ea8e9d50102v1zn" class="SG_txtb">(0)</span><em class="SG_txtb">┊</em>				<a href="javascript:;" onclick="$articleManage('8ea8e9d50102v1zn',5);return false;">收藏</a><span id="f_8ea8e9d50102v1zn" class="SG_txtb">(0)</span>
+				<em class="SG_txtb">┊</em><a href="#" id="quote_set_sign" onclick="return false ;">转载</a><a href="#" id="z_8ea8e9d50102v1zn" onclick="return false ;" class="zznum">(0)</a>				<span id="fn_FVWM初学指南(转Jaimos&nbsp;F&nbsp;Skriletz）" class="SG_txtb"></span><em class="SG_txtb">┊</em>
+				<a onclick="return false;" href="javascript:;"><cite id="d1_digg_8ea8e9d50102v1zn">喜欢</cite></a><a id="d1_digg_down_8ea8e9d50102v1zn" href="javascript:;"><b>▼</b></a>
+									<em class="SG_txtb">┊</em><a href="http://blog.sina.com.cn/main_v5/ria/print.html?blog_id=blog_8ea8e9d50102v1zn" target="_blank">打印</a><em class="SG_txtb">┊</em><a id="q_8ea8e9d50102v1zn" onclick="report('8ea8e9d50102v1zn');return false;" href="#">举报/Report</a>
+											</div>
+			<div class="IR">
+				<table>
+					<tbody><tr><!--
+											<th class="SG_txtb" scope="row">已投稿到：</th>
+						<td>
+							<div class="IR_list">
+								<span><img class="SG_icon SG_icon36" src="http://simg.sinajs.cn/blog7style/images/common/sg_trans.gif" width="15" height="15" title="排行榜" align="absmiddle" /> <a href="http://blog.sina.com.cn/lm/114/117/day.html" class="SG_linkb" target="_blank">排行榜</a></span>							</div>
+						</td>
+					-->
+					</tr>
+									</tbody></table>
+			</div>
+		</div>
+		<div class="clearit"></div>
+		<div class="blogzz_zzlist borderc" id="blog_quote" style="display:none"><h3><a href="#" onclick="return false" title="关闭" id="ql_close8ea8e9d50102v1zn" class="blogzz_closepic SG_floatR"></a>转载列表：</h3>                <ul class="ul_zzlist" id="ql_content8ea8e9d50102v1zn">                </ul>				<ul style="display:none"><li id="ql_tip8ea8e9d50102v1zn"></li></ul>                <div class="SG_clearB"></div>                <div class="blogzz_btn">					<a id="btnArticleQuote8ea8e9d50102v1zn" href="#" onclick="scope.article_quote &amp;&amp; scope.article_quote.check('8ea8e9d50102v1zn');return false;" class="SG_aBtn SG_aBtn_ico SG_turn"><cite><img class="SG_icon SG_icon111" id="quoteList_quote8ea8e9d50102v1zn" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" height="15" align="absmiddle" width="15">转载</cite></a>					<p id="quoteDescription8ea8e9d50102v1zn" class="SG_turntxt" style="display: none;">转载是分享博文的一种常用方式...</p>				</div>				<div id="ql_page8ea8e9d50102v1zn" class="blogzz_paged"></div>				<div class="clearit"></div></div>
+		<div class="articalfrontback SG_j_linedot1 clearfix" id="new_nextprev_8ea8e9d50102v1zn">
+							<div><span class="SG_txtb">前一篇：</span><a href="http://blog.sina.com.cn/s/blog_8ea8e9d50102v1zr.html">FVWM图标,声音,主题安装及.fvwm2rc个性化配置文件</a></div>
+										<div><span class="SG_txtb">后一篇：</span><a href="http://blog.sina.com.cn/s/blog_8ea8e9d50102v38x.html">SSH&nbsp;使用小记（附批量修改远程主机密码）</a></div>
+					</div>
+		<div class="clearit"></div>
+							
+		<div id="loginFollow"></div>
+				<div class="allComm">
+			<div class="allCommTit">
+				<div class="SG_floatL">
+				    <strong>评论</strong>
+				    <span id="commAd_1" style="display: inline-block;">
+				        <span style="margin-left:15px; width:220px; display:inline-block;"><a target="_blank" href="http://blog.sina.com.cn/lm/8/2009/0325/105340.html">重要提示：警惕虚假中奖信息</a></span>
+				    </span>
+				</div>
+				<div class="SG_floatR"><a class="CP_a_fuc" href="#post">[<cite>发评论</cite>]</a></div>
+			</div>
+			<ul id="article_comment_list" class="SG_cmp_revert"><li><div class="noCommdate"><span class="SG_txtb">做第一个评论者吧！ <img class="SG_icon SG_icon134" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" title="" height="18" align="absmiddle" width="18"><a href="#post">抢沙发&gt;&gt;</a></span></div></li></ul>
+			<div class="clearit"></div>
+			<div class="myCommPages SG_j_linedot1" style="display: none;">
+				<div class="SG_page" id="commentPaging" style="display: none; text-align: center;"><a href="javascript:void(0);" style="">点击加载更多</a></div>
+				<div class="clearit"></div>
+			</div>
+			<a name="post"></a>
+			<div class="writeComm">
+				<div class="allCommTit">
+					<div class="SG_floatL">
+					    <strong>发评论</strong>
+					    <span></span>
+					</div>
+					<div class="SG_floatR"></div>
+				</div>
+				<div class="wrCommTit">
+					<div class="SG_floatL" id="commentNick" style="display:none;"></div>
+				</div>
+				<div class="formTextarea">
+					<div style="float:left;" id="commonComment">
+					<iframe id="postCommentIframe" style="border:1px solid #C7C7C7;
+		height:158px;width:448px;maring-top:1px;background-color:white;" src="http://blog.sina.com.cn/main_v5/ria/blank2.html" frameborder="0"></iframe>
+					<textarea id="commentArea" tabindex="1" style="display:none;"></textarea>
+					</div>
+					<div id="mobileComment" style="float:left;display:none;">
+						<textarea id="mbCommentTa" style="width:438px;height:150px;border:1px solid #C7C7C7;line-height:18px;padding:5px;"></textarea>
+					</div>
+					<div class="faceblk" id="faceWrap">
+						<div id="smilesSortShow" class="faceline1">
+						<div class="facestyle" id="recomm_1562516463171"><a href="#" key="302"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/302-25.gif" alt="小新小浪" title="小新小浪"></a><a href="#" key="308"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/308-25.gif" alt="炮炮兵" title="炮炮兵"></a><a href="#" key="315"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/315-25.gif" alt="张富贵" title="张富贵"></a><a href="#" key="316"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/316-25.gif" alt="旺狗" title="旺狗"></a><a href="#" key="331"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/331-25.gif" alt="悠嘻猴" title="悠嘻猴"></a><a href="#" key="351"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/351-25.gif" alt="酷巴熊" title="酷巴熊"></a></div><span class="SG_more"><a href="#">更多&gt;&gt;</a></span><div class="clearit"></div></div>
+						<ul id="smilesRecommended" class="faceline01"><li><a href="#"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0321EN00SIGT.gif" alt="就不买你" title="就不买你" height="50" width="50"></a></li><li><a href="#"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0320EN00SIGT.gif" alt="股市" title="股市" height="50" width="50"></a></li><li><a href="#"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0319EN00SIGT.gif" alt="发霉" title="发霉" height="50" width="50"></a></li><li><a href="#"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0318EN00SIGT.gif" alt="陈水边" title="陈水边" height="50" width="50"></a></li><li><a href="#"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0317EN00SIGT.gif" alt="裁员" title="裁员" height="50" width="50"></a></li><li><a href="#"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0316EN00SIGT.gif" alt="音乐" title="音乐" height="50" width="50"></a></li><li><a href="#"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0315EN00SIGT.gif" alt="贴你" title="贴你" height="50" width="50"></a></li><li><a href="#"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/E___0314EN00SIGT.gif" alt="抢车位" title="抢车位" height="50" width="50"></a></li></ul>
+					</div>
+					<div class="clearit"></div>
+				</div>
+				<div class="formLogin">
+					<div class="SG_floatL"> 
+					<p id="commentlogin" style="display: block;"><span>登录名：</span><input style="width: 115px;" id="login_name" tabindex="2" type="text">   <span>密码：</span><input style="width: 115px;" id="login_pass" tabindex="3" type="password">   <a href="https://login.sina.com.cn/getpass.html" target="_blank">找回密码</a>   <a href="https://login.sina.com.cn/signup/signup.php?entry=blog&amp;src=blogicp&amp;srcuid=2393434581" target="_blank">注册</a>	<input id="login_remember" checked="checked" type="checkbox"><label for="login_remember" style="display:inline-block;" title="建议在网吧/公用电脑上取消该选项">记住登录状态</label></p><p id="commentloginM" style="display:none;"><span>昵&nbsp;&nbsp;&nbsp;称：</span><input style="width: 115px;" id="comment_anonyous" value="新浪网友" tabindex="2" disabled="disabled" type="text"></p><p id="quote_comment_p"><!--<input type="checkbox" id="bb"> <label for="bb"><img height="18" align="absmiddle" width="18" title="" src="http://simg.sinajs.cn/blog7style/images/common/sg_trans.gif" class="SG_icon SG_icon110">分享到微博 <img height="15" align="absmiddle" width="15" title="新" src="http://simg.sinajs.cn/blog7style/images/common/sg_trans.gif" class="SG_icon SG_icon11"></label>&nbsp;&nbsp;&nbsp;--><input id="cbCommentQuote" type="checkbox"><label for="cbCommentQuote">评论并转载此博文</label><img class="SG_icon SG_icon11" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" title="新" height="15" align="absmiddle" width="15"></p>
+					<p id="geetest-box"></p>
+					</div>
+
+					<span style="display: none; color: rgb(153, 153, 153); margin-left: 10px;" id="login_remember_caution"></span>
+
+											<!--<div class="SG_floatR" id="anonymity_cont"><input type="checkbox" id="anonymity"/><label for="anonymity">匿名评论</label></div>-->
+									</div>
+				<div class="formBtn">
+					<a href="javascript:;" onclick="return false;" class="SG_aBtn" tabindex="5"><cite id="postcommentid">发评论</cite></a>
+					<p class="SG_txtc">以上网友发言只代表其个人观点，不代表新浪网的观点或立场。</p>
+				</div>
+			</div>
+		</div>
+				<div class="clearit"></div>
+		
+				<div class="articalfrontback articalfrontback2 clearfix">
+						  <div class="SG_floatL"><span class="SG_txtb">&lt;&nbsp;前一篇</span><a href="http://blog.sina.com.cn/s/blog_8ea8e9d50102v1zr.html">FVWM图标,声音,主题安装及.fvwm2rc个性化配置文件</a></div>
+									  <div class="SG_floatR"><span class="SG_txtb">后一篇&nbsp;&gt;</span><a href="http://blog.sina.com.cn/s/blog_8ea8e9d50102v38x.html">SSH&nbsp;使用小记（附批量修改远程主机密码）</a></div>
+					</div>
+		<div class="clearit"></div>
+				
+	</div>
+	<!--博文正文 end -->
+		<script type="text/javascript">
+			var voteid="";
+		</script>
+
+            </div>       
+            <div class="SG_connFoot"></div>
+          </div>
+</div>
+	<!--第二列start-->
+	
+	<!--第三列start-->
+	<div id="column_3" class="SG_colWnone"><div style="width:0px;height:0.1px;margin:0px;">&nbsp;&nbsp;</div></div>
+	<!--第三列end-->
+
+	
+    </div>
+   <!--主题内容结束 -->
+  
+
+	<div id="diggerFla" style="position:absolute;left:0px;top:0px;width:0px"><object id="digger" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" style="undefined" height="1" width="1"><param name="movie" value="http://sjs.sinajs.cn/blog7swf/digger.swf"><param name="bgcolor" value="#00ff00"><param name="quality" value="high"><param name="wmode" value="transparent"><param name="allowScriptAccess" value="always"></object></div>
+    <div class="sinablogfooter" id="sinablogfooter" style="position:relative;">
+      
+      <p class="SG_linka"><a href="http://help.sina.com.cn/" target="_blank">新浪BLOG意见反馈留言板</a>　电话：4000520066 提示音后按1键（按当地市话标准计费）　欢迎批评指正</p>
+   
+      <p class="SG_linka"><a href="http://corp.sina.com.cn/chn/" target="_blank">新浪简介</a> | <a href="http://corp.sina.com.cn/eng/" target="_blank">About Sina</a> | <a href="http://emarketing.sina.com.cn/" target="_blank">广告服务</a> | <a href="http://www.sina.com.cn/contactus.html" target="_blank">联系我们</a> | <a href="http://corp.sina.com.cn/chn/sina_job.html" target="_blank">招聘信息</a> | <a href="http://www.sina.com.cn/intro/lawfirm.shtml" target="_blank">网站律师</a> | <a href="http://english.sina.com/" target="_blank">SINA English</a> | <a href="http://members.sina.com.cn/apply/" target="_blank">会员注册</a> | <a href="http://help.sina.com.cn/" target="_blank">产品答疑</a> </p>
+      <p class="copyright SG_linka"> Copyright © 1996 - 2018 SINA Corporation,  All Rights Reserved</p>
+      <p class="SG_linka"> 新浪公司 <a href="http://www.sina.com.cn/intro/copyright.shtml" target="_blank">版权所有</a></p>
+	  <a href="http://www.bj.cyberpolice.cn/index.jsp" target="_blank" class="gab_link"></a>
+    </div>
+  </div>
+</div>
+<div id="swfbox"><object id="swfId" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" style="undefined" height="1" width="1"><param name="movie" value="http://sjs.sinajs.cn/blog7swf/voteCookie.swf"><param name="bgcolor" value="#00ff00"><param name="quality" value="high"><param name="allowScriptAccess" value="always"><param name="flashvars" value="readyFun=readyFun"></object></div>
+<script id="PVCOUNTER_FORIE" type="text/javascript"></script>
+
+<script type="text/javascript">
+var scope = {
+    $newTray : 1,
+    $setDomain : true,
+    $uid : "2393434581",
+    $PRODUCT_NAME : "blog7",      //blog7photo,blog7icp
+    $pageid : "article",
+    $key :  "73ce989a76b0c10d5e1dcbed1771675c",
+    $uhost : "liujunhomepage",
+    $ownerWTtype :"",
+    $private: {"pageset":0,"tj":0,"adver":0,"sms":0,"ad":0,"blogsize":0,"cms":0,"hidecms":0,"top":0,"invitationset":0,"p4p":0,"spamcms":0,"init7":0,"quote":0,"foot":0,"isprivate":0,"headpic":1,"t_sina":2393434581,"msnfeed":"110","oauth_token":1,"oauth_token_secret":1,"uname":"liujun_live","p_push_t":1,"p_get_t":1,"articleclass":"117","medal7":2},
+    $summary: "...  (来自 @头条博客)",
+    $is_photo_vip:0,
+		 $nClass:0,
+		 $articleid:"8ea8e9d50102v1zn",
+		 $sort_id:117,
+		 $cate_id:187,
+		 $isCommentAllow:0,
+		 $album_pic:"",
+		 $pn_x_rank:4,
+		 $x_quote_c:"",
+		 $flag2008:"",
+		     component_lists:{"2":{"size":730,"list":[920]},"1":{"size":210,"list":[901,903,904,47]}},
+    formatInfo:1,
+    UserPic:[{"pid":"","repeat":"repeat-x","align-h":"center","align-v":"top","apply":"0"},{"pid":"","repeat":"repeat-x","align-h":"center","align-v":"top","apply":"0"},{"pid":"","repeat":"repeat-x","align-h":"center","align-v":"top","apply":"0"}],
+    UserBabyPic:{"photoX":0,"photoY":0,"photoURL":null,"angle":0,"zoom":0,"maskX":0,"maskY":0,"maskURL":null,"frameURL":null},
+    UserColor:1,
+    backgroundcolor:"rgb(235, 235, 235)",
+    $shareData:{"title":"FVWM\u521d\u5b66\u6307\u5357(\u8f6cJaimos F Skriletz\uff09@\u65b0\u6d6a\u535a\u5ba2","content":"FVWM\u521d\u5b66\u8005\u6307\u5357  \u7531Jaimos F Skriletz\u7f16\u5199    \u5b98\u65b9\u82f1\u6587\u539f\u7248 http:\/\/zensites.net\/fvwm\/  \u76ee\u5f55  \u4e00\u3001\u7b80\u4ecb \u4e8c\u3001\u5168\u5c40...  (\u6765\u81ea @\u5934\u6761\u535a\u5ba2)","url":"http:\/\/blog.sina.com.cn\/s\/blog_8ea8e9d50102v1zn.html","pic":""},
+    tpl:"1_13",
+    reclist:0    };
+var $encrypt_code = "2e1b768e23f2d19651ec2967c1e120d7";
+</script>
+
+<script type="text/javascript" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/boot.js"></script>
+<script type="text/javascript">__load_js();</script>
+<script type="text/javascript">__render_page();</script>
+
+
+<!--
+<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=b436f96b-ce3c-469f-93ca-9c0c406fcf10&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+<script type="text/javascript" charset="utf-8">
+        bShare.addEntry({pic: "", title:"分享自liujun_live  《FVWM初学指南(转Jaimos F Skriletz）》", summary:"...  (来自 @头条博客)"});
+     </script>-->
+
+<script type="text/javascript" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/blog680-min.js"></script>
+<script type="text/javascript">
+        var slotArr = ['atcTitLi_SLOT_41', 'atcTitLi_SLOT_42','loginBarActivity']; //广告位id
+        var sourceArr = ['SLOT_41','SLOT_42','SLOT_43,SLOT_47,SLOT_48'];  //广告资源id
+        SinaBlog680.staticBox(slotArr, sourceArr);
+</script>
+
+<div id="sinaads_pdps54771"> <ins class="sinaads sinaads-done" data-ad-pdps="PDPS000000054771" data-ad-status="done"></ins>  </div><iframe id="sinaads-ck-iframe" src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sinaads_ck.html" style="display: none;"></iframe><div id="reblog_1562516462365" class="turnList" style="display:none;position:absolute;z-index:20;"><ul class=""><li><a suda-uatrack="key=blog_article&amp;value=h_article17" action-type="click_reblog" action-data="{action:'toBlog'}" href="javascript:void(0);" title="转载到博客"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="SG_icon SG_icon141" height="18" align="absmiddle" width="18">博客</a></li><li style="display:none;"><a suda-uatrack="key=blog_article&amp;value=h_article17" action-type="click_reblog" action-data="{action:'toBlog'}" href="javascript:void(0);" title="转载原文"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="SG_icon SG_icon141" height="18" align="absmiddle" width="18">转载原文</a></li><li><a suda-uatrack="key=blog_article&amp;value=h_article17" action-type="click_reblog" action-data="{action:'cwb'}" href="javascript:;" title="发布长微博"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/sg_trans.gif" class="SG_icon SG_icon143" height="18" align="absmiddle" width="18">长微博</a></li></ul></div><div id="_2701562516462381_panel" class="mCatSearch" style="position: absolute; display: none; z-index: 512;"><ul><li action-type="tray-search" onclick="v7sendLog('40_01_43')" action-data="article" class="current">含“<span id="_2701562516462381_article"></span>”的博文</li><li action-type="tray-search" onclick="v7sendLog('40_01_43')" action-data="bloger">含“<span id="_2701562516462381_bloger"></span>”的博主</li><li action-type="tray-search" onclick="v7sendLog('40_01_43')" action-data="music">含“<span id="_2701562516462381_music"></span>”的音乐</li><li action-type="tray-search" onclick="v7sendLog('40_01_43')" action-data="video">含“<span id="_2701562516462381_video"></span>”的视频</li></ul></div><iframe style="border: medium none; z-index: -1; opacity: 0; position: absolute; width: 0px; height: 0px; display: none;"></iframe><div class="tb_layer_Y tb_layer_w3" style="z-index: 511; position: absolute; display: none; width: 160px;"><div class="tb_layer_arrow"></div><div class="tb_layer_Y_main tip_ps" style="width: auto;"><a style="margin-top: 5px;" title="关闭" class="tb_friend_inputDel" href="javascript:void(0)"></a>							<div style="text-align:left;color:#999999">最近喜欢了的博主：</div>							<div style="white-space: nowrap;"><div style="text-align:center;"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/loading.gif">加载中…</div></div></div></div><div style="position: fixed; width: 1038px; height: 483px; left: 0px; top: 0px; z-index: 1024; background-color: black; opacity: 0.4; display: none;"></div><table class="CP_w" id="_9691562516462422_panel" style="z-index: 5000; position: fixed; display: none; left: 189px; top: 15.5px;"><thead><tr><th class="tLeft"><span></span></th><th class="tMid"><div class="bLyTop"><strong>赠金笔</strong><cite><a node-data="btn-close" href="#" class="CP_w_shut" title="关闭">关闭</a></cite></div></th><th class="tRight"><span></span></th></tr></thead><tfoot><tr><td class="tLeft"><span></span></td><td class="tMid"><span></span></td><td class="tRight"><span></span></td></tr></tfoot><tbody><tr><td class="tLeft"><span></span></td><td class="tMid"><div class="CP_layercon3 jiben"><div class="SG_tag tag_h"><ul><li class="current"><span><strong><a node-data="gold-exchange" href="javascript:void(0)">金笔兑换</a></strong></span><span class="tagR"></span></li><li><span><strong><a node-data="tyrant-standings" href="javascript:void(0)">今日土豪榜</a></strong></span><span class="tagR"></span></li><li><span><strong><a node-data="nomination-list" href="javascript:void(0)">今日提名榜</a></strong></span><span class="tagR"></span></li></ul></div><div name="jiben_tab" class="jiben_tab"><ul class="denPicRow denPicRow01 clearfix" name="radioAll"><li><span class="a">兑换服务：</span><span class="b">金笔道具</span></li><li><span class="a"><span class="CP_w_star"></span>赠送数量：</span><span class="b rlist"><input name="num" value="1" id="jb1" checked="checked" type="radio"><label for="jb1">1支</label><input name="num" value="10" id="jb2" type="radio"><label for="jb2">10支</label><input name="num" value="20" id="jb3" type="radio"><label for="jb3">20支</label><input name="num" value="50" id="jb4" type="radio"><label for="jb4">50支</label><input name="num" value="100" id="jb5" type="radio"><label for="jb5">100支</label><br><input name="num" value="0" id="jb5" type="radio"><label for="jb6">其他</label><input maxlength="4" class="SG_input" id="jb6" node-data="other-num" value="请输入1~100整数" type="text"></span></li><li><span class="a cold">现有金笔：</span><span class="b cold" node-data="own-num">0支</span></li><li><span class="a cold">还需兑换：</span><span class="b cold" node-data="need-num">1支 x 1=1(积分)</span></li></ul><div id="hidden"></div><div class="butt01" id="button01"><a node-data="btn-ok" href="#" class="SG_aBtn SG_aBtnB "><cite>确认</cite></a><a target="_blank" href="http://blog.sina.com.cn/s/blog_4b0f52990102v0dd.html" class="jf_rule">点击了解更多规则</a></div></div><div class="clearit"></div></div></td><td class="tRight"><span></span></td></tr></tbody></table><iframe style="border: medium none; z-index: 4999; opacity: 0; position: fixed; width: 0px; height: 0px; left: 189px; top: 15.5px;"></iframe><div id="sharePhoto" style="width: 120px; position: absolute; left: 850px; top: 19736px;"><div class="picShareFlt"><div class="share SG_txtb" style="margin-top:5px;"><span>分享到新浪微博</span></div></div></div><ins class="sinaads sinaads-fail" data-ad-pdps="PDPS000000054727" style="display:block;" data-ad-status="done"></ins><div id="_9521562516463059_panel" style="z-index: 512; width: 200px; position: absolute; display: none;" class="tb_layer_Y tb_layer_w5"><div class="tb_layer_Y_main tip_layer_main"><div class="tip_ps" style="width:auto;float:right"><a id="closeBindEmail" title="关闭提示" class="tb_friend_inputDel" href="#" onclick="return false"></a></div><div style="padding:6px">为了您的账号安全，请<a id="linkBindEmail" href="#" target="_blank">绑定邮箱</a></div></div><div class="tb_layer_arrow tip_arrow"></div></div><iframe style="border: medium none; z-index: 511; opacity: 0; position: absolute; width: 0px; height: 0px;"></iframe><div id="selectionShare" style="display: none; position: absolute; cursor: pointer;"><img src="FVWM%E5%88%9D%E5%AD%A6%E6%8C%87%E5%8D%97(%E8%BD%ACJaimos%C2%A0F%C2%A0Skriletz%EF%BC%89_liujun_live_%E6%96%B0%E6%B5%AA%E5%8D%9A%E5%AE%A2_files/share.gif" title="将选中内容分享到新浪微博"></div><ins class="sinaads sinaads-fail" data-ad-pdps="PDPS000000051781" style="display: none;" data-ad-status="done"></ins><div style="left: 294px; top: 19263px; position: absolute; display: none;" class="picSlideBtn" action-type="show-slide" action-data="http%3A%2F%2Fwww.zensites.net%2Ffvwm%2Fguide%2Ffvwm-guide-screenshot.jpg"><a href="javascript:void(0);">幻灯播放</a></div><div style="overflow: hidden; height: 210px; position: absolute;"></div><ins class="sinaads sinaads-fail" data-ad-pdps="PDPS000000052950" style="display:block;" data-ad-status="done"></ins></body></html>

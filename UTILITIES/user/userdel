@@ -1,0 +1,10 @@
+### =================================================================ＵＳＥＲＤＥＬ
+% userdel [-r] 用户名                                        ### userdel 删除用户
+-r	删除用户的同时删除用户家目录
+% 手工删除用户目录
+vi /etc/passwd
+vi /etc/shadow
+vi /etc/group
+vi /etc/gshadow
+rm -rf /var/spool/mail/lamp
+rm -rf /home/lamp/

@@ -1,0 +1,104 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>FVWM Beginners Guide - Advanced Topics</title>
+<link rel="stylesheet" href="FVWM%20Beginners%20Guide%20-%20Advanced%20Topics_files/fvwm.css">
+</head>
+
+
+<body>
+<p>Now that you have finished your first fvwm2rc config and have gotten a better
+feel about how the syntax works, lets dive into some more advanced topics
+to give your Desktop some more character. In the following pages I will give
+examples of some bells and whistles I like to use on my desktop and that you
+can integrate into yours if you like. A few of the things I use require
+that you use the tools from ImageMagick, which are actually quite nifty
+so I suggest installing that package if you haven't done so by now.</p>
+
+<p>A really valuable tool for creating more complex functions is to take advantage
+of the shell (you can set what shell FVWM uses by setting 'ExecUseShell /bin/bash').
+This is done via the PipeRead command. What PipeRead does is take the standard output
+from the shell (stdout) and uses it to configure FVWM. What this allows one
+to do is use the output from shell scripts (or even other scripts/programs
+that can be ran in the shell) to further customize FVWM. How this works is say
+for example you write a simple script that outputs some fvwm2rc syntax
+that you want to include in your fvwm2rc file, you then 'PipeRead "simple_script"'
+to include it in your config.</p>
+
+<p>For our first example of some of the things we can do, lets create a function
+that will generate a WallPaperMenu from all of the .png files sitting in
+your wallpaper directory (designated by the environment variable $[fvwm_wallpaper]).
+Note that I use fvwm-root to set my wallpapers in X, and it uses either .xpm files or .png files,
+and since I prefer .png files, all my backgrounds are converted to .png. If you also
+like to use .jpg files, you'll need to modify this script. In the following I give you the
+three functions I use for my wallpaper menu (and setting the background).</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#008b8b">DestroyFunc</font> BuildWallPaperMenu
+<font color="#008b8b">AddToFunc</font>   BuildWallPaperMenu
++ I <font color="#008b8b">Exec</font> rm <font color="#a020f0">$[fvwm_icon]</font>/wallpaper/*.png
++ I <font color="#008b8b">PipeRead</font> 'for i in <font color="#a020f0">$[fvwm_img]</font>/wallpaper/*.png; \
+  do convert -scale 64 <font color="#a020f0">$i</font> \
+  <font color="#ff00ff">"$[fvwm_icon]/wallpaper/`basename $i`"</font>; done &amp;&amp; <font color="#008b8b">echo</font> <font color="#008b8b">Nop</font>'
++ I <font color="#008b8b">Exec</font> rm <font color="#a020f0">$[fvwm_home]</font>/WallpaperMenu
++ I <font color="#008b8b">Exec</font> <font color="#008b8b">echo</font> <font color="#ff00ff">"DestroyMenu FvwmWallpaperMenu"</font> &gt; \
+  <font color="#a020f0">$[fvwm_home]</font>/WallpaperMenu
++ I <font color="#008b8b">Exec</font> <font color="#008b8b">echo</font> <font color="#ff00ff">"AddToMenu FvwmWallpaperMenu \"</font>Wallpapers\<font color="#ff00ff">" Title"</font> &gt;&gt; \
+  <font color="#a020f0">$[fvwm_home]</font>/WallpaperMenu
++ I <font color="#008b8b">PipeRead</font> 'for i in <font color="#a020f0">$[fvwm_img]</font>/wallpaper/*.png; \
+  do <font color="#008b8b">echo</font> "<font color="#008b8b">AddToMenu</font> FvwmWallpaperMenu \
+  \<font color="#ff00ff">"`basename $i`%wallpaper/`basename $i`%\"</font> \
+  FvwmChangeBackground \<font color="#ff00ff">"`basename $i`\"</font>" \
+  &gt;&gt; <font color="#a020f0">$[fvwm_home]</font>/WallpaperMenu; done &amp;&amp; <font color="#008b8b">echo</font> <font color="#008b8b">Nop</font>'
++ I <font color="#a52a2a"><b>Read</b></font> <font color="#a020f0">$[fvwm_home]</font>/WallpaperMenu
+
+<font color="#008b8b">DestroyFunc</font> FvwmChangeBackground
+<font color="#008b8b">AddToFunc</font>   FvwmChangeBackground
++ I <font color="#008b8b">Exec</font> fvwm-root --retain-pixmap <font color="#a020f0">$[fvwm_img]</font>/wallpaper/<font color="#a020f0">$0</font>
++ I <font color="#008b8b">Exec</font> <font color="#008b8b">echo</font> "fvwm-root --retain-pixmap \
+  <font color="#a020f0">$[fvwm_img]</font>/wallpaper/<font color="#a020f0">$0</font>" &gt; <font color="#a020f0">$[fvwm_home]</font>/cfg/background.cfg
+
+<font color="#008b8b">DestroyFunc</font> InitWallpaper
+<font color="#008b8b">AddToFunc</font>   InitWallpaper
++ I <font color="#008b8b">Exec</font> source <font color="#a020f0">$[fvwm_home]</font>/cfg/background.cfg
+</pre>
+</td></tr></tbody></table></center>
+
+<p>When the function BuildWallPaperMenu is called, what it first does is remove any old icons that are
+floating around (from previous times its been run). It then makes an icon from
+each .png in your $[fvwm_wallpaper] directory using the convert command from ImageMagick.
+It then makes a menu in FVWM syntax and writes it to the file $[fvwm_home]/WallpaperMenu.
+It finally reads that newly created file, which creates a menu called
+FvwmWallpaperMenu and can be opened in FVWM. I prefer to write all this info to
+a WallpaperMenu so I can just create that menu at startup with adding a 'Read $[fvwm_home]/WallpaperMenu'
+to my StartFunction, or just writing that command directly in my fvwm2rc file in the menu
+section. If I add a new wallpaper to my $[fvwm_wallpaper] directory all I have to do is run this function
+again and it will generate a new FvwmWallpaperMenu. Also notice that I set up the menu
+so that when you click on a wallpaper it sets it with the FvwmChangeBackground function.
+I do this so I can then write what wallpaper I changed to in a config file.
+The reason for this is so when I run the InitWallpaper function from my InitFunction
+it will set it to the last wall paper I chose from the menu.</p>
+
+<p>In my time with FVWM I have collected and modified many scripts to help
+customize my FVWM setup to behave the way I want it to. Throughout the
+advanced topics section I will present some more of these configurations
+(mostly functions and scripts) that I have come across and modified to my liking.
+I can't guarantee that these will work right out of the box, but my hope
+is they will give you some ideas and starting points to add more to your FVWM setup.
+I have split the topics up into three parts, enjoy.</p>
+
+<h2>Advanced Topics</h2>
+<ol type="I">
+<li><a href="http://zensites.net/fvwm/guide/advanced_functions.html">Advanced Functions</a>
+</li><li><a href="http://zensites.net/fvwm/guide/advanced_menu.html">Advanced Menu</a>
+</li><li><a href="http://zensites.net/fvwm/guide/advanced_buttons.html">Advanced FvwmButtons</a>
+</li></ol>
+
+<hr>
+<table cellpadding="0" border="0" width="100%">
+<tbody><tr><td align="left" width="33%"><a href="http://zensites.net/fvwm/guide/conclusion.html">Overview/Conclusion</a></td>
+<td align="center" width="34%"><a href="http://zensites.net/fvwm/guide/index.html">index</a></td>
+<td align="right" width="33%"><a href="http://zensites.net/fvwm/guide/advanced_functions.html">Advanced Functions</a></td></tr></tbody></table>
+
+
+</body></html>

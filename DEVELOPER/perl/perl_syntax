@@ -1,0 +1,226 @@
+### ======================================================= 定义标量
+% http://net.pku.edu.cn/~yhf/tutorial/perlstep/perlstep5.html
+
+$abc = 123;
+
+
+### ======================================================= 列表+数组__END_
+列表指的是标量的有序集合，数组则是存储列表的变量
+@array=[1,2,3,4,5];
+
+
+% 数组的访问
+$arry[0] = 1;
+$arry[1] = 2;
+$arry[3] = 3;
+
+
+
+@array=[1,2,3,4,5]
+% 数组的最后一个元素角标 $#array;
+% 数组元素个数 =        $#array+1;
+
+
+
+@number = (1..100);
+print "@number\n";
+
+
+### ======================================================= 界定符
+% 构建列表,可以使用其它界定符，如!, #, /, {, <,
+% 加入qw,字符出现空格可以不用使用引号
+@strings = qw (fred barney betty wilma dino);
+@string1 = qw !fred barney betty wilma dino!;
+@string2 =    #fred barney betty wilma dino#;
+@string3 = qw /fred barney betty wilma dino/;
+@string4 = qw {fred barney betty wilma dino};
+@string5 = qw <fred barney betty wilma dino>;
+
+
+### ======================================================= % 数组赋值
+
+($fred, $barney, $dino) = ("flintstone", "rubble", undef);
+print "$fred\n";
+prinf "$barney\n";
+print "$dino\n";
+
+
+
+### ======================================================= foreach
+#!/bin/perl -w
+
+@number = (1..10);
+
+foreach $num (@number) {
+    print "$num\n";
+}
+
+
+###========================================= $_ 系统默认把标量存放些处
+#!/bin/perl -w
+
+@number = (1..10);
+
+foreach (@number) {
+    print "$_\n";
+}
+
+
+
+
+### ======================================================= 上下文 
+% 所谓上下文，就是指同一个表达式，出现在不同的地主会有不同的意义
+
+@people = qw (fred barney betty); %列表上下文 
+@sorted = sort (@people);
+
+
+
+$number = 42+@people;             %标量上下文 
+$number = 42+scalar (@people);
+
+
+
+### ======================================================= perl-doc
+apt-get install perl-doc
+
+perldoc -h
+perldoc -m Data::Dumper
+
+%查找包含”regex“关键字的文件
+perdoc -q regex                        
+
+% 将 Text::Wrap这个模块以 LaTex格式输出到 textrap.docs文件中
+perldoc -o LaTex -d textrap.docs Text::Wrap 
+
+% 查看 File:Basename这个模块的帮助信息
+perldoc File:Basename
+
+% 查看帮助文档
+perldoc perlfaq
+perldoc perlfaq2
+perldoc perlre
+perldoc perlstyle
+
+
+
+### ======================================================= 输入输出 
+% perl保留文件句柄
+% STDIN, STDOUT, STDERR, DATA, ARGV, ARGVOUT
+% 定义文件句柄时不能使用这6个，建议文件句柄大写
+
+
+#!/bin/perl -w
+use strict;
+open IN, "<gene.ffn";       %读入
+open OU, ">protein.faa";    %写入
+open OU, ">>protein.faa";   %将内容加入文件结尾
+
+
+
+% 命令行参数
+perl red.pl blue gray
+% red.pl    $0          ;存储的是程序的名字
+% blue      $ARGV[0]    ;命令行的第一个参数
+% gray      $ARGV[1]    ;命令行的第二个参数
+
+
+
+### ======================================================= $! perl的内置变量
+#!/bin/perl
+use warnings; 
+
+open IN, "<$ARGV[0]", or die "cna not open the file \n$!";
+
+print "\$0 is $0\n";
+print "\$ARGV[0] is $ARGV[0]\n";
+print "\$ARGV[1] is $ARGV[1]\n";
+print "\$ARGV[2] is $ARGV[2]\n";
+
+
+### ======================================================= <IN>
+#!/bin/perl -w
+
+open IN, "<$ARGV[0]";
+
+$first = <IN>;
+$first1 = <IN>;
+$first2 = <IN>;
+print "$first\n$first1\n$first2\n";
+
+
+
+### ======================================================= $/ 字段分隔符
+% $/默认的字段分隔符为： $/="\n";
+
+#!/bin/perl -w
+
+open IN, "<$ARGV[0]";
+open OU, ">$ARGV[1]";
+
+while (<IN>) {
+    chomp;          ###去掉换行符
+    print OU "$_";
+}
+
+close IN;
+close OU;
+
+
+
+### ======================================================= 文件格式转换
+% perl读压缩文件方法
+% open IN, "zcat <$ARGV[0] |";
+
+
+#!/bin/perl -w
+
+open IN, "<$ARGV[0]";
+open OU, ">$ARGV[1]";
+
+while ($id=<IN>) {
+    chomp ($id);
+    chomp ($sep=<IN>);
+    <IN>;
+    <IN>;
+    $id =~ tr /@/>/;
+    print OU "$sid\n";
+    print OU "$seq\n";
+}
+close IN;
+close OU;
+
+
+### ======================================================= % 哈希
+#!/bin/perl -w
+%phonenumber=();
+$phonenumber{"zhang"} = 134xxxxxxxx;
+$phonenumber{"wang"} = 135xxxxxxxx;
+$phonenumber{"li"} = 136xxxxxxxx;
+
+%phonenumber=("a","1","b","2","c","3");
+%phonenumber = (
+    "a" => 1,
+    "b" => 2,
+    "c" => 3,);
+
+
+
+#!/bin/perl -w
+use Data::Dumper;
+%hash=();
+open IN, "<$ARGV[0]";
+while (<IN>) {
+    chomp;
+    @line=split /\s+/, $_;
+    $hash{$line[0]}=$liee[1]; ###键和值存入hash中
+    print "@line\n";
+}
+
+close IN;
+print Dumper (\%hash);
+
+
+
+
+

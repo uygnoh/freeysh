@@ -1,0 +1,157 @@
+### ===========================================================================
+sudo su -
+
+
+
+### ===========================================================================
+parted -a optimal /dev/sda
+print
+mklabel gpt
+unit mib
+
+mkpart primary 1 3
+name 1 grub
+set 1 bios_grub on
+
+mkpart primary 3 131
+name 2 boot
+set 2 boot on
+
+mkpart primary 131 643
+name 3 swap
+
+mkpart primary 643 -1
+name 4 rootfs
+
+print
+quit
+
+
+
+### ===========================================================================
+mkfs.ext2 /dev/sda2
+mkfs.ext4 /dev/sda4
+mkswap /dev/sda3
+swapon /dev/sda3
+free
+
+mount /dev/sda4 /mnt/gentoo
+mkdir /mnt/gentoo/boot
+cd /mnt/gentoo/
+mount /dev/sda2 /mnt/gentoo/boot/
+
+
+
+### ===========================================================================
+cd /mnt/gentoo 
+links https://www.gentoo.org/downloads/
+
+    stage3-amd64-20170126.tar.bz2
+    
+tar xvjpf stage3-amd64-20170126.tar.bz2
+
+cd boot
+mount -t proc /proc /mnt/gentoo/proc
+mount --rbind /sys /mnt/gentoo/sys
+mount --rbind /dev /mnt/gentoo/dev
+
+
+
+### ===========================================================================
+cp -L /etc/resolv.conf /mnt/gentoo/etc/
+
+chroot /mnt/gentoo /bin/bash
+export PS1="chroot -] $PS1"
+
+source /etc/profile
+export PS1="chroot -] $PS1"
+
+
+
+### ===========================================================================
+mkdir /usr/portage
+emerge-webrsync
+
+
+
+### ===========================================================================
+eselect profile list
+eselect profile set 8
+
+
+
+### ===========================================================================
+cd /usr/share/zoneinfo/
+cd Americal
+cp Los_Angeles /etc/localtime
+echo " Los_Angeles " >/etc/timezone
+locale-gen
+env-update && source /etc/profile
+
+
+
+### ===========================================================================
+cd
+emerge gentoo-sources
+emerge genkernel 
+
+time genkernel all
+
+
+
+### ===========================================================================
+nano -w /etc/fstab
+/dev/sda2   /boot   ext2    defaults,noatime    0       2
+/dev/sda4   /       ext4    noatime             0       1
+/dev/sda3   none    swap    sw                  0       0
+
+
+
+### ===========================================================================
+nano -w /etc/conf.d/hostname
+hostname="gentoo"
+
+nano -w /etc/hosts
+# IPv4 and IPv6 localhost aliases
+127.0.0.1       localhost gentoo
+::1             localhost
+
+
+
+### ===========================================================================
+emerge dhcpcd
+emerge virtual/ssh
+emerge syslog-ng
+emerge cronie
+
+rc-update add dhcpcd default
+rc-update add sshd default
+rc-update add syslog-ng default
+rc-update add cronie default
+
+
+
+### ===========================================================================
+passwd
+useradd -m -G users,wheel,audio,lp,cdrom,portage,cron -s /bin/bash freeysh
+passwd freeysh
+
+
+
+### ===========================================================================
+emerge sys-boot/grub
+grub-install /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+exit
+
+
+umount /mnt/gentoo/dev
+umount /mnt/gentoo/dev/shm
+umount /mnt/gentoo/dev/pts
+umount /mnt/gentoo/boot
+umount /mnt/gentoo/proc
+
+useradd -m -G users,wheel,audio,cdrom,usb,video,portage,cron -s /bin/bash ysh
+
+
+

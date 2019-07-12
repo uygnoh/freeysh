@@ -1,0 +1,212 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>FVWM Beginners Guide - Global settings</title>
+<link rel="stylesheet" href="globalSettings_files/fvwm.css">
+</head>
+
+<body>
+<p>The first thing to setup is the global settings, such as
+environment variables, and the basic set up of the desktop. An environment variable
+is like one used in a shell, you can store values in it that you can then use them in various
+places though out your fvwm2rc file, and then if you preferences change its not that
+hard to change the variable (instead of each instance in the file). I use environment variables
+mainly to tell fvwm where to look for various items used in the
+config.</p>
+
+<p>Note though that over-using environment variables leads to a lot of
+"pollution" within FVWM's evironment space, especially if they're only
+being used to hold settings which might only ever change once a year.  You
+can see this <a href="http://fvwm.lair.be/viewtopic.php?t=1505">thread</a>
+on the fvwm forums for more detailed information.</p>
+
+<p>For example you could set up some environment variables as follows:</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#0000ff">#####</font>
+<font color="#0000ff"># Set Environment variables</font>
+<font color="#0000ff">###########</font>
+<font color="#008b8b">SetEnv</font> fvwm_img <font color="#a020f0">$[FVWM_USERDIR]</font>/images
+<font color="#008b8b">SetEnv</font> fvwm_icon <font color="#a020f0">$[FVWM_USERDIR]</font>/<font color="#a52a2a"><b>icons</b></font>
+<font color="#008b8b">SetEnv</font> fvwm_scrpt <font color="#a020f0">$.</font>/scripts
+<font color="#008b8b">SetEnv</font> fvwm_wallpapers <font color="#a020f0">$[FVWM_USERDIR]</font>/wallpaper
+</pre>
+</td></tr></tbody></table></center>
+
+<p>You can also use environment variables to set up default programs that you prefer to use, for example;</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#008b8b">SetEnv</font> fvwm_webbrowser /usr/bin/firefox
+<font color="#008b8b">SetEnv</font> fvwm_term /usr/bin/aterm
+<font color="#008b8b">SetEnv</font> fvwm_mail /usr/bin/mutt
+<font color="#008b8b">SetEnv</font> fvwm_media_player /usr/bin/xmms
+<font color="#008b8b">SetEnv</font> fvwm_video_player /usr/bin/mplayer
+</pre>
+</td></tr></tbody></table></center>
+
+<p>Next set up the ImagePath. This is similar to the shell environment variable $PATH,
+which sets up where FVWM will look for images (icons) you ask it to display
+(for example as quick launch buttons or menu icons). A typical image path would look
+something like this.</p>
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#0000ff">#####</font>
+<font color="#0000ff"># Set the image path</font>
+<font color="#0000ff">###########</font>
+<font color="#008b8b">ImagePath</font> <font color="#a020f0">$[fvwm_icon]</font>:<font color="#a020f0">$[fvwm_icon]</font>;.png:$[fvwm_wallpapers]:+
+</pre>
+</td></tr></tbody></table></center>
+
+<p>I put all my icons I use in my $[fvwm_icon] directory. The reason I 
+write it down twice is the second time when I follow it with the ';.png'
+ says that it will be able to use either .xpm files (the default) or 
+.png files for the icons interchangeably. One could easily add more 
+directories to the ImagePath if there were for instance some global 
+images for all users at '/usr/local/share/images' and then personal 
+images locate in $HOME/images that would be used in fvwm.</p>
+
+<p>Next lets set up the Virtual Desktops. FVWM allows you to have as many Virtual Desktops
+as you would want to set up, and also allows each Virtual Desktop to have multiple Pages.
+For instance lets assume that you would want to have 3 Virtual Desktops each with 9 pages
+in a 3x3 grid, you could set it up as follows.</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#0000ff">#####</font>
+<font color="#0000ff"># Virtual Desktops</font>
+<font color="#0000ff">###########</font>
+<font color="#008b8b">DesktopSize</font> 3x3
+DesktopName 0 Main
+DesktopName 1 Work
+DesktopName 2 Games
+<font color="#008b8b">EdgeScroll</font> 100 100
+<font color="#008b8b">EdgeResistance</font> 150  150
+<font color="#008b8b">EdgeThickness</font> 1
+</pre>
+</td></tr></tbody></table></center>
+
+<p>The DesktopSize sets up the number of pages on each Virtual Desktop, for example 3x3
+sets up a 3x3 grid that make each desktop have a set of Pages that look like</p>
+<center><table cellpadding="10" border="1" width="180">
+<tbody><tr><td><br></td><td><br></td><td><br></td></tr>
+<tr><td><br></td><td><br></td><td><br></td></tr>
+<tr><td><br></td><td><br></td><td><br></td></tr>
+</tbody></table></center>
+
+<p>I then set up 3 Virtual Desktops, namely Main, Work and Games (numbered 0, 1, 2).
+The EdgeScroll parameter sets up what percentage of the screen scrolls when you move your
+mouse to the edge of the screen. 'EdgeScroll 100 100' says if I move my mouse
+to the edge of the screen that 100% (or the whole) page will scroll over to the next one.
+EdgeResistance sets up how much 'resistance' or time is needed before the scroll happens.
+And EdgeThickness sets up how many pixels thick the border around the 'root' window
+where the the EdgeScroll effect will take place is. If you don't like this behavior,
+you can either set 'EdgeThickness 0' or 'EdgeScroll 0 0'.</p>
+
+<p>Next lets set up the default Mouse and Focus behavior. An example of this is</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#0000ff">#####</font>
+<font color="#0000ff"># Mouse and Focus Behavior</font>
+<font color="#0000ff">###########</font>
+<font color="#008b8b">ClickTime</font> 350
+<font color="#008b8b">MoveThreshold</font> 3
+<font color="#008b8b">Style</font> * <font color="#a52a2a"><b>SloppyFocus</b></font>, <font color="#a52a2a"><b>MouseFocusClickRaises</b></font>
+</pre>
+</td></tr></tbody></table></center>
+
+<p>ClickTime is the time in milliseconds between pushing the mouse button and releasing it that
+FVWM will consider that a 'click'. If that time is exceeded FVWM will consider that a 'hold'.
+MoveThreshold is the number of pixels the mouse must move before FVWM will consider that action a 'move'.
+Note, all this stuff will set up the feel of your window manager and is important when making functions.</p>
+
+<p>Styles are used throughout FVWM to set up various Styles of how you want things to act,
+look, behave, etc. Styles will be used a lot, but for start, lets just look at this style line.
+In Style statements, *'s are wild cards, so 'Style *' says apply this style to every window.
+This is followed by a list of styles separated by commas that you wish to use, for example
+the first Style I have used is SloppyFocus which means that the window in focus is the one
+with the mouse over it (excluding special windows like the root window). The second Style
+in that line is MouseFocusClickRaises which says that if I click on a focused window it
+will raise to the top. Other styles could be 'ClickToFocus', 'ClickToFocusPassesClick',
+'ClickToFocusPassesClickOff', 'ClickToFocusRaises' and 'ClickToFocusRaisesOff'.
+All of which are explained in more detail in the man page.</p>
+
+<p>Besides Styles there are some special key words to set up how the default
+desktop environment behaves. An example of a few of these are;</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre>EwmhBaseStruts 62 162 0 48
+<font color="#008b8b">IgnoreModifiers</font> L25
+</pre>
+</td></tr></tbody></table></center>
+
+<p>This first line EwmhBaseStruts sets up the 'usable' screen area. How this works is
+by stating 'EwmhBaseStructs left right top bottom'. The numbers are how many pixels
+bordering each edge of the screen are used as a padding for maximizing windows
+and window placement. This setup leaves a bit of space along the right, left and bottom
+of the screen for the FvwmTaskBar, FvwmPager and FvwmButtons.
+If you would like the window to ignore this setting you can use the
+EWMHMaximizeIgoreWorkingArea Style option. The next line tells FVWM to
+ignore certain modifiers, in this case it ignores the 'Num Lock' modifier and
+helps in lots of situations.</p>
+
+<p>Some other styles I use in my fvwm2rc file are as follows, I'm not gonna explain them
+here, but just let you see that there are various other options you can add to your
+config to further control how the the FVWM Desktop functions.
+
+</p><center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#0000ff">#####</font>
+<font color="#0000ff"># Global Styles and options</font>
+<font color="#0000ff">###########</font>
+<font color="#008b8b">Style</font> * <font color="#a52a2a"><b>TileCascadePlacement</b></font>, <font color="#a52a2a"><b>GrabFocusOff</b></font>
+<font color="#008b8b">Style</font> * <font color="#a52a2a"><b>NoPPosition</b></font>, <font color="#a52a2a"><b>ResizeOpaque</b></font>
+<font color="#008b8b">OpaqueMoveSize</font> -1
+<font color="#008b8b">Emulate</font> <font color="#a52a2a"><b>MWM</b></font>
+<font color="#008b8b">HideGeometryWindow</font> <font color="#a52a2a"><b>Never</b></font>
+<font color="#008b8b">SnapAttraction</font> 5 <font color="#a52a2a"><b>SameType</b></font> <font color="#a52a2a"><b>Screen</b></font>
+<font color="#008b8b">SnapGrid</font> 3 3
+<font color="#008b8b">XorValue</font> 55555
+<font color="#008b8b">Style</font> * <font color="#a52a2a"><b>DecorateTransient</b></font>, <font color="#a52a2a"><b>DontRaiseTransient</b></font>
+<font color="#008b8b">Style</font> * <font color="#a52a2a"><b>DontLowerTransient</b></font>, <font color="#a52a2a"><b>StackTransientParent</b></font>
+<font color="#008b8b">Style</font> * <font color="#a52a2a"><b>GrabFocusTransientOff</b></font>
+<font color="#008b8b">Style</font> * <font color="#a52a2a"><b>WindowShadeSteps</b></font> 20, <font color="#a52a2a"><b>WindowShadeScrolls</b></font>
+<font color="#008b8b">SetAnimation</font>  10  -.01 0 .01 .03 .08 .18 .3 .45 .6 .75 .85 .90 .94 .97 .99 1.0
+<font color="#008b8b">Style</font> * <font color="#a52a2a"><b>MwmDecor</b></font>, <font color="#a52a2a"><b>SlipperyIcon</b></font>
+<font color="#008b8b">Style</font> * <font color="#a52a2a"><b>IconBox</b></font> <font color="#a52a2a"><b>screen</b></font> w 15 15 -165 -15, <font color="#a52a2a"><b>IconGrid</b></font> 3 3, <font color="#a52a2a"><b>IconFill</b></font> <font color="#008b8b">right</font> <font color="#008b8b">top</font>
+</pre>
+</td></tr></tbody></table></center>
+
+<p>Next I setup various program specific Styles. How the Style command works is
+'Style [string] [styles]'. FVWM then compares [string] (including wild cards '*') to the
+Name, Class and/or Resource of a window. To figure out what the Name, Class and Resource
+of an application is you could use the FvwmIdent Module. This example sets
+up program specific styles. I mainly set up the MiniIcon and Icon that is associated
+with the program, though any Style option can be applied to the program.</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#0000ff">#####</font>
+<font color="#0000ff"># Program Styles</font>
+<font color="#0000ff">###########</font>
+<font color="#008b8b">Style</font> <font color="#ff00ff">"*"</font> <font color="#a52a2a"><b>Icon</b></font> 48x48/unknown.xpm
+<font color="#008b8b">Style</font> <font color="#ff00ff">"XTerm"</font> <font color="#a52a2a"><b>Icon</b></font> 48x48/xterm.png, <font color="#a52a2a"><b>NoActiveIconOverride</b></font>, <font color="#a52a2a"><b>MiniIcon</b></font> mini/xterm.png
+<font color="#008b8b">Style</font> <font color="#ff00ff">"gvim"</font> <font color="#a52a2a"><b>Icon</b></font> 48x48/gvim.png, <font color="#a52a2a"><b>IconOverride</b></font>, <font color="#a52a2a"><b>MiniIcon</b></font> mini/gvim.png, EWMHMiniIconOverride
+<font color="#008b8b">Style</font> <font color="#ff00ff">"Firefox-bin"</font> <font color="#a52a2a"><b>Icon</b></font> 48x48/firefox.png, <font color="#a52a2a"><b>MiniIcon</b></font> mini/firefox.png, EWMHMiniIconOverride
+<font color="#008b8b">Style</font> <font color="#ff00ff">"irssi"</font> <font color="#a52a2a"><b>Icon</b></font> 48x48/gaim.png, <font color="#a52a2a"><b>MiniIcon</b></font> mini/irc.png
+<font color="#008b8b">Style</font> <font color="#ff00ff">"xmms"</font> <font color="#a52a2a"><b>WindowListSkip</b></font>, <font color="#a52a2a"><b>CirculateSkip</b></font>
+<font color="#008b8b">Style</font> <font color="#ff00ff">"MPlayer"</font> <font color="#a52a2a"><b>Icon</b></font> 48x48/mplayer.png
+</pre>
+</td></tr></tbody></table></center>
+
+<hr>
+<table cellpadding="0" border="0" width="100%">
+<tbody><tr><td align="left" width="33%"><a href="http://zensites.net/fvwm/guide/intro.html">Intro</a></td>
+<td align="center" width="34%"><a href="http://zensites.net/fvwm/guide/index.html">index</a></td>
+<td align="right" width="33%"><a href="http://zensites.net/fvwm/guide/functions.html">Functions</a>
+</td></tr></tbody></table>
+
+
+</body></html>

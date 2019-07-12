@@ -1,0 +1,75 @@
+### ===========================================================================
+SAMBA配置文件结构
+1 samba的配置文件主在分为两大部分的配置设定：全局的设置和共享的设置
+
+2 Global Settings
+[global]                全局设置
+
+3 Share Definitions       共享目录设置
+[homes]                 用户目录共享设置
+[printers]              打印共享设置
+[myshare]               自定义目录共享设置
+
+
+### ===========================================================================
+samba支持两种注释方法：
+1 “#”
+2 “;”这种注释代表给用户举的例子，只要你打开就可以使用
+
+linux uniq 命令详，解报告或删除文件中重复的行
+cat sub.conf |　grep -v "^#"　|　grep -v "^;" |　grep -v "#"　|uniq
+
+
+关闭SELINUX服务；        sestatus，查看SELinux状态
+vi /etc/selinux/config
+SELINUX=disabled
+
+
+
+### ===========================================================================
+1 Global Settings[全局设置]
+workgroup               所在工作组名称
+server string           服务器描述信息
+log file                日志文件位置
+max log size            日志文件最在容量
+security                samba服务安全级别
+
+samba安全级别[security]可用如下的值：
+share                   不需要密码就可以访问
+user                    使用系统用户，使用samba密码
+server                  由其它服务器提供认证
+domain                  由域控制器提供认证
+
+samba内置常用变量：
+%v                      samba的版本号
+%S                      任意用户都可以登陆
+%m                      client端的NetBIOS主机名
+%L                      server端的NetBIOS主机名
+%u                      当前登陆的用户名
+%g                      当前登陆的用户组名
+
+
+### ===========================================================================
+2 samba的Share Definitions[共享设置定义]
+comment                 samba的描述信息
+path                    共享路径，指定共享路径的位置
+guest ok                允许所有人访问，public
+read only               所有人只读
+writable                所有人可写
+write list              拥有写权限的用户列表
+browseable              浏览的时候是否可以看到此共享的目录
+valid users             指定可以访问的用户
+
+
+### ===========================================================================
+
+
+
+
+
+
+
+
+
+
+

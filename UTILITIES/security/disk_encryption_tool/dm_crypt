@@ -1,0 +1,267 @@
+### ======================================================================
+★“dm-crypt/cryptsetup”
+
+在某些技术文章中，“dm-crypt”和“cryptsetup”经常被混用或并用。
+或者说，这两者常常被用来指代同一个东西。
+如果要细说的话，“dm-crypt”是 Linux 内核提供的一个磁盘加密功能，
+而“cryptsetup”是一个命令行的前端（通过它来操作“dm-crypt”）。
+“dm-crypt”在 Linux Kernel 2.6 的早期版本就被整合到内核中，距今已经10多年了。
+经过这么多年发展，至少能说明如下几点：
+    1.它的开源代码足够成熟
+    2.它提供的功能足够通用
+    3.它在安全方面足够靠谱
+    
+    
+    
+### ======================================================================
+★“dm-crypt”的功能和特色
+
+　　先大致描述一下 dm-crypt 支持的功能以及相关特色。
+
+◇支持多种加密格式
+目前 dm-crypt 支持如下几种加密格式（模式）。
+
+1.LUKS（Linux Unified Key Setup）
+　这是 dm-crypt 最常用的一种模式。在本文后续章节，俺会详细介绍。
+　
+
+2.Plain
+　Plain 模式是提供给技术老手用的。如果你是技术菜鸟，就不用关心这个模式了；
+　如果你是技术老鸟，请自己去查 dm-crypt 相关手册。
+　
+
+3.loop-AES
+  loop-AES 是一款比较陈旧的 Linux 磁盘加密工具。dm-crypt 提供了对它的支持。
+　通常情况下，大伙儿【不需要】用到该模式。
+　
+
+4.TCRYPT
+　在 cryptsetup 的 1.6.0 版本之后，开始提供对 TrueCrypt 加密盘的支持。“TCRYPT”就是“TrueCrypt”的缩写。
+　在该模式下，可以打开 TrueCrypt 和 VeraCrypt 的加密盘，并对盘中的文件进行读写。
+　请注意：这个模式并【没有】实现 TrueCrypt 和 VeraCrypt 的所有功能。
+　比如修改密码和 keyfiles 的功能就没有。具体欠缺哪些功能，参见下一章节的对照表。
+
+
+### ======================================================================
+◇【无需】额外安装软件
+　　由于 dm-crypt 早已被整合到 Linux Kernel 中。因此，你无需额外安装它。
+　　至于它的命令行前端（cryptsetup），大部分主流的发行版都会内置 cryptsetup 的软件包。
+
+
+◇可以跟 LVM 无缝整合
+　　LVM（Logical Volume Manager）是 Linux 内核提供的另一个很有用的工具。
+　　比如用它来创建分区，将来可以随时调整分区大小；比如现有的硬盘空间用完了，可以另外加一块硬盘并且新加硬盘可以用来扩展现有分区。
+　　LVM 和 dm-crypt 都是基于 Linux 内核的 device mapper 机制。因此两者可以很好地整合。
+　　比如你既可以玩“LVM over LUKS”；也可以玩“LUKS over LVM”。
+　　有空的话，俺再单独写一篇关于 LVM 的扫盲（又是一个坑）
+　　
+　　
+　　
+　　
+### ======================================================================
+★“dm-crypt”与“TrueCrypt/VeraCrypt”的对比
+
+
+　　为了让大伙儿有个直观的认识，俺整理了如下的对照表。通过对比，你可以大致了解 dm-crypt 相对于“TrueCrypt和VeraCrypt”的优缺点。
+　　再次提醒：dm-crypt 的 TCRYPT 模式，需要 cryptsetup 的版本号大于等于1.6.0才行。
+
+功能点                  dm-crypt的LUKS模式       dm-crypt的TCRYPT 模式	            TrueCrypt/VeraCrypt
+支持的操作系统 	        Linux 	                Linux 	                        Windows, Linux, Mac OS
+支持的加密算法             AES                     AES                             AES
+                        Twofish                 Twofish                         Twofish
+                        Serpent                 Serpent                         Serpent
+                                                AES-Twofish                     AES-Twofish
+                                                Serpent-AES                     Serpent-AES
+                                                Twofish-Serpent                 Twofish-Serpent
+                                                Serpent-Towfish-AES             Serpent-Towfish-AES
+支持多重加密算法                NO                 Yes                              Yes
+物理分区加密                   Yes                  Yes                              Yes
+虚拟分区加密                   Yes                  Yes                              Yes
+无系统分区的全盘加密            Yes                  Yes                              Yes
+含系统分区的全盘加密            YES                  NO                              仅限 Windows
+加密系统分区                   Yes                  NO                              仅限 Windows
+基于“密码”的认证                Yes                  Yes                              Yes
+基于“Keyfiles”的认证           Yes                  Yes                              Yes
+修改认证因素                   Yes                  NO                               Yes
+加密系统分区并用Keyfiles认证    Yes                  NO                               NO
+隐藏卷Plausible Deniability   NO 	              Yes 	                           Yes
+操作外层卷并对隐藏卷写保护       NO                   NO                               Yes
+自定义“生成密钥的迭代次数”      Yes                   NO                              仅 VeraCrypt
+
+
+
+
+### ======================================================================
+★预备知识
+
+在使用 cryptsetup 命令行进行操作之前，建议你先掌握如下的技能：
+如何对硬盘分区（相关的命令行是 fdisk）
+如何创建文件系统（相关的命令行是 mkfs.ext4 等）
+如何挂载/卸载文件系统（相关的命令行是 mount umount）
+如何显示已挂载的文件系统（相关的命令行是 df）              # df -Th
+    
+
+
+### ======================================================================    
+★cryptsetup 命令行概述
+
+说完预备知识，开始来介绍 cryptsetup 的基本用法。
+提醒一下：需要使用管理员权限（比如 root）来运行 cryptsetup 相关命令。
+
+◇查看版本号
+使用如下命令行查看版本号。
+~#    cryptsetup --version
+
+因为 dm-crypt/cryptsetup 的某些新功能，只有新版本才提供。
+比如 cryptsetup 的版本号必须大于等于 1.6.0 才能支持 TrueCrypt 的加密盘格式。
+如果你要用到这些新功能，先看一下版本号，以确保已经支持。
+
+
+◇查看性能指标
+使用如下命令查看 dm-crypt/cryptsetup 针对不同“加密算法”和“散列算法”的性能指标。
+~#    cryptsetup benchmark
+
+
+　　
+### ======================================================================
+◇创建加密盘
+
+前面提到 dm-crypt/cryptsetup 支持的几种加密盘格式。作为扫盲教程，本文只介绍如何创建 LUKS 格式加密盘。
+另外，dm-crypt/cryptsetup 只能用来打开 TrueCrypt 或 VeraCrypt 的加密盘，但是【无法】创建。
+创建（格式化） LUKS 加密盘的命令，大致写法如下：
+~#    cryptsetup 相关参数 luksFormat 物理设备或逻辑设备
+
+运行该命令之后，首先警告你，格式化会导致原有数据被覆盖。如果你确实要格式化，需要输入【大写】的 YES 进行确认。
+然后会提示你输入两次密码（passphrase）。
+输入完密码，还要再稍等片刻（创建加密盘需要时间，具体的时长取决于加密盘的大小以及相关的加密参数）。
+
+上述写法中的【相关参数】是可以不写的。如果不写，则 cryptsetup 会采用相应的默认值。
+对于安全性要求较高的同学，【不要】使用默认值，要根据自己的需求指定相关的参数。
+当你使用 luksFormat 进行格式化的时候，下面是几个常用参数以及俺推荐的参数值：　　
+___________________________________________________________________________________________________　
+参数名称       含义          推荐值                  备注　　
+--cipher    加密方式        aes-xts-plain64        AES 加密算法搭配 XTS 模式
+--key-size  密钥长度        512                    因为 XTS 模式需要两对密钥，每个的长度是256　　
+--hash      散列算法        sha512                  N/A
+--iter-time 迭代时间        最好大于10000           单位是毫秒,该值越大,暴力破解越难;但是你在打开加密盘时也要等待更久　　
+### 下面给一个具体的例子——用 LUKS 方式创建（格式化）加密盘，该加密盘位于 /dev/sda2 分区
+~#    cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 10000 luksFormat /dev/sda2　　
+　　
+　　
+　　
+
+
+### ======================================================================
+◇打开加密盘
+
+dm-crypt/cryptsetup 可以打开前面提及的各种格式的加密（只要是它支持的格式，就可以打开）。
+命令行大致的写法如下：
+~#    cryptsetup open --type 类型名 已加密的物理设备或逻辑设备 映射名
+
+上述命令行中的【open --type 类型名】，也可以改用某种简写形式。
+比如下面这个命令：
+~#    cryptsetup open --type luks 已加密的物理设备或逻辑设备 映射名
+
+其实等价于如下：
+~#    cryptsetup luksOpen 物理设备或逻辑设备 映射名
+    
+    
+    
+下面举个具体的例子：
+假设物理分区 /dev/sda2 采用 LUKS 加密，那么你可以用如下命令打开（命令中的 xxx 是映射名，你可以换成其它单词）
+~#    cryptsetup luksOpen /dev/sda2 xxx
+
+执行上述命令后，原有的加密分区 /dev/sda2 就被解密并映射到 /dev/mapper/xxx
+打开加密盘之后，你就【不要】再去操作 /dev/sda2 了，而应该去操作 /dev/mapper/xxx
+
+
+
+
+
+### ======================================================================
+当你已经打开某个加密盘之后，可以用如下命令查看该加密盘的状态。
+~#    cryptsetup status 映射名
+
+ 
+◇关闭加密盘
+当你已经打开某个加密盘之后，可以用如下命令关闭该加密盘。
+~#    cryptsetup close 映射名
+
+与 open 类似，cryptsetup 也对 close 提供了相应的别名（比如：luksClose、tcryptClose）
+实际上 cryptsetup 是根据已经打开的加密盘的 header 来判断该加密盘的类型。
+所以上述别名的意义不大。比如说，你对某个 TrueCrypt 的加密盘使用 luksClose，依然可以正确关闭，不会出错。
+
+
+
+
+### ======================================================================
+★用 cryptsetup 创建 LUKS 的物理加密盘（加密物理分区）
+
+1 准备一个物理分区
+首先，你要准备一个物理分区，用来加密。
+【你必须确保该分区上的数据是没用的】。因为待会儿要对该分区进行格式化操作，该分区上原有的数据会被破坏掉。
+在下面的介绍中，俺以 /dev/sda2 来进行举例。你实际使用的分区，可能会有所差异（具体取决于你的分区情况）。
+
+
+
+2 用 LUKS 方式加密（格式化）物理分区
+使用前面章节提及的参数，对上述物理分区进行加密。得到一个加密分区。
+~#    cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 10000 luksFormat /dev/sda2
+    
+    
+    
+3 打开加密之后的文件容器
+使用如下命令打开上述的加密分区，使用的映射名是 xxx（你也可以改用其它单词）。
+~#    cryptsetup luksOpen /dev/sda2 xxx    
+    
+    
+    
+打开之后，该虚拟盘会被映射到 /dev/mapper/xxx
+你可以用如下命令看到：
+~#    ls /dev/mapper/    
+    
+    
+    
+### ======================================================================
+◇创建文件系统
+由于加密分区已经打开并映射到 /dev/mapper/xxx 你可以在 /dev/mapper/xxx 之上创建文件系统。
+命令如下（文件系统类型以 ext4 为例）
+~#    mkfs.ext4 /dev/mapper/xxx    
+    
+    
+    
+    
+◇挂载文件系统
+创建完文件系统之后，你还需要挂载该文件系统，才能使用它。挂载的步骤如下。
+首先，你要先创建一个目录，作为【挂载点】。俺把“挂载点”的目录设定为 /mnt/xxx（当然，你可以用其它目录作为挂载点）。
+~#    mkdir /mnt/xxx
+
+创建好“挂载点”对应的目录，下面就可以进行文件系统的挂载。
+~#    mount /dev/mapper/xxx /mnt/xxx
+    
+挂载好文件系统，用如下命令查看，就可以看到你刚才挂载的文件系统。
+~#    df -hT
+
+接下来，你就可以通过 /mnt/xxx 目录去访问该文件系统。当你往 /mnt/xxx 下面创建下级目录或下级文件，这些东东将被存储到加密分区上。
+
+
+
+◇退出
+当你使用完，要记得退出。包括下面两步：
+卸载文件系统
+    umount /mnt/xxx
+
+关闭加密盘
+    cryptsetup close xxx
+
+
+    
+    
+    
+### ======================================================================    
+    
+    
+    
+    
+
+

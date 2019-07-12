@@ -1,0 +1,58 @@
+#include <reg51.h>
+
+sbit wei0=P1^0;
+sbit wei1=P1^1;
+sbit wei2=P1^2;
+sbit wei3=P1^3;
+
+/* 注意！ 用 code 是把后面的数据存储到程序存储区,如果没有则放在 RAM */
+/* 共阳极数码管编码表 */
+uchar code table[] = {0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,
+			0x80,0x90,0x88,0x83,0xc6,0xa1,0x86,0x8e};
+
+int main(void)
+{
+
+	display(8421);
+	
+}
+
+
+void display(int dat)
+{
+	uchar qian, bai, shi, ge;
+	qian = dat/1000;	//求模，取整去余
+	bai  = dat%1000/100     //求余，去整留余
+	shi  = dat%100/10;
+	ge   = dat%10;
+	
+	/*
+数码管动态扫描，共阳数码管，
+位码 == 0 表示打开相应的数码管位段。
+*/
+	wei0 = 0;
+	P0 = table[qian];
+	delay_ms(2);
+	wei0 = 1;
+	
+	wei1 = 0;
+	P0 = table[bai];
+	delay_ms(2);
+	wei1 = 1;
+	
+	wei2 = 0;
+	P0 = table[shi];
+	delay_ms(2);
+	wei2 = 1;
+	
+	wei3 = 0;
+	P0 = table[ge];
+	delay_ms(2);
+	wei3 = 1;
+}
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+### ===========================================================================
+Contents
+
+    1 Pre-installation                          安装前的准备
+        1.1 Verify signature                    验证签名
+        1.2 Boot the live environment           启动到 live 环境
+        1.3 Set the keyboard layout             键盘布局
+        1.4 Verify the boot mode                验证启动模式
+        1.5 Connect to the Internet             连接到因特网
+        1.6 Update the system clock             更新系统时间
+        1.7 Partition the disks                 建立硬盘分区
+            1.7.1 Example layouts               分区例子
+        1.8 Format the partitions               格式化分区
+        1.9 Mount the file systems              挂载分区
+    2 Installation
+        2.1 Select the mirrors                  选择镜像
+        2.2 Install the base packages           安装基本系统
+    3 Configure the system
+        3.1 Fstab
+        3.2 Chroot
+        3.3 Time zone                           时区
+        3.4 Localization                        本地化
+        3.5 Network configuration               网络
+        3.6 Initramfs
+        3.7 Root password
+        3.8 Boot loader                         安装引导程序
+    4 Reboot
+    5 Post-installation                         安装后的工作
+    
+    
+    
+### ===========================================================================  
+
+
+### ===========================================================================
+### ===========================================================================  
+    
+

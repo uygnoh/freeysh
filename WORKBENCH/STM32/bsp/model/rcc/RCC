@@ -1,0 +1,114 @@
+/**
+  *****************************************************************************
+  * 
+  * 2018.10.29
+  * @freeysh
+  */
+
+/* 使用外部高速晶体振荡器 */
+void rcc_configure(void)
+{
+	/* HSE_configuration */
+	RCC_DeInit();                                         /* 初始化为缺省值               */
+	RCC_HSEConfig(RCC_HSE_ON);                            /* 使能外部高速时钟             */			
+	while (RCC_GetFlagStatus(RCC_FLAG_HSERDY) == RESET);  /* 等待外部高速时钟稳定          */ 	
+	FLASH_PrefetchBufferCmd(FLASH_PrefetchBuffer_Enable); /* enable prefetch buffer     */
+	FLASH_SetLatency(FLASH_Latency_2);                    /* flash 2 wait state         */
+	RCC_HCLKConfig(RCC_SYSCLK_Div1);                      /* HCLK  ==  SYSCLK           */
+	RCC_PCLK2Config(RCC_HCLK_Div1);                       /* PCLK2 ==  HCLK             */
+	RCC_PCLK1Config(RCC_HCLK_Div2);                       /* PCLK1 ==  HCLK/2           */
+	RCC_PLLConfig(RCC_PLLSource_HSE_Div1, RCC_PLLMul_9);  /* PLLCLK == 8MHz*9 ==72MHz   */
+	RCC_PLLCmd(ENABLE);                                   /* enable PLLCLK              */
+	while (RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);  /* wait till  PLLCLK is ready */
+	RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);            /* select PPLL as system clock*/
+	while (RCC_GetSYSCLKSource() != 0x08);                /* wait till PLL is used as system clock source */
+	
+	/* usart1_configuration */
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
+}
+
+
+
+
+
+
+
+#################################################################
+RCC 复位和时钟配置 ,时钟开关 时钟速度 
+
+时钟配置
+
+	1.将RCC寄存器重新设置为默认值	RCC_DeInit();
+	2.打开外部高速时钟晶振 HSE	RCC_HSEConfig(RCC_HSE_ON);
+	3.等待外部高速时钟晶振工作	HSEStartUpStatus = RCC_WaitForHSEStartUp();
+	4.设置AHB时钟			RCC_HCLkConfig();
+	5.设置高速APB时钟		RCC_PCLK2Config();
+	6.设置低速APB时钟		RCC_PCLK1Config();
+	7.设置PLL			RCC_PLLConfig();
+	8.打开PLL			RCC_PLLCmd(ENABLE);
+	9.等待PLL工作稳定		while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);
+	10.设置系统时钟			RCC_SYSCLKConfig();
+	11.判断是否 PLL 是系统时钟	while(RCC_GetSYSCLKSource() != 0x08);
+	12.打开要使用的外设时钟		RCC_APB2PerphClockCmd(); \
+					RCC_APB1PerphClockCmd();
+
+################################################################
+
+PLL 锁相环，启到倍频作用
+Prescaler 分频器
+Multiplier 倍频器
+MCO 微控制器时钟输出端口 
+CSS 时钟监视系统，一旦HSE时钟失效，则自动切换至 SYSCLK=HSI
+
+
+STM32时钟源
+   内部高速时钟HSI, 外部高速时钟HSE, 
+   内部低速时钟LSI, 外部低速时钟LSE, 
+   PLL时钟
+
+
+####################################################
+
+
+AHB System Bus/
+		APB1/
+			USART2
+			USART3
+			SPI2
+			IIC1
+			IIC2
+			USB
+			IWDG	独立看门狗
+			WWDG	窗口看门狗
+			CAN
+			BKP
+			PWR
+			TIM2
+			TIM3
+			TIM4	
+
+		APB2/
+			GPIOA
+			GPIOB
+			GPIOC
+			GPIOD
+			GPIOE
+			EXTI	外部中断
+			USART1
+			SPI1
+			ADC1
+			ADC2
+			TIM1
+			AFIO	复用IO
+
+
+
+
+
+
+
+
+
+	    

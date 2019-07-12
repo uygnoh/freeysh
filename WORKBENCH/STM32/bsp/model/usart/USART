@@ -1,0 +1,165 @@
+/**
+  ****************************************************************************
+  * 串口1(USART1)初始化配置
+  * 2018.10.29
+  * @freeysh
+  */
+void usart_configure(void)
+{
+	
+	rcc_configure();
+	gpio_configrue();
+
+	USART_InitTypeDef USART_InitStructure;
+	USART_InitStructure.USART_BaudRate = 9600;
+	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+	USART_InitStructure.USART_StopBits = USART_StopBits_1;
+	USART_InitStructure.USART_Parity = USART_Parity_No;
+	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_Non;
+	USART_InitStructure.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
+	USART_InitStructure.USART_Clock = USART_Clock_Disable;
+	USART_InitStructure.USART_CPOL = USART_CPOL_High;
+	USART_InitStructure.USART_CPHA = USART_CPHA_1Edge;
+	USART_InitStructure.USART_LastBit = USART_LastBit_Enable;
+	USART_Init(USART1, &USART_InitStructure);
+
+	USART_Cmd(USART1, ENABLE);
+}
+
+int main(void)
+{
+	int i, data, Status;
+	data = 'A';
+	USART_SendData(USART1, data);
+	for (i = 0; i < 30; i++)
+	{
+		data++;
+		
+		while (USART1_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
+	}
+}
+
+
+###############################################################################
+
+
+
+###############################################################################
+1. 设置 USART1模块，UE使能位，M位来定义字长， 停止位位数，TE位，BRR寄存器选择波特率
+
+	USART1->CR1 |= (1<<13);
+
+	USART1->CR1 &= ~(1<<12);
+
+	USART1->CR2 &= ~(3<<12);	//USART->CR2 &= ~((1<<12) | (1<<13));
+
+	USART1->CR1 |= (1<<3);
+
+=================================
+波特率 9600, 系统时钟 72MHz,
+
+Tx/Rx波特率 = ƒck/(16*USARTDIV)
+
+9600 = 72*1000*1000/(16*U)
+U = 72000000/(9600*16)
+
+float Div;
+u16 M,F,BRR;
+u32 Bound;
+
+Bound = 9600;
+Div = (float)(72*1000*1000)/(Bound*16);
+M = Div;	// 取整数部分
+F = (Div-M)*16; // 小数部分
+
+整合整数部分和小数部分
+
+BRR = M<<4 + F;
+========================================
+
+USART1->BRR = BRR;
+
+2. 发送一个字符 'A' 到 USART的DR寄存器
+	int i, data,;
+	data = 'A';
+	USART->DR = data;
+	for (i = 0; i < 30; i++)
+	{
+		data++;
+		while ((USART1_SR & (1<<6) == 0);
+	}
+	
+###############################################################################
+
+A. 数据发送过程
+	1. 设置 USART_CR1寄存器中 UE位置位 来激活USART
+	2. 设置 USART_CR1寄存器中 的M位    来定义字长
+	3. 设置 USART_CR2寄存器中 编写停止位位数
+	*  如果采用多缓冲器通信，配置 USART_CR3寄存器中的 DMA使能位(DMAT)
+	4. 设置 USART_CR1中的 TE位，发送一个空闲帧作为第一次数据的发送
+	5. 设置 USART_BRR寄存器，设定要求的波特率
+	6. 把发送的数据写进 USART_DR寄存器 (此动作自动清除 TXE位)。
+	   -----在只有一个缓冲器的情况下，对每个待发送的数据重复此步骤
+
+B. 数据接收过程
+	1. 设置 USART_CR1寄存器中 UE位置位 来激活USART
+	2. 设置 USART_CR1寄存器中 的M位    来定义字长
+	3. 设置 USART_CR2寄存器中 编写停止位位数
+	*  如果采用多缓冲器通信，配置 USART_CR3寄存器中的 DMA使能位(DMAT)
+	4. 设置 USART_BRR寄存器，设定要求的波特率
+	5. 设置 USART_CR1中的 RE位，激活接收器，使他开始寻找起始位
+
+	当一个字符被接收时：
+		RXNE位被置位。它表明移位寄存器的内容被转移到 RDR.
+		RXNEIE位被置位。则产生中断信号.
+		在接收期间如果检测到帧错误，噪音或溢出错误，错误标志将被置起.
+
+
+
+
+###############################################################################
+USART_SR	状态寄存器
+
+USART_DR	数据寄存器
+
+USART_BRR	波特比率寄存器
+
+USART_CR1	控制寄存器 1
+USART_CR2	控制寄存器 2
+USART_CR3	控制寄存器 3
+
+USART_
+
+
+1. 起始位
+2. 数据位 (8, 9)
+3. 奇偶校验位 (9 bit)
+4. 停止位 (1, 1.5, 2)
+5. 波特率设置 (速度)
+
+###############################################################################
+
+USART 通用同步异步收发器
+
+带有分数波特率发生器
+全双工异步通信
+单线半双工通信
+使用DMA可配置的多缓冲器
+单独的发送器和接收器使能位
+
+检测标志
+	接收缓冲器满
+	发送缓冲器空
+	传输结束标志
+
+校验控制
+	发送校验位
+	接收数据进行校验
+
+4 个错误检测标志
+10 个带标志的中断源
+
+RxD	串行数据接收
+TxD	串行数据发送
+###############################################################################
+

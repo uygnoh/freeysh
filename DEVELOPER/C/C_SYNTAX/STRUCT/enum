@@ -1,0 +1,58 @@
+### ======================================================== enum
+
+枚举是一种用户定义的数据类型，它用关键字 enum以如下语法来声明:
+
+	enum 枚举类型名称 {名字0, 名字1, ..., 名字n}
+
+
+枚举类型名字通常并不真的使用，要用的是大括号里的名字，
+因为它们就是常量符号，它们的类型是int，值则依次从0到n。
+例如：
+	
+	enum colors { red, yellow, green };
+就创建了3表常量，red的值是0, yellow是1, green是2.
+
+
+### =======================================================
+
+声明枚举量的时候可以指定值
+
+enum COLOR { RED = 1, YELLOW, GREEN = 5};
+
+
+
+### =======================================================
+
+#include <stdio.h>
+
+enum COLOR{ RED, YELLOW, GREEN};
+
+int main(int argc, char const *argv[]) {
+	int color = -1;
+	char *color_name = NULL;
+	printf("输入你喜欢的colro代码: ");
+	scanf("%d", &color);
+	
+	switch (color) {
+		case RED: 
+			color_name = "red"; 
+			break;
+		case YELLOW: 
+			color_name = "yellow";
+			break;
+		case GREEN:
+			color_name = "green";
+			break;	
+		default:
+			color_name = "unknown";
+			break;
+	}
+	
+	printf ("你最喜欢的颜色是%s\n", color_name);
+	
+	return 0;
+	
+}
+
+
+### =======================================================

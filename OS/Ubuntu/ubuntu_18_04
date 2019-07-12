@@ -1,0 +1,52 @@
+### ===========================================================================
+ubuntu开机打印信息：
+sudo vi /etc/default/grub
+
+注释掉下面一行
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+sudo update-grub
+然后重启系统即可。
+
+
+
+
+### ===========================================================================
+flashplayer插件安装
+
+1. 解压下载的压缩文件 flash_player_npapi_linux.x86_64.tar.gz
+
+$ mkdir FirefoxFlashPlayer
+$ cd FirefoxFlashPlayer
+$ tar zxvf flash_player_npapi_linux.x86_64.tar.gz -C FirefoxFlashPlayer
+
+2. 安装或更新 Firefox Flash Player
+
+$ sudo cp libflashplayer.so /usr/lib/mozilla/plugins/
+$ mkdir ~/.mozilla/plugins
+$ sudo cp libflashplayer.so ~/.mozilla/plugins/
+
+
+
+3. 如果网络播放器黑屏，无法播放视频，则需要放宽 SELinux 对网页外挂程序的限制，
+   需要执行如下命令，以关闭SELinux对Firefox插件的控制。
+
+$ sudo setsebool -P unconfined_mozilla_plugin_transition 0
+
+### ===========================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+

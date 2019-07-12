@@ -1,0 +1,178 @@
+### ===========================================================================
+指针和一维数组之间的关系
+
+    int a[5];
+    a,数组名代表数组的首地址&a[0]
+
+    &a[i] == (a+i)
+    a+1不是加上1个字节,取决于a的基类型
+
+    一维数组元素的等价引用形式
+    a[i] ↔ *(a + i)
+    用下标形式访问数组元素的本质
+
+
+
+### ===========================================================================
+问题:*p++与(*p)++有何区别?
+ina a[5]; int *p = a;
+int a = 5;
+
+printf("%d\n", ++(*p));
+printf("%d\n", (*p)++);
+(*p)++ ,对*p加1,不改变p的指向
+
+printf("%d\n", *p++);
+printf("%d\n", *(p++));
+printf("%d\n", *p);
+p++;
+p++不是增加1字节,取决于p的基类型,当指针指向数组时,p++才有意义
+
+
+
+### ===========================================================================
+一维数组元素的访问
+a[i]    ↔ *(a+i)
+&a[i]   ↔ (a+i)
+例程1：
+#include <stdio.h>
+int main(void)
+{
+    int a[5], i;
+    for (i=0; i<5; i++)
+    {
+        scanf("%d", &a[i]);
+    }
+    for (i=0; i<5; i++)
+    {
+        printf("%4d", a[i]);
+    }
+    printf("\n");
+    return 0;
+}
+
+
+例程2：
+#include <stdio.h>
+int main(void)
+{
+    int a[5], i;
+    for (i=0; i<5; i++)
+    {
+        scanf("%d", a+i);
+    }
+    for (i=0; i<5; i++)
+    {
+        printf("%4d", *(a+i));
+    }
+    printf("\n");
+    return 0;
+}
+
+例程3：
+#include <stdio.h>
+int main(void)
+{
+    int a[5], i, *p = NULL;
+    p = a;
+    for (i=0; i<5; i++)
+    {
+        scanf("%d", &p[i]);
+    }
+    p = a;
+    for (i=0; i<5; i++)
+    {
+        printf("%4d", p[i]);
+    }
+    printf("\n");
+    return 0;
+}
+
+
+例程4：p++不是增加1字节,取决于p的基类型
+#include <stdio.h>
+int main(void)
+{
+    int a[5], *p = NULL;
+    for (p=a; p < a+5; p++)
+    {
+        scanf("%d", p);
+    }
+    for (p=a; p < a+5; p++)
+    {
+        printf("%4d", *P);
+    }
+    printf("\n");
+    return 0;
+}
+
+
+
+
+### ===========================================================================
+指针和一维数组做函数参数
+
+被调函数的形参声明为数组类型, 用下标法访问数组元素
+void input_array(int a[], int n)
+{
+    int i;
+    for (i=0; i<n; i++)
+        scanf("%d", &a[i]);
+}
+
+void output_array(int a[], int n)
+{
+    int i;
+    for (i=0; i<n; i++)
+        printf("%4d", a[i]);
+    printf("\n");
+}
+
+
+被调函数的形参声明为指针类型, 用指针算术运算访问数组元素
+void input_array(int *p, int n)
+{
+    int i;
+    for (i=0; i<n; i++)
+        scanf("%d", p++);
+}
+
+void output_array(int *p, int n)
+{
+    int i;
+    for (i=0; i<n; i++)
+        printf("%4d", *p++);
+    pritnf("\n");
+}
+
+int main(void)
+{
+    int a[5];
+    input_array(a, 5);
+    output_array(a, 5);
+    return 0;
+}
+
+### ===========================================================================
+小结
+
+指针与一维数组间的关系的关键
+
+牢记a[i] ↔ *(a+i)
+
+一维数组和指针做函数形参是等同的
+
+数组和指针并非在所有情况下都是等同的
+
+sizeof(数组名)和sizeof(指针变量名),不可互换
+
+
+
+
+
+
+
+
+
+
+

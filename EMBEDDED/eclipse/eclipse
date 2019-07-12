@@ -1,0 +1,141 @@
+### =====================================================================
+安装STM32插件
+
+Help-> Install New Software
+http://gnuarmeclipse.sourceforge.net/updates
+
+
+
+### ====================================================================
+stlink-v2 插件配置
+
+eclipse
+Run->External tools->External tools Configurations
+Main
+	New_name: st-linkv2
+	Location: /usr/bin/st-flash
+	Working Directory: ${project_loc}/Release
+	Arguments: write ${project_name}.bin 0x8000000
+
+
+
+
+### =====================================================================
+GDB Hardware Debugging =====硬件ＧＤＢ调试配置
+		
+
+⚫ GDB Hardware Debugging 调试
+Run->Debug Configuration->GDB Hardware Debugging
+Name: debugTEST Debug
+⚫ Main:---------------------
+	Debug/debutTEST.elf
+Project:
+	debugTEST
+
+Using Legacy GDB Hardware
+Debugging Launcher-Select Other...
+
+Use configuration specific
+	Legacy GDB Hardware Debugging Launcher
+
+⚫ Debugger--------------
+GDB Command:
+	/$HOME/arm-none-eabi-gdb
+Command Set: Standard (Linux)
+Protocol Version: mi
+
+Use remote target
+JTAG Device: Generic TCP/IP
+Host name or IP addresss: localhost
+Port number:	           3333	  
+
+⚫ Startup---------------------
+Initialization Commands
+Reset and Delay（seconds)：3
+Halt
+	monitor reset halt
+
+⚫ common----------------------
+Local file
+
+Diaplay in favorites menu
+	Debug
+
+
+
+
+### =====================================================================
+OpenOCD 调试
+GDB OpenOCD Debugging===========================
+Run->Debug Configurations->GDB OpenOCD Debugging
+	testARM Release
+	Name: testARM Release
+	Main:--------------------
+	Project :
+		testARM
+	C/C++ Application:
+		Debug/testARM.elf
+
+	⚫ Debugger: ---------------
+	OpenOCD Setup
+	Start OpenOCD locally
+	Executable: ${openocd_path}/${openocd_executable}
+	GDB port:	3333
+	Telnet port:	4444
+	Config options:-f 添加　stnucleo_f4.cfg　配置文件
+			文件位置在　openocd->share
+
+	⚫ Common:---------------
+
+	Share file: /testARM
+
+
+
+
+
+
+### ======================================================================
+⬢　eclipse 系统环境变量设定
+Eclipse Enviroment Varibale:
+Windows->Preferences->Run/Debug
+	String Substitution
+		openocd_path:添加openocd 可执行文件所在路径
+		openocd_executable: openocd
+	
+
+
+### =====================================================================
+⬢　串口调试软件安装
+# putty minicom serial port	
+
+
+sudo apt-get install minicom 
+sudo apt-get install putty
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

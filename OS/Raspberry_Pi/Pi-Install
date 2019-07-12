@@ -1,0 +1,77 @@
+### ===========================================================================
+
+1 下载树莓派镜像（https://www.raspberrypi.org/downloads/raspbian/），解压缩
+2 下载安装etcher（https://etcher.io/）
+3 使用etcher将镜像写入tf卡
+4 配置打开sshd，配置树莓派的wifi
+5 启动树莓派，确认树莓派的IP地址，并通过ssh登录树莓派
+
+
+        vi ssh
+
+
+
+        vim wpa_supplicant.conf
+
+        country=CN
+
+        ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+
+        update_config=1
+
+        network={
+
+        ssid="your_wifi_ssid"
+
+        psk="your_wifi_password"
+
+        key_mgmt=WPA-PSK
+
+        priority=1
+
+        }
+
+
+
+
+树莓派基础配置
+### ===========================================================================
+login   : pi
+password: raspberry
+
+
+
+### ===========================================================================
+python -V
+
+
+### ===========================================================================
+sudo raspi-config
+
+
+sudo vi /etc/apt/sources.list
+    deb http://mirrors.aliyun.com/raspbian/raspbian/ stretch main non-free contrib rpi
+    deb-src http://mirrors.aliyun.com/raspbian/raspbian/ stretch main non-free contrib rpi
+
+
+
+/etc/pip.conf文件
+[global]
+
+index-url=https://mirrors.aliyun.com/pypi/simple/
+extra-index-url=https://www.piwheels.org/simple
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

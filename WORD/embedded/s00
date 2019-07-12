@@ -1,0 +1,122 @@
+### ======================================================================
+%           CLI（command-line interface,   命令行界面)
+%           GUI (Graphical User Interface, 图形用户界面)
+### ======================================================================
+RAM (Random Access Memory, 随机存取存储器)
+ROM (Read-Only Memory, 只读存储器)
+FLASH闪存(的英文名称是"Flash Memory"，一般简称为"Flash")
+    它属于内存器件的一种，是一种非易失性（ Non-Volatile ）内存。
+    
+CMSIS (ARM Cortex™ 微控制器软件接口标准)
+%__________________________________________________________
+(CMSIS：Cortex Microcontroller Software Interface Standard) 
+是 Cortex-M 处理器系列的与供应商无关的硬件抽象层
+英文原文为：
+(a vendor-independent hardware abstraction layer 
+for the Cortex-M processor series and defines 
+generic tool interfaces--来自ARM官方定义）
+
+NVIC (Nested Vectored Interrupt Controller 内嵌向量中断控制器)
+%__________________________________________________________
+ADK         AMBA Design Kit
+AHB         Advanced High-Performance Bus
+AHB-AP      AHB Access Port
+AMBA        Advanced Microcontroller Bus Architecture
+APB         Advanced Peripheral Bus
+ARM ARM     ARM Architecture Reference Manual
+ASIC        Application Specific Integrated Circuit
+ATB         Advanced Trace Bus
+BE8         Byte Invariant Big Endian Mode
+CPI         Cycles Per Instruction
+CPU         Central Processing Unit
+DAP         Debug Access Port
+DSP         Digital Signal Processor/Digital Signal Processing
+DWT         Data WatchPoint and Trace
+ETM         Embedded Trace Macrocell
+FPB         Flash Patch and Breakpoint
+FSR         Fault Status Register
+HTM         CoreSight AHB Trace Macrocell
+ICE         In-Circuit Emulator
+IDE         Integrated Development Environment
+IRQ         Interrupt Request (normally refers to external interrupts)
+ISA         Instruction Set Architecture
+ISR         Interrupt Service Routine
+ITM         Instrumentation Trace Macrocell
+JTAG        Joint Test Action Group (a standard of test/debug interfaces)
+JTAG-DP     JTAG Debug Port
+LR          Link Register
+LSB         Least Signifi cant Bit
+LSU         Load/Store Unit
+MCU         Microcontroller Unit
+%__________________________________________________________
+MMU         Memory Management Unit
+MPU         Memory Protection Unit
+MSB         Most Signifi cant Bit
+MSP         Main Stack Pointer
+NMI         Nonmaskable Interrupt
+NVIC        Nested Vectored Interrupt Controller
+OS          Operating System
+PC          Program Counter
+PSP         Process Stack Pointer
+PPB         Private Peripheral Bus
+PSR         Program Status Register
+SCS         System Control Space
+SIMD        Single Instruction, Multiple Data
+SP,MSP,PSP  Stack Pointer, Main Stack Pointer, Process Stack Pointer
+SOC         System-on-a-Chip
+SP          Stack Pointer
+SW          Serial-Wire
+SW-DP       Serial-Wire Debug Port
+SWJ-DP      Serial-Wire JTAG Debug Port
+SWv         Serial-Wire Viewer (an operation mode of TPIU)
+TPA         Trace Port Analyzer
+TPIU        Trace Port Interface Unit
+TRM         Technical Reference Manual
+%__________________________________________________________
+
+
+
+
+
+
+
+### ======================================================================
+%           BIOS    "Basic Input Output System"
+%           CMOS    "Complementary Metal Oxide Semiconductor"
+%           UEFI    "Unified Extensible Firmware Interface"
+%__________________________________________________________
+BIOS即Basic Input/Output System，翻成中文是“基本输入/输出系统”，
+是一种所谓的“固件”，负责在开机时做硬件启动和检测等工作，
+并且担任操作系统控制硬件时的中介角色
+%__________________________________________________________
+CMOS是Complementary Metal Oxide Semiconductor（互补金属氧化物半导体）的缩写。
+它是指制造大规模集成电路芯片用的一种技术或用这种技术制造出来的芯片，
+是电脑主板上的一块可读写的RAM芯片。
+因为可读写的特性，所以在电脑主板上用来保存BIOS设置完电脑硬件参数后的数据，
+这个芯片仅仅是用来存放数据的。
+%__________________________________________________________
+新型UEFI，全称“统一的可扩展固件接口”(Unified Extensible Firmware Interface)， 
+是一种详细描述类型接口的标准。
+这种接口用于操作系统自动从预启动的操作环境，加载到一种操作系统上。
+%__________________________________________________________
+因为硬件发展迅速，传统式（Legacy）BIOS 成为进步的包袱，
+现在已发展出最新的UEFI（Unified Extensible Firmware Interface）可扩展固件接口，
+相比传统 BIOS 的来说，未来将是一个“没有特定 BIOS”的电脑时代。
+
+
+%__________________________________________________________
+Security--->Secure Boot     Disable ### 关闭可以安linux系统
+1 部分电脑品牌需要设置BIOS密码才能修改BIOS选项
+2 在Secrurity中选择--->Set Supervisor Passoword--->按回车设置密码
+Secure Boot是UEFI BIOS的一个子规则，位于传统(Legacy)BIOS的BOOT选项下，
+微软规定，所有预装Win8操作系统的厂商(即OEM厂商)都必须打开Secure Boot。
+### ======================================================================
+
+
+
+
+
+
+
+
+

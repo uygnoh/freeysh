@@ -1,0 +1,139 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>FVWM Beginners Guide - Advanced Functions</title>
+<link rel="stylesheet" href="FVWM%20Beginners%20Guide%20-%20Advanced%20Functions_files/fvwm.css">
+</head>
+
+<body>
+<p>Functions are one of my favorite things to use (as you noticed I write
+a function even for simple tasks). As is true with almost anything you want to program,
+being able to write good functions is the key. Almost all of the advanced sections
+are gonna include functions, so this part is just filled with miscellaneous functions.
+</p>
+
+<p>These first two functions are taken from <a href="http://dev.gentoo.org/~taviso/fvwm2rc.html">
+taviso's</a> fvwm2rc file. They use the tools from ImageMagick to take screen shots
+of an open window and then use it for an Icon. The first function Thumbnail
+will use the screenshot of the current window and use that as the Icon for
+its Iconified state.</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#008b8b">DestroyFunc</font> Thumbnail
+<font color="#008b8b">AddToFunc</font> Thumbnail
++ I <font color="#008b8b">Raise</font>
++ I <font color="#008b8b">SetEnv</font> Icon-<font color="#a020f0">$[w.id]</font> <font color="#a020f0">$[w.iconfile]</font>
++ I ThisWindow (!<font color="#008b8b">Shaded</font> Iconifiable !<font color="#008b8b">Iconic</font>) <font color="#008b8b">PipeRead</font> \
+    "xwd -silent -id <font color="#a020f0">$[w.id]</font> | convert -scale <font color="#a020f0">$$</font>((<font color="#a020f0">$[w.width]</font>/5)) -frame 1x1 \
+    -mattecolor black -quality 0 xwd:- png:<font color="#a020f0">$[fvwm_tmp]</font>/icon.tmp.<font color="#a020f0">$[w.id]</font>.png \
+    &amp;&amp; <font color="#008b8b">echo</font> <font color="#008b8b">Nop</font>"
++ I TestRc (Match) Test (f <font color="#a020f0">$[fvwm_icon]</font>/<font color="#a020f0">$[w.iconfile]</font>, f <font color="#a020f0">$[fvwm_tmp]</font>/icon.tmp.<font color="#a020f0">$[w.id]</font>.png) \
+    <font color="#008b8b">PipeRead</font> "composite -geometry +2+4 \
+    <font color="#a020f0">$[fvwm_icon]</font>/<font color="#a020f0">$[w.iconfile]</font> <font color="#a020f0">$[fvwm_tmp]</font>/icon.tmp.<font color="#a020f0">$[w.id]</font>.png \
+    <font color="#a020f0">$[fvwm_tmp]</font>/icon.tmp.<font color="#a020f0">$[w.id]</font>.png &amp;&amp; \
+    <font color="#008b8b">echo</font> WindowStyle <font color="#a52a2a"><b>IconOverride</b></font>, <font color="#a52a2a"><b>Icon</b></font> <font color="#a020f0">$[fvwm_tmp]</font>/icon.tmp.<font color="#a020f0">$[w.id]</font>.png || <font color="#008b8b">echo</font> <font color="#008b8b">Nop</font>"
++ I TestRc (NoMatch) WindowStyle <font color="#a52a2a"><b>IconOverride</b></font>, <font color="#a52a2a"><b>Icon</b></font> <font color="#a020f0">$[fvwm_tmp]</font>/icon.tmp.<font color="#a020f0">$[w.id]</font>.png
++ I <font color="#008b8b">Iconify</font>
+
+<font color="#008b8b">DestroyFunc</font> DeThumbnail
+<font color="#008b8b">AddToFunc</font> DeThumbnail
++ I <font color="#008b8b">PipeRead</font> <font color="#ff00ff">"echo WindowStyle Icon \\$\\[Icon-$[w.id]\\]"</font>
++ I <font color="#008b8b">UnsetEnv</font> Icon-<font color="#a020f0">$[w.id]</font>
++ I <font color="#008b8b">Exec</font> rm -f <font color="#a020f0">$[fvwm_tmp]</font>/icon.tmp.<font color="#a020f0">$[w.id]</font>.png
+</pre>
+</td></tr></tbody></table></center>
+
+<p>These functions can be used in place of 'Iconify'. The function Thumbnail will first
+take a screenshot of the current window and then write it to a temp file. The temp file
+is put in the dir $[fvwm_tmp], so you must have that enviorment variable set.
+The function then looks to see if you have have an Iconfile set for the window,
+'Test (f $[fvwm_home]/icons/$[w.iconfile])'. This fill will only exist if you set
+it using a style command, for example 'Style "Firefox-bin" Icon 48x48/firefox.png' well
+set $[w.iconfile] to be 48x48/firefox.png (note that I set up so my icons are all in
+my $[fvwm_icon] dir). If this file exists then the function
+will 'composite' those two pics into one icon. Either way, it then sets the new Icon
+to be the screenshot image we just created and Iconifies the window.
+The DeThumbnail function cleans things up, it sets the icon back to its original state
+and then removes the temp icon it created so the next time the window is
+Tumbnailed it will behave the same as the first.
+There are two ways to make sure this function is run
+when an window is deiconified. One way is to also add an '+ I Iconify' to this function
+and bind it so its ran when you deicnoify a window. Or what I prefer is set up the module
+FvwmEvent to run this at the time the window is deiconified. This is nice cause then it doesn't
+matter how the icon is deiconified, this function will still run. To do this set up
+FvwmEvent as follows and then load the module at startup in your StartFunction.</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#0000ff">#####</font>
+<font color="#0000ff"># FvwmEvent</font>
+<font color="#0000ff">###########</font>
+<font color="#008b8b">DestroyModuleConfig</font> FvwmEvent: *
+<font color="#a020f0">*FvwmEvent</font>: deiconify DeThumbnail
+</pre>
+</td></tr></tbody></table></center>
+
+<p>One last note about these functions is that when you 'Restart' FVWM
+all the Icons are converted back to their original state and you have
+to deiconify then iconify the windows again to get things working.
+One way to work around is with adding '+ I All (Iconic) ReThumbnail'
+to your RestartFunction, where ReThumbnail is the following function.</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#008b8b">DestroyFunc</font> ReThumbnail
+<font color="#008b8b">AddToFunc</font>   ReThumbnail
++ I <font color="#008b8b">Iconify</font>
++ I Thumbnail
+</pre>
+</td></tr></tbody></table></center>
+
+<p>If everything is set up correctly then your Icons for your Iconified windows
+should look something like these two examples for firefox and gvim.</p>
+
+<center>
+<table cellpadding="5" border="0">
+<tbody><tr><td valign="center">
+<img src="FVWM%20Beginners%20Guide%20-%20Advanced%20Functions_files/firefox_thumbnail.png">
+</td><td valign="cener"><img src="FVWM%20Beginners%20Guide%20-%20Advanced%20Functions_files/gvim_thumbnail.png">
+</td></tr></tbody></table></center>
+
+<p>Another function that taviso wrote, he calls FvwmExpose. This function is like
+the WindowList function. What it does is uses ImageMagick to take a sreenshot
+of all the open windows and then put them into a menu using the screenshot as the icon.
+Here is a copy of his function.</p>
+
+<center><table cellpadding="10" border="1" width="400">
+<tbody><tr><td valign="center">
+<pre><font color="#0000ff">#####</font>
+<font color="#0000ff"># FvwmExpose</font>
+<font color="#0000ff">###########</font>
+<font color="#008b8b">DestroyFunc</font> FvwmExpose
+<font color="#008b8b">AddToFunc</font> FvwmExpose
++ I <font color="#008b8b">AddToMenu</font> FvwmExposeMenu <font color="#ff00ff">"e x p o s e"</font> <font color="#008b8b">Title</font>
++ I + <font color="#a52a2a"><b>DynamicPopDownAction</b></font> <font color="#008b8b">DestroyMenu</font> FvwmExposeMenu
++ I <font color="#a52a2a"><b>All</b></font> (!<font color="#008b8b">Iconic</font> !<font color="#008b8b">Shaded</font> <font color="#008b8b">AcceptsFocus</font>)\
+    <font color="#008b8b">PipeRead</font> "<font color="#008b8b">echo</font> <font color="#008b8b">Raise</font>; \
+        xwd -silent -id <font color="#a020f0">$[w.id]</font> | convert -scale <font color="#a020f0">$$</font>((<font color="#a020f0">$[w.width]</font>/10)) -quality 0 xwd:- \
+        png:<font color="#a020f0">$[fvwm_home]</font>/tmp/icon.exp.<font color="#a020f0">$[w.id]</font>.png \
+    &amp;&amp; <font color="#008b8b">echo</font> <font color="#008b8b">AddToMenu</font> FvwmExposeMenu \
+    %<font color="#a020f0">$[fvwm_home]</font>/tmp/icon.exp.<font color="#a020f0">$[w.id]</font>.png%\\\'\<font color="#ff00ff">"$[w.name]\"</font>\\\' <font color="#008b8b">WindowID</font> <font color="#a020f0">$[w.id]</font> <font color="#008b8b">WarpToWindow</font> 50 50 \
+        &amp;&amp; <font color="#008b8b">echo</font> <font color="#008b8b">AddToMenu</font> FvwmExposeMenu \\\<font color="#ff00ff">"\\\"</font> <font color="#008b8b">Nop</font> \
+    || <font color="#008b8b">Nop</font>"
++ I <font color="#008b8b">Popup</font> FvwmExposeMenu
++ I <font color="#008b8b">Exec</font> <font color="#008b8b">exec</font> rm -f <font color="#a020f0">$[fvwm_home]</font>/tmp/icon.exp.*
+</pre>
+</td></tr></tbody></table></center>
+
+<p>Call this function from a binding, I use meta+middle mouse click, and it will
+popup the FvwmExposeMenu.  <a href="http://zensites.net/fvwm/guide/fvwm_expose.png">Here</a>
+is an example of what that menu will look like.</p>
+
+<hr>
+<table cellpadding="0" border="0" width="100%">
+<tbody><tr><td align="left" width="33%"><a href="http://zensites.net/fvwm/guide/advanced.html">Advanced Topics</a></td>
+<td align="center" width="34%"><a href="http://zensites.net/fvwm/guide/index.html">index</a></td>
+<td align="right" width="33%"><a href="http://zensites.net/fvwm/guide/advanced_menu.html">Advanced Menu</a></td></tr></tbody></table>
+
+
+</body></html>

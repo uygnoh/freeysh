@@ -1,0 +1,76 @@
+### ===========================================================================
+IDE ->Integrated Development Environment,集成开发环境
+
+
+
+### ===========================================================================
+Build Automatically,自动生成                    Rebuild Last Target,重新生成上一个目标
+Re-resolve,重新解析                             Unresolved,未解决的
+Create Parser Log File,创建分析程序日志文件       Recursively,递归地
+Add separator,添加分隔符
+
+Convert Line Delimiters,转换行分隔符             Incremental Find Previous,增量查找上一个
+Extract Local Variable,提取局部变量              Add Block Comment,添加块注释
+Toggle Comment,切换注释                          Remove Block Comment,删除块注释
+Align Const,对齐常量                             Correct Indention,正确缩进
+Implement Method,实现方法                        Problem Details,问题细节 
+Project Explorer,工程资源管理器
+
+
+
+### ===========================================================================
+Launch,开始         Workspace,工作空间       Browser,浏览器      
+Artifacts,人工产品  Development,新产品       Preferences,参数选择
+Organize,组织       surround,包围           Perspective,透视的
+Appearence,外观     contextual,上下文的      Expand All,展开所有 
+
+
+Refactor,重构       Navigate,导航             Properties,特性
+Undo,撤消           Redo,重做                 Find/Replace,查找/替换
+Previous,以前的     Incremental,增量          Add Bookmark,添加书签
+Completion,完成     Quick Fix,快速修复        Set Encoding,集合编码
+Tooltip,工具提示     Description,描述         Toggle Block Selection,切换块选择
+
+
+
+### ===========================================================================
+Help->Help Contents,帮助内容
+Corntribute,贡献        Marketplace,市场      Cheat Sheets,备忘单
+Enhancement,增强        Keybindings,键绑定     Tips and Tricks,小窍门
+
+
+Projece->Properties,C/C++ Build,Settings    性质,C/C++ 建造,设置
+Traget Processor                            目标处理机
+Cross ARM GNU Assembler                     交叉ARM GNU汇编程序
+Cross ARM GNU C Compiler                    交叉ARM GNU C编译程序
+Cross ARM GNU C Linker                      交叉ARM GNU C链接器
+Cross ARM GNU Create Flash Image            交叉ARM GNU 创建Flash图像
+Cross ARM GNU Print Size                    交叉ARM GNU
+Miscellaneous,[ˌmɪsəˈleɪniəs]其他           Optimizstion,最优化
+
+
+
+### ===========================================================================
+Windows->preferences                        Windows->首选项
+Run/Debug->String Substitution              运行/调试->字符串替换
+
+
+
+### ===========================================================================
+Run->
+Skip All Breakpoints,跳过所有断点               Toggle Method Breakpoint,切换方法断点
+Toogle Watchpoint,切换观察点
+
+
+
+### ===========================================================================
+Navigate->导航
+Open Declaration,公开声明                       Open Type Hierarchy,打开类型层次结构
+Open Call Hierarchy,打开调用层次结构
+Open Element,->Visible element types        开放元素,可见元素类型
+Namespace,命名空间           Class,等级          Struct,结构         Typedef,定义类型
+Macro,宏                    Union,联合          Function,函数       Variable,变量
+Enumerator,枚举器            Enumeration,枚举
+
+
+

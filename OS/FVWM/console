@@ -1,0 +1,114 @@
+### ======================================================= consolefonts
+% 就我所知，除了查看字体存储目录 
+/usr/share/consolefonts/（Debian 等），
+/lib/kbd/consolefonts/ （Fedora），
+/usr/share/kbd/consolefonts （openSUSE）
+% 外没有其他方法可以列出已安装的字体了。
+
+% 在 Debian/Ubuntu 系统上，可以运行 
+sudo dpkg-reconfigure console-setup 
+% 来设置控制台字体
+% 然后在控制台运行 setupcon 命令来让变更生效
+
+
+
+% 你也可以直接编辑 /etc/default/console-setup 文件。
+% 下面这个例子中设置字体为 32 点大小的 Terminus Bold 字体，
+% 这是我的最爱，并且严格限制控制台宽度为 80 列。
+ACTIVE_CONSOLES="/dev/tty[1-6]"
+CHARMAP="UTF-8"
+CODESET="guess"
+FONTFACE="TerminusBold"
+FONTSIZE="16x32"
+SCREEN_WIDTH="80"
+% 这里的 FONTFACE 和 FONTSIZE 的值来自于字体的文件名 TerminusBold32x16.psf.gz。
+% 是的，你需要反转 FONTSIZE 中值的顺序。计算机就是这么搞笑。
+% 然后再运行 setupcon 来让新配置生效。可以使用 showconsolefont 来查看当前所用字体的所有字符集。
+% 要查看完整的选项说明请参考 man console-setup。
+
+### ======================================================= X11
+% $ sudo apt install xorg
+% $ sudo apt install fvwm
+
+% screen brightness 0.1~1.0
+% redshift -b 0.5 -O 5500
+
+
+
+
+
+
+
+
+
+
+### ======================================================= FVWM
+Xorg            图形服务
+Fvwm            窗口管理器
+Rox             文件管理
+xwd             窗口dump工具
+ImageMagick     在脚本中处理图片的工具
+xloadimage      为桌面加载背景图片的工具
+xscreensaver    屏幕保护程序
+update-menu     用于自动为Fvwm生成菜单的脚本，依赖于menu软件包
+conky           系统监控和桌面美化。网上关于其如何配置的教程很多，
+Xterm           好用的终端，支持中文显示
+udev            USB设备监控服务。配合pmount和shell脚本实现U盘和移动硬盘自动挂载。
+
+
+
+
+
+
+### ======================================================= FVWM配置文件
+% Fvwm的配置文件为"~/fvwm/.fvwm2rc"，如果没找到，可自己创建一个
+% 在其中可以把所有的设置都写进去。但我感到把所有的定义都放在一起，不便查找。
+% 于是就就把.fvwm2rc分解开了，对于一些具体的方面单独写了配置。
+% 具体说明如下：
+.fvwm2rc        起始文件，主要是些路径及起动时的设置
+f.menu          菜单
+f.buttonbar     buttonbar模块，就是在我的桌面左上角那一排快捷按钮
+f.taskbar       taskbar模块，任务条
+f.pager         pager模块，虚拟桌面切换程序。在我桌面的右上角
+f.style         窗口样式
+f.Mouse         鼠标，键盘设定
+f.ButtonStyle   标题栏。按钮的排列，样式等
+f.autohiding    模块自动隐藏设置
+icons           图标
+imgae           背景图片，用来装饰buttonbar,pager等模块的
+
+
+
+
+
+
+### =======================================================
+% ysh@localhost:~$ xrandr
+Screen 0: minimum 320x200, current 1366x768, seting 1024x768
+
+% 1.在Grub操作系统选择界面时按箭头键，
+%   然后c进入字符界面，输入vbeinfo看显卡支持的模式，有一个1920x1080的，记录下来。
+
+% 2.修改/etc/default/grub，同时会影响grub启动菜单和控制台里文字的分辨率。
+% sudo vim /etc/default/grub
+GRUB_GFXMODE=1024x768
+
+
+% 3.修改/etc/grub.d/00_header
+% sudo vim /etc/grub.d/00_header
+set gfxmode=${GRUB_GFXMODE}
+#然后在这行下面添加新行
+set gfxpayload=1024x768
+
+% 4.更新grub, 最后重启
+sudo update-grub
+
+
+% 修改grub背景
+sudo update-alternatives --install /usr/share/images/desktop-base/desktop-grub.png desktop-grub /usr/share/images/desktop-base/long-grub.png 50
+sudo update-grub
+
+
+
+
+
