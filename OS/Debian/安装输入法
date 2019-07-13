@@ -1,0 +1,37 @@
+### ==================================================== debian9五笔输入法安装
+1 sudo dpkg-reconfigure locales
+% 选择 *zh_CN.UTF-8 中文语言环境
+% 最后选择 en_US.UTF-8， 然后点击OK
+
+2 执行如下命令进行系统环境软件更新和安装:
+% sudo apt-get update 
+
+3 安装fctix中文输入法
+% sudo apt install fcitx
+
+4 在终端输入 fcitx 然后退出
+
+5 在左下角会弹出 fcitx的图标， Setting->Configuration
+
+___________________________________________________________
+(五笔输入法：fcitx-table-wubi 和fcitx-table-wbpy)
+% root@localhost:/home/ysh # apt-get install fcitx-table-wubi
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -20,7 +20,7 @@ ssh-keygen -t rsa
 
 ### ================================================================= 关联远程库
 
-### git remote add origin git@github.com:uygnoh/free_doc.git    
+### git remote add origin git@github.com:uygnoh/free_doc.git  
 	
 ### 关联后,第一次推送master分支的所有内容命令。
 ### git push -u origin master
