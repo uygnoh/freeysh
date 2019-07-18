@@ -3,14 +3,22 @@
 # env | grep LANG               查看语系环境
 # locale -a                     语系字符集查看
 # dpkg-reconfigure locales      语言环境设定
-zh_CN.GB2312
-zh_CN.GBK GBk
-zh_CN.UTF-8 UTF-8
-en_US.UTF-8 UTF-8
-
+# cd /etc
+# vim locale.gen
 
 % 适用于Debian系统, Asia亚洲, 用于修改系统时区
-# dpkg-reconfigure tzdata
+dpkg-reconfigure tzdata
+
+
+% =================== 适用于Debian系统, Asia亚洲, 用于修改系统时区
+# rm /etc/localtime
+# ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+
+
+
+
+
 
 
 % debain无图形界面安装中文语言包
