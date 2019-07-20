@@ -70,13 +70,7 @@ sed ' /^server 3/ a server ntp.example.com ' /etc/ntp.conf
 sed ' /^server 0/ i server ntp.example.com ' /etc/ntp.conf
 sed ' /^server\s[0-9]\.ubuntu/ d ' /etc/ntp.conf
 
-Using the sed APPEND\INSERT\DELETE commands
 
-Append a new line after a line
-
-Insert a new line before a line
-
-Delete lines from a file
 
 
 
