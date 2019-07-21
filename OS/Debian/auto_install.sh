@@ -24,6 +24,7 @@ sudo apt-get -y install ranger
 sudo apt-get -y install xchm
 
 sudo apt-get -y install kicad
+sudo apt-get -y install dia
 
 sudo apt-get -y install cmus 
 sudo apt-get -y install smplayer
