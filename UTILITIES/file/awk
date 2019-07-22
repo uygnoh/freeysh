@@ -13,8 +13,11 @@ awk '条件类型1{动作1}条件类型2{动作2}......' 文件名
 % awk 'END{print "end of file"}{print $3}' /etc/passwd
 % df -h | grep sda3 | awk '{print $5}' | cut -d "%" -f 1
 
+% 获取网卡名字
+ysh@localhost:~$ (cat /proc/net/dev |awk '{i++; if(i>2){print $1}}' |sed 's/[:]*$//g' |grep "wl")
+wlp3s0
 
-
+WIFI=$(cat /proc/net/dev |awk '{i++; if(i>2){print $1}}' |sed 's/[:]*$//g' |grep "wl")
 ### ===========================================================================
 ### "print"代表打印输出;"$"代表打印的位置参数
 awk -F: '{print $(NF)}' /etc/passwd             ;只打印文件每行的最后一列
