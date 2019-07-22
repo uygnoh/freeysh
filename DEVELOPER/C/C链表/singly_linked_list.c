@@ -4,28 +4,28 @@
 // 创建链表节点结构
 struct node {
     int data;
-    struct node* next;
+    struct node *next;
 };
 
 
-
 // 创建一个链表的头
-struct node* create_node(int data) {
-    struct node* head = (struct node*)malloc(sizeof(struct node));
+struct node *create_node(int data) 
+{
+    struct node *head = (struct node *)malloc(sizeof(struct node));
     head->data = data;
     head->next = NULL;
     return head;
 }
 
 
-
 //在链表尾部插入一个节点，返回头结点
-struct node* insert(struct node* head, int data) {
-    struct node* add = create_node(data); 
+struct node *insert(struct node *head, int data) 
+{
+    struct node *add = create_node(data); 
     if (head == NULL) {
         return add;
     }
-    struct node* tail = head;
+    struct node *tail = head;
     while (tail->next != NULL)
         tail = tail->next;
     tail->next = add;
@@ -33,12 +33,12 @@ struct node* insert(struct node* head, int data) {
 }
 
 
-
 // 查找节点值，返回节点指针
-struct node* search(struct node* head, int data) {
+struct node *search(struct node *head, int data) 
+{
     if (head == NULL || head->data == data) //节点为空，或者头结点就是要找的节点
         return head;
-    struct node* p = head->next; //p指向第2个节点，如果有的话
+    struct node *p = head->next; //p指向第2个节点，如果有的话
     while ( p != NULL) {
         if (p->data == data) //找到
             return p;
@@ -49,13 +49,13 @@ struct node* search(struct node* head, int data) {
 }
 
 
-
 //删除节点值
-struct node* delete(struct node* head, int data) {
+struct node *delete(struct node *head, int data) 
+{
     if (head == NULL)
         return head;
     if (head->data == data) { //要删除的节点是头节点
-        struct node* p = head->next;
+        struct node *p = head->next;
         free(head); //释放节点内存 
         return p;   //第2个节步作为头节点返回
     }
@@ -76,9 +76,9 @@ struct node* delete(struct node* head, int data) {
 }
 
 
-
 //释放链表
-void destroy(struct node* head) {
+void destroy(struct node *head) 
+{
     if (head != NULL) { //递归释放内存
         destroy(head->next);
         free(head);
@@ -86,9 +86,9 @@ void destroy(struct node* head) {
 }
 
 
-
-void print(struct node* head) {
-    struct node* p = head;
+void print(struct node *head) 
+{
+    struct node *p = head;
     while(p != NULL) {
         printf("%d ", p->data);
         p = p->next;
@@ -97,10 +97,10 @@ void print(struct node* head) {
 }
 
 
+int main(int argc, char **argv) 
+{
 
-int main(int argc, char **argv) {
-
-    struct node* head = NULL;
+    struct node *head = NULL;
     head = insert(head, 2);
     head = insert(head, 3);
     print(head);
@@ -113,6 +113,5 @@ int main(int argc, char **argv) {
     head = NULL;
     return 0;
 }
-
 
 
