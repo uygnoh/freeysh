@@ -1,25 +1,71 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// 创建链表节点结构
 struct node {
     int data;
     struct node *next;
 };
 
 
-// 创建一个链表的头
-struct node *create_node(int data) 
+//创建一个链表头 
+struct node *create_list_head()
 {
-    struct node *head = (struct node *)malloc(sizeof(struct node));
-    head->data = data;
-    head->next = NULL;
-    return head;
+	struct node *list_head = (struct node *)malloc(sizeof(struct node));
+	head_node->next = NULL;
+	return list_head;
 }
 
 
+//创建链表节点
+struct node *create_new_node(int data)
+{
+	struct node *new = (struct node *)malloc(sizeof(struct node));
+	new->data = data;
+	new->next = NULL;
+	return new;
+}
+
+
+//头插法(参数：插入那个节点，插入节点的数据)
+void insert_node_head(struct node *head, int data)
+{
+	struct node *new = create_new_node(data);
+	new->next = head->next;
+	head->next = new;
+}
+
+
+
+
+//指定位置删除节点
+void delete_node_pos(struct node *head, int data)
+{
+	struct node *pos = head->next;
+	struct node *pos_prev = head;
+	if (pos == NULL)
+		printf("链表为空，无法删除！");
+		
+	else {
+			while (pos->data != data) {
+				pos_prev = pos;
+				pos = pos_prev->next;
+				if (pos == NULL) {	
+					printf("没有找到相关信息");
+					break;
+				}
+			}
+			pos_prev->next = pos->next;
+			free(pos);
+	}
+
+}
+
+
+
+
+
 //在链表尾部插入一个节点，返回头结点
-struct node *insert(struct node *head, int data) 
+void insert_node_tail(struct node *head, int data) 
 {
     struct node *add = create_node(data); 
     if (head == NULL) {
