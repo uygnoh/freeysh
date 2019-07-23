@@ -1,0 +1,19 @@
+### ================================================= vi /etc/network/interfaces
+% 树莓派设置固定IP地址
+
+# interfaces(5) file used by ifup(8) and ifdown(8)
+
+# Please note that this file is written to be used with dhcpcd
+# For static IP, consult /etc/dhcpcd.conf and 'man dhcpcd.conf'
+
+# Include files from /etc/network/interfaces.d:
+source-directory /etc/network/interfaces.d
+
+
+####################### new_file
+auto eth0
+iface eth0 inet static
+
+address 192.168.78.130
+netmask 255.255.255.0
+
