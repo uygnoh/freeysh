@@ -27,6 +27,8 @@ GND             GPIO.29
 原先网卡IP是从DHCP服务器获取的，找到下面这一句iface eth0 inet dhcp我们需要改为静态IP，
 将这一句替换为如下内容,如果找不到这一句就直接填写下面的内容到文件最后
 
+
+
 % vi /etc/network/interfaces
 # This file describes the network interfaces available on your system
 # and how to activate them. For more information, see interfaces(5).
@@ -42,7 +44,7 @@ iface eth0 inet static
 address 192.168.1.201           %固定IP地址
 netmask 255.255.255.0           %掩码，可以登录路由器查看
 gateway 192.168.1.1             %网关，可以登录路由器查看
-dns-nameservers 114.114.114.114 %DNS服务器
+dns-nameservers 8.8.8.8         %DNS服务器
 
 
 
