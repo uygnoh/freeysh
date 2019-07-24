@@ -1,108 +1,158 @@
-### ===========================================================================
-NR,     number of record        ;表示横行数量，行号
-NF,     number of field         ;表示竖行数量，列号
-FS,                             ;表示输入分隔符，默认是空格符
-OFS,                            ;表示输出分隔符，默认是空格符
-$0,                             ;表示文件的所有列数
-$n,                             ;表示文件的第几列 
+### ================================================================= awk内置变量
+% awk 语法
+% awk '条件类型1{动作1}条件类型2{动作2}......' 文件名 
+ARGC        %命令行参数个数
+ARGV        %命令行参数排列
+ENVIRON     %支持队列中系统环境变量的使用
+FILENAME    %awk浏览的文件名
+FNR         %浏览文件的记录数
+%
+FS          %输入域分隔符，等价于命令行 -F选项，默认是空格符
+OFS         %输出域分隔符，默认是空格符
+%
+NR          %已读的记录数，number of record，     行号
+NF          %浏览记录的域的个数，number of field， 列号
+%
+ORS         %输出记录分隔符
+RS          %控制记录分隔符
+$0          %变量是指整条记录。
+$1          %表示当前行的第一个域,$2表示当前行的第二个域,......以此类推。	
+$NF         %是number finally,表示最后一列的信息，跟变量NF是有区别的，变量NF统计的是每行列的总数
 
-### ===========================================================================
-awk '条件类型1{动作1}条件类型2{动作2}......' 文件名                            
-% cat /etc/passwd | awk '{FS=":"} $3<10 {print $1 "\t" $3}'
-% cat /etc/passwd | awk 'BEGIN{FS=":"} $3<10 {print $1 "\t" $3}'
-% awk 'END{print "end of file"}{print $3}' /etc/passwd
-% df -h | grep sda3 | awk '{print $5}' | cut -d "%" -f 1
+
+
+### ===================================================================== awk例子
+% 搜索/etc/passwd有root关键字的所有行，并显示对应的shell
+awk -F: '/root/ {print $7}' /etc/passwd
+
+% 统计/etc/passwd:文件名，每行的行号，每行的列数，对应的完整行内容:
+awk  -F ':'  '{print "filename:" FILENAME ",linenumber:" NR ",columns:" NF ",linecontent:"$0}' /etc/passwd
+
+% 使用printf替代print,可以让代码更加简洁，易读
+awk -F: '{printf ("filename:%10s, linenumber:%3s,column:%3s,content:%3f\n",FILENAME,NR,NF,$0)}' /etc/passwd
+
+% 打印/etc/passwd/的第二行信息
+awk -F: 'NR==2{print "filename: "FILENAME, $0}' /etc/passwd
+
+% awk的过滤使用方法
+ls -lF | awk '/^d/'
+
+% 指定特定的分隔符，查询第一列
+awk -F ":" '{print $1}' /etc/passwd
+
+% 指定特定的分隔符，查询最后一列
+awk -F ":" '{print $NF}' /etc/passwd
+
+
+% 指定特定的分隔符，查询倒数第二列
+awk -F ":" '{print $NF-1}' /etc/passwd
+
+% 获取第12到31行的第一列的信息
+awk -F ":"  '{if(NR<31 && NR >12) print $1}' /etc/passwd
+
+% 添加了BEGIN和END
+cat /etc/passwd | awk -F: 'BEGIN{print "name, shell"} {print $1,$NF} END{print "hello  world"}'
+
+% 统计显示/etc/passwd的账户
+awk -F ':' 'BEGIN {count=0;} {name[count] = $1;count++;}; END{for (i = 0; i < NR; i++) print i, name[i]}' /etc/passwd
+
+
+
+% 统计UID小于10的用户                           
+cat /etc/passwd | awk '{FS=":"} $3<10 {print $1 "\t" $3}'
+cat /etc/passwd | awk 'BEGIN{FS=":"} $3<10 {print $1 "\t" $3}'
+
+% 打印以":"分隔，并在最后一行打印"end of file"
+cat /etc/passwd | awk -F":" 'END{print "end of file"}{print $3}' 
+
+% 统计sda3磁盘使用情况
+df -h | grep sda3 | awk '{print $5}' | cut -d "%" -f 1
+
 
 % 获取网卡名字
 ysh@localhost:~$ (cat /proc/net/dev |awk '{i++; if(i>2){print $1}}' |sed 's/[:]*$//g' |grep "wl")
 wlp3s0
 
-WIFI=$(cat /proc/net/dev |awk '{i++; if(i>2){print $1}}' |sed 's/[:]*$//g' |grep "wl")
-### ===========================================================================
-### "print"代表打印输出;"$"代表打印的位置参数
-awk -F: '{print $(NF)}' /etc/passwd             ;只打印文件每行的最后一列
-awk -F: '{print $(NF-1}' /etc/passwd            ;只打印文件每行的倒数第二列
-awk -F: '{print $1="xxxxxx",$NF}' /etc/passwd   ;把第一列替换成“xxxxxx”
+
+% 提取IP地址
+ysh@debian:~$ ip addr | grep inet | grep -v "127" | grep brd | awk '{print $2}' | awk -F"/" '{print $1}' | awk -F. '{print $1"-"$2"-"$3"-"$4}'
+
+
+% -F:代表以：分隔; "print"代表打印输出; "$"代表打印的位置参数
+awk -F: '{print $(NF)}' /etc/passwd             %只打印文件每行的最后一列
+awk -F: '{print $(NF-1}' /etc/passwd            %只打印文件每行的倒数第二列
+awk -F: '{print $1="xxxxxx",$NF}' /etc/passwd   %把第一列替换成“xxxxxx”
 awk -F: '{print $1"---"$NF}' /etc/passwd | head -5
+awk 'NR==7{print NR,$0}' /etc/passwd            %只打印第7行
+awk 'NF==7{print NR,$0}' /etc/passwd            %只打每行有7段内容的行
+awk -F: '{print NR "\t" $1 "\t" $2}' /etc/passwd
+awk -F: '{print NF "\t" $1 "\t" $2}' /etc/passwd
+awk 'BEGIN{FS=":"; OFS="\t"}{print $1,$2}' /etc/passwd
+awk '{a=1; b=3; print a/b}
 
-% ysh@debian:~$ ip addr | grep inet | grep -v "127" | grep brd | awk '{print $2}' | awk -F"/" '{print $1}' | awk -F. '{print $1"-"$2"-"$3"-"$4}'
-
-% awk 'NR==7{print NR,$0}' /etc/passwd          ;只打印第7行
-% awk 'NF==7{print NR,$0}' /etc/passwd          ;只打每行有7段内容的行
-
-% awk -F: '{print NR "\t" $1 "\t" $2}' /etc/passwd
-% awk -F: '{print NF "\t" $1 "\t" $2}' /etc/passwd
-
-
-
-### ===========================================================================
-% awk 'BEGIN{FS=":"; OFS="\t"}{print $1,$2}' /etc/passwd
-
-% awk '{a=1; b=3; print a/b}'
-___________________________________________________________
 ### NR,表示行号     FILENAME,表示文件名      $0,表示所有列
 % awk '{print NR, FILENAME, $0}' /etc/passwd data.txt   
-___________________________________________________________ 
+
 ### 打印第1列和第3列中的内容
 % awk -F: ' BEGIN{OFS="---"} {print $1,$3} ' /etc/passwd  
-___________________________________________________________   
+
 ### "/ /"代表整则表达式;"root"代表要第一行要匹配的内容    
 ### "-F"定义输入字段分割符为“:”  
 % awk -F: '/root/{print $1}' /etc/passwd   
 
 
 
+% 创建目录 001～010; xargs用于接受参数传递给mkdir
+awk 'BEGIN { while (num < 10 ) printf "dir%03d\n", ++num ; exit}' | xargs mkdir
 
-### ================================================================AWK 
-
-變數名稱        	代表意義
-NF          	每一行 ($0) 擁有的欄位總數
-NR          	目前 awk 所處理的是『第幾行』資料
-FS          	目前的分隔字元，預設是空白鍵  
 
 
  
-### ===========================================================================
+### ==================================================================== awk描述
 awk:逐行扫描进行文本处理的一门语言
 a.w.k分别为该程序的三位设计者姓氏的第一个字母
-用法
+
+
+% 用法
 		awk '程序' 文件名列表
 		awk -f 程序文件名 文件名列表
 		程序 条件{动作}
 		awk自动对每行文本执行条件判断,满足条件执行动作 (内置循环)
-		允许多段程序:多段程序间用空格或分号隔开		
-处理方式
+		允许多段程序:多段程序间用空格或分号隔开	
+			
+% 处理方式
 	输入文件的每行作为一个“记录”,变量NR就是行号
 	每行用空格分隔开的部分,叫做记录的“域”
 	内置变量$1是第1域内容,依次,$2是第2域内容,......
 	特别的,$0指的是整个这一行的内容
 	awk的处理为:符合条件的行,执行相应的动作
-___________________________________________________________
-awk描述条件的方法
+
+
+% awk描述条件的方法
 使用与C语言类似的关系算符
 	<小于	!= 不等于	<= 小于或等于	> 大于
 	==等于	>=大于或等于
 
-使用与C语言类似的逻辑算符
+% 使用与C语言类似的逻辑算符
 	||条件或		&&条件与		!条件非
 
-正则表达式的模式匹配 /regexpr/
+% 正则表达式的模式匹配 /regexpr/
 	包含该模式的行,执行动作
 
-特殊的条件
+% 特殊的条件
 	不指定任何条件,对所有文本行执行动作
 	BEGIN	开始处理所有文本行之前执行动作
 	END		处理完所有文本行之后执行动作
-___________________________________________________________
-awk描述动作的方法
+
+% awk描述动作的方法
 描述“动作”时,简单的用法有:
 自定义变量
 加减乘除等算术逻辑运算
 正则表达式匹配运算符(用作条件判断)	~	!~
 例如: $2 ~ "[1-9][0-9]*"
 
-___________________________________________________________
-流程控制(与C语言类似)
+
+% 流程控制(与C语言类似)
 	条件判断 if
 	循环控制 for
 
@@ -120,7 +170,24 @@ ls -s | awk '$1 > 2000 { print $2 }'
 
 
 
+### ================================================================== awk脚本
+% cat lastlog.awk
+BEGIN {
+    printf "%8s %11s\n", "Username", "Login date"
+    print "================================================"
+}
 
+!(/Never logged in/ || /^Username/ || /^root/) {
+    count++
+    if ( NF == 8 )
+        printf "%8s %2s %3s %4s\n", $1, $5, $4, $8
+    else
+        printf "%8s %2s %3s %4s\n", $1, $6, $5, $9
+}
+
+END {
+    print "================================================"
+    print "Total Number of Users Processed: ", count
 
 
 

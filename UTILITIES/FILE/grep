@@ -1,8 +1,4 @@
-### ===========================================================================
-grep （Global regular expression print）
-grep        模式          文件名列表
-___________________________________________________________
-grep -iv [指定字符串]
+### ==================================================================== grep
 -v              显示所有不包含模式的行
 -n              显示时每行前面显示行号
 -i              字母比较时忽略字母的大小写
@@ -10,26 +6,20 @@ grep -iv [指定字符串]
 -q              静默模式（不输出任何信息）
 --color=auto    搜出关键字并用顔色显示出来
 
-### # 列出 以空行或以“#”开头的行（引号中间没有空格）
-% grep "^$\|^#" /etc/passwd
-
-___________________________________________________________
+grep "^$\|^#" /etc/passwd       % 列出 以空行或以“#”开头的行（引号中间没有空格）
 grep -n --color "root" /etc/passwd
 grep -n --color "^root" /etc/passwd
 grep -n --coler "bash$" /etc/passwd
-
 grep -v "#" /usr/local/conf.default | grep -v "^$"
-
 egrep --color "([0-9]{1,3}\.){3}[0-9]{1,3}$" ip.conf
 
 
-___________________________________________________________
-### grep/egrep/fgrep
+
+
+### ==================================================== grep/egrep/fgrep
 ### egrep 使用扩展正则表达式ERE描述模式,在指定模式方面比grep更灵活
 ### fgrep 快速搜索指定字符串,按字符串搜索而不是按模式搜索。
 ### 查PCRE语法:man pcresyntax
-
-### grep选项
 -F, --fixed-strings		Fixed strings (instead of regular expressions)
 -G, --basic-regexp		Basic regular expression (BRE)
 -E, --extended-regexp 	Extended regular expression (ERE)
