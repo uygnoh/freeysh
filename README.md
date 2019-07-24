@@ -9,19 +9,19 @@
 `systemctl isolate graphical.target` 
 
 ### 用 systemctl 检查当前的默认启动目标
-(```)
+```note
 systemctl get-default
 systemctl list-dependencies | grep target
 systemctl list-dependencies graphical.target | grep target
-(```)
+```
 
 
-### 用 systemctl 修改default.target以变更开机默认启动目标[runlevel]运行级别
+### 用 systemctl 修改系统的运行级别
 `systemctl set-default multi-user.target`
 
 
-grub2修改启动顺序
-### 表示要启动的第3个操作系统
+
+### grub2修改启动顺序, 表示要启动的第3个操作系统
 `grub-set-default 2` 
 
 
