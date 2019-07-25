@@ -1,0 +1,38 @@
+### ================================================================= debian_net
+% 对于有线网络，如果默认没有安装图形界面，进入了 multi-user.target中时，
+% 是没有使用NetworkManager管理网络的，此时需要手动配置才能上网
+% 首先得到网卡名称：ip addr 或者 ls /sys/class/net/
+% 以下假设网卡名为eth0，实际中应替换为自己实际的名称。
+ysh@localhost:~$ ls /sys/class/net/
+enp2s0  lo  wlp3s0
+
+
+
+% 设置文件为：  /etc/network/interfaces
+% 1 使用DHCP方式，在文件底部添加：
+auto eth0
+allow-hotplug eth0
+iface eth0 inet dhcp
+    
+
+% 2 手动设置IP上网，在文件底部添加：
+auto eth0
+iface eth0 inet static
+    address 192.168.0.7
+    netmask 255.255.255.0
+    gateway 192.168.0.254
+
+
+       
+% 重启网络服务sudo systemctl restart networking.service
+% 详细的设置方法可以使用man interfaces得到
+% 也可以参考这里：https://wiki.debian.org/NetworkConfiguration    
+
+
+% 设置DNS， 请设置为你当地的DNS
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+
+
+% 到这里配置好以后，重启一下网卡。
+/etc/init.d/networking restart
+
