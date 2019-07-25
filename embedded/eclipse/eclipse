@@ -1,33 +1,47 @@
-### =====================================================================
-安装STM32插件
-
-Help-> Install New Software
-http://gnuarmeclipse.sourceforge.net/updates
+### ======================================================== eclipse安装stm32插件
+% Help-> Install New Software
+% http://gnuarmeclipse.sourceforge.net/updates
 
 
 
-### ====================================================================
-stlink-v2 插件配置
-
-eclipse
-Run->External tools->External tools Configurations
+### ========================================================== stlink-v2 插件配置
+% eclipse
+% Run->External tools->External tools Configurations
 Main
 	New_name: st-linkv2
 	Location: /usr/bin/st-flash
 	Working Directory: ${project_loc}/Release
 	Arguments: write ${project_name}.bin 0x8000000
+	
+	
+	
+### ========================================================== eclipse settings
+% Project->Properties->C/C++ Build->Settings
+% 1.	Cross ARM C Compiler
+	Preprocessor:		
+	STM32F10X_HD
+	USE_STDPERIPH_DRIVER
+% 3. Cross ARM C Compiler
+	includes		    添加头文件
+% 4. Cross ARM C Linker	添加链接文件
+% 5. 启动文件后缀名改为大写[.S]
+% 6.修改 core_cm3.c文件，针对STM32F10x_StdPeriph_Lib_V3.5.0库函数
+打开工程文件\STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\CoreSupport下的core_cm3.c
+ __ASM volatile ("strexb %0, %2, [%1]" : "=r" (result) : "r" (addr), "r" (value) );
+ __ASM volatile ("strexh %0, %2, [%1]" : "=r" (result) : "r" (addr), "r" (value) ); 
+%  两行，更改如下
+ __ASM volatile ("strexb %0, %2, [%1]" : "=&r" (result) : "r" (addr), "r" (value) );
+ __ASM volatile ("strexh %0, %2, [%1]" : "=&r" (result) : "r" (addr), "r" (value) );
+% 修改完成后，保存！注意，请再选中工程项目，刷新F5，再一次编译。刷新是很重要的。
 
 
 
 
-### =====================================================================
-GDB Hardware Debugging =====硬件ＧＤＢ调试配置
-		
-
-⚫ GDB Hardware Debugging 调试
+### ============================================================ ＧＤＢ硬件调试配置	
+% GDB Hardware Debugging 调试
 Run->Debug Configuration->GDB Hardware Debugging
 Name: debugTEST Debug
-⚫ Main:---------------------
+% Main:---------------------
 	Debug/debutTEST.elf
 Project:
 	debugTEST
@@ -38,7 +52,7 @@ Debugging Launcher-Select Other...
 Use configuration specific
 	Legacy GDB Hardware Debugging Launcher
 
-⚫ Debugger--------------
+% Debugger--------------
 GDB Command:
 	/$HOME/arm-none-eabi-gdb
 Command Set: Standard (Linux)
@@ -49,13 +63,13 @@ JTAG Device: Generic TCP/IP
 Host name or IP addresss: localhost
 Port number:	           3333	  
 
-⚫ Startup---------------------
+% Startup---------------------
 Initialization Commands
 Reset and Delay（seconds)：3
 Halt
 	monitor reset halt
 
-⚫ common----------------------
+% common----------------------
 Local file
 
 Diaplay in favorites menu
@@ -63,10 +77,8 @@ Diaplay in favorites menu
 
 
 
-
-### =====================================================================
-OpenOCD 调试
-GDB OpenOCD Debugging===========================
+### ============================================================ OpenOCD 调试配置
+% GDB OpenOCD Debugging
 Run->Debug Configurations->GDB OpenOCD Debugging
 	testARM Release
 	Name: testARM Release
@@ -76,7 +88,7 @@ Run->Debug Configurations->GDB OpenOCD Debugging
 	C/C++ Application:
 		Debug/testARM.elf
 
-	⚫ Debugger: ---------------
+	% Debugger: ---------------
 	OpenOCD Setup
 	Start OpenOCD locally
 	Executable: ${openocd_path}/${openocd_executable}
@@ -85,17 +97,13 @@ Run->Debug Configurations->GDB OpenOCD Debugging
 	Config options:-f 添加　stnucleo_f4.cfg　配置文件
 			文件位置在　openocd->share
 
-	⚫ Common:---------------
-
+	% Common:---------------
 	Share file: /testARM
 
 
 
 
-
-
-### ======================================================================
-⬢　eclipse 系统环境变量设定
+### ===================================================== eclipse 系统环境变量设定　
 Eclipse Enviroment Varibale:
 Windows->Preferences->Run/Debug
 	String Substitution
@@ -104,36 +112,10 @@ Windows->Preferences->Run/Debug
 	
 
 
-### =====================================================================
-⬢　串口调试软件安装
+### ============================================================= 串口调试软件安装　
 # putty minicom serial port	
-
-
 sudo apt-get install minicom 
 sudo apt-get install putty
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

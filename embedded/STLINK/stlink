@@ -1,24 +1,33 @@
-### =====================================================================
-git
-cmake
-libusb-1.0
+### ==================================================================== stlink
+% sudo apt-get install git cmaek libusb-1.0
 
 
+% 下载stlink源码并安装
 git clone https://github.com/texane/stlink.git
-apt-get install cmake libusb-1.0
 cd stlink/
 make
 
-	cp st-flash /usr/bin
-	cp ~/stlink/etc/udev/rules.d/49-stlinkv2-1.rules /etc/udev/rules.d
-_______________________________________________________________________________             
-	◆ 其中OWNER 修改为你的用户名
-	==========================
-sudo cp 49-stlinkv2.rules  /etc/udev/rules.d/
+
+
+% 复制stlink固件程序到/usr/bin目录下
+% 复制stlink规则文件到/etc/udev/rules.d
+cp st-flash /usr/bin
+cp ~/stlink/etc/udev/rules.d/49-stlinkv2-1.rules /etc/udev/rules.d
+sudo cp 49-stlinkv2.rules  /etc/udev/rules.d/ 
+ 
+ 
+ 
+% 修改49-stlinkv2.rules文件内容如下所示             
+% 其中OWNER 修改为你的用户名
 SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="3748",  \
 MODE:="0666", SYMLINK+="stlinkv2_%n" ,OWNER="ysh"
 
-	◆ 让系统识别新的规则
-	===================
+
+
+% 让系统识别新的规则
 sudo udevadm control --reload-rules
 sudo udevadm trigger
+
+
+
+
