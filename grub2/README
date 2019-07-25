@@ -1,4 +1,4 @@
-### ===================================开机进入GRUB不要慌，命令行也可启动Linux
+### =================================== 开机进入GRUB不要慌，命令行也可启动Linux
 % 会自动更新/boot/grub/grub.cfg
 % 这样做最大的好处是当系统更新内核时，你的设置不会被覆盖掉。
 sudo update-grub
@@ -9,8 +9,8 @@ sudo update-grub
 %    比如输入ls后我的机器列出的磁盘分区信息如下： ls
 (hd0),(hd1),(hd1,gpt3),(hd1,gpt2),(hd1,gpt1)
 
-    查找包含grub.cfg文件的分区
-    假定通过 ls (hd1,gpt2)/boot/grub 发现了grub.cfg文件，则表明Linux安装在这个分区
+查找包含grub.cfg文件的分区
+假定通过 ls (hd1,gpt2)/boot/grub 发现了grub.cfg文件，则表明Linux安装在这个分区
 
  
 % 2.  找到Linux的/boot分区，以及/根分区所在的磁盘位置
