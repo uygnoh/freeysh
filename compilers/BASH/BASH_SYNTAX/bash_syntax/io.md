@@ -1,4 +1,4 @@
-### Shell 输入<>输出重定向
+# Shell 输入<>输出重定向
 ```note
 命令                 说明
 command > file      将输出重定向到 file。
@@ -19,7 +19,7 @@ n <& m              将输入文件 m 和 n 合并。
 
 
 
-### shell 重定向深入讲解
+# shell 重定向深入讲解
 **一般情况下，每个 Unix/Linux 命令运行时都会打开三个文件**
 + 标准输入文件(stdin) ：stdin的文件描述符为0，Unix程序默认从stdin读取数据。
 + 标准输出文件(stdout)：stdout 的文件描述符为1，Unix程序默认向stdout输出数据。
@@ -48,7 +48,7 @@ n <& m              将输入文件 m 和 n 合并。
 
 
 
-### Here Document
+# Here Document
 **Here Document 是 Shell 中的一种特殊的重定向方式**
 *用来将输入重定向到一个交互式 Shell 脚本或程序*
 *它的基本的形式如下*
@@ -74,7 +74,7 @@ EOF
 
 
 
-### /dev/null 文件
+# /dev/null 文件
 **如果希望执行某个命令，但又不希望在屏幕上显示输出结果，那么可以将输出重定向到 /dev/null**
 `$ command > /dev/null`
 
