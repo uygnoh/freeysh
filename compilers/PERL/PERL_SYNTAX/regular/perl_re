@@ -1,3 +1,46 @@
+### 
+
+$_ = "yabba dabba doo";
+
+if (/abba/) {
+    print "match\n";
+} else {
+    print " no-match\n";
+}
+
+
+use encoding 'utf8';
+$_ = "我正在学习数据结构和算法";
+if (/数据结构.算法/) {
+    print "match\n";
+} else {
+    print " no-match\n";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### =================================== perl文字处理模式中,/pattern/常用到的语法 1
 
 /pattern/ 	结果
