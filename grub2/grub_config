@@ -1,4 +1,4 @@
-### ===================================================== 在grub2中，修改运行级别
+### ====================================================== 在grub2中，修改运行级别
 % 1 系统启动时出现GRUB2菜单，按 [e键]
 % 2 找到首字母为"linux16"这一行， 在其尾部添加如下内容
 systemd.unit=multi-user.target
@@ -25,20 +25,20 @@ ___________________________________________
 
 ### =========================================================== /etc/grub.d目录
 % 1 GRUB2菜单使有位于/etc/grub.d目录下的一系列脚本创建菜单
-    00_header       用于加载／etc／default／grub文件中的设置
-    10_linux        用于定位RHEL操作系统内核文件所在的位置
-    30_os－prober   用于搜索在其它分区的操作系统
-    40_custom       用于自定义额外的菜单入口项
+00_header               #用于加载／etc／default／grub文件中的设置
+10_linux                #用于定位RHEL操作系统内核文件所在的位置
+30_os-prober            #用于搜索在其它分区的操作系统
+40_custom               #用于自定义额外的菜单入口项
     
 % 2 更新grub.conf
-    grub2－mkconfig －O ／boot／grub2／grub.cfg
+grub2－mkconfig －O ／boot／grub2／grub.cfg
     
 % 3 改变缺省启动项
-    GRUB2不支持手工设置一个数字编号来改变默认在启动的系统
-    ／etc／default／grub文件中的 GRUB_DEFAULT＝saved 用于加载最后一次成功加载的操作系统
+GRUB2不支持手工设置一个数字编号来改变默认在启动的系统
+／etc／default／grub文件中的 GRUB_DEFAULT＝saved 用于加载最后一次成功加载的操作系统
 
 % 4 改变默认在启动的操作系统：(在有多个操作系统时)
-    grub-set-default 2  「表示要启动的第3个操作系统」
+grub-set-default 2      #表示要启动的第3个操作系统
     
     
     
@@ -87,7 +87,7 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 
 
 
-### =================================================== GRUB2明文密码设定 1
+### ========================================================= GRUB2明文密码设定 1
 % vim 40_custom
 set superusers="john"
 password john johnspassword
@@ -106,7 +106,7 @@ menuentry 'Fedora' --user jane {
 }
 
 
-### ===================================================== GRUB2明文密码设定 2
+### ========================================================== GRUB2明文密码设定 2
 % vim 40_custom
 set superusers="john"
 password john redhat
@@ -119,7 +119,7 @@ menuentry 'my rhel7 os' --users=jane {
 
 }
 
-### =================================================== GRUB2生成加密密码设定
+### ======================================================== GRUB2生成加密密码设定
 % GRUB2生成加密密码设定
 grub2-mkpasswd-pbkdf2
     
@@ -151,54 +151,48 @@ menuentry 'my rhel7 os' --users=jane {
 
 
 
-### ======================================================= grub2 终端菜单编辑方法
+### ======================================================== grub2 终端菜单编辑方法
 1 按 C 进入GRUB命令行
 2 系统启动时按下 e可以编辑菜单
     Ctrl＋a 定位光标到行首
     Ctrl＋e 定位光标到行尾
     按Esc会退出，但是不保存作保修改
-        
-___________________________________________________________    
-救援模式
+% 1 按 C 进入GRUB命令行
+grub> set root='hd0,msdos1'
+grub> linux /boot/vmlinuz-4.9.0-8-amd64 ro root=/dev/vda1
+grub> initrd /boot/initrd.img-4.9.0-8-amd64 
+grub> boot
+
+            
+% 救援模式
     1 救援模式提供了方便的单用户管理模式，用于修复系统
     2 加载本地文件系统
     3 启动重要的服务
     4 不加载网络
     5 不允许其它用户登陆
     6 使用 systemd.unit=rescue.target
-    
-___________________________________________________________    
-急救模式   
+% 2 救援模式 e
+找到首字母为"linux16"这一行， 在其行尾添加如下内容
+    systemd.unit=emergency.target
+Ctrl+x
+
+        
+% 急救模式   
     1 提供最小的系统环境
     2 仅挂载根文件系统
     3 不会尝试挂载其它本地文件系统
     4 不加载网络
     5 仅启动必须的几个重要的服务
     6 使用 systemd.unit=emergency.target
-    
-     
- 
-### ========================================================== 按 C 进入GRUB命令行
-1 按 C 进入GRUB命令行
-grub> set root='hd0,msdos1'
-grub> linux /boot/vmlinuz-4.9.0-8-amd64 ro root=/dev/vda1
-grub> initrd /boot/initrd.img-4.9.0-8-amd64 
-grub> boot
- __________________________________________________________ 
-2 救援模式 e
-找到首字母为"linux16"这一行， 在其行尾添加如下内容
-    systemd.unit=emergency.target
-Ctrl+x
-
-__________________________________________________________
-3 急救模式
+% 3 急救模式
 找到首字母为"linux16"这一行， 在其行尾添加如下内容
     systemd.unit=rescue.target
 Ctrl+x 
- 
+     
 
 
-### ======================================================= 修改grud背景图片
+
+### ============================================================ 修改grud背景图片
 1    替换/usr/share/images/desktop-base/desktop-grub.png
 2    update-grub
 
@@ -206,22 +200,9 @@ Ctrl+x
 
 
 
-### ==================================== GRUB (Grand Unified Boot Loader)
+### ======================================================== grub2用户自定义启动项
 % 40_custom, 用来加入用户自定义的菜单样板，
 % 将会在执行update-grub时更新至grub.cfg中
-1. /etc/default/grub
-2. 改变默认要启动的作业系统
-	grub-set-default 2
-3. 自定义要启动的作业系统
-cd /etc/grub.d
-ysh@debian:/etc/grub.d$ ls
-00_header        10_linux      30_os-prober      40_custom  README
-05_debian_theme  20_linux_xen  30_uefi-firmware  41_custom
-
-自定义启动内核：
-	第1块硬盘，gpt磁盘第7个分区做为 grub的root目录
-	内核文件---> 需要只读方式去加载，当内核加载完成，需要改变root,sda7
-	初始化内存盘
 
 vim /etc/grub.d/40_custom
 menuentry 'my free os' {
@@ -230,7 +211,7 @@ menuentry 'my free os' {
 	initrd /boot/initrd.img-4.9.0-7-amd64
 }
 
-% grub2-mkconfig -o /boot/grub2/grub.cfg
+
 
 
 

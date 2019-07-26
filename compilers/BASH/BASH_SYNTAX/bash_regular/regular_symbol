@@ -59,4 +59,88 @@ $               ：表示锚定行尾，此字符前面的任意内容必须出�
 \2              表示引用整个表达式中第2个分组中的正则匹配到的结果。
 
 
+### ==================================================================== RE 描述
+% m表示match; s表示substitute; 不过m可以省略不写就变成了 / /;
+m/ /command s/ / /command
+
+% command,命令
+p   ->print,打印内容
+d   ->delete,通常跟在m命令后，符合的就删除
+c   ->confirm,通常跟在s命令后，询问是否真的取代
+g   ->global,通通换
+i   ->ingnore,不管大小写
+
+
+% 字符串处理（egrep）
+(str1|str2|str3)	     		;匹配str1或str2或str3
+
+% 表示找到的字符串
+\1 \2 \3 ......         		;代表s///中用\(\)括起来的字符串，通常也是找到的字符串。
+不过 & 只表示1 个，
+用 \1 \2 \3 可以有很多个。
+\1 第一个括号内的字符串
+\2 第二个括号内的字符串
+
+
+s/\(str1\) \(str2\)/\2 \1/   	;把两个字符串对调
+
+
+### ======================================================================== RE
+% Anchors
+'^' ;Start of string  '^root' ;String starts with <root>
+'$' ;End of string    'you$'  ;String ends with <you>
+
+
+% Ranges
+'[A-Za-z]'          # Any letter
+'[a-z_]'            # Any lowercase letter or underscore
+'[0-9]'             # Any digit
+'[123]'             # Matches 1 or 2 or 3
+
+
+% Boundaries                    
+\s ;Whitespace          \ssystem ;Matches "file system"
+\b ;Word boundary       \bsystem ;Matches "file system" an "file-system"
+grep 'server\b' /etc/ntp.com.bak
+grep '^server\b' /etc/ntp.com.bak
+grep 'server\s' /etc/ntp.com.bak
+grep '\bpop[0-9]\b' /etc/ntp.com.bak
+
+
+% Quantifiers
+u*   ;Matches u zero or more times
+u+   ;Matches one or more occurences of u
+u?   ;Matches u zero or once only(optional)
+u{3} ;Matches exactly three occurrences: uuu
+
+
+% Choosing the right tool
+awk -F"," ' { print toupper($1), tolower($2), $3 } ' employees
+sed ' s@\([^,]*\),\([^,]*\)@\U\1\L\2@ ' employees
+
+
+
+
+
+### ==================================================================== RE 扩展
+(?<groupname>express)   分组命名
+(?:express)             匹配express，不捕获匹配的文本
+                        也不给此分组分配组号
+
+
+a.*b    ;(aabab)->aabab ;贪婪，尽可能的多
+a.*?b   ;(aabab)->aab   ;懒惰，尽可能的少
+
+
+*?      ;重复任意次
++?      ;重复一次或多次，但尽可能少重复
+??      ;重复零次或多次，但尽可能少重复
+{n,m}?  ;重复n次到m次， 但尽可能少重复
+{n,}?   ;重复n次以上，  但尽可能少重复
+
+
+
+
+
+
 
