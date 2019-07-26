@@ -10,10 +10,71 @@
 ```
 
 
+
+## 在perl中, <STDIN>
+```note
+1. 读取标准输入，只能读取一行
+vim test.pl
+#!/usr/bin/perl
+$data=<STDIN>;
+print "$data";
+
+> echo "abcdef" | perl test.pl
+
+
+1. 读取标准输入，读取多行
+foreach $line (<STDIN>) {
+    print "$line";
+}
+
+> echo "abcd\njkfm" | perl test.pl
+
+#和上面语法等效
+    foreach $_ (<STDIN>) {
+        print "$_";
+    }
+```
+
 ## 在perl中, <>
 ```note
-<>操作查看@ARGV来决定使用哪些文件
-如果表为空，则使用标准输入流；
-否则，使用其找到的相应文件。
-也就是，在启动程序后，使用<>之前，你还有机会修改@ARGV的值
+读取文件中的数据 
+我们可以将文件作为perl命令行参数，perl会使用”<>“去读取文件中的内容
+
+foreach $_ (<>) {
+    print "$_";
+}
+
+> perl test.pl /etc/passwd
+
+#去掉默认的换行符
+    foreach $_ (<>) {
+        chomp $_;
+        print "$_";
+    }
+
 ```
+
+
+
+### 在perl中, 匹配字符串 =~
+```note
+$name="aAbBcC";
+if ($name =~ m/ab/i) {
+    print "pre match:  $`\n";
+    print "match:      $&\n";
+    print "post match: $'\n";
+}
+```
+
+
+
+
+### perl命令行加上“-e”选项，就能在perl命令行中直接写perl表达式
+> echo "hello" | /usr/bin/perl -e '$name=<STDIN>;print $name;'
+
+
+
+
+
+
+
