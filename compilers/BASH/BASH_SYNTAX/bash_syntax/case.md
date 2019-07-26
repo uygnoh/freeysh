@@ -10,9 +10,9 @@ case ${VAR} in
 esac
 ```
 ## 注意的是, case比较的是pattern，既然是通配符，那么：
-1. 切记通配符本身不能用引号括起来。
-2. 而对于变量VAR是否使用双引号括起来都可以。
-3. 另外要记住通配符(pattern)和规则表达式(regular expression)的区别
++ 切记通配符本身不能用引号括起来。
++ 而对于变量VAR是否使用双引号括起来都可以。
++ 另外要记住通配符(pattern)和规则表达式(regular expression)的区别
 
 
 
