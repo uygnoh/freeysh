@@ -14,15 +14,6 @@ chop($url);
 ### ====================================================================== print
 语法：print Filehandle LIST
 说明：这个Filehandle可以看作在I(INPUT)/O(OUTPUT)之间的一个桥梁,
-    可以利用FILEHANDLE来做出数据读入写 出的动作.
-    STDIN是代表从哪连输入数据,例如从电脑的键盘输入;
-    STDOUT是代表从哪连输出数据;例如从电脑的屏 幕输出;
-    STDERR是代表从哪连输出错误的数据,例如从电脑的屏幕输出.
-    而在PERL语言中有三个标准FILEHANDLE： 
-    1.STDIN(标准输入)：是代表STDIN的FILEHANDLE
-    2.STDOUT(标准输出)：是代表STDOUT的FILEHANDLE
-    3.STDERR(标准错误输出)：是代表STDERR的FILEHANDLE如果要使用其他FILEHANDLE的时候,
-    就要用OPEN这个函数来打开一个FILEHANDLE,我们可以用PRINT这个函数LIST的数据输出给FILEHANDLE.
 % 在为大家介绍PRINT这个函数之前,先让我们来看看PRINT函数中特殊打印字符： 
     符号     其作用
     \n      换行 new line
