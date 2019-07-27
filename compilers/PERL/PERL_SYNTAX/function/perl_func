@@ -476,7 +476,6 @@ if(open(DATA, $file)){
 }
 
 程序中变量 $! 返回了错误信息。 我们也可以将以上代码简化为如下代码：
-
 open(DATA, $file) || die "Error: 无法打开文件 - $!";
 
 
@@ -520,117 +519,10 @@ chdir('/etc') or die "无法切换目录";
 
 
 
-Carp 模块
-在 Perl 脚本中，报告错误的常用方法是使用 warn() 或 die() 函数来报告或产生错误。
-而对于 Carp 模块，它可以对产生的消息提供额外级别的控制，尤其是在模块内部。
-标准 Carp 模块提供了 warn() 和 die() 函数的替代方法，它们在提供错误定位方面提供更多信息，
-而且更加友好。当在模块中使用时，错误消息中包含模块名称和行号。
-
-
-
-carp 函数
-carp函数可以输出程序的跟踪信息，类似于 warn 函数，通常会将该信息发送到 STDERR：
-
-package T;
-
-require Exporter;
-@ISA = qw/Exporter/;
-@EXPORT = qw/function/;
-use Carp;
-
-sub function {
-   carp "Error in module!";
-}
-1;
-
-在脚本调用以下程序:
-
-use T;
-function();
-
-执行以上程序，输出结果为：
-
-Error in module! at test.pl line 4
 
 
 
 
-cluck 函数
-cluck() 与 warn() 类似，提供了从产生错误处的栈回溯追踪。
-package T;
 
-require Exporter;
-@ISA = qw/Exporter/;
-@EXPORT = qw/function/;
-use Carp qw(cluck);
-
-sub function {
-   cluck "Error in module!";
-}
-1;
-
-
-
-
-在脚本调用以下程序:
-use T;
-function();
-
-执行以上程序，输出结果为：
-
-Error in module! at T.pm line 9
-    T::function() called at test.pl line 4
-
-
-
-
-croak 函数
-croak() 与 die() 一样，可以结束脚本。
-package T;
-
-require Exporter;
-@ISA = qw/Exporter/;
-@EXPORT = qw/function/;
-use Carp;
-
-sub function {
-   croak "Error in module!";
-}
-1;
-
-在脚本调用以下程序:
-
-use T;
-function();
-
-执行以上程序，输出结果为：
-Error in module! at test.pl line 4
-
-
-
-confess 函数
-confess() 与 die() 类似，但提供了从产生错误处的栈回溯追踪。
-
-package T;
-
-require Exporter;
-@ISA = qw/Exporter/;
-@EXPORT = qw/function/;
-use Carp;
-
-sub function {
-   confess "Error in module!";
-}
-1;
-
-在脚本调用以下程序:
-
-use T;
-function();
-
-执行以上程序，输出结果为：
-
-Error in module! at T.pm line 9
-    T::function() called at test.pl line 4
 
 
