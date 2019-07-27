@@ -1,7 +1,6 @@
 # 基本正则表达式模式匹配
 
 ```perl
-
 . * + ?     ;它们表示量词，它们代表要匹配字符的个数.
 (.)(..)\1\2 ;模式分组
 ```
@@ -51,8 +50,9 @@ if(/you[\d\D]me/){print "match\n";}else{print "NO-match\n";}
 if(/you[^\d\D]me/){print "match\n";}else{print "NO-match\n";}
 ```
 
-# 正则表达式模式分组匹配
 
+
+# 正则表达式模式分组匹配
 ```perl
 #习学习学
 if(/(.)(.)\1\2/){print "match\n";}else{print "NO-match\n";}   
@@ -70,8 +70,9 @@ if(/(.)(..)\g{1}\g{2}\g{1}/){print "match\n";}else{print "NO-match\n";}
 if(/(.)(..)\g{-1}/){print "match\n";}else{print "NO-match\n";} ;我学习学习(相对引用)
 ```
 
-# 正则表达式, 修饰符(isgx)
 
+
+# 正则表达式, 修饰符(isgx)
 ```perl
 $_ = "banny and fred";
 if(/fred/) {print "match\n";}else{print "NO-match\n";}
