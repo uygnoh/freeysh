@@ -1,27 +1,6 @@
-#  grep
-```perl
-# 打印1到100中所有的奇数
-my @odd_numbers;
-foreach(1..100) {
-    push @odd_numbers, $_ if $_ % 2;
-}
-print "@odd_numbers\n";
-```
-
-```perl
-print "\n\n";
-my @odd = grep $_ % 2, 1..100;
-print "@odd\n";
-
-print "\n\n";
-my @odd = grep {$_ % 2} 1..100;
-print "@odd\n";
-```
-
-
 # map
-```perl
-# 搜索带有 fred(不区分大小写)的行显示出来 
+
+搜索带有 fred(不区分大小写，i修饰符)的行显示出来
 my @matching_lines = grep /\bfred\b/i, <>;
 print "@matching_lines
 
@@ -33,7 +12,8 @@ print "@txt_files\n";
 
 my @sizes = map {-s} @txt_files;
 print "@sizes\n";
-```
+
+
 
 
 

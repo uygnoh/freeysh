@@ -1,153 +1,133 @@
-# 基本正则表达式模式匹配
-
-```perl
-. * + ?     ;它们表示量词，它们代表要匹配字符的个数.
-(.)(..)\1\2 ;模式分组
-```
-
-```perl
-use encoding 'utf-8';
-$_ = "我正在我正在我学习学习数据结构和算法算法";
-
-if(/数据结构.算法/){print "match\n";}else{print "NO-match\n";}
-if(/数据结构.*算法/){print "match\n";}else{print "NO-match\n";}
-if(/数据结构.+算法/){print "match\n";}else{print "NO-match\n";}
-if(/学习.*算法/){print "match\n";}else{print "NO-match\n";}
-if(/数据结构和*算法/){print "match\n";}else{print "NO-match\n";}
-if(/数据结构和+算法/){print "match\n";}else{print "NO-match\n";}
-if(/数据结构和?算法/){print "match\n";}else{print "NO-match\n";}
-if(/(数据结构)+和算法/){print "match\n";}else{print "NO-match\n";}
-
-
-#"数据结构和算法" 或 "数据结构算法"
-if(/数据结构(和|与)算法/){print "match\n";}else{print "NO-match\n";}
-
-$_ = "我a你";
-if(/我[abcwxyz]你/){print "match\n";}else{print "NO-match\n";}
-
-$_ = "我8888你";
-if(/我[01389]+你/){print "match\n";}else{print "NO-match\n";}
-if(/我[A-Za-z0-9_]*你/){print "match\n";}else{print "NO-match\n";} 
-if(/我\w*你/){print "match\n";}else{print "NO-match\n";}
-if(/我[0-9]你/){print "match\n";}else{print "NO-match\n";}
-if(/我\d你/){print "match\n";}else{print "NO-match\n";}
-if(/我[^0-9]你/){print "match\n";}else{print "NO-match\n";}
-if(/我\D你/){print "match\n";}else{print "NO-match\n";}
-if(/我[^\d]你/){print "match\n";}else{print "NO-match\n";}
-
-$_ = "you me";
-if(/you[\t\n\r\f]me/){print "match\n";}else{print "NO-match\n";}
-if(/you\sme/){print "match\n";}else{print "NO-match\n";}
-if(/you[^\t\n\r\f]me/){print "match\n";}else{print "NO-match\n";}
-if(/you[^\s]me/){print "match\n";}else{print "NO-match\n";}
-if(/you\Sme/){print "match\n";}else{print "NO-match\n";}
-
-#可以匹配任何字符
-if(/you[\d\D]me/){print "match\n";}else{print "NO-match\n";}
-
-
-#不匹配任何字符
-if(/you[^\d\D]me/){print "match\n";}else{print "NO-match\n";}
-```
-
+# perl 正则表达式
++ 正则表达式模式匹配->量词         . * + ?
++ 正则表达式模式匹配->分组         (.)(..)\1\2
++ 正则表达式模式匹配->捕获
++ 正则表达式模式匹配->匹配         =~
++ 正则表达式模式匹配->智能匹配      ~~
++ 正则表达式模式匹配->            m//
++ 正则表达式模式匹配->修饰符       isgxm
++ 正则表达式模式替换->            s///
++ 正则表达式模式替换->修饰符       gi
 
 
 # 正则表达式模式分组匹配
 ```perl
-#习学习学
-if(/(.)(.)\1\2/){print "match\n";}else{print "NO-match\n";}   
+    #习学习学
+    if(/(.)(.)\1\2/){print "match\n";}else{print "NO-match\n";}   
 
-#我正在我正在          
-if(/(.)(..)\1\2/){print "match\n";}else{print "NO-match\n";}     
+    #我正在我正在          
+    if(/(.)(..)\1\2/){print "match\n";}else{print "NO-match\n";}     
 
-#我正在我正在我       
-if(/(.)(..)\1\2\1/){print "match\n";}else{print "NO-match\n";}   
+    #我正在我正在我       
+    if(/(.)(..)\1\2\1/){print "match\n";}else{print "NO-match\n";}   
 
-#正在我正在我我
-if(/(.)(..)\g{1}\g{2}\g{1}/){print "match\n";}else{print "NO-match\n";}
+    #正在我正在我我
+    if(/(.)(..)\g{1}\g{2}\g{1}/){print "match\n";}else{print "NO-match\n";}
 
-
-if(/(.)(..)\g{-1}/){print "match\n";}else{print "NO-match\n";} ;我学习学习(相对引用)
+    #我学习学习(相对引用)
+    if(/(.)(..)\g{-1}/){print "match\n";}else{print "NO-match\n";} 
 ```
 
 
 
 # 正则表达式, 修饰符(isgx)
 ```perl
-$_ = "banny and fred";
-if(/fred/) {print "match\n";}else{print "NO-match\n";}
-if(m/fred/){print "match\n";}else{print "NO-match\n";}
-if(m{fred}){print "match\n";}else{print "NO-match\n";}
-if(m<fred>){print "match\n";}else{print "NO-match\n";}
-if(m(fred)){print "match\n";}else{print "NO-match\n";}
+    $_ = "banny and fred";
+    if(/fred/) {print "match\n";}else{print "NO-match\n";}
+    if(m/fred/){print "match\n";}else{print "NO-match\n";}
+    if(m{fred}){print "match\n";}else{print "NO-match\n";}
+    if(m<fred>){print "match\n";}else{print "NO-match\n";}
+    if(m(fred)){print "match\n";}else{print "NO-match\n";}
 
-$_ = "Welcome to our website http://www.baidu.com";
-if(m%http://%){print "match\n";}else{print "NO-match\n";}
-if(m{http://}){print "match\n";}else{print "NO-match\n";}
-```
-
-##### i, 修饰符，不区分大小写
-##### 从键盘标准输入作为参数传递程序
-```perl
-print "Would you like play a game? \n";
-chomp($_ = <STDIN>) 
-#if(m{yes}i){
-if (/yes/i) {
-    print "In that case, I recommend that you go bowling. \n";
-}
-
-```  
-
-##### 匹配点需要加上 “\”转义字符
-
-```perl
-$_ = "fred hello 3.1415926"
-if(/3\.1415926){print "match\n";}else{print "NO-match\n";}
-```
-
-##### i,不区分大小写;  s,让点也可以匹配所有字符
-```perl
-$_ = "i sae\napt Barney\nat ay\n fredls\nsot";
-if(/barney.*fred/is){print "match\n";}else{print "NO-match\n";}
+    $_ = "Welcome to our website http://www.baidu.com";
+    if(m%http://%){print "match\n";}else{print "NO-match\n";}
+    if(m{http://}){print "match\n";}else{print "NO-match\n";}
 ```
 
 
-##### 检查输入的是否为数字输入
+  
+
+  
+# 跨行的模式匹配
+m匹配每一行的开头， g匹配所有的
 ```perl
-print "请主输入一个数";
-chomp($_ = <STDIN>);
-if(/-?\d+\.?\d+/){print "你输入的是一个数： $_\n";}
+    $_ = "thie is the firse line\nthis is the second line\nthis is the third line";
+    s/^this/that/;
+    print;
+
+    $_ = "thie is the firse line\nthis is the second line\nthis is the third line";
+    s/^this/that/mg;
+    print;
+
+
+    1. 把要打开的文件名存储起来 $filenames
+    2. 用文件句柄[FILE]来打开文件, or die 如果打开这个文件失败，输出错误信息
+    3. 用行输入操作符[FILE], 把这个文件每一行都读出来，再用join把它连接成一个大大的字符串
+    4. 用绑定操作符来进行替换， 在每一行的开头， 把文件名加上去 
+    5. m跨行的模式匹配
+
+    $filenames = "stm32.c";
+    open FILE, $filenames or die "can't open '$filenames': $!";
+    my $lines = join '', <FILE>;
+    $lines =~ s/^/$filename: /gm;
+    print “$lines\n";
+```
+
+  
+  
+# 列表上下文件的
++ my ($first, $second, $third) = /(\S+) (\S+), (\S+)/;
++ 第1小括号它捕获到的变量放到$first,
++ 第2小括号它捕获到的变量放到$second,
++ 第3小括号它捕获到的变量放到$third
++ my @words = ($text =~ /([a-z]+/ig);
++ 使用列表上下文 
++ 第1次捕获的内容放到列表中 
++ 第1次捕获的内容放到列表中
++ 第N次捕获的内容放到列表中
++ 相当于Loop捕获
++ my %last_name = ($data =~ /(\w+)\s+(\w+)/g);
+
+
+```perl
+    $_ = "Hello there, neighbor!";
+    my ($first, $second, $third) = /(\S+) (\S+), (\S+)/;
+    print "$first $secdond, $third";
+
+
+    my $text = "Fred dropped a 5 ton grainte block on MR.Slate";
+    my @words = ($text =~ /([a-z]+/ig);
+    print "@words\n";
+
+
+    my $data = "Barney Rubble Fred Flintstone Wilma Flintstone Bill Gates";
+    my %last_name = ($data =~ /(\w+)\s+(\w+)/g);
+    while (($key, $value) = each %last_name) {
+        print "$key => $value\n";
+    }
 ```
 
 
-+ 加上“x”它通知perl的正则，它里面加的空格不是正则表达式里的字符
-+ 检查输入的是否为数字
-  ```perl
-  print "请主输入一个数";
-  chomp($_ = <STDIN>);
-  if(/-? \d+ \.? \d+/x){print "你输入的是一个数： $_\n";}
-  ```
 
+# 非贪婪模式
++ 贪婪模式
++ 非贪婪模式加上“?”
++ 贪婪模式
++ 非贪婪模式加上“?”
+```perl
+    $_ = "I thought you said Fred and <BOLD>Velma</BOLD>, not <BOLD>Wilma</BOLD>.";
+    s#<BOLD>(.*)</BOLD>#$1#g;
 
-+ 加上“x修饰符”它通知perl的正则，它里面加的空格不是正则表达式里的字符
-+ 多个修饰符可以放到一起，它们没有顺序 
-+ 检查输入的是否为数字, 这样书写方式是为了更好理解代码 
-  ```perl
-  print "请主输入一个数";
-  chomp($_ = <STDIN>);
-  if (/-?           #0个或1个“-”号
-     \d+            #1个或多个数字
-     \.?            #0个或1个“.”小数点 
-     \d+            #1个或多个数字
-    /x){print "你输入的是一个数： $_\n";}
-  ```
-  
-  
+    $_ = "I thought you said Fred and <BOLD>Velma</BOLD>, not <BOLD>Wilma</BOLD>.";
+    s#<BOLD>(.*?)</BOLD>#$1#g;
 
-  
-  
-  
-  
-  
-  
-  
+    $_ = "helloooooooooooooo";
+    if(/(hello+) {
+        print "$1\n";
+    }
+
+    $_ = "helloooooooooooooo";
+    if(/(hello+?) {
+        print "$1\n";
+    }
+```

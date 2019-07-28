@@ -5,7 +5,7 @@
 4.  ,表示包含这个符号
 5. (/\s(\w+),/所以它匹配hterc,
 6. (\w+)表示它把捕获的变量放到$1中
-7. (\w+)这个括号民，表示它启动了正则表达式的捕获功能
+7. (\w+)这个括号，表示它启动了正则表达式的捕获功能
 8. $1表示它把捕获到的变量放入它里面
 ```perl
 $_ = "hello hterc, neighbor";
@@ -34,7 +34,7 @@ if($dino =~ /(\d*) years/) {
 ```
 
 
-分组匹配并捕获其中的字符
+# 分组匹配并捕获其中的字符
 ```perl
 $_ = "one two three four five six";
 if(/(\S+) (\S+) (\S+) (\S+)/) {
@@ -50,8 +50,8 @@ if(/(?:\S+) (\S+) (\S+) (\S+)/) {
 ```
 
 
-使用特殊变量来作捕获 $1 $2 $3 #n
-使用”?:“只作分组，不作捕获
+# 使用特殊变量来作捕获 $1 $2 $3 #n
++ 使用”?:“只作分组，不作捕获
 ```perl
 my $name = "Fred and Barney";
 if ($name =~ m/(\w+) and (\w+)/) {
@@ -73,7 +73,7 @@ if ($name =~ m/(\w+) (or|and) (\w+)/) {
 ```
 
 
-+ 重命明捕获
+# 重命明捕获
 + 把第1个捕获到的命为name1
 + 把第2个捕获到的命为name2
 + 重命明后它存储在一个特殊的hash中，$+{re_name}格式取出
@@ -83,7 +83,10 @@ if ($name =~ m/(?<name1>\w+) (?:or|and) (?<name2>\w+)/) {
 }
 
 
-+ 重命明用在反向引用的使用
+
+
+
+# 重命明用在反向引用的使用
 ```perl
 my $names = "Fred Flinstone and Wilma Flinstone";
 
@@ -104,20 +107,12 @@ if ($name =~ /(?<last_name>\w+) and \w+ \k<last_name>/) {
 
 
 
-# 正则表达式替换定界符的使用
-1. s#^https://#http://#;
-2. s{fred}{barney};
-3. s[fred][barney};
-4. s<fred><barney>;
-5. s#wilma#Wilma#gi;
-$_ = "fred fintstone";
-if (s/fred/wilma/) {
-    print "Succeaafully replaced fred with wilma!\n";
-}
 
 
-+ 不使用特殊变量的情况下 $_
-+ 使用绑定操作符
+
+
+# 特殊变量 $_
++ 不使用特殊变量($_)的情况下, 使用绑定操作符(=~)
 $content = "one another one";
 $content =~ s/one/two/g;
 
@@ -136,7 +131,7 @@ print "$_\n";
 ```
 
 
-+ 正则表达式捕获功能替换字符串 
+# 正则表达式捕获功能替换字符串 
 + 正则表达式捕获功能替换字符串，并改为大写
 + 正则表达式捕获功能替换字符串，用E来结束大写 
 ```perl
