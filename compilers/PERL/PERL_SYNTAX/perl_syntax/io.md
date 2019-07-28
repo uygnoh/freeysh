@@ -1,6 +1,3 @@
-use 5.010;
-say "hello";
-
 
 # 行输入操作符 <STDIN>
 ```perl

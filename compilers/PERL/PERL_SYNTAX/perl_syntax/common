@@ -4,8 +4,8 @@
 
 
 % 所谓上下文，就是指同一个表达式，出现在不同的地方会有不同的意义
-@people = qw (fred barney betty); %列表上下文 
-@sorted = sort (@people);
+@people = qw(fred barney betty); %列表上下文 
+@sorted = sort(@people);
 
 $number = 42+@people;             %标量上下文 
 $number = 42+scalar (@people);
