@@ -1,4 +1,4 @@
-# if 语句 可以判断语句的返回值
+### if 语句 可以判断语句的返回值
 
 ```perl
 if(open(DATA, $file)){
@@ -11,7 +11,8 @@ if(open(DATA, $file)){
 open(DATA, $file) || die "Error: 无法打开文件 - $!";
 ```
 
-# exit
+
+### exit
 
 语法： exit
 说明： 退出执行的程序。
