@@ -49,8 +49,9 @@
 
   
 # 跨行的模式匹配
-m匹配每一行的开头， g匹配所有的
+
 ```perl
+    m匹配每一行的开头， g匹配所有的
     $_ = "thie is the firse line\nthis is the second line\nthis is the third line";
     s/^this/that/;
     print;
@@ -60,12 +61,13 @@ m匹配每一行的开头， g匹配所有的
     print;
 
 
+
+
     1. 把要打开的文件名存储起来 $filenames
     2. 用文件句柄[FILE]来打开文件, or die 如果打开这个文件失败，输出错误信息
     3. 用行输入操作符[FILE], 把这个文件每一行都读出来，再用join把它连接成一个大大的字符串
     4. 用绑定操作符来进行替换， 在每一行的开头， 把文件名加上去 
     5. m跨行的模式匹配
-
     $filenames = "stm32.c";
     open FILE, $filenames or die "can't open '$filenames': $!";
     my $lines = join '', <FILE>;
@@ -131,3 +133,35 @@ m匹配每一行的开头， g匹配所有的
         print "$1\n";
     }
 ```
+
+
+
+# 绑定操作符“=~”
+使用“$_”这个特殊变量，可以省略绑定表达式“=~”
+如果没有用 “$_”这个特殊变量， 用普通变量的话需要用绑定表达式“=~”
+```perl
+$some_other = "I dream of betty rubble.";
+if($some_other =~ /\brub/){print "match\n";}else{print "NO-match\n";}
+```
+
+
+
+# 模式串中的内插(/^($wat)/)
++ while(<>)表示等待从键盘的输入, 把输入的信息存储到 ”$_“ 这个特殊变量中,
++ 然后再与(/^($wat)/)相匹配，再判断是否匹配上 
+```perl
+my $what = "larry";
+while (<>) {
+    if (/^($wat)/) {
+        print "We saw $what in beginning of $_";
+    }
+}
+```
+
+
+
+
+
+
+
+
