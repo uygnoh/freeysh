@@ -1,5 +1,4 @@
 ### ===================================================  查看进程PID的四种方法
-
 % cat /run/sshd.pid             :830
 
 ps aux |grep sshd
@@ -7,15 +6,7 @@ root 10180 0.0 0.0 7224 1024 ? Ss 16:00 0:00 /usr/sbin/sshd
 
 % pgrep -l sshd                 :10180 sshd
 % pgrep sshd                    :10180
-
 % pidof sshd                    :10180
-
-
-
-
-
-
-
 
 
 

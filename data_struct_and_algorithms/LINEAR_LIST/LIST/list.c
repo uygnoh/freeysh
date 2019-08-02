@@ -12,7 +12,7 @@ struct LNode {
 struct Lnode L;
 List PtrL;
 
-/* 求表长 *
+/* 求表长 */
 int Length(List PtrL)
 {
     List p = PtrL; /* p指向表的第一个结点*/
