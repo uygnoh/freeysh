@@ -66,4 +66,24 @@ systemctl hybrid-sleep        混合休眠模式（同时休眠到硬盘并待�
 实际上，你应该尽可能避免以 root 用户身份登录，
 而是通过 sudo 运行大多数系统管理命令，但这是另一回事。
 ```
-##### export PS1="\[$(tput bold)$(tput setab 0)$(tput setaf 1)\]\u@\h:\w # \[$(tput sgr0)\]"
+`export PS1="\[$(tput bold)$(tput setab 0)$(tput setaf 1)\]\u@\h:\w # \[$(tput sgr0)\]"`
+
+
+
+
+### alias
+列出文件大小
+    `alias lt='ls --human-readable --size -1 -S --classify'`
+增加一个复制进度条
+    `alias cpv='rsync -ah --info=progress2'`
+
+
+
+
+
+
+
+
+
+
+
