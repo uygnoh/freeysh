@@ -1,6 +1,6 @@
 # https://github.com/uygnoh
 # https://github.com/uygnoh/free_doc @最新
-
+# https://tv.sohu.com/v/cGwvOTI5MDc1MS85ODUwNjE2MC5zaHRtbA==.html
 
 ### 列出系统的服务
 `systemctl --type=service`
