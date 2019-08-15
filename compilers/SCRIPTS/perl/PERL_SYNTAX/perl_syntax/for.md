@@ -1,6 +1,64 @@
-# 循环条件修饰符
+### for, foreach
+```perl
+for (1..10) {
+    print "$_\n";
+}
+
+
+foreach $i (1..10) {
+    print "foreach: $i\n";
+}
+
+@a = (1..10);
+for(@a) {
+    print "$_\n";
+}
+
+
+foreach $pal ('tom', 'jack', 'mob') {
+    print "hi $pal!\n";
+}
+
+
+for $pal ('tom', 'jack', 'mob') {
+    print "hi $pal!\n";
+}
+
+
+for ('tom', 'jack', 'mob') {
+    print "hi $_!\n";
+}
+```
+
+
+### while
+```perl
+$num = 1;
+while ($num <=10) {
+    print "$num\n";
+    $num++;
+}
+
+
+$num = 1;
+until ($num == 10) {
+    print "$num\n";
+    $num++;
+}
+
+
+$num = 1;
+do {
+    print "do-while: $num\n";
+    $num++;
+} while ($num <=10);
+```
+
+
+
+### 循环条件修饰符
 + last 结束循环(break)
-+ next 提前一步进入循环(continue)
++ next 提前进入下一步循环(continue)
 + redo 重作当前的循环， 它不++，也不判断循环条件
 ```perl
 for ($i=0; $i<6; $i++) {
@@ -8,14 +66,12 @@ for ($i=0; $i<6; $i++) {
     print "$i\n";
     if ($i == 3) {last;}
     if ($i == 3) {next;}
+    if ($i == 3) {redo;}    # 此处会进入死循环
     print "$i\n";
     print "$i\n";
 }
 ```
-
-
-
-打字练习demo， 重作当前的循环
+打字练习demo,redo: 重作当前的循环 
 ```perl
 my @words = qw{Fred Barney pebles dino wilma betty};
 my $errors = 0;
@@ -41,7 +97,9 @@ while (<>) {
 }
 ```
 
-计算单词总数
+
+### 计算单词总数
+```perl
 while (<>) {
     foreach (split) {
         $total++;
@@ -55,7 +113,7 @@ print "$valid\n";
 foreach $word(sort keys %count) {
     print "$word was seen $cont{$word} time."
 }
-
+```
 
 
 
@@ -76,7 +134,7 @@ OUT: for ($i=0; $i<5; $i++) {
 
 
 
-# 条件语句修饰词
+### 条件语句修饰词
 $n = -99;
 if ($n<0) {
     print "$n is a negative number.\n";
@@ -120,7 +178,9 @@ unless(&valid($input)) {
 
 
 
+
 # 循环修语句饰词
+```perl
 $x = 0;
 while ($x != 5) {
     print $x++, "\n";
@@ -131,22 +191,22 @@ $x = 0;
 print $x++, "\n" while $x != 5;
 
 
-
-
 $x = 1;
 until ($x == 5) {
     print $x++, "\n";
 }
-
 $x = 1;
 print $x++, "\n" until $x == 5;
-
-
 
 
 @alpha = (a..z, "\n");
 foreach (@alpha) {
     print;
 }
-
 print foreach @alpha;
+```
+
+
+
+
+

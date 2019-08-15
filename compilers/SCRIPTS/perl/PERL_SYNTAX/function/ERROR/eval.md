@@ -31,7 +31,7 @@ foreach my $person (qw/ Fred wilma betty barney dino pebbles /) {
         print "Average for file $person was $average\n";
         
         &do_something($person, $average);
-    };
+    }; ###此处使用eval捕获错误，在eval之后马上用if去检查是否有错误，如果发生错误这个特殊变量($@),就有错误信息
     if ($@) {
         print "An Error occured ($@), continuing\n";
     }
@@ -49,8 +49,6 @@ sub do_work {
     }
     $task;
 }
-
-
 eval {
     my $value = do_work(-9);
     
