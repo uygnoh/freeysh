@@ -2,6 +2,7 @@ import random
 import sys
 import os
 
+'''
 print("Hello World")
 name = "Derek"
 print(name)
@@ -119,7 +120,11 @@ def addNumber(fNum, lNum) :
     sumNum = fNum + lNum
     return sumNum
 print("sumNumber : ", addNumber(1, 2))
-    
+'''   
+
+
+
+
 
 
 ### python3 class
