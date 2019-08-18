@@ -1,6 +1,6 @@
 ##### https://github.com/uygnoh/free_doc 《github@最新》
 ##### https://www.runoob.com/            《菜鸟教程》
-##### https://tv.sohu.com/v/cGwvOTI5MDc1MS85ODUwNjE2MC5zaHRtbA==.html《cotex-m》
+##### https://tv.sohu.com/v/cGwvOTI5MDc1MS85ODUwNjE2MC5zaHRtbA==.html 《cotex-m》
 
 ##### alias
 + 列出文件大小
