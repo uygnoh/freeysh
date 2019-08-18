@@ -1,35 +1,18 @@
-##### https://github.com/uygnoh/free_doc 《github@最新》
-##### https://www.runoob.com/            《菜鸟教程》
-##### https://tv.sohu.com/v/cGwvOTI5MDc1MS85ODUwNjE2MC5zaHRtbA==.html 《cotex-m》
+##### https://github.com/uygnoh/free_doc
+##### https://www.runoob.com/           <菜鸟教程>
+##### https://tv.sohu.com/v/cGwvOTI5MDc1MS85ODUwNjE2MC5zaHRtbA==.html   <cortex-m>
+##### https://stackoverflow.com/        <软件类问答网站>
 
-##### alias
-+ 列出文件大小
-    `alias lt='ls --human-readable --size -1 -S --classify'`
-+ 增加一个复制进度条
-    `alias cpv='rsync -ah --info=progress2'`
-
-
-
-
-##### bash命令行提示符修改
-+ 如果将以下内容放入 root 的家目录中的 .bashrc 文件中，你将看到一个黑色背景上的红色的 root 提示符
-+ 清楚地表明你（或其他任何人）应该谨慎行事。实际上，你应该尽可能避免以 root 用户身份登录
-+ 而是通过 sudo 运行大多数系统管理命令，但这是另一回事。
-`export PS1="\[$(tput bold)$(tput setab 0)$(tput setaf 1)\]\u@\h:\w # \[$(tput sgr0)\]"`
+### vim
+"数组则不换行
+inoremap { {}<ESC>i
+"函数左括号加回车则换行
+inoremap {<CR> {<CR>}<ESC>O
 
 
+# 计算机语言编码风格 @freeysh<201908022150> 
 
-
-
-
-
-
-
-
-# 计算机语言编码风格 @freeysh<201908022150> #################################
-+ 手动去除这些行尾的空格是一件头大的事情，但对于sed来说不过是举手之劳
- `sed 's/[ \t]*$//g' your_code.c`
-+ Linux命名规则
+### 计算机语言命名规则
 ```noet
 ****************************************************************
 宏或者常量用所有大写  #define MAXLENGTH 10;  const int MAXLENGTH = 10；
@@ -65,7 +48,7 @@ void print_msg(int a)
 
 }
 ```
-##### 一些需要注意的代码风格
+### 一些需要注意的代码风格
 1. 使用空格缩进为: “4个空格”
 2. switch ... case ...语句中，switch和case具有相同的缩进（参考上文）
 3. 花括号的使用参考K&R风格
