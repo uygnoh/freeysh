@@ -3,6 +3,10 @@
 ##### https://tv.sohu.com/v/cGwvOTI5MDc1MS85ODUwNjE2MC5zaHRtbA==.html   <cortex-m>
 ##### https://stackoverflow.com/        <软件类问答网站>
 
+### 字体大小调整
++ Maximum     ->ctrl+shift++
++ Minimum     ->ctrl+-
+
 ### vim
 `inoremap { {}<ESC>i<CR><ESC>O`
 ```
