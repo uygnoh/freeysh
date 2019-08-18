@@ -6,6 +6,32 @@
 ### 字体大小调整
 + Maximum     ->ctrl+shift++
 + Minimum     ->ctrl+-
++ F11         ->全屏
+
+### tmux
++ <shift +上下左右箭头>  #窗口(window)切换
++ <alt   +上下左右箭头>  #窗格(pane)切换
++ <ctrl  +b h>         #窗格(pane)，水平方向创建窗格 %
++ <ctrl  +b v>         #窗格(pane)，垂直方向创建窗格 "
++ <ctrl  +b z>         #全屏窗格(pane)
++ 会话
++ <crtl+a   >                                     #激活控制台(系统默认Ctrl+b)
++ <ctrl+a s >                                     #会话切换     s
++ tmux new-session -s <session_name>              #创建一个会话
++ tmux list-sessions                              #查看会话	
++ tmux detach                                     #分离会话     d
++ tmux attach-session -t <target_session_name>    #连接会话
++ tmux rename-session -t session_old session_new  #重命名会话    $
++ tmux kill-server                                #关闭tmux服务器
++ tmux kill-server -t session_name                #关闭指定的会话
++ tmux kill-server -a -t session_name             #关闭所有会话，除了这个会话<session_name>
++ 窗口
++ tmux new-window                                 #创建一个新的 window
++ <ctrl+a , >                                     #重命明当前窗口
++ <ctrl+a c >                                     #创建一个新窗口
++ <ctrl+a & >                                     #关闭当前窗口
++ <ctrl+a l >                                     #前后窗口间互相切换
++ tmux list-windows                               #列出当前窗口
 
 ### vim
 `inoremap { {}<ESC>i<CR><ESC>O`
