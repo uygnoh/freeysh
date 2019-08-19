@@ -28,7 +28,7 @@ ___________________________________________________________
 % (parted)name 3 swap
 % (parted)mkpart primary 643 -1
 % (parted)name 4 rootfs
-% (parted)set 2 boot on
+% (parted)set  2 boot on
 ___________________________________________________________
 % (parted)print
 
@@ -45,7 +45,7 @@ Number   Start      End      Size     File system  Name   Flags
  
  
 ### ======================================================== GParted
-% 图形界面分区软件
+% linux图形界面分区软件
 
 
 

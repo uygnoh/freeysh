@@ -19,9 +19,6 @@ i       插入， i 的后面可以接字串，而这些字串会在新的一行
 p       打印，亦即将某个选择的数据印出。通常 p 会与参数 sed -n 一起运行～
 s       取代，可以直接进行取代的工作哩！通常这个 s 的动作可以搭配正规表示法！
 
-
-
-
 ### ======================================================== sed字符替换/追加/删除
 % 例如 1,20s/old/new/g 或 1,20s@old@new@g
 
@@ -40,18 +37,12 @@ drink beer?'
 % 把第2行到第5行的内容取代为“no 2-5number!”
 nl /etc/passwd | sed '2,5c no 2-5number!'
 
-
-
-
 ### ================================================================= sed字符过滤
 % 在Unix下，sed通常用作管道中的过滤器
 generateData | sed 's/x/y/g'
 也就是说，诸如“generateData”之类的程序生成数据，然后用sed把x替换成y。例如：
 $ echo xyz xyz | sed 's/x/y/g'
 yyz yyz
-
-
-
 
 ### ===================================================================== sed脚本
 % 将几个sed命令（每行一个命令）放入脚本文件（例如subst.sed）中,
@@ -65,8 +56,6 @@ tail -f pppd.log | sed -f sed.cmd
 s/145\.37\.23\.26/桥西/g
 s/102\.157\.23\.109/柳荫街/g
 s/145\.37\.123\.57/大山子/g
-	
-
 
 ### ================================================================= sed本地编辑
 % 就地编辑; GNU sed中引入的-i选项允许就地编辑文件
@@ -79,7 +68,6 @@ sed -f command_file fileName
 sed 's/^/FF/' fileName
 sed 's/$/FF/' fileName
 
-
 sed 'p' /etc/passwd             # 打印/etc/passwd中的内容
 sed -n 'p' /etc/passwd          # -n; 只显示被处理的内容
 sed -n ' 1,5 p ' /etc/passwd    # 1,5; 打印第1到第5行
@@ -90,9 +78,6 @@ sed ' /^#/ d; /^$/ d ' ~/test   # 删除以"#"开头的行和空白行
 ### 删除以"#"开头的行和空白行;
 ### -i.bak; 表示直接修改原文件，并且备份原文件中的内空，以".bak"作为后缀名
 sed -i.bak ' /^#/ d; /^$/ d ' ~/test
-
-	
-	
 	
 ### ================================================================= sed模式匹配	
 % 模式描述中增加\(和\)
@@ -110,23 +95,11 @@ s/\([a-zA-Z_][a-zA-Z0-9_]*\)->number/\1->num/g
 % 比如:将 04-26-1997替换为1997.04.26使用命令:
 s/\([0-9][0-9]\)-\([0-9][0-9]\)-\([0-9][0-9]*\)/\3.\1.\2/g
 
-
-
-
-
-
-
-
-
-
 ### ============================================================= sed 打印文件内容
 sed ' p ' /etc/passwd               %打印文件内容
 sed -n ' p ' /etc/passwd            %打印文件内容，并显示行号
 sed -n '1,3 p ' /etc/passwd         %打印文件1～3行内容，并显示行号
 sed -n '/^root/ p ' /etc/passwd     %打印以root开头的行，并显示行号
-
-
-
 
 ### ============================================================= sed 字符串替换
 sed ' [range] s/<string>/<replacement>/ ' /etc/passwd
@@ -138,29 +111,16 @@ sed -n ' 6,9 s/^/    /p ' /etc/passwd
 % 以 ysh为开头并以此作为边界替换其中的内容
 sed -n ' /^ysh/ s@/bin/bash@/bin/sh@p ' /etc/passwd
 
-
-
-
-
-
 ### ========================================================== sed 追加/插入/删除
 sed ' /^server 3/ a server ntp.example.com ' /etc/ntp.conf
 sed ' /^server 0/ i server ntp.example.com ' /etc/ntp.conf
 sed ' /^server\s[0-9]\.ubuntu/ d ' /etc/ntp.conf
-
-
-
-
 
 ### ========================================================== sed 命令行编辑模式
 ysh@debian:~$ sed ' {
 > /^server 0/ i ntp.example.com
 > /^server\s[0-9]\.ubuntu/ d
 > } ' /etc/ntp.conf
-
-
-
-
 
 ### ================================================================ sed 脚本文件
 % 编辑sed脚本文件
@@ -182,9 +142,6 @@ ysh@debian:~$ sed ' {
 % 使用sed脚本处理文件， -i.bak参数会产生备份文件
 sed -f ntp.sed /etc/ntp.conf
 sudo sed -i.bak -f ntp.sed /etc/ntp.conf
-
-
-
 
 ### ======================================================== ssh 使用sed远程连接
 % 使用ssh将其与远程编辑放在一起
@@ -230,9 +187,6 @@ Beder,Ioana,567-34-9802
 Staines,Brad,,
 
 
-
-
-
 sed ' s/\(^\|[^0-9.]\)\([0-9]\+\)\([0-9]\{3\}\)/\1\2,\3/g ' /catlog
 
 % cat catalog.sed
@@ -241,10 +195,6 @@ s/\(^\|[^0-9.]\)\([0-9]\+\)\([0-9]\{3\}\)/\1\2,\3/g
 %或 s@\(^\|[^0-9.]\)\([0-9]\+\)\([0-9]\{3\}\)@\1\2,\3@g
 
 sed -f catalog.sed /proc/loadavg
-
-
-
-
 
 ### ===========================================================  使用sed执行命令
 sed ' s/^/ls -l /e listoffiles.txt
@@ -257,18 +207,12 @@ cat.list        ;文件将包含要存档的目录
 sed ' /^\// s/^/rm -f /e ' cat .list
 rm -f           ;删除原始目录
 
-
-
-
-
 % cat file.list
 /etc/hosts
 /etc/services
 % 
 sed ' s/^/ls -l /e ' file.list
 sed ' s/^/stat /e ' file.list
-
-
 
 
 % cat user.list

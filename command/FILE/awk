@@ -19,8 +19,6 @@ $0          %变量是指整条记录。
 $1          %表示当前行的第一个域,$2表示当前行的第二个域,......以此类推。	
 $NF         %是number finally,表示最后一列的信息，跟变量NF是有区别的，变量NF统计的是每行列的总数
 
-
-
 ### ===================================================================== awk例子
 % 搜索/etc/passwd有root关键字的所有行，并显示对应的shell
 awk -F: '/root/ {print $7}' /etc/passwd
@@ -56,8 +54,6 @@ cat /etc/passwd | awk -F: 'BEGIN{print "name, shell"} {print $1,$NF} END{print "
 % 统计显示/etc/passwd的账户
 awk -F ':' 'BEGIN {count=0;} {name[count] = $1;count++;}; END{for (i = 0; i < NR; i++) print i, name[i]}' /etc/passwd
 
-
-
 % 统计UID小于10的用户                           
 cat /etc/passwd | awk '{FS=":"} $3<10 {print $1 "\t" $3}'
 cat /etc/passwd | awk 'BEGIN{FS=":"} $3<10 {print $1 "\t" $3}'
@@ -73,10 +69,8 @@ df -h | grep sda3 | awk '{print $5}' | cut -d "%" -f 1
 ysh@localhost:~$ (cat /proc/net/dev |awk '{i++; if(i>2){print $1}}' |sed 's/[:]*$//g' |grep "wl")
 wlp3s0
 
-
 % 提取IP地址
 ysh@debian:~$ ip addr | grep inet | grep -v "127" | grep brd | awk '{print $2}' | awk -F"/" '{print $1}' | awk -F. '{print $1"-"$2"-"$3"-"$4}'
-
 
 % -F:代表以：分隔; "print"代表打印输出; "$"代表打印的位置参数
 awk -F: '{print $(NF)}' /etc/passwd             %只打印文件每行的最后一列
@@ -105,9 +99,6 @@ awk '{a=1; b=3; print a/b}
 % 创建目录 001～010; xargs用于接受参数传递给mkdir
 awk 'BEGIN { while (num < 10 ) printf "dir%03d\n", ++num ; exit}' | xargs mkdir
 
-
-
- 
 ### ==================================================================== awk描述
 awk:逐行扫描进行文本处理的一门语言
 a.w.k分别为该程序的三位设计者姓氏的第一个字母
