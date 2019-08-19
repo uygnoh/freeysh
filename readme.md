@@ -8,50 +8,52 @@
 + Minimum     ->ctrl+-
 + F11         ->全屏
 
-### tmux
+### tmux终端复用软件
++ <crtl  +a>           #激活控制台(系统默认Ctrl+b)
 + <shift +上下左右箭头>  #窗口(window)切换
 + <alt   +上下左右箭头>  #窗格(pane)切换
-+ <ctrl  +b h>         #窗格(pane)，水平方向创建窗格 %
-+ <ctrl  +b v>         #窗格(pane)，垂直方向创建窗格 "
-+ <ctrl  +b z>         #全屏窗格(pane)
-+ 会话
-+ <crtl+a   >                                     #激活控制台(系统默认Ctrl+b)
-+ <ctrl+a s >                                     #会话切换     s
++ <ctrl  +b h>         #窗格(pane)，水平方向创建窗格 <%>Split the current panel into two, left and right.
++ <ctrl  +b v>         #窗格(pane)，垂直方向创建窗格 <">Split the current panel into two, top and bottom.
++ <ctrl  +b &>         #kill the current window
++ <cttrl +b x>         #Kill the current pane.
++ <ctrl  +b s>         #Select a new session for the attached client interactively.
++ <ctrl  +b w>         #Choose the current window interactively.
++ <ctrl  +b z>         #Toggle zoom state of the current panel.
+##### tmux会话
 + tmux new-session -s <session_name>              #创建一个会话
 + tmux list-sessions                              #查看会话	
-+ tmux detach                                     #分离会话     d
++ tmux detach                                     #分离会话     <d>Detach the current client.
 + tmux attach-session -t <target_session_name>    #连接会话
-+ tmux rename-session -t session_old session_new  #重命名会话    $
++ tmux rename-session -t session_old session_new  #重命名会话    <$>Rename the current session.
 + tmux kill-server                                #关闭tmux服务器
 + tmux kill-server -t session_name                #关闭指定的会话
 + tmux kill-server -a -t session_name             #关闭所有会话，除了这个会话<session_name>
-+ 窗口
-+ tmux new-window                                 #创建一个新的 window
-+ <ctrl+a , >                                     #重命明当前窗口
-+ <ctrl+a c >                                     #创建一个新窗口
-+ <ctrl+a & >                                     #关闭当前窗口
-+ <ctrl+a l >                                     #前后窗口间互相切换
-+ tmux list-windows                               #列出当前窗口
++ <ctrl+a (>                                      #Switch the attached client to the previous session.
++ <ctrl+a )>                                      #Switch the attached client to the next session.
+##### tmux窗口
++ tmux new-window      #创建一个新的 window
++ tmux list-windows    #列出当前窗口
++ <ctrl+a , >          #重命明当前窗口
++ <ctrl+a c >          #创建一个新窗口
++ <ctrl+a & >          #关闭当前窗口
++ <ctrl+a l >          #前后窗口间互相切换
+
 
 ### vim
-`inoremap { {}<ESC>i<CR><ESC>O`
-```
----数组则不换行
-inoremap { {}<ESC>i
----函数左括号加回车则换行
-inoremap {<CR> {<CR>}<ESC>O
-补充：这样改还是有点小问题，当定义一个函数时，先敲入左括号，如果约一秒钟内没有敲入回车键，
-     再敲入回车键就不会进行回车换行了。不过影响不大。
-```
++ vim左括号加自动换行   "inoremap { {}<ESC>i<CR><ESC>O  <第一种方案>
++ 数组则不换行         "inoremap { {}<ESC>i            <第二种方案>
++ 函数左括号加回车则换行 "inoremap {<CR> {<CR>}<ESC>O    <第二种方案>
++ 补充说明：
+`这样改还是有点小问题，当定义一个函数时，先敲入左括号，`
+`如果约一秒钟内没有敲入回车键再敲入回车键就不会进行回车换行了。不过影响不大`
+
 
 # 计算机语言编码风格 @freeysh<201908022150> 
 ```noet
-计算机语言命名规则
-****************************************************************
+计算机语言命名规则:
 宏或者常量用所有大写  #define MAXLENGTH 10;  const int MAXLENGTH = 10；
-函数名或者类名用 do_something
-变量名用 do_something
-****************************************************************
+函数名或者类名用     do_something
+变量名用            do_something
 ```
 ### swithc-case if-else
 ```c
