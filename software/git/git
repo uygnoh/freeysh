@@ -28,38 +28,35 @@ git commit -m "First comment"               # 然后执行 git commit 提交
 
 ### ==================================================== 将 git 项目上传到 github上
 1 创建github账号
+
 2 创建一个仓库 Create a new repository
+
 3 创建 SSH Key
-% ssh-keygen -t rsa
+  % ssh-keygen -t rsa
+  
 4 在GitHub上,打开"Account Settings" --->"SSH Keys"
   导入公钥至"Key"文本框中
+  
 5 验证是否成功	
-% ssh -T git@github.com
+  % ssh -T git@github.com
 	
 	
 	
-### ================================================================= 关联远程库
-% 接下来就是把本地仓库传到github上去，之前在GitHub上建好一个新的仓库是
-% 跳转的页面，完全按照上面的只是操作就可以了。
-% 关联一个远程库命令, 这个是自己远程库
+### ============================================================== 关联远程git仓库
+% 查看关联的关联远程git仓库
+git remote -v                 # 查看远程关联GitHub仓库	
+git remote rm origin          # 移出旧的GitHub仓库
+
+
+% 接下来就是把本地仓库传到github上去
+% 关联一个远程库命令, 这个是自己远程github仓库
 git remote add origin git@github.com:uygnoh/free_doc.git    
 	
 % 关联后,第一次推送master分支的所有内容命令。
 git push -u origin master
 
-### 此后，每次本地提交后，就可以使用下面的命令推送最新修改。
-% git push origin master
+% 此后，每次本地提交后，就可以使用下面的命令推送最新修改。
+git push origin master
 
 
-
-### ============================================================== 其它注意事项!!! 	
-git remote -v                 # 查看远程关联GitHub仓库	
-git remote rm origin          # 移出旧的GitHub仓库
-
-
-% 更改新的关联地址（GitHub仓库地址）
-git remote add origin git@github.com:uygnoh/STM32_STD_LIB.git
-git push -u origin master     # 第一次使用
-git push origin master        # 以后每次提交就可以使用
-___________________________________________________________
 
