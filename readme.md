@@ -1,7 +1,7 @@
 ### 常用网站 
-> https://github.com/uygnoh/FREEYSH
-> https://www.runoob.com/           <菜鸟教程>
-> https://stackoverflow.com/        <软件类问答网站>
++ https://github.com/uygnoh/FREEYSH
++ https://www.runoob.com/           <菜鸟教程>
++ https://stackoverflow.com/        <软件类问答网站>
 
 ### 命令行终端字体大小调整
 + Maximum     ->ctrl+shift++
@@ -48,13 +48,13 @@
 `如果约一秒钟内没有敲入回车键再敲入回车键就不会进行回车换行了。不过影响不大`
 
 
-### 计算机语言编码风格 @freeysh<201908022150> 
-```noet
-计算机语言命名规则:
-宏或者常量用所有大写  #define MAXLENGTH 10;  const int MAXLENGTH = 10；
-函数名或者类名用     do_something
-变量名用            do_something
-```
+### 计算机语言编码风格 @freeysh<201908022150> ====================================
+
+##### 计算机语言命名规则:
++ 宏或者常量用所有大写  #define MAXLENGTH 10;  const int MAXLENGTH = 10；
++ 函数名或者类名用     do_something
++ 变量名用            do_something
+
 ##### swithc-case if-else
 ```c
 void print_msg(int a)
