@@ -1,8 +1,9 @@
-##### https://github.com/uygnoh/FREEYSH
-##### https://www.runoob.com/           <菜鸟教程>
-##### https://stackoverflow.com/        <软件类问答网站>
+### 常用网站 
+> https://github.com/uygnoh/FREEYSH
+> https://www.runoob.com/           <菜鸟教程>
+> https://stackoverflow.com/        <软件类问答网站>
 
-### 字体大小调整
+### 命令行终端字体大小调整
 + Maximum     ->ctrl+shift++
 + Minimum     ->ctrl+-
 + F11         ->全屏
@@ -38,7 +39,7 @@
 + <ctrl+a l >          #前后窗口间互相切换
 
 
-### vim
+### vim文本编辑器 
 + vim左括号加自动换行   "inoremap { {}<ESC>i<CR><ESC>O  <第一种方案>
 + 数组则不换行         "inoremap { {}<ESC>i            <第二种方案>
 + 函数左括号加回车则换行 "inoremap {<CR> {<CR>}<ESC>O    <第二种方案>
@@ -47,14 +48,14 @@
 `如果约一秒钟内没有敲入回车键再敲入回车键就不会进行回车换行了。不过影响不大`
 
 
-# 计算机语言编码风格 @freeysh<201908022150> 
+### 计算机语言编码风格 @freeysh<201908022150> 
 ```noet
 计算机语言命名规则:
 宏或者常量用所有大写  #define MAXLENGTH 10;  const int MAXLENGTH = 10；
 函数名或者类名用     do_something
 变量名用            do_something
 ```
-### swithc-case if-else
+##### swithc-case if-else
 ```c
 void print_msg(int a)
 {
@@ -82,26 +83,35 @@ void print_msg(int a)
 
 }
 ```
-### 一些需要注意的代码风格
-1. 使用空格缩进为: “4个空格”
-2. switch ... case ...语句中，switch和case具有相同的缩进（参考上文）
-3. 花括号的使用参考K&R风格
-4. 如果是函数，左花括号另起一行, 否则, 花括号紧接在语句的最后
-5. 空格, 在关键字“if, switch, case, for, do, while”之后需要加上空格，如：
+##### 一些需要注意的代码风格
++ 使用空格缩进为: “4个空格”
++ switch ... case ...语句中，switch和case具有相同的缩进（参考上文）
++ 花括号的使用参考K&R风格
++ 如果是函数，左花括号另起一行, 否则, 花括号紧接在语句的最后
++ 空格, 在关键字“if, switch, case, for, do, while”之后需要加上空格，如：
     `if (something)`
-6. 在关键字“sizeof, typeof, alignof, or __attribute__”之后不要加空格，如：
++ 在关键字“sizeof, typeof, alignof, or __attribute__”之后不要加空格，如：
     `sizeof(struct file)`
-7. 在括号里的表达式两边不要加空格，比如，下面是一个反面的例子：
++ 在括号里的表达式两边不要加空格，比如，下面是一个反面的例子：
     `sizeof( struct file ) warnings... `
-8. 大多说的二元和三元运算符两边需要空格，
++ 大多说的二元和三元运算符两边需要空格，
    `如“= + - < > * / % | & ^ <= >= == != ? :”；`
-9. 一元运算符后面不要空格，
++ 一元运算符后面不要空格，
    `如“& * + - ~ ! sizeof typeof alignof __attribute__ defined”；`
-10. 在前缀自增自减运算符之后和后缀自增自减运算符之前不需要空格（“++”和“--”）；
-11. 成员运算符（“.”和“->”）的两边不需要空格；
-12. 行尾不需要空格；
-13. 注释, 使用C89的“/* ... */”风格.
-14. 对于多行注释，可以参考下例：
++ 在前缀自增自减运算符之后和后缀自增自减运算符之前不需要空格（“++”和“--”）；
++ 成员运算符（“.”和“->”）的两边不需要空格；
++ 行尾不需要空格；
++ 注释, 使用C89的“/* ... */”风格.
++ 对于多行注释，可以参考下例：
++ 多行的宏定义需要用“do .. while”封装，如：
+```c
+    #define macrofun(a, b, c)   \
+    do {                        \
+        if (a == 5)             \
+            do_this(b, c);      \
+    } while (0)
+```
+##### 注释风格
 ```note
 /*
  * This is the preferred style for multi-line
@@ -112,14 +122,7 @@ void print_msg(int a)
  * with beginning and ending almost-blank lines.
  */
 ```
-15. 多行的宏定义需要用“do .. while”封装，如：
-```c
-    #define macrofun(a, b, c)   \
-    do {                        \
-        if (a == 5)             \
-            do_this(b, c);      \
-    } while (0)
-```
+
 
 
 
