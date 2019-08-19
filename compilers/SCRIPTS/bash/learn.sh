@@ -9,8 +9,6 @@ fi
 
 # 用户输入
 # read 命令接收键盘的输入，标准输入(Standard Input)
-
-
 read -p "Please Enter You Name: " name
 echo "Your Name Is: $name"
 
@@ -23,13 +21,11 @@ echo "Your Name Is: $name"
 -w FILE_NAM  # True if FILE_NAM has write permission
 -x FILE_NAM  # True if FILE_NAM is executable
 
-
 # 字符串测试操作
 -z STRING         # True if STRING is empty
 -n STRING         # True if STRING is not empty
 STRING1 = STRIN2  # True if strings are equal
 STRING1 != STRIN2 # True if strings are not equal
-
 
 # 算术测试操作
 var1 -eq var2     # True if var1 is equal to var2
@@ -38,7 +34,6 @@ var1 -lt var2     # True if var1 is less than var2
 var1 -le var2     # True if var1 is less than or equal to var2
 var1 -gt var2     # True if var1 is greater than var2
 var1 -ge var2     # True if var1 is greater than or equal to var2
-
 
 # 条件判断 if-else if-elif-else
 if [ condition-is-true ]
@@ -89,7 +84,6 @@ case "$ANSWER" in
     echo "Invalid Answer :/"
     ;;
 esac
-
 
 # 迭代语句 - 循环
 for VARIABLE_NAME in ITEM_1 ITEM_N
@@ -152,8 +146,6 @@ done < /etc/passwd
 continue 用于结束本次循环
 break 用于结束整个循环
 
-
-
 # 参数传递
 # 当我们运行脚本的时候，可以传递参数供脚本内部使用$ ./script.sh param1 param2 param3 param4
 # 这些参数将被存储在特殊的变量中
@@ -164,9 +156,6 @@ $3 -- "param3"
 $4 -- "param4"
 $@ -- array of all positional parameters
 
-
-
-
 # 逻辑操作符
 # shell脚本支持逻辑与和逻辑或
 逻辑与 &&
@@ -174,8 +163,6 @@ $@ -- array of all positional parameters
 Example
 mkdir tempDir && cd tempDir && mkdir subTempDir
 # 这个例子中，如果创建tempDir成功，执行后面的cd，继续创建subTempDir
-
-
 
 # 函数
 注意⚠️
