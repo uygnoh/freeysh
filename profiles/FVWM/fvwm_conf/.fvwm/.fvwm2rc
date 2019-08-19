@@ -1,76 +1,52 @@
-###########
 #  ____________________________
 # (   _________________________)
 #  ) (__  _  _  _    _  
 # (   __)( \/ )( \/\/ )/\/\
 #  ) (    \  /  \    //    \
 # (___)    \/    \/\/(_/\/\_) 2.5.10
-#
+##########################
 # My personal fvwm2rc file
-#
-#######################
-#
-#
-#
-#
-# Program Launching Functions <131>
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
+##########################
 
-#####
+
+###########################
 # Set Environment variables
-###########
+###########################
 SetEnv fvwm_home $[HOME]/.fvwm
 SetEnv fvwm_img $[fvwm_home]/images
 SetEnv fvwm_icon $[fvwm_home]/icons
 SetEnv fvwm_scrpt $[fvwm_home]/scripts
 SetEnv fvwm_wallpapers $[fvwm_img]/wallpaper
 
-#####
+####################
 # Set the image path
-###########
+####################
 ImagePath $[fvwm_icon]:$[fvwm_icon];.png:+
 
-#####
+##################
 # Virtual Desktops
-###########
+##################
 DesktopSize 3x3
 DesktopName 0 Main
 DesktopName 1 Work
 DesktopName 2 Games
 EdgeScroll 100 100
-
 EdgeResistance 0 0
 EdgeThickness 0
 
-#####
+##########################
 # Mouse and Focus Behavior
-###########
+##########################
 ClickTime 350
 DoubleClickTime 500
 MoveThreshold 3
 Style * SloppyFocus, MouseFocusClickRaises
-
 EwmhBaseStruts 62 162 0 48
 IgnoreModifiers L25
 
-#####
+###########################
 # Global Styles and options
-###########
+###########################
 Style * TileCascadePlacement, GrabFocusOff
 Style * NoPPosition, ResizeOpaque
 OpaqueMoveSize -1
@@ -87,9 +63,9 @@ SetAnimation  10  -.01 0 .01 .03 .08 .18 .3 .45 .6 .75 .85 .90 .94 .97 .99 1.0
 Style * MwmDecor, SlipperyIcon
 Style * IconBox screen w 15 15 -165 -15, IconGrid 3 3, IconFill right top
 
-#####
+################
 # Program Styles
-###########
+################
 Style "*" Icon 48x48/x.png, MiniIcon mini/x.png
 Style "XTerm" Icon 48x48/terminal.png, NoActiveIconOverride, MiniIcon mini/terminal.png
 Style "gvim" Icon 48x48/vim.png, IconOverride, MiniIcon mini/vim.png, EWMHMiniIconOverride
@@ -97,9 +73,9 @@ Style "Firefox-bin" Icon 48x48/firefox.png, MiniIcon mini/firefox.png, EWMHMiniI
 Style "irssi" Icon 48x48/irc.png, MiniIcon mini/irc.png
 Style "xmms" WindowListSkip, CirculateSkip
 
-#####
+#################
 # Basic Functions
-###########
+#################
 DestroyFunc FvwmDeleteOrDestroy
 AddToFunc   FvwmDeleteOrDestroy
 + H Nop
@@ -127,9 +103,9 @@ DestroyFunc FvwmWindowShade
 AddToFunc   FvwmWindowShade
 + D WindowShade $0
 
-#####
+#############################
 # Program Launching Functions
-###########
+#############################
 DestroyFunc FvwmXTerm
 AddToFunc   FvwmXTerm
 + I Exec exec /usr/bin/xterm -ls
@@ -163,9 +139,9 @@ AddToFunc   FvwmViewManPage
 + I Exec exec xterm -fg White -bg DarkBlue -g 80x40 -fn 7x14 -fb 7x14bold \
  -n "Manual Page - $0" -T "Manual Page - $0" -e man "$0"
 
-#####
+###################
 # Startup Functions
-###########
+###################
 DestroyFunc StartFunction
 AddToFunc   StartFunction
 + I Module FvwmTaskBar
@@ -183,9 +159,9 @@ DestroyFunc RestartFunction
 AddToFunc   RestartFunction
 + I Nop
 
-#####
+#########################################
 # Screenshot Functions (uses ImageMagick)
-###########
+#########################################
 DestroyFunc FvwmWindowScreenshot
 AddToFunc   FvwmWindowScreenshot
 + I ThisWindow (!Shaded !Iconic Iconifiable) \
@@ -197,9 +173,9 @@ AddToFunc   FvwmDesktopScreenshot
 + I Exec sleep $0; import -window root -quality 100 -silent \
   "$[fvwm_home]/screenshot/screenshot-`date +%F[%R]`.jpg"
 
-#####
+#################
 # XRoach Invasion
-###########
+#################
 DestroyFunc XRoachInvasion
 AddToFunc   XRoachInvasion
 + I Exec exec xroach -roaches 5 -rc Cyan -speed 17
@@ -213,9 +189,9 @@ DestroyFunc XRoachExterminate
 AddToFunc   XRoachExterminate
 + I Exec killall xroach
 
-#####
+################
 # Basic Bindings
-###########
+################
 Key F1 A M Menu MenuFvwmRoot
 Key Tab A M WindowList Root c c NoDeskSort, SelectOnRelease Meta_L
 Key Super_L A A FvwmATerm
@@ -231,16 +207,16 @@ Mouse 1 I A FvwmMoveOrIconify
 Mouse 4 T A FvwmWindowShade True
 Mouse 5 T A FvwmWindowShade False
 
-#####
+##################
 # Window Colorsets
-###########
+##################
 Colorset 3 fg #101060, bg #e6e7d7
 Colorset 4 fg Black, bg #a6a797
 Colorset 5 fg White, bg Black
 
-#####
+##############
 # Window Decor
-###########
+##############
 DestroyDecor MyDecor
 AddToDecor   MyDecor
 + TitleStyle LeftJustified Height 18
@@ -257,9 +233,9 @@ AddToDecor   MyDecor
 + BorderStyle Simple -- NoInset Flat
 + ButtonStyle All -- UseTitleStyle
 
-#####
+###############
 # Ukkosta Decor
-###########
+###############
 DestroyDecor UkkostaDecor
 AddToDecor   UkkostaDecor
 + TitleStyle LeftJustified Height 24
@@ -296,9 +272,9 @@ AddToDecor   UkkostaDecor
 + BorderStyle Simple -- NoInset Flat
 + ButtonStyle All -- UseTitleStyle
 
-#####
+###############
 # Window Styles
-###########
+###############
 Style "*" UseDecor MyDecor
 Style "*" Font "xft:Sans:Bold:size=8:minspace=False:antialias=True"
 Style "*" BorderWidth 1, HandleWidth 1
@@ -308,9 +284,9 @@ Style "*" HilightColorset 3
 Style "*" BorderColorset 5
 Style "*" HilightBorderColorset 4
 
-#####
+################
 # Menu Colorsets
-###########
+################
 #Colorset 7 fg Black, bg #e6e7d7, sh Black, hi #202070
 Colorset 8 fg DarkRed, bg #e6e7d7, sh Black, hi #202070
 
@@ -320,9 +296,9 @@ Colorset 8 fg DarkRed, bg #e6e7d7, sh Black, hi #202070
 Colorset 7 fg Black, Translucent White 75, \
   hi Black, sh Black
 
-#####
+############
 # MenuStyles
-###########
+############
 MenuStyle * PopupDelayed, PopupDelay 300, PopdownImmediately
 MenuStyle * PopupOffset -5 100, TitleWarpOff
 MenuStyle * TitleUnderlines2, SeparatorsLong, TrianglesSolid
@@ -336,9 +312,9 @@ MenuStyle * ActiveFore, Hilight3DOff
 MenuStyle * ActiveColorset 8
 MenuStyle * Font "Shadow=2:xft:Sans:Bold:size=11:antialias=True"
 
-#####
+##############
 # FvwmRootMenu
-###########
+##############
 DestroyMenu FvwmRootMenu
 AddToMenu   FvwmRootMenu "Root Menu" Title
 + "Programs%menu/programs.png%"  Popup FvwmProgramsMenu
@@ -349,9 +325,9 @@ AddToMenu   FvwmRootMenu "Root Menu" Title
 + "Restart FVWM%menu/restart.png%"  Restart
 + "Quit FVWM%menu/quit.png%"  Quit
 
-#####
+###############
 # Programs Menu
-###########
+###############
 DestroyMenu FvwmProgramsMenu
 AddToMenu   FvwmProgramsMenu "Programs" Title
 + "GVim%menu/vim.png%"  FvwmGVim
@@ -362,9 +338,9 @@ AddToMenu   FvwmProgramsMenu "Programs" Title
 + "XRoach-Invasion%menu/xroach.png%"  XRoachInvasion
 + "XRoach-Exterminate%menu/xroach.png%"  XRoachExterminate
 
-#####
+################
 # FVWM Help Menu
-###########
+################
 DestroyMenu FvwmManPagesMenu
 AddToMenu   FvwmManPagesMenu "FVWM Man Pages" Title
 + "%menu/help.png%fvwm"                FvwmViewManPage fvwm
@@ -413,9 +389,9 @@ AddToMenu   FvwmManPagesMenu "FVWM Man Pages" Title
 + "%menu/help.png%fvwm-menu-headlines" FvwmViewManPage fvwm-menu-headlines
 + "%menu/help.png%fvwm-menu-xlock"     FvwmViewManPage fvwm-menu-xlock
 
-#####
+############################
 # fvwm Window Operation Menu
-###########
+############################
 DestroyMenu FvwmWindowOpsMenu
 AddToMenu   FvwmWindowOpsMenu "Window Operations" Title
 + "Move%menu/window-move.xpm%"  Move
@@ -440,22 +416,22 @@ AddToMenu   FvwmWindowOpsMenu "Window Operations" Title
 + "" Nop
 + "Identify%menu/window-identify.xpm%"  Module FvwmIdent
 
-#####
+##################
 # Module Colorsets
-###########
+##################
 Colorset 9 fg rgb:00/00/00, hi rgb:00/00/00, sh rgb:00/00/00, bg rgb:e9/e9/d9
 Colorset 10 fg rgb:00/00/00, hi rgb:dd/00/00, sh rgb:dd/00/00, bg rgb:fb/fc/ec
 
-#####
+###########
 # FvwmIdent
 ###########
 DestroyModuleConfig FvwmIdent: *
 *FvwmIdent: Colorset 9
 *FvwmIdent: Font "xft:Sans:Bold:size=12:antialias=True"
 
-#####
+#############
 # FvwmTaskBar
-###########
+#############
 Style "FvwmTaskBar" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \
   CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
 
@@ -478,7 +454,7 @@ DestroyModuleConfig FvwmTaskBar: *
 *FvwmTaskBar: Action Click3 Menu FvwmWindowOpsMenu
 *FvwmTaskBar: StartIcon mini/fvwm.png
 
-#####
+###########
 # FvwmPager
 ###########
 Style "FvwmPager" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \
@@ -499,7 +475,7 @@ DestroyModuleConfig FvwmPager: *
 *FvwmPager: UseSkipList
 *FvwmPager: Rows 3
 
-#####
+###########
 # MyButtons
 ###########
 Style "MyButtons" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \

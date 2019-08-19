@@ -9,17 +9,12 @@ gvim ->vim-gnome
 xterm
 
 
-
-
 ### ======================================================= redshift
 % http://jonls.dk/redshift/
 % sudo apt-get install redshift
 
-
+% 设置屏幕亮度
 redshift -b 0.5 -O 5500
-
-
-
 
 %Example (location is Copenhagen, Denmark):
 $ redshift -l 55.7:12.6 -t 5700:3600 -g 0.8 -m randr -v
