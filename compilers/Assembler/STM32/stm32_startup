@@ -102,14 +102,10 @@ Reset_Handler   PROC
       
       
       
-      
 % 系统执行的第一条指令
     LDR     R0, =_initial_sp
     MSR     MSP, R0
               
-
-
-
 
 
 
@@ -121,22 +117,19 @@ Reset_Handler   PROC
     CMP R1, R2              ;如果相等， 则说明是比串口启动
     BNE ApplicationStart    ;不相等则跳转到ApplicationStart处执行。
 
-
 ApplicationStart
     LDR R0, =SystemInit
-    BLX R0
-    
-;将__main的地址加载到寄存器，进入__main， 这里的__main不是我们在用户程序里看到的main.c
-;而是编译系统提供的C/C++标准库函数是的一个初始化子程序__main
+    BLX R0   
+%将__main的地址加载到寄存器，进入__main， 这里的__main不是我们在用户程序里看到的main.c
+%而是编译系统提供的C/C++标准库函数是的一个初始化子程序__main
 ;1 完成映像文件的初始化工作
 ;2 调用 _rt_entry库函数进入到用户程序
-;  __main是一个库函数，在它调用_rt_entry函数的第一条指令就调用本程序 287行代码的_usr_initial_stackheap函数。
-; 初始化代码的堆和栈，然后初始化C运行库，接下来调用用户的main()函数。
+%  __main是一个库函数，在它调用_rt_entry函数的第一条指令就调用本程序 287行代码的_usr_initial_stackheap函数。
+% 初始化代码的堆和栈，然后初始化C运行库，接下来调用用户的main()函数。
     LDR R0, =__main
-    Bx
-    
+    Bx    
 278 行代码
-：对堆和栈的位置进行标记
+% 对堆和栈的位置进行标记
 __user_initial_stackheap
     LDR R0, = Heap_Mem
     LDR R1, = (Stack_Mem + Stack_Size)

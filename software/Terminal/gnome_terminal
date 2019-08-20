@@ -1,3 +1,10 @@
+### 指定大小和位置打开：
+参数的意义：宽度x高度+左侧偏移量+上方偏移量
+% gnome-terminal ->Preferences ->profile "ysh" ->Command -> Custom command: gnome-terminal --geometry=80x15+10+10
+% gnome-terminal --geometry=80x15+10+10
+
+
+
 ### ======================================================= 编辑->配置文件首选项
 % 常规
 	配置文件名	未命名
