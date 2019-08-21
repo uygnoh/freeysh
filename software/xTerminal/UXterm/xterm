@@ -85,6 +85,25 @@ exec xterm -ls
 
 
 % 5. 执行下面的命令使配置文件生效
+% vim ~/.bashrc 将下面代码添加到~/.bashrc最后一行
 xrdb .Xdefaults 
+
+
+
+### ================================================================ XTerm快捷键
+% XTerm常用选项设置
+
+ctrl+鼠标左键   Manin Options
+ctrl+鼠标右键   VT Fonts
+ctrl+鼠标中键   VT Fonts
+
+
+
+
+
+
+
+
+
 
 

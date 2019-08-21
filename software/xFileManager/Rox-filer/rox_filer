@@ -1,0 +1,18 @@
+### rox-filer是由Thomas Leonard开发，为X11设计的RISC OS风格的许可证为GPL的文件管理器
+
+它可以在使用X11的GNU/Linux系统上运行，只需搭配一个窗口管理器比如openbox，便构成一个高效方便的桌面。
+尤其适合不喜欢GNOME、KDE等庞大桌面环境的用户。
+
+### ================================================================== 文件关联
+进入目录~/.config/rox_sourceforge_net/MIME-types/，常见文件格式可关联如下：
+SHELL脚本:    echo -e '#\x21/bin/bash\nexec "$@"' > application_x-shellscript
+文本阅读:      echo -e '#\x21/bin/bash\nxterm -e less "$@"' > text
+网页浏览:      echo -e '#\x21/bin/bash\nfirefox "$@"' > text_html
+图片查看:      echo -e '#\x21/bin/bash\nfeh "$@"' > image
+视频播放:      echo -e '#\x21/bin/bash\nmplayer "$@"' > video
+RMVB视频:     cp video application_vnd.rn-realmedia
+音乐播放:      echo -e '#\x21/bin/bash\nxterm -e mplayer "$@"' > audio
+Office文档:   echo -e '#\x21/bin/bash\nlibreoffice $@\nexit 0' > application_msword
+% 再复制一份application_msword为其他文档执行脚本。
+PDF文档:      echo -e '#\x21/bin/bash\nzathura "$@"\nexit 0' > application_pdf
+chmod 0755 *
