@@ -6,7 +6,7 @@ io.write("Size of string ", #name, "\n")
 io.write("Size of string ", name, "\n")
 
 
--- 打印多行字符串
+--------------------------------------------------------------------- 打印字符串
 longString = [[
     I am a very very ling
     string that goes on
@@ -25,7 +25,7 @@ io.write(type(isAbleToDrive), "\n")
 io.write(type(madeUpvar), "\n")
 
 
--- lua算术运算
+-------------------------------------------------------------------- lua算术运算
 io.write("5 + 3 = ", 5 + 3, "\n")
 io.write("5 - 3 = ", 5 - 3, "\n")
 io.write("5 * 3 = ", 5 * 3, "\n")
@@ -46,7 +46,7 @@ math.randomseed(os.time())
 print(string.format("PI = %.10f", math.pi))
 print(string.format("not true = %s", tostring(not true)))
 
-
+------------------------------------------------------------------ lua条件判断
 -- Relational Operators : > < >= <= == ~= 
 -- Logical Operators    : and or not
 age = 13
@@ -72,7 +72,7 @@ canVote = age > 18 and true or false
 io.write("can i vote: ", tostring(canVote), "\n")
 
 
--- 字符串函数
+------------------------------------------------------------------ lua字符串函数
 quote = "I changed my password to incorrect. So that when i forget"
 io.write("Quote Length ", string.len(quote), "\n")
 io.write("Replace I with me: ", string.gsub(quote, "I", "me"), "\n")
@@ -81,7 +81,7 @@ io.write("Quote Upper : ", string.upper(quote), "\n")
 io.write("Quote Lower : ", string.lower(quote), "\n")
 
 
--- lua循环语法
+---------------------------------------------------------------------- lua循环
 i = 1
 while (i <= 10) do
     io.write(i)
@@ -111,7 +111,7 @@ end
 
 
 
---- lua 一维数组
+--------------------------------------------------------------------- lua一维数组
 --  正如你所看到的，我们可以使用整数索引来访问数组元素，如果知道的索引没有值则返回nil。
 --- 在 Lua 索引值是以 1 为起始，但你也可以指定 0 开始。
 --- 除此外我们还可以以负数为数组索引值：
@@ -134,7 +134,7 @@ table.remove(aTable, 1)
 print(table.concat(aTable, ", "))
 
 
---- lua多维数组
+------------------------------------------------------------------- lua多维数组
 aMultiTable = {}
 for i = 0, 9 do
     aMultiTable[i] = {}
@@ -151,7 +151,7 @@ for i = 0, 9 do
 end
 
 
--- lua函数
+----------------------------------------------------------------------- lua函数
 function getSum(num1, num2)
     return num1 + num2
 end

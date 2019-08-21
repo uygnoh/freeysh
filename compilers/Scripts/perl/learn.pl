@@ -7,7 +7,7 @@ use feature 'switch';
 use v5.28;
 
 
-### perl数学运算
+#################################################################### perl数学运算
 ### ++ -- += -= *= /= %=
 say "5 + 4 = ", 5 + 4;
 say "5 - 4 = ", 5 - 4;
@@ -15,9 +15,9 @@ say "5 * 4 = ", 5 * 4;
 say "5 / 4 = ", 5 / 4;
 say "5 % 4 = ", 5 % 4;
 say "5 **4 = ", 5 **4;
-say "exp 1 = ", exp 1;
-say "hex 9 = ", hex 9;
-say "oct 8 = ", oct 8;
+say "exp 1 =  ", exp 1;
+say "hex 9 =  ", hex 9;
+say "oct 8 =  ", oct 8;
 say "int 1.23=", int(1.23);
 say "log 1234=", log 1234;
 say "sqrt 9 = ", sqrt 9;
@@ -25,22 +25,20 @@ say "Random between 0-10 = ", int(Rand 11);
 
 
 
-### perl常量 $
+################################################################### perl标量 $
 print "Hello World\n";
 my $name = "FreeBSD"
 my ($FVWM, $XTerm) = (123, 'terminal');
-
 my $my_info = "$name lives on \"$XTerm\"\n";
 my $my_info = qq{$name lives on "$XTerm"\n}
 
 
-### perl EOF
+# perl heredoc
 my $bunch_on_info = <<"END";
 This ia a
 bunch of information
 on multiple lines
 END
-
 sy $bunch_on_info;
 
 
@@ -67,7 +65,7 @@ say "$first, $sceond"
 
 
 
-### if else
+################################################################### perl条件判断
 my $age = 80;
 my $is_not_intoxicated = 1;
 my $age_last_exam = 16;
@@ -100,16 +98,47 @@ if ('a' eq 'b') {
 unless (!$is_not_intocicated) {
     say "Get Sober";
 }
-
 say (($age > 18) ? "Can Vote" : "Can't Vote");
 
 
-### for while given
+# 相当于C语言中的 switch-case
+my $age_old = 18;
+given ($age_old) {
+    when ($_ > 16) {
+        say "You can driver";
+        continue;
+    }
+    when ($_ > 17) {
+        say "Go Vote";
+    }
+    default {
+        say "Notthing Special";
+    }
+}
+
+
+####################################################################### perl循环
+# 打印0到9
 for (my $i = 0; $i < 10; $i++) {
     say $i;
 }
 
+### 打印1到100中所有的奇数
+my @odd_numbers;
+foreach(1..100) {
+    push @odd_numbers, $_ if $_ % 2;
+}
+print "@odd_numbers\n";
+### 打印奇数
+print "\n\n";
+my @odd = grep $_ % 2, 1..100;
+print "@odd\n";
+print "\n\n";
+my @odd = grep {$_ % 2} 1..100;
+print "@odd\n";
 
+
+# 打印奇数 
 my $i = 1;
 while ($i < 10) {
     if ($i % 2 == 0) {
@@ -130,58 +159,47 @@ do {
 } while $guess != $lucky_num;
 say "You Guessed 7";
 
-# 相当于C语言中的SWITCH-CASE
-my $age_old = 18;
-given ($age_old) {
-    when ($_ > 16) {
-        say "You can driver";
-        continue;
-    }
-    when ($_ > 17) {
-        say "Go Vote";
-    }
-    default {
-        say "Notthing Special";
-    }
-}
 
 
 
-## perl字符串
+
+#################################################################### perl字符串
+# 字符串提取 
 my $long_string = "Random Long Strint";
 say "Length of String ", length $long_string;
 printf("Long is at %d \n", index $long_string, "Long");
 printf("Long g is at %d \n", rindex $long_string, "g");
 say "Index 7 through 10", substr $long_string, 7, 4;
 
+# 大小写字母转换
 printf("UpperCase : %s \n", uc $long_string);
 printf("LowerCase : %s \n", lc $long_string);
 printf("1st UpperCase : %s \n", ucfirst $long_string);
 
-
+# 打印最后一个字符 
 my $animal = 'amimals';
 printf("Last Character is %s\n", chop $animal);
 
-### 字符串替换
+# 字符串替换
 $long_string =~ s/ /, /g;
-
 my $two_times = "what I said is " x 2;
 say $two_times;
 
 
-### perl数组
+##################################################################### perl数组 @
 my @abcs = ('a' .. 'z');
 print join(", ", @abcs), "\n";
 my $letter = 'c';
 say "Next Letter ", ++$letter;
 
-
-
-
+# 打印数组内容
 my @my_info = ("Derek", "123 Main St", 40, 6.25);
 $my_info[4] = "Banas";
 for my $info (@my_info) {
     say $info;
+}
+for (@my_info) {
+    say $_;
 }
 
 my @primes = (2,3,5,7,11,13,17);
@@ -189,51 +207,46 @@ foreach my $num (@primes) {
     say $num;
 }
 
-for (@my_info) {
-    say $_;
-}
-
 my @my_name = @my_info[0, 4];
 say @my_name;
 my items = scalar @my_info;
 say $items;
-
 my ($f_name, $address, $how_old, $height, $l_name) = @my_info;
 say "$f_name $l_name";
 
 
+
+# 将数组中的元素压入或弹出栈
 say "Popped Value ", pop @primes;
 say "Pushed Value ", push @primes, 17;
 say "First Item   ", shift @primes;
 say "Unshifted Item ", unshift @primes, 2;
 print join(", ", @primes), "\n";
 
-
+# 打印数组中[0,1,2]中的内容，以 ","作为分隔符
 say "Remove Index 0--2 ", splice @primes, 0, 3;
 print join(", ", @primes), "\n";
 
-
+# 数组元素用空格进行切片，并以“，”连接
 print join " ", ('list', 'of', 'words', "\n");
 my $customers = "Sue Sally Paul";
 my @cust_array = split / /, $customers;
 print join(", ", @cust_array), "\n";
 
-
+# 数组内容进行排序
 @cust_array = reverse @cust_array;
 @cust_array = reverse sort @cust_array;
 
-
+# 数组元素进行 grep,map计算
 my @number_array = (1,2,3,4,5,6,6,8,);
 my @odds_array = grep {$_ % 2} @number_array;
 print join(", ", @cust_array), "\n";
-
-
 my @dbl_array = map {$_ * 2} @number_array;
 print join(", ", @dbl_array), "\n";
 
 
 
-### perl 哈希
+##################################################################### perl哈希 %
 my %employees = (
     "Sue" => 35,
     "Pau" => 43;,
@@ -267,7 +280,7 @@ for my $key (keys %employees) {
 }
 
 
-### perl子程序 
+#################################################################### perl子程序 
 sub get_random {
     return int(rand 11);
 }
@@ -335,7 +348,7 @@ say "Factorial 4 = ", factorial(4);
 
 
 
-### perl文件读写
+################################################################## perl文件读写
 # vim employees.txt
 Sally:Secretary:121
 Sam:Janitor:122
@@ -368,78 +381,14 @@ print $fh "Phil:Salesman:125\n";
 close $fh or die "Couldn't Close File : $_";
 
 
-### perl面向对象
-
-
-
-
-
-
-
-### 打印1到100中所有的奇数
-my @odd_numbers;
-foreach(1..100) {
-    push @odd_numbers, $_ if $_ % 2;
-}
-print "@odd_numbers\n";
-
-
-
-### 打印奇数
-print "\n\n";
-my @odd = grep $_ % 2, 1..100;
-print "@odd\n";
-
-print "\n\n";
-my @odd = grep {$_ % 2} 1..100;
-print "@odd\n";
-
-
-### 从标准输入读入数据
-### 搜索带有 fred(不区分大小写)的行显示出来
+#从标准输入读入数据,搜索带有 fred(不区分大小写)的行显示出来
 my @matching_lines = grep /\bfred\b/i, <>;
 print "@matching_lines"
 
 
 
 
-# maps
 
-my @files = glob "*.*";
-print "@files\n";
-
-my @txt_files = map {/(.*)\.txt$/} @files;
-print "@txt_files\n";
-
-my @sizes = map {-s} @txt_files;
-print "@sizes\n";
-
-
-
-
-sub big_money {
-    my $number = sprintf "%.2f, shift @_;
-    1 while $number =~ s/^(-?\d)(\d\d\d)/$1,$2/;
-    $number =~ s/^(-?)/$1\$/;
-    $number;
-}
-print (big_money 123456.1234);
-
-
-
-my @data = (4.75, 1,5, 2, 1234, 6.9876, 12345678.9, 29.95);
-foreach(@data){
-    push @formatted_data, &big_money($_);
-}
-print "@formatted_data\n";
-
-
-
-my @formatted = map {&big_money($_)} @data;
-print "The money number are:\n", map {sprintf("%25s\n", $_} @formatted;
-print "@formatted\n";
-or
-print "The money number are:\n", map {sprintf("%25s\n", &big_money($_))} @data;
 
 
 
