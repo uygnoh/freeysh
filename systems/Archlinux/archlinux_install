@@ -1,36 +1,26 @@
-### ===========================================================================
-Archlinux开启ssh服务命令：
-
-systemctl enable sshd.service  开机启动
-
+### ========================================================== Archlinux OpenSSH
+% Archlinux开启ssh服务命令：
+systemctl enable sshd.service    开机启动
 systemctl start sshd.service     立即启动
-
 systemctl restart sshd.service   立即重启
-Client usage
 
+% 客户端使用
 To connect to a server, run:
 $ ssh -p port user@server-address
-
-
 /etc/ssh/sshd_config
 
 
 
 
 
-### ===========================================================================
-
-
+### =================================================================== 测试网络 
 wifi-menu
-
 ls /sys/firmware/efi/efivars
-
 ping www.baidu.com
-
 timedatectl set-ntp true
 
 
-### ===========================================================================
+### ==================================================================== 磁盘分区
 lsblk
 cfdisk  /dev/sda
 
@@ -68,10 +58,9 @@ vi /etc/pacman.d/mirrorlist
 Server = hhttp://arch.mirrors.ustc.edu.cn/archlinux/$repo/os/$arch
 
 
+
 pacstrap /mnt base
-
 genfstab -U /mnt >> /mnt/etc/fstab
-
 arch-chroot /mnt
 
 

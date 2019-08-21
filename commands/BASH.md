@@ -42,6 +42,20 @@
 `只有在 || 左边的命令返回假（命令返回值 $? == 1），|| 右边的命令才会被执行`
 + ping -c3 www.baidu.com &>/dev/null && echo "is up" || echo "is down"
 
+##### alias
++ 列出文件大小
+    `alias lt='ls --human-readable --size -1 -S --classify'`
++ 增加一个复制进度条
+    `alias cpv='rsync -ah --info=progress2'`
++ 手动去除这些行尾的空格是一件头大的事情，但对于sed来说不过是举手之劳
+ `sed 's/[ \t]*$//g' your_code.c`
+
+##### bash命令行提示符修改
++ 如果将以下内容放入 root 的家目录中的 .bashrc 文件中
++ 你将看到一个黑色背景上的红色的 root 提示符
++ 清楚地表明你（或其他任何人）应该谨慎行事
+`export PS1="\[$(tput bold)$(tput setab 0)$(tput setaf 1)\]\u@\h:\w # \[$(tput sgr0)\]"`
+
 ##### 命令行参数的风格
 + dd if=sysdisk.img of=/dev/sdb
 + find src -name ’*.c’ -type f -exec dos2unix --keepdate {} \;

@@ -1,3 +1,6 @@
+### ================================== /etc/default/console-setup 字符界面字体设定
+% vi /etc/default/console-setup
+
 # CONFIGURATION FILE FOR SETUPCON
 
 # Consult the console-setup(5) manual page.
@@ -5,7 +8,6 @@
 ACTIVE_CONSOLES="/dev/tty[1-6]"
 
 CHARMAP="UTF-8"
-
 
 CODESET="Lat7"
 FONTFACE="Terminus"
