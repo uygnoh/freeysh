@@ -25,9 +25,9 @@
 + Base64就是一种基于64个可打印字符来表示二进制数据的方法
 
 ##### 输入输出重定向 <ls -l  /dev/std*>
-+ <, <<;输入重定向(覆盖,append)     >, >>;输出重定向(覆盖,append)
++ <, <<;输入重定向(覆盖,append) or >, >>;输出重定向(覆盖,append)
 + cat </etc/passwd >a.password ;把/ect/passwd文件重定向到a.password
-+ >file_name_ok   ;重定向正确输出到文件file_name_ok中
++ 1>file_name_ok  ;重定向正确输出到文件file_name_ok中
 + 2>file_name_err ;重定向错误输出到文件file_name_ok中
 + &>file_name     ;正确输出和错误输出重定向到file_name中
 + &>/dev/null     ;正确输出和错误输出重定向到/dev/null中
