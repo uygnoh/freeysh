@@ -135,11 +135,11 @@ def addNumber(fNum, lNum):
     return sumNum
 print("sumNumber : ", addNumber(1, 2))
   
-
+# python3中lambda函数
 
 ##################################################################### python3模块 
 pandas #科学计算， pip3 install pandas
-# python3中lambda函数
+
 
 
 
