@@ -6,6 +6,17 @@
 % 使用户能够无缝传输或迁移其数据。
 % 磁盘加密分区制作(1, 2, 3, 4, 5, 6, 7,)
 
+% 磁盘加密分区打开    
+root@debian:/mnt# cryptsetup luksOpen -d /root/enc.key /dev/sda2 mydisk
+root@debian:/mnt# ls /dev/mapper/
+root@debian:/mnt# mount /dev/mapper/mydisk /mnt
+
+
+% 磁盘加密分区关闭　　
+root@debian:~# umount /mnt
+root@debian:~# cryptsetup luksClose mydisk
+　　
+
 ### ================================================================= 1
 % 安装加密软件
 % 通常的发行版已经预装了该软件包，可以直接使用，下面是 Debian 的安装方法
@@ -93,27 +104,11 @@ Writing superblocks and filesystem accounting information: done
 
 
     
-### ============================================================================
-% 磁盘加密分区打开    
-root@debian:/mnt# cryptsetup luksOpen -d /root/enc.key /dev/sda2 mydisk
-root@debian:/mnt# ls /dev/mapper/
-root@debian:/mnt# mount /dev/mapper/mydisk /mnt
 
+　　
+　　
+　　
 
-% 磁盘加密分区关闭　　
-root@debian:~# umount /mnt
-root@debian:~# cryptsetup luksClose mydisk
-　　
-　　
-　　
-　　
-### ======================================================== GnuPG加密
-% 注意：gpg只能对文件进行加密，对目录则无法完成加密！
-% GPG 对称加密, -o指定输出文件名 -d指定解密文件名 -c指定加密文件名
-# gpg -c file_name
-# ls
-  file_name.gpg
-# gpg -o file_name -d file_name.gpg
 
 
 

@@ -209,4 +209,16 @@ encrypt     参数表示指定源文件
 
     gpg --verify demo.txt.asc demo.txt
     
+    
+    
+    
+    
+### ======================================================== GnuPG加密
+% 注意：gpg只能对文件进行加密，对目录则无法完成加密！
+% GPG 对称加密, -o指定输出文件名 -d指定解密文件名 -c指定加密文件名
+# gpg -c file_name
+# ls
+  file_name.gpg
+# gpg -o file_name -d file_name.gpg
+    
 

@@ -173,7 +173,7 @@ done < /etc/passwd
 # This script loops through the file /etc/passwd line by line
 注意⚠️
 continue 用于结束本次循环
-break 用于结束整个循环
+break    用于结束整个循环
 
 
 

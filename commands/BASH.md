@@ -35,7 +35,7 @@
 + nohup java -jar app.jar >log 2>&1 &
 `每次都写”>log 2>&1”太麻烦，能简写吗？ 简写方式:   &>log`
 
-##### bash逻辑判断
+##### bash< && || 运算符>
 + command1 && command2
 `只有在 && 左边的命令返回真（命令返回值 $? == 0），&& 右边的命令才会被执行`
 + command1 || command2

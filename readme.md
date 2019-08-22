@@ -1,4 +1,4 @@
-### 常用网站 
+### 常用学习网站 
 + https://github.com/uygnoh/FREEYSH
 + https://www.runoob.com/           <菜鸟教程>
 + https://stackoverflow.com/        <软件类问答网站>
@@ -48,10 +48,12 @@
 `如果约一秒钟内没有敲入回车键再敲入回车键就不会进行回车换行了。不过影响不大`
 
 
-### 计算机语言编码风格 @freeysh<201908022150> ====================================
 
-##### 计算机语言命名规则:
-+ 宏或者常量用所有大写  #define MAXLENGTH 10;  const int MAXLENGTH = 10；
+
+
+
+### @@@@@@@@@@@@@@@ freeysh<201908022150> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
++ 宏或者常量所有用大写  #define MAXLENGTH 10;  const int MAXLENGTH = 10；
 + 函数名或者类名用     do_something
 + 变量名用            do_something
 
@@ -67,15 +69,11 @@ void print_msg(int a)
         printf("a == 2\n");
         break;
     }
-    if (x is true) {
-        we do y
-    }
-
-    if (condition)      /* 如果只有一行语句，则不需要用花括号 */
-        action();
-
-    if (condition) {    /* 但是，对于条件语句来说，如果一个分支是一行语句，*/
-        do_this();      /* 另一个分支是多行，则需要保持一致，使用花括号： */
+    
+    if (condition)      
+        action();       /* 如果只有一行语句，则不需要用花括号 */
+    if (condition) {    /* 如果是多分支语句，则需要保持一致，使用花括号 */
+        do_this();      
         do_that();
     } else {
         otherwise();
@@ -92,7 +90,7 @@ void print_msg(int a)
     `if (something)`
 + 在关键字“sizeof, typeof, alignof, or __attribute__”之后不要加空格，如：
     `sizeof(struct file)`
-+ 在括号里的表达式两边不要加空格，比如，下面是一个反面的例子：
++ 在括号里的表达式两边不要加空格，比如，下面是一个反面的例子： 《ERROR》
     `sizeof( struct file ) warnings... `
 + 大多说的二元和三元运算符两边需要空格，
    `如“= + - < > * / % | & ^ <= >= == != ? :”；`
