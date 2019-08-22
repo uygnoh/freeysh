@@ -1,4 +1,4 @@
-### ==================================================================== 硬盘加密
+### ========================================================== cryptsetup 
 % LUKS （Linux Unified Key Setup）是 Linux 硬盘加密的标准。 
 % 通过提供标准的磁盘格式，它不仅可以促进发行版之间的兼容性，
 % 还可以提供对多个用户密码的安全管理。 
@@ -58,10 +58,12 @@ Enter LUKS passphrase to be deleted: ...
 
 
 ### ================================================================= 4 
-% 解密分区设备
+% 映射分区解密密码
+
 % 1 解密普通密码
 # cryptsetup luksOpen /dev/sdd myusb
 Enter passphrase for /dev/sdd:
+
 % 2 key-file 解密
 # cryptsetup luksOpen -d /root/enc.key /dev/sdd myusb
 
