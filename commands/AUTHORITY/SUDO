@@ -1,7 +1,19 @@
-### =============================================================== sudo 
+### ============================================================% 修改sudo配置文件
+% 默认状态是没有sudo命令的，需要安装。
+apt-get update
+apt-get install sudo
+
+% 编辑sudoers文件, gedit /etc/sudoers
+# 在下面添加如下内容: ysh  ALL=(ALL:ALL) ALL
+# 其中"ysh"为自己的用户名
+# Allow members of group sudo to execute any command
+%sudo ALL=(ALL:ALL) ALL 
+ysh   ALL=(ALL:ALL) ALL
+
+
+### ====================================================================== sudo 
 % sudo 是一种权限管理机制，
 % 管理员可以授权于一些普通用户去执行一些 root 执行的操作，而不需要知道 root 的密码	
-
 
 % 用户加入 sudo 组，您可以直接编辑 /etc/group 文件
 $ sudo vim /etc/group
@@ -12,15 +24,13 @@ $ sudo usermod -a -G sudo jack
  
  
  
-### ============================================================== sudo配置文件
+### ================================================================ sudo配置文件
 % sudo 命令的配置文件为   /etc/sudoers
 % 说白了就是哪个用户在哪个主机以谁的身份执行那些命令，那么这个 where, 
 % 是指允许在那台主机 ssh 连接进来才能执行后面的命令，
 % 文件里面默认给 root 用户定义了一条规则：
-root    ALL=(ALL:ALL)       ALL
-
-
 % 那么整条规则就是 root 用户可以在任何主机以任何人的身份来执行所有的命令
+root    ALL=(ALL:ALL)       ALL
 root         %表示 root 用户。
 ALL　　 　　  %表示从任何的主机上都可以执行，也可以这样 192.168.100.0/24。
 (ALL:ALL) 　 %是以谁的身份来执行，ALL:ALL 就代表 root 可以任何人的身份来执行命令。
@@ -31,23 +41,11 @@ ___________________________________________________________
 % 再看个例子：
 % 下面的配置只允许 nick在 192.168.10.0/24网段上连接主机并且以root权限执行useradd命令
 nick   192.168.10.0/24=(root) /usr/sbin/useradd
-___________________________________________________________
 
 
 
 
-### ================================================================ sudo安装配置
-% 默认状态是没有sudo命令的，需要安装。
-apt-get update
-apt-get install sudo
 
-
-% 编辑sudoers文件, gedit /etc/sudoers
-% 在下面添加如下内容: ysh  ALL=(ALL:ALL) ALL
-% 其中"ysh"为自己的用户名
-# Allow members of group sudo to execute any command
-%sudo ALL=(ALL:ALL) ALL 
-ysh  ALL=(ALL:ALL) ALL
 
 
 
