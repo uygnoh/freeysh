@@ -1,0 +1,282 @@
+### =======================================================%===nano -w ~/.vimrc
+% vimrc; rc -> run commands; 
+    Unix/Linux/Mac <=> ~/.vimrc
+    system vimrc file: "VIM/vimrc"
+    user   vimrc file: "$HOME/.vimrc"
+% Each line is executed as a command.
+    set ruler <=> :set ruler
+    
+set showmode
+syntax on           "语法高亮
+set mouse=a         "支持使用鼠标
+set encoding=utf-8  "使用 utf-8 编码
+set t_Co=256        ;启用256色
+set nocompatible    "不与 Vi 兼容(采用 Vim 自己的操作命令)
+set expandtab       "制表符(Tab)用空格代替
+set wrap            "自动折行，即太长的行分成几行显示
+set nowrap          "关闭自动折行
+set wrapmargin=2    "指定折行处与编辑窗口的右边缘之间空出的字符数
+set scrolloff=5     "垂直滚动时，光标距离顶部/底部的位置（单位：行）
+set sidescrolloff=15"水平滚动时，光标距离行首或行尾的位置（单位：字符）。该配置在不折行时比较有用
+set showcmd         "输入的命令显示出来，看的清楚些 
+set magic           "设置魔术 
+
+"搜索逐字符高亮
+set hlsearch
+set incsearch
+
+" 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
+set mouse=a
+set selection=exclusive
+set selectmode=mouse,key
+
+
+
+
+
+
+### =======================================================%======vim leader前缀 
+% 《,w保存文件》
+let mapleader=','
+map <leader>w :w!<CR>
+
+" change the mapleader from \ to,
+" NOTE: This has to be set before <leader> is used.
+let mapleader=','
+
+" Quickly save your file.
+map <leader>w :w!<CR>
+
+" Easily create HTML unorded lists.
+map <F3> i<ul><CR><Space><Space><li></li><CR><Esc>0i</ul><Esc>kcit
+map <F4> <Esc>o<li></li><Esc>cit
+
+
+### =======================================================%=====vim 底线命令模式 
+
+% For more options see ":help option-list" and ":option".
+
+
+% vim查看是否设置此功能
+    :set hls?
+
+
+% vim底线模式下编辑vimrc帮助
+    :h set
+    :color
+    :mkvimrc!
+    :q    
+    
+    
+% vim底线模式下编辑vimrc文件
+    :e ~/.vimrc
+    :e /home/ysh/.vimrc
+    :q
+    
+    
+% vim buffers文件缓冲区
+:h :buffers
+:e      <=> :edit
+:h      <=> :help
+:ls     <=> :buffers
+:b 2    <=> :buffers 2  
+:bn     <=> :bnext
+:bp     <=> :bprevious
+:bl     <=> :blast
+:bf     <=> :bfirst
+
+
+### =======================================================%=========vim map映射
+nore                %表示非递归
+n                   %表示在普通模式下生效
+v                   %表示在可视模式下生效
+i                   %表示在插入模式下生效
+c                   %表示在命令行模式下生效
+___________________________________________________________
+
+@递归映射        @非递归映射        @删除映射        @清楚映射
+map             noremap          unmap           mapclear                               
+nmap            nnoremap         nunmap          nmapclear
+vmap            vnoremap         vunmap          vmapclear
+imap            inoremap         iunmap          imapclear
+cmap            cnoremap         cunmap          cmapclear
+___________________________________________________________
+
+% map KEY KEYSTROKES
+<F1> .. <F12>   Function Keys   功能键
+<BS>            Backspace       退格键
+<CR>            Enter           回车键
+<Return>        Enter           回车键
+<Esc>           Escape          逃出
+<Space>         Space           空格键
+<Up>            Up arrow        向上方向箭头
+<Down>          Down arrow      向下方向箭头 
+<Left>          Left arrow      向左方向箭头
+<Right>         Right arrow     向右方向箭头
+<Insert>        Insert          插入
+<Del>           Delete          删除
+<Home>          Home            家
+<End>           End             结束
+<PageUp>        Page-Up         向上翻页
+<PageDown>      Page-Down       向下翻页
+<Tab>           Tab             制表
+<bar>           '|'
+<C-x>           大写C配合x，意味着ctrl+x组合键
+<S-x>           大写S配合x，意味着shift+x组合键
+<A-x>           大写A配合x，意味着alt+x组合键
+
+map <F2> iJohn Sith<CR>123 Main Street<CR>Anytoen, NY<CR><ESC>
+map <F3> i<ul><CR><Space><Space><li></li><CR><Esc>0i</ul><Esc>kcit
+map <F4> <Esc>o<li></li><Esc>cit
+               
+
+
+
+### =======================================================%======常用的键盘映射
+""" 
+map <silent><F1> :tabnew<CR>
+map <silent><F2> :NERDTreeToggle<CR>
+map <silent><F3> gT<CR>
+map <silent><F4> gt<CR>
+map <silent><F10> :diffthis<CR>
+ 
+imap <silent><F1> <ESC>:tabnew<CR>
+imap <silent><F2> <ESC>:NERDTreeToggle<CR>
+imap <silent><F3> <ESC>gT<CR>
+imap <silent><F4> <ESC>gt<CR>
+imap <silent><F10> <ESC>:diffthis<CR>
+
+
+
+
+map s <nop>
+map S :w<CR>
+map Q :q<CR>
+map R :source $HOME/.vimrc<CR>
+
+
+
+
+% vim 分屏
+map si :set splitright<CR>:vsplit<CR>
+map sn :set nosplitright<CR>:vsplit<CR>
+map su :set nosplitbelow<CR>:split<CR>
+map se :set splitbelow<CR>:split<CR>
+
+% 分屏模式下切换
+map <LEADER>i <C-w>l
+map <LEADER>u <C-w>k
+map <LEADER>n <C-w>h
+map <LEADER>e <C-w>j
+
+map <up> :res +5<CR>
+map <down> :res -5<CR>
+map <left> :vertical resize-5<CR>
+map <right> :vertical resize+5<CR>
+
+% 标签
+map tu :tabe<CR>
+map tn :-tabnext<CR>
+map ti :+tabnext<CR>
+
+map sv <C-w>t<C-w>H
+map sh <C-w>t<C-w>k
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""" leader
+let mapleader = ','
+let g:mapleader = ','
+
+""" syntax
+syntax on
+
+""" history
+set history=2000
+
+""" filetype 
+filetype on
+filetype plugin indent on
+
+""" show location
+set cursorcolumn
+set cursorline
+
+""" search
+set lhsearch
+set incsearch
+set smartcase
+set ignorecase
+
+""" tab
+set expandtab
+set smarttab
+set shiftround
+
+""" indent
+set autoindent smartindent shiftround
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+
+""" encoding
+set encoding=utf-8
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+set termencoding=utf-8
+set ffs=unix,dos,mac
+set formatoptions+=m
+set formatoptions+=B
+
+""" @specific file type settings
+autocmd FileType python set tabstop=4 shiftwidth=4 expandtab ai 
+autocmd FileType ruby set tabstop=2 shiftwidth=2 softtabstop=2 expandtab ai 
+
+
+
+" =========================== theme and status line ===========================
+""" theme 
+set background=dark colorscheme desert 
+
+""" set mark column color 
+hi! link SignColumn LineNr 
+hi! link ShowMarksHLl DiffAdd 
+hi! link ShowMarksHLu DiffChange 
+
+""" status line 
+set statusline=%<%f\ %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P 
+set laststatus=2 " Always show the status line - use 2 lines for the status bar 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

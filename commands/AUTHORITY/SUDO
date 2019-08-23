@@ -11,6 +11,20 @@ apt-get install sudo
 ysh   ALL=(ALL:ALL) ALL
 
 
+### ============================================================% sudo使用2
+% 变成 root 用户，然后使用下面的命令安装 sudo 软件包
+    root@linuxtechi:~$ su -
+    Password:
+    root@linuxtechi:~# apt install sudo -y
+    
+% 添加你的本地用户到 sudo 组，使用下面的 usermod 命令，
+    root@linuxtechi:~# usermod -aG sudo ysh
+    root@linuxtechi:~#
+    
+% 现在验证是否本地用户获得 sudo 权限：
+    root@linuxtechi:~$ id
+    uid=1000(ysh) gid=1000(ysh) groups=1000(ysh),27(sudo)
+
 ### ====================================================================== sudo 
 % sudo 是一种权限管理机制，
 % 管理员可以授权于一些普通用户去执行一些 root 执行的操作，而不需要知道 root 的密码	
