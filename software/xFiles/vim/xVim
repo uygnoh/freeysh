@@ -20,7 +20,7 @@ ctrl+v                  -VISUAL BLOCK-进入块可视化模式
 
 
 ### =======================================================%======vim leader前缀 
-% 《,w保存文件》
+定义<LEADER>为“,”，默认值为“\”
 let mapleader=','
 map <leader>w :w!<CR>
 
@@ -66,11 +66,23 @@ map <F4> <Esc>o<li></li><Esc>cit
 
 
 ### =======================================================%=========vim map映射
-nore                %表示非递归
-n                   %表示在普通模式下生效
-v                   %表示在可视模式下生效
-i                   %表示在插入模式下生效
-c                   %表示在命令行模式下生效
+% :map {lhs} {rhs} 
+:map作用的模式中把键系列{lhs} 映射为{rhs}，{rhs}可进行映射扫描，也就是可递归映射
+% :noremap 和:map命令相对，作用模式和命令格式都相同，只不过不允许再对{rhs}进行映射扫描，
+也就是{lhs}定义后的映射就是{rhs}的键序列，不会再 对{rhs}键序列重新解释扫描。
+它一般用于重定义一个命令，当然如果:map不需要递归映射的话，建议试用:noremap 
+% :unmap是对应取消:map绑定的｛lhs｝，作用模式相同，命令格式 :unmap {lhs}。
+:unmap td 
+就是取消在其作用模式中td的绑定，比如之前td被绑定为:tabnew .<cr>，此时此绑定消失
+% :nnorempa和:nmap的关系和:noremap和:map的关系一样，只是:nmap的非递归版 
+% :mapclear时对应取消所有:map绑定的，慎用！ 
+% :nmapclear是对应取消所有:map绑定的，慎用！ 
+        map                 % 递归映射
+        nore                % 表示非递归
+        n                   % 表示在普通模式下生效
+        v                   % 表示在可视模式下生效
+        i                   % 表示在插入模式下生效
+        c                   % 表示在命令行模式下生效
 ___________________________________________________________
 
 @递归映射        @非递归映射        @删除映射        @清楚映射
@@ -80,6 +92,69 @@ vmap            vnoremap         vunmap          vmapclear
 imap            inoremap         iunmap          imapclear
 cmap            cnoremap         cunmap          cmapclear
 ___________________________________________________________
+
+
+看 完以上，应该可以发现一个规律，前4个是一组，后4个时一组，
+后一组比前一组多一个n就是指只作用于普通模式。其中每组内*nore*是其对应的非递归 版、
+*un*是取消绑定某个<lhs>绑定、clear后缀是取消所有绑定。发现了这个规律，再翻到前面的模式代号表，
+你大体可以猜到 vmap、xmap、smap、omap是什么意思了吧，以及相对应的nore版本、un版本、clear版本。 
+% 另外----------------------
+{rhs} 之前可能显示一个特殊字符: 
+* 表示它不可重映射 
+& 表示仅脚本的局部映射可以被重映射 
+@ 表示缓冲区的局部映射 
+% 到这一步你可以轻松的长吸一口气，因为相关的命令已经都了解了，
+% 记不住没关系，可以随时:help map一下。不过别急，后面还有map更多的选项等着去攻克。 
+___________________________________________________________
+特殊参数： 它们必须映射命令的后边，在其他任何参数的前面。
+1. <buffer> 
+2. <silent> 
+3. <special> 
+4. <script> 
+5. <expr> 
+6. <unique> 
+
+<buffer>如果这些映射命令的第一个参数是<buffer>，映射将只局限于当前缓冲区（也就是你此时正编辑的文件）内。
+比如 :map <buffer> ,w /a<CR> 
+它的意思时在当前缓冲区里定义键绑定，“,w”将在当前缓冲区里查找字符a。同样你可以在其他缓冲区里定义： 
+:map <buffer> ,w /b<CR> 
+% 比如我经常打开多个标签(:tabedit)，想要在各自标签里定义",w"键绑定，
+那么你只要在每个标签页里分别定义就可，其作用域也只在各自的标签里。
+同样要清除这些缓冲区的键绑定也要加上<buffer>参数，比如： 
+:unmap <buffer> ,w 
+:mapclear <buffer> 
+
+<silent>是指执行键绑定时不在命令行上回显，比如： 
+:map <silent> ,w /abcd<CR> 
+你在输入,w查找abcd时，命令行上不会显示/abcd，如果没有<silent>参数就会显示出来 
+
+<special>一般用于定义特殊键怕有副作用的场合。比如： 
+:map <special> <F12> /Header<CR> 
+
+<unique>一般用于定义新的键映射或者缩写命令的同时检查是否该键已经被映射，如果该映射或者缩写已经存在，则该命令会失败 
+
+<expr>. 如果定义新映射的第一个参数是<expr>，那么参数会作为表达式来进行计算，结果使用实际使用的<rhs>，例如： 
+:inoremap <expr> . InsertDot() 
+这可以用来检查光标之前的文本并在一定条件下启动全能 (omni) 补全。 
+___________________________________________________________
+
+% <Leader> mapleader 
+mapleader变量对所有map映射命令起效，它的作用是将参数<leader>替换成mapleader变量的值，比如： 
+:map <Leader>A oanother line<Esc> 
+如果mapleader变量没有设置，则用默认的反斜杠代替，因此这个映射等效于： 
+:map \A oanother line<Esc> 
+意思时输入\A键时，在下一行输入another line并返回到普通模式。 
+% 如果设置了mapleader变量，比如： 
+let mapleader = "," 
+% 那么就等效于： 
+:map ,A oanother line<Esc> 
+
+% 设置mapleader和maplocalleader时最好区分开，不要出现冲突
+<LocalLeader> maplocalleader 
+<LocalLeader>和<Leader>类似，只不过它只作用于缓冲区。 
+
+___________________________________________________________
+
 
 % map KEY KEYSTROKES
 <F1> .. <F12>   Function Keys   功能键
@@ -106,7 +181,8 @@ ___________________________________________________________
 
 map <F2> iJohn Sith<CR>123 Main Street<CR>Anytoen, NY<CR><ESC>
 map <F3> i<ul><CR><Space><Space><li></li><CR><Esc>0i</ul><Esc>kcit
-map <F4> <Esc>o<li></li><Esc>cit              
+map <F4> <Esc>o<li></li><Esc>cit
+              
 ### =======================================================%======常用的键盘映射
 map <silent><F1> :tabnew<CR>
 map <silent><F2> :NERDTreeToggle<CR>
