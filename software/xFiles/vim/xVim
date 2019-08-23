@@ -11,6 +11,11 @@ vim提供一个vimrc的配置文件来配置vim，并且自己可以定制一些
 % Each line is executed as a command.
     set ruler <=> :set ruler
     
+### =======================================================%======vim VISUAL
+% vim在命令行模式下的可视化操作
+v                       -VISUAL-进入字符可视化模式
+V                       -VISUAL LINE-进入行可视化模式
+ctrl+v                  -VISUAL BLOCK-进入块可视化模式
 
 
 
@@ -48,7 +53,7 @@ map <F4> <Esc>o<li></li><Esc>cit
     :e /home/ysh/.vimrc
     :q
        
-% vim buffers文件缓冲区
+### =======================================================%======vim 文件缓冲区
 :h :buffers
 :e      <=> :edit
 :h      <=> :help
