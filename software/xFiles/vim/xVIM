@@ -1,4 +1,9 @@
 ### =======================================================%===nano -w ~/.vimrc
+% 定制化及可扩展
+vim提供一个vimrc的配置文件来配置vim，并且自己可以定制一些插件来实现
+文件浏览（NERD Tree），代码补全（YouCompleteMe，语法检查（syntastic），文件模糊搜索（ctrlp），
+显示vim状态栏（Vim Powerline）,主题颜色（Molokai）,显示文件结构（tagbar）等多种功能。
+
 % vimrc; rc -> run commands; 
     Unix/Linux/Mac <=> ~/.vimrc
     system vimrc file: "VIM/vimrc"
@@ -6,32 +11,6 @@
 % Each line is executed as a command.
     set ruler <=> :set ruler
     
-set showmode
-syntax on           "语法高亮
-set mouse=a         "支持使用鼠标
-set encoding=utf-8  "使用 utf-8 编码
-set t_Co=256        ;启用256色
-set nocompatible    "不与 Vi 兼容(采用 Vim 自己的操作命令)
-set expandtab       "制表符(Tab)用空格代替
-set wrap            "自动折行，即太长的行分成几行显示
-set nowrap          "关闭自动折行
-set wrapmargin=2    "指定折行处与编辑窗口的右边缘之间空出的字符数
-set scrolloff=5     "垂直滚动时，光标距离顶部/底部的位置（单位：行）
-set sidescrolloff=15"水平滚动时，光标距离行首或行尾的位置（单位：字符）。该配置在不折行时比较有用
-set showcmd         "输入的命令显示出来，看的清楚些 
-set magic           "设置魔术 
-
-"搜索逐字符高亮
-set hlsearch
-set incsearch
-
-" 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
-set mouse=a
-set selection=exclusive
-set selectmode=mouse,key
-
-
-
 
 
 
@@ -53,13 +32,10 @@ map <F4> <Esc>o<li></li><Esc>cit
 
 
 ### =======================================================%=====vim 底线命令模式 
-
 % For more options see ":help option-list" and ":option".
-
 
 % vim查看是否设置此功能
     :set hls?
-
 
 % vim底线模式下编辑vimrc帮助
     :h set
@@ -67,13 +43,11 @@ map <F4> <Esc>o<li></li><Esc>cit
     :mkvimrc!
     :q    
     
-    
 % vim底线模式下编辑vimrc文件
     :e ~/.vimrc
     :e /home/ysh/.vimrc
     :q
-    
-    
+       
 % vim buffers文件缓冲区
 :h :buffers
 :e      <=> :edit
@@ -127,13 +101,8 @@ ___________________________________________________________
 
 map <F2> iJohn Sith<CR>123 Main Street<CR>Anytoen, NY<CR><ESC>
 map <F3> i<ul><CR><Space><Space><li></li><CR><Esc>0i</ul><Esc>kcit
-map <F4> <Esc>o<li></li><Esc>cit
-               
-
-
-
+map <F4> <Esc>o<li></li><Esc>cit              
 ### =======================================================%======常用的键盘映射
-""" 
 map <silent><F1> :tabnew<CR>
 map <silent><F2> :NERDTreeToggle<CR>
 map <silent><F3> gT<CR>
@@ -146,16 +115,10 @@ imap <silent><F3> <ESC>gT<CR>
 imap <silent><F4> <ESC>gt<CR>
 imap <silent><F10> <ESC>:diffthis<CR>
 
-
-
-
 map s <nop>
 map S :w<CR>
 map Q :q<CR>
 map R :source $HOME/.vimrc<CR>
-
-
-
 
 % vim 分屏
 map si :set splitright<CR>:vsplit<CR>
@@ -184,7 +147,304 @@ map sh <C-w>t<C-w>k
 
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+
+
+% =============================================================================
+% MYVIMRC 中文释义 =============================================
+set showmode
+set showcmd             " 输入的命令显示出来，看的清楚些 
+set expandtab           " 制表符(Tab)用空格代替
+set wrap                " 自动折行，即太长的行分成几行显示
+set nowrap              " 关闭自动折行
+set wrapmargin=2        " 指定折行处与编辑窗口的右边缘之间空出的字符数
+set scrolloff=5         " 垂直滚动时，光标距离顶部/底部的位置（单位：行）
+set sidescrolloff=15    " 水平滚动时，光标距离行首或行尾的位置（单位：字符）。该配置在不折行时比较有用
+
+"搜索逐字符高亮
+set hlsearch
+set incsearch
+
+" 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
+set mouse=a
+set selection=exclusive
+set selectmode=mouse,key
+
+
+
+% MYVIMRC 中文释义 ============================================= START
+""" VIM & 行号 & 光标设置 
+set novisualbell        " turn off visual bell
+set visualbell t_vb=    " turn off error beep/flash
+set nocompatible        " 不与vi兼容(采用vim自己的操作命令)    
+set showcmd             " 输入的命令显示出来，看的清楚些
+set magic               " 设置魔术 
+
+set number              " 显示行号           
+set nowrap              " 不自动换行
+set history=1000        " 历史记录数  
+set ruler               " 在屏幕下方显示标尺
+set showmode            " 在左下角显示当前的模式名称，没有显示则代表现在是常规模式
+set scrolloff=3         " 光标移动到buffer的顶部和底部时保持3行距离  
+set wildmenu            " visual autocomplete for command menu
+
+
+""" colors & molokai配色主题
+set cursorline          " 高亮显示当前行
+syntax enable           " 语法高亮 
+syntax on               " 语法高亮
+
+set t_Co=256            " 启用256色 
+set background=dark     " 设置背景色
+let g:molokai_original=1
+let g:rehash256=1
+
+
+""" tab & 缩进 & 正常处理indent, eol, start等  
+set noexpandtab         " 不要用空格代替制表符
+set tabstop=4           " Tab键的宽度    
+set softtabstop=4       " 统一缩进为4  
+set shiftwidth=4        " 反向制表符中的空格数目 
+
+set autoindent          " 设置自动缩进
+set smartindent         " 比autoindent稍智能的自动缩进
+set cindent             " cindent对c语法的缩进更加智能灵活   
+set smarttab            " 解决 shiftwidth 和 tabstop 不等时的麻烦
+ 
+set backspace=2         
+" 使回格键（backspace）正常处理indent, eol, start等                       
+" set backspace=indent,eol,start 
+" 代表的意思是“缩进位置”，“行结束符”，“段首
+" 这样设置可以使得 backspace 键在这三个特殊的位置也能进行回删动作
+
+" set list listchars=eol:¬,tab:▸\ ,trail:.,
+" list 开启对于制表符（tab）、行尾空格符（trail）、行结束符（eol）等等特殊符号的回显，
+" 有助于你观察这些特殊符号的状态，精确地控制文本的编辑。
+
+" set fillchars=vert:\ ,stl:\ ,stlnc:\   
+" 在被分割的窗口间显示空白，便于阅读
+
+
+""" 文件类型侦测 & 查找 & 文件备份 
+filetype on             " 侦测文件类型     
+filetype indent on      " 文件类型，开启缩进规则
+filetype plugin on      " 顾名思义，这是开启对应插件的 
+
+" set ignorecase        " 搜索忽略大小写    
+set hlsearch            " 搜索逐字符高亮  
+set incsearch           " 输入搜索内容时就显示搜索结果    
+set showmatch           " 高亮显示匹配的括号     
+set matchtime=5         " 匹配括号高亮的时间（单位是十分之一秒）
+set smartcase           " 此选项的开启会让搜索模式更加聪明
+
+set nobackup            " 用来控制我们是否为当前正在编辑的文件建立备份
+set confirm             " 在处理未保存或只读文件的时候，弹出确认
+
+
+""" 编码设置 & 语言设置 & 鼠标设置
+set encoding=utf-8
+set fileencodings=ucs-bom,utf-8,cp936
+set fileencoding=gb2312
+set termencoding=utf-8
+
+set langmenu=zh_CN.UTF-8  
+set helplang=cn
+
+set mouse=a  
+set selection=exclusive  
+set selectmode=mouse,key  
+
+
+""" 窗口切换  & 自动括号补全 & 命令行模式增强
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+inoremap ( ()<ESC>i
+inoremap [ []<ESC>i
+inoremap { {}<ESC>i<CR><ESC>O 
+""inoremap < <><ESC>i
+inoremap " ""<ESC>i
+
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+% MYVIMRC 中文释义 ============================================= END
+
+ 
+
+
+
+
+% =============================================================================
+% a good vimrc
+
+""""""""""""""" Colors
+syntax enable           " enable syntax processing
+
+
+""""""""""""""" Spaces & Tabs
+set tabstop=4           " number of visual spaces per TAB
+set softtabstop=4   " number of spaces in tab when editing
+set expandtab       " tabs are spaces
+
+
+""""""""""""""" UI Config
+set number              " show line numbers
+set showcmd             " show command in bottom bar
+set cursorline          " highlight current line
+filetype indent on      " load filetype-specific indent files
+set lazyredraw          " redraw only when we need to.
+set wildmenu            " visual autocomplete for command menu
+set showmatch           " highlight matching [{()}]
+
+
+""""""""""""""" Searching
+et incsearch           " search as characters are entered
+set hlsearch           " highlight matches
+
+" turn off search highlight
+nnoremap <leader><space> :nohlsearch<CR>
+
+
+""""""""""""""" Folding
+set foldenable          " enable folding
+set foldlevelstart=10   " open most folds by default
+set foldnestmax=10      " 10 nested fold max
+
+" space open/closes folds
+nnoremap <space> za
+
+set foldmethod=indent   " fold based on indent level
+
+
+""""""""""""""" Movement
+" move vertically by visual line
+nnoremap j gj
+nnoremap k gk
+
+" move to beginning/end of line
+nnoremap B ^
+nnoremap E $
+
+" $/^ doesn't do anything
+nnoremap $ <nop>
+nnoremap ^ <nop>
+
+" highlight last inserted text
+nnoremap gV `[v`]
+
+
+""""""""""""""" Leader Shortcuts
+let mapleader=","       " leader is comma
+
+" jk is escape
+inoremap jk <esc>
+
+" toggle gundo
+nnoremap <leader>u :GundoToggle<CR>
+
+" edit vimrc/zshrc and load vimrc bindings
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>ez :vsp ~/.zshrc<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+
+" save session
+nnoremap <leader>s :mksession<CR>
+
+" open ag.vim
+nnoremap <leader>a :Ag
+
+
+""""""""""""""" CtrlP
+" CtrlP settings
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+
+""""""""""""""" Launch Config
+call pathogen#infect()                      " use pathogen
+call pathogen#runtime_append_all_bundles()  " use pathogen
+
+% The pathogen options extract all of the Vim plugins from their location in ~/.vim/bundles to their respective places in the ~/.vim folder.
+
+""""""""""""""" Tmux
+" allows cursor change in tmux mode
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
+
+""""""""""""""" Autogroups
+augroup configgroup
+    autocmd!
+    autocmd VimEnter * highlight clear SignColumn
+    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md
+                \:call <SID>StripTrailingWhitespaces()
+    autocmd FileType java setlocal noexpandtab
+    autocmd FileType java setlocal list
+    autocmd FileType java setlocal listchars=tab:+\ ,eol:-
+    autocmd FileType java setlocal formatprg=par\ -w80\ -T4
+    autocmd FileType php setlocal expandtab
+    autocmd FileType php setlocal list
+    autocmd FileType php setlocal listchars=tab:+\ ,eol:-
+    autocmd FileType php setlocal formatprg=par\ -w80\ -T4
+    autocmd FileType ruby setlocal tabstop=2
+    autocmd FileType ruby setlocal shiftwidth=2
+    autocmd FileType ruby setlocal softtabstop=2
+    autocmd FileType ruby setlocal commentstring=#\ %s
+    autocmd FileType python setlocal commentstring=#\ %s
+    autocmd BufEnter *.cls setlocal filetype=java
+    autocmd BufEnter *.zsh-theme setlocal filetype=zsh
+    autocmd BufEnter Makefile setlocal noexpandtab
+    autocmd BufEnter *.sh setlocal tabstop=2
+    autocmd BufEnter *.sh setlocal shiftwidth=2
+    autocmd BufEnter *.sh setlocal softtabstop=2
+augroup END
+
+
+""""""""""""""" Backups
+set backup
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupskip=/tmp/*,/private/tmp/*
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set writebackup
+
+
+""""""""""""""" Custom Functions
+" toggle between number and relativenumber
+function! ToggleNumber()
+    if(&relativenumber == 1)
+        set norelativenumber
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+
+" strips trailing whitespace at the end of files. this
+" is called on buffer write in the autogroup above.
+function! <SID>StripTrailingWhitespaces()
+    " save last search & cursor position
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
+endfunction
+
+
+% =============================================================================
+% MYVIMRC###
 """ leader
 let mapleader = ','
 let g:mapleader = ','
@@ -247,36 +507,7 @@ hi! link ShowMarksHLu DiffChange
 set statusline=%<%f\ %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P 
 set laststatus=2 " Always show the status line - use 2 lines for the status bar 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+% =============================================================================
 
 
 
