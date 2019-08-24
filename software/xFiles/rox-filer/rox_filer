@@ -21,6 +21,6 @@ gedit "$@"
 smplayer "$@"
 
 
-% vim ~/.config/rox_sourceforge_net/MIME-types/text
+% vim ~/.config/rox_sourceforge_net/MIME-types/application_pdf
 #!/bin/bash 
 

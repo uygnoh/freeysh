@@ -1,0 +1,97 @@
+### =============================================% 快捷键在 ROX-Filer 中的妙用
+1 记忆目录 有些目录藏得比较深，一层一层的打开会浪费很多时间。
+  在首次打开该目录后，我们可以使用 Ctrl + 1 来记住它。
+  以后，需要打开它时，只需按 1 即可。ROX-Filer 总共支持记住 10 个常用的目录。
+  你可以用 Ctrl + 1、Ctrl + 2……Ctrl + 0 来记忆这些目录。
+
+2 打开终端 在 ROX-Filer 中，要打开某个目录的终端，可以使用 ` 键。
+
+3 地址导航 有很多的文件管理器都具有直接通过地址来导航目录的功能。
+  ROX-Filer 也不例外。不过，你需要使用 / 键来呼出它。
+  而且，同样支持 Tab 键自动补完的特性。
+  
+4 Shell 命令 你可以在 ROX-Filer 中执行某些 Shell 命令，如 tar 等。
+  打开 Shell 命令执行框的是 Shift + !。
+  
+5 快速选择 使用 . 键可以在 ROX-Filer 中实现快速选择。
+  比如，选择某个目录中所有的 jpg 格式的图片文件，
+  可以用 .jpg。这种选择方式还支持正则表达式。
+  
+  
+### =============================================% Rox-filer与linux回收站
+
+libtrash和其他的回收站处理不同，他直接作用于linux的底层，
+相当于是在libc上挂了一个钩子（hook），凡是系统要进行删除文件操作的时候，
+不管是用rm命令，还是php的unlink函数，都会用到底层的libc，
+也就逃不过libtrash的掌控，所以说使用起来非常放心、省心。
+
+
+也正由于libtrash的底层性，所以最好不要启用root用户的回收站功能，
+因为root对系统的管理要涉及到很多文件修改，如果被libtrash拒绝将会导致无法预知的结果，
+所以，默认的配置文件/etc/libtrash.conf不要动，复制一份为$HOME/.libtrash，
+作用用户级的配置文件来使用，默认设置已经比较好用了，不过我还是按照自己的习惯修改了几个地方：
+
+
+#TRASH_CAN = Trash
+# 和Ubuntu默认回收站目录保持一致
+TRASH_CAN = .Trash
+
+#IGNORE_EXTENSIONS = o;log;aux
+# Log文件还是要保留的
+IGNORE_EXTENSIONS = o;aux
+
+#TEMPORARY_DIRS = /tmp;/var
+# /var目录下的日志文件也要保护起来
+TEMPORARY_DIRS = /tmp
+
+% libtrash是通过LD_PRELOAD机制来启用的，所以需要修改.bashrc作相应的设置：
+# libtrash setting
+export LD_PRELOAD=/usr/lib/libtrash/libtrash.so.2.4
+alias TrashOn='export TRASH_OFF=NO'
+alias TrashOff='export TRASH_OFF=YES'
+TrashOn
+真正起作用的是第一句export，设置了这个环境变量之后，才真正的把钩子“挂上”，
+后面的alias是设置方便的开关命令，想像一下当你清空移动硬盘上的电影的时候，
+$HOME被塞满到爆的情况吧，这时候也许就要临时关闭回收站功能了，
+设置了TRASH_OFF=YES之后，删除的文件不会再被移动到回收站，而是真正的被系统删除。
+
+
+% 除了TrashOff之外，配合Rox的SendTo机制，也许更方便一些，
+% 在~/.config/rox.sourceforge.net/SendTo目录创建一个脚本trm-Truely_Remove：
+#! /bin/bash
+# 暂时关闭libtrash，永久删除指定文件
+export TRASH_OFF=YES
+
+# 遍历指定的文件进行处理
+for I in "$@"
+do
+        rm -rf $I
+done
+export TRASH_OFF=NO
+
+这样再有想直接删除的文件，在Rox中选定然后用Send to发送到这个脚本进行处理就可以了，
+不过一定要确定是真正不要了的文件哦。
+还剩下唯一一个缺点，就是libtrash只能指定一个回收站目录，一般是在用户的HOME目录下，
+如果需要管理的文件不在$HOME下的比较多，比如我习惯使用的/big1, /big2等等，
+删除后的文件就全都存到$HOME这里来了，即使他们不在一个分区，
+而不是像Naulius那样每个分区一个回收站目录。所以回收站里的数据会增长的很快，
+不过也有办法解决，单独给这个目录分配一个分区喽，还不用考虑磁盘碎片的问题。
+
+
+
+
+% 按照上面的设置，从命令行启动的rox能够正常写入回收站，
+% 但从Xfce菜单上启动的就不行了，原因未知，不过可以自己写一个脚本中转一下：
+#!/bin/bash
+export LD_PRELOAD=/usr/lib/libtrash/libtrash.so.2.4
+/usr/bin/rox
+
+在默认的设置中，.Trash目录是受保护的，不管是用shell还是用rox进入这个目录，
+文件都无法删除，但是可以用上面讲到的那个SendTo...脚本来完成，这样反而觉得更安全些了呢。
+
+
+
+
+
+### =============================================%
+### =============================================%
