@@ -209,7 +209,7 @@ while (<>) {
 
 
 ### ========================================================== 特殊变量 $_
-+ 不使用特殊变量($_)的情况下, 使用绑定操作符(=~)
+% 不使用特殊变量($_)的情况下, 使用绑定操作符(=~)
 $content = "one another one";
 $content =~ s/one/two/g;
 
@@ -219,6 +219,8 @@ $_ = "I saw Barney with Fred";
 s/(fred|barney)/\U$1/ig;
 print "$_\n";
 
+
+
 % (fred|barney)转换成小写字母
 $_ = "I saw Barney with Fred";
 s/(fred|barney)/\L$1/ig;
@@ -227,42 +229,58 @@ print "$_\n";
 
 
 ### ================================================= 正则表达式捕获功能替换字符串 
-+ 正则表达式捕获功能替换字符串，并改为大写
-+ 正则表达式捕获功能替换字符串，用E来结束大写 
-```perl
++ \E表示来结束大小写字母
+
+
+
+% 正则表达式捕获功能互换字符串
 $-_ = "this is one and two";
 s/(\w+) and (\w+)/$2 and $1/;
 
+% 正则表达式捕获功能互换字符串，并改为大写
 $-_ = "this is one and two";
 s/(\w+) and (\w+)/\U$2 and $1/;
 
+
+% 正则表达式捕获功能互换字符串，用E来结束大写 
 $-_ = "this is one and two";
 s/(\w+) and (\w+)/\U$2\E and $1/;
-```
 
-+ \U全部字母大写 
-+ \u第1个字母大写，其它不变
-+ \l第1个字母小写，其它不变
-+ \L全部字母小写
-+ \u\L第1个字母大写，其它字母小写 
-+ \E表示来结束大小写字母
-```perl
+
+
+
+% \U全部字母大写 
 $_ = "one and two";
 s/(one|two)/\U$1/gi;
 print "$_\n";
 
+
+% \u第1个字母大写，其它不变
 $_ = "one and two";
 s/(one|two)/\u$1/gi;
 print "$_\n";
 
+
+% \l第1个字母小写，其它不变
 $_ = "one and two";
-s/(one|two)/\u$1/gi;
+s/(one|two)/\l$1/gi;
 print "$_\n";
 
+
+% \L全部字母小写
+$_ = "one and two";
+s/(one|two)/\L$1/gi;
+print "$_\n";
+
+
+% \u\L第1个字母大写，其它字母小写 
 $_ = "one and two";
 s/(one|two)/\u\L$1/gi;
 print "$_\n";
 
+
+
+% \E表示来结束大小写字母
 $name = "bill";
 print "Hello, \L\u$name\E, would you like to play a game?\n";
 
