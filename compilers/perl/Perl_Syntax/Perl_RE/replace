@@ -1,9 +1,9 @@
-# 正则表达式替换定界符
-1. s#^https://#http://#;
-2. s{fred}{barney};
-3. s[fred][barney};
-4. s<fred><barney>;
-5. s#wilma#Wilma#gi;
+### ==================================================== 正则表达式替换定界符
+    1. s#^https://#http://#;
+    2. s{fred}{barney};
+    3. s[fred][barney};
+    4. s<fred><barney>;
+    5. s#wilma#Wilma#gi;
 $_ = "fred fintstone";
 if (s/fred/wilma/) {
     print "Succeaafully replaced fred with wilma!\n";
@@ -14,7 +14,7 @@ if (s/fred/wilma/) {
 
 
 
-# 正则表达式替换文件中的内容 
+### ================================================== 正则表达式替换文件中的内容 
 ```perel
 $_ = "He's out bowlig with Barney tonight.";
 s/Barney/Fred/;

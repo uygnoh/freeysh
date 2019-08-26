@@ -15,24 +15,14 @@ chomp(my $now = `date`);    ###去掉\n
 print $now;
 
 
+### 提取 `who` 信息
 my @who_lines = `who`;
 foreach(@who_lines) {
     
 }
-
-
-
 foreach(`who`) {
     my($user, $tty, $date) = /(\S+)\s+(\S+)\s+(.*)/;
 }
-
-
-
-
-
-
-
-
 
 
 
