@@ -8,6 +8,7 @@ find语法: % find [搜索范围] [匹配条件]
 % 查找当前目录下的所有.o文件，并删除它。
 find ./ -name "*.o" -exec rm {} \;
 
+
 ### ============================================================== find example
 find . -name "*.txt" -type d -mtime -1 | xargs rm -rf {} \;
 find . -name "*.txt" -type d -mtime -1 -exec cp -r {} /tmp/ \;
@@ -16,6 +17,7 @@ find . -name "*.txt" -type f -mtime -1 -size +1024k
 find . -name "*.txt" -type f -mtime -1 -size +5M
 find . -type f -exec chmod -R 644 {} \;
 find . -type d -exec chmod -R 755 {} \;
+
 
 ### ============================================================= find:遍历目录树
 功能:find命令从指定的查找范围开始,递归地查找子目录,凡满足条件的文件或目录,执行规定的动作
