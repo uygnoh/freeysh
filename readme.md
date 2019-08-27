@@ -1,3 +1,14 @@
+### manual page
+man man             #查看man的使用
+NAME                #命令的名字 
+SYNOPSIS            #命令的语法简介
+DESCRIPTION         #命令的描述信息
+/date               #搜索关键字
+man -k directory    #列出符合的命令
+
+
+
+
 ### 常用学习网站 
 + https://github.com/uygnoh/FREEYSH
 + https://www.runoob.com/           <菜鸟教程>
