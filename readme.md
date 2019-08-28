@@ -7,17 +7,17 @@ DESCRIPTION         #命令的描述信息
 man -k directory    #列出符合的命令
 
 
-
-
 ### 常用学习网站 
 + https://github.com/uygnoh/FREEYSH
 + https://www.runoob.com/           <菜鸟教程>
 + https://stackoverflow.com/        <软件类问答网站>
 
+
 ### 命令行终端字体大小调整
 + Maximum     ->ctrl+shift++
 + Minimum     ->ctrl+-
 + F11         ->全屏
+
 
 ### tmux终端复用软件
 + <crtl  +a>           #激活控制台(系统默认Ctrl+b)
@@ -61,12 +61,11 @@ man -k directory    #列出符合的命令
 
 
 
-
-
-### @@@@@@@@@@@@@@@ freeysh<201908022150> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+### ========================================================================
 + 宏或者常量所有用大写  #define MAXLENGTH 10;  const int MAXLENGTH = 10；
 + 函数名或者类名用     do_something
 + 变量名用            do_something
+
 
 ##### swithc-case if-else
 ```c
@@ -131,11 +130,4 @@ void print_msg(int a)
  * with beginning and ending almost-blank lines.
  */
 ```
-
-
-
-
-
-
-
 

@@ -1,6 +1,7 @@
 ### ===================================================== 查看电池状态信息 upower
 $ upower -i /org/freedesktop/UPower/devices/battery_BAT0
 
+
 % 使用下面的格式检查电池的特定信息
 $ upower -i /org/freedesktop/UPower/devices/battery_BAT0\
   | grep -i "state\|percentage\|time to empty"

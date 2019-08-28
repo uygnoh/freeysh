@@ -6,7 +6,7 @@ set timeout 30
 spawn(starts a process)
 % spawn 它的主要作用是传递交互指令
 
-expec(waits for output from a process)
+expect(waits for output from a process)
 % 在/usr/bin/expect的环境内部还有一个 expext的内部命令。
 % expext的内部命令：判断输出是否包含某项字符串，没有则立即返回，否则就等一段时间返回
 % expext的内部命令：它的等待时间通过 timeout设置。
@@ -68,16 +68,6 @@ expect {
     
 }
 % ./OpenSSh.exp 192.168.1.61 jack 123456
-
-
-
-
-
-
-
-
-
-
 
 
 

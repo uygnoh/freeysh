@@ -72,7 +72,10 @@ set history=1000        " 历史记录数
 set ruler               " 在屏幕下方显示标尺
 set showmode            " 在左下角显示当前的模式名称，没有显示则代表现在是常规模式
 set scrolloff=3         " 光标移动到buffer的顶部和底部时保持3行距离  
-set wildmenu            " visual autocomplete for command menu
+set wildmenu            " 命令行补全参数
+set lazyredraw          " 只在需要时重绘窗口   
+set ttyfast             " 使屏幕显示更流畅
+
 
 
 """ colors & molokai配色主题
@@ -148,11 +151,49 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
 
 
+" 自动插入文件头 
+autocmd BufNewFile *.cpp,*.cc,*.c,*.h,*.sh,*.py exec ":call SetHeader()" 
+func! SetHeader() 
+    if expand("%:e") == 'sh' 
+        call setline(1,"\#!/bin/bash") 
+        call append(line("."), "") 
+    elseif expand("%:e") == 'py' 
+        call setline(1,"#!/usr/bin/env python3") 
+        call append(line(".")+1, "") 
+    elseif expand("%:e") == 'cpp' 
+        call setline(1,"#include <iostream>") 
+        call setline(2, "") 
+        call setline(3, "using std::cin;") 
+        call setline(4, "using std::cout;") 
+        call setline(5, "using std::endl;") 
+        call setline(6, "") 
+    elseif expand("%:e") == 'cc' 
+        call setline(1,"#include <iostream>") 
+        call setline(2, "") 
+        call setline(3, "using std::cin;") 
+        call setline(4, "using std::cout;") 
+        call setline(5, "using std::endl;") 
+        call setline(6, "") 
+    elseif expand("%:e") == 'c' 
+        call setline(1,"#include <stdio.h>") 
+        call setline(2,"#include <stdlib.h>") 
+        call setline(3,"") 
+        inoremap ( ()<esc>i
+        inoremap [ []<esc>i
+        inoremap { {}<esc>i<cr><esc>O 
+        inoremap " ""<esc>i
+    elseif expand("%:e") == 'h' 
+        call setline(1, "#ifndef __".toupper(expand("%:r"))."_H") 
+        call setline(2, "#define __".toupper(expand("%:r"))."_H") 
+        call setline(3,"") 
+        call setline(4, "#endif") 
+    endif 
+endf
+autocmd BufNewFile * normal G
 
 
