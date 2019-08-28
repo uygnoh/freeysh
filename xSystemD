@@ -57,7 +57,32 @@ systemctl hibernate                 休眠
 systemctl hybrid-sleep              混合休眠模式（同时休眠到硬盘并待机）
 
 
-
+#################################################
+#                                               #
+# F11			;Screen Full                    #
+#                                               #
+# Super+L		;Lock Screen                    #
+# Super+H		;Hide window                    #
+# Super+Up		;Maximize window                #
+# Super+Left	;View split on left             #
+# Super+right	;View split on right            #
+#                                               #
+# Alt+F2		;Show the run command prompt    #
+# Alt+F4		;Close window                   # 
+#                                               #
+# Ctrl+Shitf++	;Increase font size             #
+# Ctrl+-		;Decrease font size             #
+# Ctrl+7		;turn terminal                  #
+# Ctrl+H		;Display hidden files           #
+# Ctrl+C		;Keyboard interrupt             #
+# Ctrl+D		;echo <<-EOF                    #
+# Ctrl+Z        ;Stop the process[background]   #   
+# Ctrl+/        ;Send SIGQUIT 3 [foreground]    #
+# Ctrl+S        ;Interrupt console output       #
+# Ctrl+Q        ;Recovery console output        #
+# Ctrl+L        ;clear                          #
+#                                               #
+#################################################
 
 
 
