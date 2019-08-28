@@ -9,7 +9,7 @@ puts 'Add Them #{4 + 5} \n\n'
 
 
 
-# Arithmetic Operators
+# 算术操作
 puts "6 + 4 = " + (6+4).to_s
 puts "6 - 4 = " + (6-4).to_s
 puts "6 * 4 = " + (6*4).to_s
