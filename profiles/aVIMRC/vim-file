@@ -1,4 +1,4 @@
-"自动加入
+"自动匹配括号
 inoremap ( ()<ESC>i
 inoremap [ []<ESC>i
 inoremap { {}<ESC>i<CR><ESC>O 
@@ -9,7 +9,7 @@ inoremap " ""<ESC>i
 
 "自动插入文件头 
 autocmd BufNewFile *.cpp,*.cc,*.c,*h,*.sh,*.py exec ":call SetHeader()" 
-func! SetHeader() 
+function! SetHeader() 
     if expand("%:e") == 'sh' 
         call setline(1,"\#!/bin/bash") 
         call append(line("."), "") 
@@ -35,12 +35,13 @@ func! SetHeader()
         call setline(2,"#include <stdlib.h>") 
         call setline(3,"") 
     elseif expand("%:e") == 'h' 
-        call setline(1, "#ifndef ".toupper(expand("%:r"))."_H") 
-        call setline(2, "#define ".toupper(expand("%:r"))."_H") 
+        call setline(1, "#ifndef __".toupper(expand("%:r"))."_H") 
+        call setline(2, "#define __".toupper(expand("%:r"))."_H") 
         call setline(3,"") 
         call setline(4, "#endif") 
-    endif endf
-unc autocmd BufNewFile * normal G
+    endif 
+endfunction
+autocmd BufNewFile * normal G
 
 
 
