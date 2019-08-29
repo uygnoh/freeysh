@@ -1,0 +1,37 @@
+### ============================================ dpkg-reconfigure console-setup
+如果你正在使用 Debian、Ubuntu 和其他基于 DEBIAN 的系统
+% 你可以使用 “console-setup” 命令来设置字体
+该控制台设置的配置文件位于
+%  “/etc/default/console-setup”
+
+现在，运行以下命令来设置 Linux 控制台的字体
+% sudo dpkg-reconfigure console-setup
+
+% 接下来，在列表中选择受支持的字符集。默认情况下，它是最后一个选项，
+即在我的系统中 Guess optimal character set（猜测最佳字符集）。只需保留默认值，然后按回车键。
+
+% 接下来选择控制台的字体，然后按回车键。我这里选择 “TerminusBold”。
+
+
+
+
+### ================================================= /etc/default/console-setup
+% 你也可以直接编辑 /etc/default/console-setup，并根据需要设置字体类型和大小。
+% 根据以下示例，我的 Linux 控制台字体类型为 “Terminus Bold”，字体大小为 32。
+
+    ACTIVE_CONSOLES="/dev/tty[1-6]"
+    CHARMAP="UTF-8"
+    CODESET="guess"
+    FONTFACE="TerminusBold"
+    FONTSIZE="16x32"
+    
+    VIDEOMODE=
+    
+    
+    
+    
+    
+    
+    
+
+

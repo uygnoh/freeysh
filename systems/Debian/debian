@@ -1,4 +1,4 @@
-### ================================================================== 修改镜像源
+### ====================================================== debian9 修改镜像源
 # gedit /etc/apt/sources.list
 
 # 注释下面这条:
@@ -37,8 +37,6 @@ apt-get update
 
 
 ### ==================================================================== 安装sudo 
-
-
 1.默认状态是没有sudo命令的，需要安装。
 apt-get update
 apt-get install sudo
@@ -47,7 +45,7 @@ apt-get install sudo
 2.编辑sudoers文件, gedit /etc/sudoers在 
   %sudo ALL=(ALL:ALL) ALL 下面添加：
   ysh  ALL=(ALL:ALL) ALL
-;其中 ysh 为自己的用户名
+其中 ysh 为自己的用户名
 
 
 

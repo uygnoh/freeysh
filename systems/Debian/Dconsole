@@ -1,6 +1,6 @@
-### =======================================================
+### 
 vi /etc/default/console-setup
-
+================================
 # CONFIGURATION FILE FOR SETUPCON
 
 # Consult the console-setup(5) manual page.
