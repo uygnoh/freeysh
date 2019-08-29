@@ -1,3 +1,50 @@
+### =========================================================================
+RGB, 1#19CAAD, 2#D1BA74, 3#F4606C, 4#ECAD9E, #00FF00绿色
+vim配色方案 /usr/share/vim/vim80/colors/
+1   :colorscheme slate,
+2   :colorscheme delek
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                                                                        "
+" 窗口切换 vim <===>Buffer              tmux<===>Shift+arrow              "
+" 窗格切换 vim <===>Ctrl+hjkl           tmux<===>Alt+arrow                "
+" 分屏操作 vim <===>:split, :vsplit     tmux<===> PREFIX+h, PREFIX+v      "
+"                                                                        "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 
+" 参考文件位置: /home/ysh/Documents/FREEYSH/readme.md
+" Vim 中的 Buffer 是文件在内存中的缓存数据，一个 Buffer 总是也只能是对应一个文件
+" :ls   :buffer number  :buffer next    :buffer previous   <buffer == b> 
+"
+" tmux Ctrl+b激活控制台；此时以下按键生效, PREFIX = Ctrl+a自定义方式
+" tmux 使用C/S模型构建, 包括的单元模块有 server, session, window, panel
+" tmux new-session -s <session_name> 创建一个新的会话
+" 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+source ~/Documents/FREEYSH/profiles/aVIMRC/vimrc
+
+
+
+
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim配置文件位置   ~.vimrc                                    "C==Ctrl, M==Alt"""                                
+" RGB             1#19CAAD, 2#D1BA74, 3#F4606C, 4#ECAD9E, #00FF00绿色
+" vim配色方案位置   /usr/share/vim/vim80/colors/
+" 在vim命令行下输入 :colorscheme slate     "slate配色方案
+" 在vim命令行下输入 :colorscheme delek     "delek配色方案
+" imap{ {}<ESC>i<CR><ESC>O
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                                                        "
 " 窗口切换 vim <===>Buffer              tmux<===>Shift+arrow              "
@@ -163,4 +210,22 @@ let g:NERDTreeDirArrowCollapsible = '-'
 let g:NERDTreeShowLineNumbers=1                 " 窗口是否显示行号
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

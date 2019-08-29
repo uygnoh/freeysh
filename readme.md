@@ -11,6 +11,7 @@ man -k directory    #列出符合的命令
 + https://github.com/uygnoh/FREEYSH
 + https://www.runoob.com/           <菜鸟教程>
 + https://stackoverflow.com/        <软件类问答网站>
++ https://www.ostechnix.com/category/linux-basics/
 
 
 ### 命令行终端字体大小调整
