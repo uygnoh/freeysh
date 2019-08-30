@@ -5,18 +5,18 @@
 "    -> Colors and Fonts                                      "
 "    -> Files and backups                                     "
 "    -> Text, tab and indent related                          "
+"    -> Status line                                           "
+"    -> Spell checking                                        "
 "    -> Visual mode related                                   "
 "    -> Moving around, tabs, windows and buffers              "
-"    -> Status line                                           "
-"    -> Editing mappings                                      "
 "    -> vimgrep searching and cope displaying                 "
-"    -> Spell checking                                        "
 "    -> Fast editing and reloading of vimrc configs           "
 "    -> Command mode related                                  "
-"    -> Parenthesis/bracket                                   "
+"    -> Editing mappings                                      "
 "    -> General abbreviations                                 "
+"    -> Auto command group                                    "
+"    -> Customize Functions                                   "
 "    -> Misc                                                  "
-"    -> Helper functions                                      "
 "                                                             "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -46,6 +46,7 @@ nmap <leader>w :w!<cr>
 command W w !sudo tee % > /dev/null
 
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -55,6 +56,7 @@ set so=7
 " Avoid garbled characters in Chinese language windows OS
 let $LANG='en' 
 set langmenu=en
+
 
 " Turn on the Wild menu
 set wildmenu
@@ -105,11 +107,19 @@ set tm=500
 set foldcolumn=1
 
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
 syntax enable 
+
+" Syntax highlighting switch
+map <F7> :if exists("g:syntax_on") <Bar>
+    \         syntax off <Bar>
+    \     else <Bar>
+    \         syntax enable <Bar>
+    \     endif <CR>
 
 " Enable 256 colors palette in Gnome Terminal
 if $COLORTERM == 'gnome-terminal'
@@ -138,6 +148,7 @@ set encoding=utf8
 set ffs=unix,dos,mac
 
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -145,7 +156,6 @@ set ffs=unix,dos,mac
 set nobackup
 set nowb
 set noswapfile
-
 
 
 
@@ -173,6 +183,34 @@ set cindent
 set wrap 
 
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Status line
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Always show the status line
+"set laststatus=2
+
+" Format the status line
+"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+"set statusline=\ \¶\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Spell checking
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Pressing ,ss will toggle and untoggle spell checking
+map <leader>ss :setlocal spell!<cr>
+
+" Shortcuts using <leader>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
+
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Visual mode related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -180,6 +218,7 @@ set wrap
 " Super useful! From an idea by Michael Naumann
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -219,7 +258,6 @@ let g:lasttab = 1
 nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
 
-
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
 map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
@@ -227,22 +265,36 @@ map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 " Switch PWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
-
-
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Status line
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Always show the status line
-"set laststatus=2
 
-" Format the status line
-"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
-"set statusline=\ \¶\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vimgrep searching and cope displaying
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Fast editing and reloading of vimrc configs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>e :e! ~/.vimrc<cr>
+autocmd! bufwritepost ~/.vimrc
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Command mode related
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Bash like keys for the command line
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+cnoremap <C-K> <C-U>
+cnoremap <C-P> <Up>
+cnoremap <C-N> <Down>
 
 
 
@@ -261,76 +313,66 @@ vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Custom Functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Spell checking
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Pressing ,ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell!<cr>
-
-" Shortcuts using <leader>
-map <leader>sn ]s
-map <leader>sp [s
-map <leader>sa zg
-map <leader>s? z=
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Fast editing and reloading of vimrc configs
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>e :e! ~/.vim_runtime/my_configs.vim<cr>
-autocmd! bufwritepost ~/.vim_runtime/my_configs.vim source ~/.vim_runtime/my_configs.vim
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Command mode related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Smart mappings on the command line
-cnoremap $h e ~/
-cnoremap $d e ~/Desktop/
-cnoremap $j e ./
-cnoremap $c e <C-\>eCurrentFileDir("e")<cr>
-
-" $q is super useful when browsing on the command line
-" it deletes everything until the last slash 
-cno $q <C-\>eDeleteTillSlash()<cr>
-
-" Bash like keys for the command line
-cnoremap <C-A>		<Home>
-cnoremap <C-E>		<End>
-cnoremap <C-K>		<C-U>
-
-cnoremap <C-P> <Up>
-cnoremap <C-N> <Down>
-
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Parenthesis/bracket
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-vnoremap $1 <esc>`>a)<esc>`<i(<esc>
-vnoremap $2 <esc>`>a]<esc>`<i[<esc>
-vnoremap $3 <esc>`>a}<esc>`<i{<esc>
-vnoremap $$ <esc>`>a"<esc>`<i"<esc>
-vnoremap $q <esc>`>a'<esc>`<i'<esc>
-vnoremap $e <esc>`>a"<esc>`<i"<esc>
-
-" Map auto complete of (, ", ', [
-inoremap $1 ()<esc>i
-inoremap $2 []<esc>i
-inoremap $3 {}<esc>i
-inoremap $4 {<esc>o}<esc>O
-inoremap $q ''<esc>i
-inoremap $e ""<esc>i
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General abbreviations
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
+
+
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Auto command group
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+augroup configgroup
+	autocmd!
+	autocmd BufEnter *.c inoremap ( ()<Esc>i
+	autocmd BufEnter *.c inoremap [ []<Esc>i
+	autocmd BufEnter *.c inoremap { {}<Esc>i<CR><Esc>O
+	autocmd BufEnter *.c inoremap " ""<Esc>i
+	autocmd BufEnter Makefile setlocal noexpandtab
+augroup END
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Custom Functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Automatically add header files according to file type
+autocmd BufNewFile *.cpp,*.cc,*.c,*.h,*.sh,*.py exec ":call SetHeader()" 
+function! SetHeader() 
+    if expand("%:e") == 'sh' 
+        call setline(1,"\#!/bin/bash") 
+        call append(line("."), "") 
+    elseif expand("%:e") == 'py' 
+        call setline(1,"#!/usr/bin/env python3") 
+        call append(line(".")+1, "") 
+    elseif expand("%:e") == 'cpp' 
+        call setline(1,"#include <iostream>") 
+        call setline(2, "") 
+        call setline(3, "using std::cin;") 
+        call setline(4, "using std::cout;") 
+        call setline(5, "using std::endl;") 
+        call setline(6, "") 
+    elseif expand("%:e") == 'cc' 
+        call setline(1,"#include <iostream>") 
+        call setline(2, "") 
+        call setline(3, "using std::cin;") 
+        call setline(4, "using std::cout;") 
+        call setline(5, "using std::endl;") 
+        call setline(6, "") 
+    elseif expand("%:e") == 'c' 
+        call setline(1,"#include <stdio.h>") 
+        call setline(2,"#include <stdlib.h>") 
+        call setline(3,"") 
+    elseif expand("%:e") == 'h' 
+        call setline(1, "#ifndef __".toupper(expand("%:r"))."_H") 
+        call setline(2, "#define __".toupper(expand("%:r"))."_H") 
+        call setline(3,"") 
+        call setline(4, "#endif") 
+    endif 
+endfunction
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
