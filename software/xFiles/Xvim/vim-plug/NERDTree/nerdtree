@@ -1,3 +1,18 @@
+### =========================================================================
+wget http://www.vim.org/scripts/download_script.php?src_id=17123 -O nerdtree.zip 
+unzip nerdtree.zip
+
+mkdir -p ~/.vim/{plugin,doc}
+
+cp plugin/NERD_tree.vim ~/.vim/plugin/
+cp doc/NERD_tree.txt ~/.vim/doc/
+
+% 安装好后，命令行中输入vim，打开vim后，在vim中输入:NERDTree，你就可以看到NERDTree的效果了
+
+
+
+
+
 ### NERDTree目录树，快速打开文件
 % cd nerdtree/doc/NERDTree.txt
 
