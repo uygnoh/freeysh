@@ -14,29 +14,31 @@ while (<>) {
     s/^Date:.*/Date: $date/;
     print;
 }
+
 % perl demo1.pl demo2.dat
 
 
 
 ### ====================================================== 正则表达式模式测试程序
-```perl
+
     while (<>) {
         chomp;
-        if(/RE/) {
+        if (/RE/) {
             print "MATCH is: |$`<$&>$'|\n";
         } else {
             print "NO-MATCH Failed!\n";
         }
         
     }
-```
+
 
 
 
 ### ==================================================== 正则表达式中的特殊变量 
-```perl
+% $_; 正则表达式中的特殊变量
+
 $_ = "one two three, four five six";
-if(/\s(\w+),/) {
+if (/\s(\w+),/) {
     print "$1\n";       #(\w+)小括号匹配到的
     print "$&\n";       #(\w+),整个正则表达式匹配到的
     print "$'\n";       #
@@ -44,7 +46,7 @@ if(/\s(\w+),/) {
     print "$`$&$'\n";   #
     print "$`<$&>$'\n"; #
 }
-```
+
 
 
 

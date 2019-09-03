@@ -1,0 +1,38 @@
+### Sed 代表流编辑器
+
+% vim sed-demo.txt
+    # cat sed-demo.txt
+    
+    1 Linux Operating System
+    2 Unix Operating System
+    3 RHEL
+    4 Red Hat
+    5 Fedora
+    6 Arch Linux
+    7 CentOS
+    8 Debian
+    9 Ubuntu
+    10 openSUSE
+    
+### =========================================================================
+sed '1d' sed-demo.txt                   % 删除文件首行
+sed '$d' sed-demo.txt                   % 删除文件最后一行
+sed '3d' sed-demo.txt                   % 删除 sed-demo.txt 中的第 3 行
+sed '5,7d' sed-demo.txt                 % 删除 sed-demo.txt 中的第 5 到 7 行
+sed '1d;5d;9d;$d' sed-demo.txt          % 命令删除了第 1 行、第 5 行、第 9 行和最后一行
+sed '3,6!d' sed-demo.txt                % 删除 sed-demo.txt 中第 3 到 6 行范围以外的所有行
+sed '/^$/d' sed-demo.txt                % 删除 sed-demo.txt 中的空行
+sed '/System/d' sed-demo.txt            % 删除 sed-demo.txt 中匹配到 System 模式的行
+sed '/System\|Linux/d' sed-demo.txt     % 删除 sed-demo.txt 中匹配到 System 或 Linux 表达式的行
+sed '^[RF]/d' sed-demo.txt              % 删除 R 或者 F 字符开头的所有行
+sed '/m$/d' sed-demo.txt                % 删除 m 字符结尾的所有行
+sed '/[xm]$/d' sed-demo.txt             % 删除 x 或者 m 字符结尾的所有行s
+sed '/^[A-Z]/d' sed-demo.txt            % 删除所有大写字母开头的行
+sed '1,6{/Linux/d;}' sed-demo.txt       % 删除第 1 到 6 行中包含 Linux 表达式的行
+sed '/Ststem/{N;d;}' sed-demo.txt       % 删除包含 System 表达式的行以及它的下一行
+sed '/[0-9]/d' sed-demo.txt             % 删除所有包含数字的行
+sed '/^[0-9]/d' sed-demo.txt            % 删除所有以数字开头的行
+sed '/[0-9]$/d' sed-demo.txt            % 删除所有以数字结尾的行
+sed '/[A-Za-z]/d' sed-demo.txt          % 删除所有包含字母的行
+
+

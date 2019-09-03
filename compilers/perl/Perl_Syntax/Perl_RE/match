@@ -92,7 +92,7 @@ if (/yes/) {
 + 第N次捕获的内容放到列表中
 + 相当于Loop捕获
 + my %last_name = ($data =~ /(\w+)\s+(\w+)/g);
-```perl
+
     $_ = "Hello there, neighbor!";
     my ($first, $second, $third) = /(\S+) (\S+), (\S+)/;
     print "$first $secdond, $third";
@@ -108,14 +108,14 @@ if (/yes/) {
     while (($key, $value) = each %last_name) {
         print "$key => $value\n";
     }
-```
+
 
 
 
 ### =============================================================== 非贪婪模式 ?
 % 贪婪模式, 非贪婪模式加上“?”
 
-```perl
+
     $_ = "I thought you said Fred and <BOLD>Velma</BOLD>, not <BOLD>Wilma</BOLD>.";
     s#<BOLD>(.*)</BOLD>#$1#g;
 
@@ -131,7 +131,6 @@ if (/yes/) {
     if(/(hello+?) {
         print "$1\n";
     }
-```
 
 
 

@@ -1,4 +1,3 @@
-
 ### https://www.runoob.com/python3/
 
 import random
@@ -71,7 +70,7 @@ print(super_villains['Pide P '])
 age = 21
 if age > 16:
     print('You are old enough to drive')
-else :
+else:
     print('You are not old enough to drive')
     
 if age >= 21:
