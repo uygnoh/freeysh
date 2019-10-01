@@ -1,5 +1,7 @@
 ### ================================================================== convert
 % ysh@localhost:~$ sudo apt install graphicsmagick-imagemagick-compat
+ysh@localhost:~/Downloads$ sudo apt install imagemagick
+
 
 % convert顾名思义就是对图像进行转化，它主要用来对图像进行格式的转化，
 % 同时还可以做缩放、剪切、模糊、反转等操作。
