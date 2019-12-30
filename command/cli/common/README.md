@@ -171,5 +171,5 @@ source ~/Documents/FREEYSH/profiles/aVIMRC/vimrc
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
-source ~/Documents/FREEYSH/profiles/aVIMRC/vimrc
+source ~/Documents/FREEYSH/profiles/VIMRC/vimrc
 

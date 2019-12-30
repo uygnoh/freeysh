@@ -1,12 +1,3 @@
-### manual page
-man man             #查看man的使用
-NAME                #命令的名字 
-SYNOPSIS            #命令的语法简介
-DESCRIPTION         #命令的描述信息
-/date               #搜索关键字
-man -k directory    #列出符合的命令
-
-
 ### 常用学习网站 
 + https://github.com/uygnoh/FREEYSH
 + https://www.runoob.com/           <菜鸟教程>
@@ -20,7 +11,7 @@ man -k directory    #列出符合的命令
 + F11         ->全屏
 
 
-### tmux终端复用软件
+##### tmux终端复用软件
 + <crtl  +a>           #激活控制台(系统默认Ctrl+b)
 + <shift +上下左右箭头>  #窗口(window)切换
 + <alt   +上下左右箭头>  #窗格(pane)切换
@@ -31,7 +22,8 @@ man -k directory    #列出符合的命令
 + <ctrl  +b s>         #Select a new session for the attached client interactively.
 + <ctrl  +b w>         #Choose the current window interactively.
 + <ctrl  +b z>         #Toggle zoom state of the current panel.
-##### tmux会话
+
+tmux会话
 + tmux new-session -s <session_name>              #创建一个会话
 + tmux list-sessions                              #查看会话	
 + tmux detach                                     #分离会话     <d>Detach the current client.
@@ -42,6 +34,7 @@ man -k directory    #列出符合的命令
 + tmux kill-server -a -t session_name             #关闭所有会话，除了这个会话<session_name>
 + <ctrl+a (>                                      #Switch the attached client to the previous session.
 + <ctrl+a )>                                      #Switch the attached client to the next session.
+
 ##### tmux窗口
 + tmux new-window      #创建一个新的 window
 + tmux list-windows    #列出当前窗口
@@ -63,6 +56,8 @@ man -k directory    #列出符合的命令
 
 
 ### ========================================================================
+### 一些需要注意的代码风格
+
 + 宏或者常量所有用大写  #define MAXLENGTH 10;  const int MAXLENGTH = 10；
 + 函数名或者类名用     do_something
 + 变量名用            do_something
@@ -92,7 +87,7 @@ void print_msg(int a)
 
 }
 ```
-##### 一些需要注意的代码风格
+
 + 使用空格缩进为: “4个空格”
 + switch ... case ...语句中，switch和case具有相同的缩进（参考上文）
 + 花括号的使用参考K&R风格
@@ -120,7 +115,7 @@ void print_msg(int a)
             do_this(b, c);      \
     } while (0)
 ```
-##### 注释风格
++ 注释风格
 ```note
 /*
  * This is the preferred style for multi-line

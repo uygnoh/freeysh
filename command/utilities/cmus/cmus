@@ -82,3 +82,5 @@ q                           退出播放器
 [:add -p]                                       添加至Playlist（播放列表）
 [:add -q]                                       添加至query（队列)
 [:colorscheme green|cyan|green-mono-88|gray-88|xterm-white|zenburn]     切换主题
+
+

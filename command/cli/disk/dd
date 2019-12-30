@@ -1,5 +1,4 @@
-### 使用USB启动盘制作linu系统
-#
+### ============================================== 使用USB启动盘制作linu系统
 #
 % ~# time dd if=xxx.iso of=/dev/sdb bs=4M status=progress oflag=sync
 
@@ -12,6 +11,7 @@ dd [bs=<字节数>][cbs=<字节数>][conv=<关键字>][count=<区块数>]   \
 % 每次写入8k的数据，总共写入20万次，产生1.6G大小的文件。
 % 测试指令: dd if=/dev/zero of=/data01/test.dbf bs=8k count=200000 conv=fdatasync
 
+
 ===============================================================  dd常用选项说明
 if=FILE         从FILE中读取数据，而不是默认的标准输入。
 of=FILE         往FILE中写入数据，而不是默认的标准输出。
@@ -22,14 +22,16 @@ skip=N          跳过N*ibs字节数再开始读取数据。
 seek=N          跳过N*obs字节数再开始写入数据。
 count=N         总共读取N*ibs字节数的数据，当然写入的数据也是这个大小。
 status=LEVEL    %LEVEL用来控制dd程序的输出信息的。
-分别有三个，“none”，“noxfer”和“progress”，
-1 “progress”    输出所有信息
-2 “none”        的意思是不输出任何相关信息，除非出错信息。
-3 “noxfer”      不会输出最后的统计信息，
+	分别有三个，“none”，“noxfer”和“progress”，
+	1 “progress”    输出所有信息
+	2 “none”        的意思是不输出任何相关信息，除非出错信息。
+	3 “noxfer”      不会输出最后的统计信息，
    
+	
 % 补充：在上面所有选项的BYTES和N中，
 我们都可以使用特殊的字符来表示数据大小，
 常用的有b=512，K=1024，M=1024*1024，G=1024*1024*1024。
+
 
 % iflag=FLAG[,FLAG]...
 使用iflag来控制读取数据时的行为特征。
@@ -39,10 +41,12 @@ status=LEVEL    %LEVEL用来控制dd程序的输出信息的。
 指定“skip_bytes”后，
 skip=N后表示的是跳过的字节数不再是N*ibs大小的数据了，而只是代表跳过N字节的数据。
 
+
 % oflag=FLAG[,FLAG]...
 使用oflag来控制写入数据时的行为特征。
 “append”以追加方式写入数据，一般配合conv=notrunc来使用。
 “seek_bytes”的意识和“skip_bytes”一样。
+
 
 % conv=CONVERSION[,CONVERSION]...
 conv,用来在将数据写入文件时的转换规则。一下列出常用的：
@@ -51,6 +55,8 @@ ucase       用来将小写字母转换成大写字母。
 notrunc     如果目的文件已经存在，那么不要截断文件内容。默认是会截断成0字节大小的。
             一般配合oflag=append使用，不截断并且以追加方式写入数据。
 noerror     尽管发生错误，也不要停止整个拷贝过程。
+
+
 
 =============================================================== 数据备份
 1 备份整个磁盘到磁盘; 将sdx整盘备份到sdy中去
