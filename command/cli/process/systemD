@@ -56,8 +56,3 @@ systemctl suspend                   待机
 systemctl hibernate                 休眠
 systemctl hybrid-sleep              混合休眠模式（同时休眠到硬盘并待机）
 
-
-
-
-
-

@@ -548,4 +548,3 @@ journalctl功能强大，用法非常多。
     # 指定日志文件保存多久
     $ sudo journalctl --vacuum-time=1years
 
-

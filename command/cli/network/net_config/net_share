@@ -143,13 +143,3 @@ ip r/ro/route chg/change default via 192.168.78.2
 ip n/neigh/neighbuor sh/show
 
 
-
-
-
-
-
-
-
-
-
-

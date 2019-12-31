@@ -88,21 +88,3 @@ Ctrl+K                          ;清除光标后至行尾的内容
 touch {a, b, c}
 mkdir {dira, dirb, dirc}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

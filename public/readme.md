@@ -3,6 +3,7 @@
 + https://www.runoob.com/           <菜鸟教程>
 + https://stackoverflow.com/        <软件类问答网站>
 + https://www.ostechnix.com/category/linux-basics/
++ https://www.3cschool.com
 
 
 ### 命令行终端字体大小调整
@@ -13,8 +14,8 @@
 
 ##### tmux终端复用软件
 + <crtl  +a>           #激活控制台(系统默认Ctrl+b)
-+ <shift +上下左右箭头>  #窗口(window)切换
-+ <alt   +上下左右箭头>  #窗格(pane)切换
++ <shift +上下左右箭头>#窗口(window)切换
++ <alt   +上下左右箭头>#窗格(pane)切换
 + <ctrl  +b h>         #窗格(pane)，水平方向创建窗格 <%>Split the current panel into two, left and right.
 + <ctrl  +b v>         #窗格(pane)，垂直方向创建窗格 <">Split the current panel into two, top and bottom.
 + <ctrl  +b &>         #kill the current window
@@ -51,6 +52,60 @@ tmux会话
 + 补充说明：
 `这样改还是有点小问题，当定义一个函数时，先敲入左括号，`
 `如果约一秒钟内没有敲入回车键再敲入回车键就不会进行回车换行了。不过影响不大`
+
+
+
+
+### ========================================================================
+.................................................
+.                                               . 
+. F2            ;Grub2                          .
+. F11			;Screen Full                    .
+.                                               .
+. Super+L		;Lock Screen                    .
+. Super+H		;Hide window                    .
+. Super+Up		;Maximize window                .
+. Super+Left	;View split on left             .
+. Super+right	;View split on right            .
+.                                               .
+. Alt+F2		;Show the run command prompt    .
+. Alt+F4		;Close window                   . 
+. Alt+Tab       ;Browser Switching              .
+.                                               .
+. Ctrl+Shitf++	;Increase font size             .
+. Ctrl+-		;Decrease font size             .
+. Ctrl+7		;turn terminal                  .
+. Ctrl+H		;Display hidden files           .
+. Ctrl+C		;Keyboard interrupt             .
+. Ctrl+D		;echo <<-EOF                    .
+. Ctrl+Z        ;Stop the process[background]   .   
+. Ctrl+/        ;Send SIGQUIT 3 [foreground]    .
+. Ctrl+S        ;Interrupt console output       .
+. Ctrl+Q        ;Recovery console output        .
+. Ctrl+L        ;clear                          .
+. Ctrl+Tab		;Window Switching               .
+.................................................
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                                                                        +
++ 窗口切换 vim <===>Buffer              tmux<===>Shift+arrow              +
++ 窗格切换 vim <===>Ctrl+arrow          tmux<===>Alt+arrow                 +
++ 分屏操作 vim <===>:split, :vsplit     tmux<===> PREFIX+h, PREFIX+v      +
++                                                                        +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ 
++ 参考文件位置: /home/ysh/Documents/FREEYSH/readme.md
++ Vim 中的 Buffer 是文件在内存中的缓存数据，一个 Buffer 总是也只能是对应一个文件
++ :ls   :buffer number  :buffer next    :buffer previous   <buffer == b> 
++
++ tmux Ctrl+b激活控制台；此时以下按键生效, PREFIX = Ctrl+a自定义方式
++ tmux 使用C/S模型构建, 包括的单元模块有 server, session, window, panel
++ tmux new-session -s <session_name> 创建一个新的会话
++ 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+source ~/Documents/FREEYSH/profiles/aVIMRC/vimrc
 
 
 
@@ -115,6 +170,7 @@ void print_msg(int a)
             do_this(b, c);      \
     } while (0)
 ```
+
 + 注释风格
 ```note
 /*
@@ -126,4 +182,8 @@ void print_msg(int a)
  * with beginning and ending almost-blank lines.
  */
 ```
-
+### ===================================================
+github:     [uygnoh]     1******7yu
+baiduyu:    [yushihu]    1******7;@+y
+qq:         [961832097]  1******7%+=u
+NONGHANG:   []           1******7YUQIJIA

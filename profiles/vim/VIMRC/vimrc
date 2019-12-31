@@ -183,18 +183,6 @@ augroup configgroup
 augroup END
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 autocmd BufNewFile * normal G
 
 
