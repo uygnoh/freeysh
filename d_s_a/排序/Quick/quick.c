@@ -1,31 +1,25 @@
-void quick_sort(int arr[], int low, int high)
+void quick_sort(int *a, int left, int right)
 {
-	int temp;
-	int i = low, j = high;
-	if (low < high)
-	{
-		temp = arr[low];
-		while (i < j)
-		{
-			while (j > i && arr[j] >= temp)
-				--j;
-			if (i < j)
-			{
-				arr[i] = arr[j];
-				++i;
-			}
+    if (left >= right)
+        return;
+    int i = letf;
+    int j = right;
+    int key = a[left];
 
-			while (i < j && arr[i] < temp)
-				++i;
-			if (i < j)
-			{
-				arr[j] = arr[i];
-				--j;
-			}
-		}
-		
-		arr[i] = temp;
-		quick_sort(arr, low, i-1);
-		quick_sort(arr, i+1, high);
-	}
+    while (i < j) {
+        while (i < j && key <= a[j])
+            j--;
+
+        a[i] = a[j];
+
+        while (i < j && key >= a[i])
+            i++;
+
+        a[j] = a[i];
+    }
+
+    a[i] = key;
+
+    quick_sort(a, left, i-1);
+    quick_sort(a, i+1, right);
 }
