@@ -7,8 +7,8 @@ int main(void)
 	
 	p = a;
 	int i,j;
-	for(i=0;i<6;i++) {
-		for(j=0;j<3;j++) {
+	for (i=0;i<6;i++) {
+		for (j=0;j<3;j++) {
 			printf("%d,",p[i][j]);
 		}
 		printf("\n");

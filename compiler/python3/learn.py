@@ -225,19 +225,3 @@ print(spot.toString())
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

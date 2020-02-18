@@ -65,8 +65,7 @@ command1 || command2
 
 #################################################################### 条件判断
 # test   []     [[]], []左右两侧要加空格 
-if [ condition-is-true ]
-then
+if [ condition-is-true ]; then
   command 1
   command 2
     ...
@@ -74,14 +73,11 @@ then
   command N
 fi
 
-if [ condition-is-true ]
-then
+if [ condition-is-true ]; then
   command 1
-elif [ condition-is-true ]
-then
+elif [ condition-is-true ]; then
   command 2
-elif [ condition-is-true ]
-then
+elif [ condition-is-true ]; then
   command 3
 else
   command 4
@@ -223,10 +219,5 @@ $@ -- array of all positional parameters
 # 使用通配符可以完成特定的匹配
 # 一些常用的通配符
  * . ? [] ^ $ {}
-
-
-
-
-
 
 
