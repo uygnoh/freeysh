@@ -349,7 +349,7 @@ num1 -ge num2             # 数字判断：num1 >= num2
 ### 分支控制：if 和经典 test，兼容 posix sh 的条件判断语句
 ```note
  
-test {expression}         # 判断条件为真的话 test 程序返回0 否则非零
+test { expression }         # 判断条件为真的话 test 程序返回0 否则非零
 [ expression ]            # 判断条件为真的话返回0 否则非零
  
 test "abc" = "def"        # 查看返回值 echo $? 显示 1，因为条件为假
@@ -419,15 +419,15 @@ done
 i=1
 while [ $i -le 10 ]; do
 echo $i;
-i=$(expr $i + 1)
+i=$( expr $i + 1 )
 done
  
 # for 循环：上面的 while 语句等价
-for i in {1..10}; do
+for i in { 1..10 }; do
 echo $i
 done
  
-for name [in list]; do
+for name [ in list ]; do
 statements
 done
  
@@ -442,26 +442,26 @@ statements
 done
  
 # 和上面的写法等价
-for ((i = 0; i < 10; i++)); do echo $i; done
+for (( i = 0; i < 10; i++ )); do echo $i; done
  
 # case 判断
 case expression in
-pattern1 )
-statements ;;
-pattern2 )
-statements ;;
-* )
-otherwise ;;
+    pattern1 )
+        statements ;;
+    pattern2 )
+        statements ;;
+    * )
+        otherwise ;;
 esac
  
 # until 语句
 until condition; do
-statements
+    statements
 done
  
 # select 语句
 select name [in list]; do
-statements that can use $name
+    statements that can use $name
 done
 ```
 
@@ -664,22 +664,22 @@ lsof -P -i -n | cut -f 1 -d " "| uniq | tail -n +2
 function q-extract() {
 if [ -f $1 ] ; then
 case $1 in
-*.tar.bz2)   tar -xvjf $1    ;;
-*.tar.gz)    tar -xvzf $1    ;;
-*.tar.xz)    tar -xvJf $1    ;;
-*.bz2)       bunzip2 $1     ;;
-*.rar)       rar x $1       ;;
-*.gz)        gunzip $1      ;;
-*.tar)       tar -xvf $1     ;;
-*.tbz2)      tar -xvjf $1    ;;
-*.tgz)       tar -xvzf $1    ;;
-*.zip)       unzip $1       ;;
-*.Z)         uncompress $1  ;;
-*.7z)        7z x $1        ;;
-*)           echo "don't know how to extract '$1'..." ;;
+    *.tar.bz2)   tar -xvjf $1    ;;
+    *.tar.gz)    tar -xvzf $1    ;;
+    *.tar.xz)    tar -xvJf $1    ;;
+    *.bz2)       bunzip2 $1     ;;
+    *.rar)       rar x $1       ;;
+    *.gz)        gunzip $1      ;;
+    *.tar)       tar -xvf $1     ;;
+    *.tbz2)      tar -xvjf $1    ;;
+    *.tgz)       tar -xvzf $1    ;;
+    *.zip)       unzip $1       ;;
+    *.Z)         uncompress $1  ;;
+    *.7z)        7z x $1        ;;
+    *)           echo "don't know how to extract '$1'..." ;;
 esac
 else
-echo "'$1' is not a valid file!"
+    echo "'$1' is not a valid file!"
 fi
 }
  
