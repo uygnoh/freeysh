@@ -1,0 +1,47 @@
+### linux下时行51单片机试验
+1 环境：       python2.7.16 python3
+2 编译器：     sdcc
+3 串口驱动：    python(3)-serial
+4 烧录软件：    stcflash.py
+5 二进制转换：   packihx
+
+
+### 环境搭建
+安装SDCC编译器
+sudo apt-get install sdcc
+whereis sdcc
+ls /usr/bin/ |grep sdcc
+这里是SDCC的一些库文件
+cd /usr/share/sdcc/
+cd include/
+cd mcs51/
+
+
+文件转换工具 
+whereis packihx
+packihx main.ihx > main.hex
+
+
+烧录软件
+git clone https://github.com/RainMark/stcflash
+chmod 755 stcflash.py
+cp stcflash.py /usr/bin
+
+
+串口驱动程序
+pip install pyserial
+
+
+查看串口设备
+lsusb
+ls /dev/tty*
+stcflsh.py默认情况下一般是 /dev/ttyUSB0, 2400波特率
+sudo stcflash.py main.hex --port /dev/ttyUSB1
+
+
+
+
+
+
+
+
