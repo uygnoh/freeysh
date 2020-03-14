@@ -1,5 +1,5 @@
 /**
-74hc595 锁存器 ***********
+74hc573 锁存器 ***********
 FUNCTION TABLE	功能表
 Output Enable	输出使能端
 Latch Enable	锁存端

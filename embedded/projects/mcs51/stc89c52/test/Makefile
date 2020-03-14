@@ -5,7 +5,7 @@ hex:
 	packihx main.ihx >main.hex
 
 program:
-	sudo stcflash.py main.hex --port /dev/ttyUSB0
+	stcflash.py main.hex --port /dev/ttyUSB0
 
 .PHONY: clean
 clean:
@@ -19,3 +19,4 @@ clean:
 	rm -f *.rst
 	rm -f *.ihx
 	rm -f *.hex
+	rm -f *.bin

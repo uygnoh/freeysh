@@ -40,7 +40,7 @@ Bus 001 Device 005: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port
 
 ls /dev/tty*
 stcflsh.py默认情况下一般是 /dev/ttyUSB0, 2400波特率
-sudo stcflash.py main.hex --port /dev/ttyUSB1
+stcflash.py main.hex --port /dev/ttyUSB1
 
 
 

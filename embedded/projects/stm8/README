@@ -1,0 +1,55 @@
+### stlink-v2
+1 stm8s烧录工具   (vdudouyt/stm8flash)
+2 chmod +x stm8flash
+3 sudo mv stm8flash /usr/local/bin/
+
+### sdcc
+1 sdcc stm8头文件 (erno-szabados/sdcc-stm8s)
+2 复制头文件至当前目录中
+
+### main.c
+
+#include "./stm8s.h"
+#define __nop() __asm nop __endasm
+
+void delay()
+{
+    unsigned int a, b;
+    for (a = 1000; a > 0; a--) {
+        for (b = 200; b > 0; b--) {
+            __nop();
+        }
+    }
+}
+
+void main()
+{
+    PD_DDR = 0x02;
+    PD_CR1 = 0x02;
+    while (1) {
+        PR ^= 0x02;D_DD
+        delay();
+    }
+}
+
+
+
+
+
+
+### 
+% sdcc -mstm8 --out-fmt-ihx -o main.ihx main.c
+
+% sudo stm8flash -c stlinkv2 -d /dev/ttyUSB0 -p stm8s103f3 -w main.ihx
+
+
+
+
+
+
+
+
+
+
+
+

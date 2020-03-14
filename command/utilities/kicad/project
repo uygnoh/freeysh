@@ -1,0 +1,15 @@
+### 新建一个工程文件
+1 File ->New ->Project... ->Name: 555_Badge
+                          ->Save in folder: /home/ysh/kicad/555_Badge/
+
+
+
+### 创建原理图库
+1 Schematic layout editor ->Tools ->Symbol Library Editor
+
+2 Symbol Library Editor ->File ->New Library ->Name: 555_Badge.lib
+                                             ->Save in folder: /home/ysh/kicad/555_Badge
+3 Create new symbol ->选择 555_Badge.lib ->ok ->Symbol Properties
+
+
+

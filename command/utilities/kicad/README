@@ -1,0 +1,9 @@
+###
+1 Design circuit
+2 Create symbols    (library editor)
+3 Schematic capture (eeschema)
+4 Create fotprints  (footprint editor)
+5 Generate netlist  (cvpcb)
+6 Board layout      (pcbnew)
+7 production        (GerbView)
+8 Generate BOM      (Digi-Key)

@@ -393,15 +393,15 @@ _delay:
 _main:
 ;	main.c:10: while (1) {
 00102$:
-;	main.c:11: P0_0 = 0;
+;	main.c:11: P1_0 = 0;
 ;	assignBit
-	clr	_P0_0
+	clr	_P1_0
 ;	main.c:12: delay(20000);
 	mov	dptr,#0x4e20
 	lcall	_delay
-;	main.c:13: P0_0 = 1;
+;	main.c:13: P1_0 = 1;
 ;	assignBit
-	setb	_P0_0
+	setb	_P1_0
 ;	main.c:14: delay(20000);
 	mov	dptr,#0x4e20
 	lcall	_delay

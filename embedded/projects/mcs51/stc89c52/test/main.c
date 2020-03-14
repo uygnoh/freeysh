@@ -8,9 +8,9 @@ void delay(int t)
 void main()
 {
     while (1) {
-        P0_0 = 0;
+        P1_0 = 0;
         delay(20000);
-        P0_0 = 1;
+        P1_0 = 1;
         delay(20000);
     }
 }
