@@ -1,4 +1,4 @@
-#include <8052.h>
+#include <mcs51/8052.h>
 
 void delay(int t)
 {
