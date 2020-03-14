@@ -6,7 +6,7 @@
   2. CPHA,代表采样时机; "0"第一个边沿采样，第二个边沿输出, "1"第2个边沿采样，第1个边沿输出
   
   时钟相位和极性选择
-  CPOL,时钟极性		CPHA，时钟相位		工作模式
+  CPOL,时钟极性         CPHA，时钟相位           工作模式
   0                     0                       mode_0
   0                     1                       mode_1
   1                     0                       mode_2
@@ -30,10 +30,10 @@
   
 #define u8 unsigned char
 
-#define MOSI =
-#define MISO =
-#define CLK  =
-#define NSS  =  
+#define MOSI
+#define MISO
+#define CLK
+#define NSS
   
 /* SPI工作模式0，写一个字节函数，从高位开始传数据 */  
 void analog_spi_write_byte(u8 data)
@@ -49,10 +49,6 @@ void analog_spi_write_byte(u8 data)
 	}
 	CLK = 0;				//时钟空闲状态 ===================
 }  
-  
-  
-  
-  
 /* SPI工作模式0，读一个字节函数，从高位开始传数据 */  
 void analog_spi_read_byte(void)
 {
