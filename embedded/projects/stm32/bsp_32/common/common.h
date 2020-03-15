@@ -1,14 +1,9 @@
-#ifndef __COMMON_H
-#define __COMMON_H
-
+#ifndef __COMMON_H__
+#define __COMMON_H__
 #include "stm32f10x.h"
+
 void delay_us(u32 nus);
 void delay_ms(u32 nms);
-
-
-
-
-
 
 /* GPIO Bit-Bandding Macro */
 #define  GPIOA_ODR_A  (GPIOA_BASE + 0x0C)
@@ -25,10 +20,8 @@ void delay_ms(u32 nms);
 #define  GPIOF_IDR_F  (GPIOF_BASE + 0x08)
 #define  GPIOG_ODR_G  (GPIOG_BASE + 0x0C)
 #define  GPIOG_IDR_G  (GPIOG_BASE + 0x08)
-
 #define BitBand(Addr,BitNum)  *((volatile unsigned long *)\
 	((Addr&0xF0000000)+0x2000000+((Addr&0xFFFFF)<<5)+(BitNum<<2)))
-
 #define paout(n) 	BitBand(GPIOA_ODR_A,n)
 #define pain(n) 	BitBand(GPIOA_IDR_A,n)
 #define pbout(n) 	BitBand(GPIOB_ODR_B,n)
@@ -45,5 +38,3 @@ void delay_ms(u32 nms);
 #define pgin(n) 	BitBand(GPIOG_IDR_G,n)
 
 #endif
-
-

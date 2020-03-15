@@ -54,8 +54,6 @@ output		Push-pull	通用推完输出       0     0     01-10-11      0 or 1
 output		Open-drain	通用开漏输出       0     1     01-10-11      0 or 1
 output		Push-pull	推挽式复用功能     1     0     01-10-11         x
 output		Open-drain 	开漏式复用功能     1     1     01-10-11         x
-
-
 注意：
 	下拉输入和上拉输入是同过端口输出寄存器 GPIOxODR 来区分。
 	01-10-11  输出最大速度分别是： 10 MHz, 2 MHz, 50 MHz.
