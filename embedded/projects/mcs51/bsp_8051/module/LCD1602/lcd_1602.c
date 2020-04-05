@@ -42,7 +42,7 @@ int main(void)
 	lcd1602_write_dat('0');		//显示0
 	lcd1602_write_dat(0x30);	//显示0
 	
-	lcd1602_write_cmd(0x80+0x40);	//给出地址指针，第二行的第1个字符
+	lcd1602_write_cmd(0x80+0x40);//给出地址指针，第二行的第1个字符
 	lcd1602_write_dat(0x38);	//显示数字 8
 }
 void lcd1602_write_cmd(uchar cmd)
