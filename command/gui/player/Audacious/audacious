@@ -1,8 +1,0 @@
-### Audacious
-
-audacious是基于 Beep-media-player 和 XMMS 的播放器，
-由于BMP的开发者现在集中精力开发bmpx, BMP的开发已经停止, 
-不过Audacious的开发者继承了BMP的源码, 在BMP-0.9.7.1的基础上fork了一个新的mediaplayer --- Audacious。
-Audacious 和 Beep- media-player 很象，并且兼容它们的皮肤。而且它依赖的东西很少，就一个包。
-它的设置选项跟 Beep-media-player 基本一样，但是比 XMMS 的简单多了，
-只要设定了标题编码 UTF-8 码转换，也没有所谓的中文问题。
