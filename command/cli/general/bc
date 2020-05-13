@@ -49,7 +49,3 @@ echo "10^10" | bc
 echo "sqrt(100)" | bc
 
   
-
-
-
-
