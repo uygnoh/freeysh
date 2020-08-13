@@ -1,8 +1,0 @@
-### arm-none-eabi-gcc 编译器(可以编译STM32)
-
-### stlink STM32烧录器
-
-### eclipse 编辑器
- 
-### OpenOCD 是开源的GDB服务可以连接stlink调试单片机
-
