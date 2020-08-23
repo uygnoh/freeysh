@@ -1,5 +1,4 @@
 ### ~=================================================================== tmux
-
 <crtl+a   >                                     #激活控制台(系统默认Ctrl+b)
 <ctrl+a s >                                     #会话切换
 tmux new-session -s <session_name>              #创建一个会话
@@ -10,6 +9,11 @@ tmux rename-session -t session_old session_new  #重命名会话
 tmux kill-server                                #关闭tmux服务器
 tmux kill-server -t session_name                #关闭指定的会话
 tmux kill-server -a -t session_name             #关闭所有会话，除了这个会话
+%### ===========================================================================
+1        server  服务器,输入tmux命令时就开启了一个服务器
+2        session 会话,一个服务器包含多个会话
+3        window  窗口,一个会话包含多个窗口
+4        panel   面板,一个面板包含多个窗口
 
 
 

@@ -1,4 +1,6 @@
+### ===========================================================================
 ### ============================================================== ~/.tmux.conf
+# cp tmux_cfg ~/.tmux.conf
 # Changing the default prefix key
 set-option -g prefix C-a
 unbind-key C-b
@@ -28,6 +30,9 @@ bind -n M-Up select-pane -U
 bind -n M-Down select-pane -D 
 
 
+
+#copy-mode 将快捷键设置为vi 模式
+setw -g mode-keys vi
 
 ### ===========================================================================
 set-window-option -g mode-keys vi       # 复制模式中的默认键盘布局使用 vi
@@ -60,13 +65,6 @@ set-window-option -g window-status-current-format '#[fg=cyan,bold]#I#[fg=blue]:#
 
 ### 右下角
 set -g status-right '#[fg=green][#[fg=cyan]%Y-%m-%d#[fg=green]]'
-
-
-
-
-
-
-
 
 
 

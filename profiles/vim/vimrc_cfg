@@ -1,0 +1,24 @@
+""" cp vimrc /home/ysh/.vimrc
+""" 1#19CAAD, 2#D1BA74, 3#F4606C, 4#ECAD9E, #00FF00绿色
+""" vim配色方案 /usr/share/vim/vim80/colors/
+""" 1 :colorscheme slate
+""" 2 :colorscheme delek
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let my_vimrc = 256
+let basic_vimrc = 86
+
+if my_vimrc > basic_vimrc
+    if empty(glob('~/.vim/autoload/plug.vim'))
+        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+		\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
+    source ~/Documents/FREEYSH/profiles/vim/my_vimrc/vimrc
+else
+    source ~/Documents/FREEYSH/profiles/vim/master_vimrc/vimrc
+endif
+
+
+
+
+
