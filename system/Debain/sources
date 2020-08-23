@@ -1,0 +1,61 @@
+
+ubuntu和debian都有很多的源和镜像，也有不少的国内镜像。一些爱好者为了寻找镜像已经自己“憋”出来了一些pl脚本用于寻找最快的镜像。实际上debian的爱好者早准备了更厉害的武器等你来用，就是apt-spy（是间谍还是小偷？哈哈）
+
+　　切记先备份你机器里的源列表。误区：通常大家都在交流使用国内的哪个源速度比较快，实际上很多国外源的访问速度是国内的很多倍。记得曾经用过国外某大学的源，速度是200k以上。日本的部分源可以达到500k以上。最近发现台湾的主镜像在我这里下载速度居然是1084k，达到1M每秒。不忙的时候，试试看，如果时间够多，可以考虑不限定为亚洲，这样有可能找到更快的镜像源。
+
+　　转自官方的一部分说明：
+
+　　`apt-spy'会根据站点回应时间和带宽自动创建`sources.list'。
+
+　　#sudo apt-get install apt-spy
+
+　　#sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak //backup
+
+　　#man apt-spy //获取详细的使用方法
+
+　　#sudo apt-spy update //更新您的镜像列表文件 /var/lib/apt-spy/mirrors.txt
+
+　　#sudo apt-spy -d testing -a Asia
+
+　　//在亚洲区寻找速度最快的testing版镜像,并生成 sources.list文件,也可使用 -o 参数指定写入文件
+
+　　apt-spy 是一个管理安装媒体的程序，使用方法简单介绍一下：
+
+　　使用方法: apt-spy [options]
+
+　　选项：
+　　-d distribution 选择 debian 的发行版本，例如 stable 。除升级外，必须使用此参数。
+
+　　-a area 选择进行测试的区域，例如 Aisa 。
+
+　　-c config 指定配置文件。
+
+　　-e number 指定测试的服务器数量。
+
+　　-f file 测试时抓取制定的文件（文件相对 debian base 的路径）。
+
+　　-i file 指定输入的文件，配合 -w 参数使用。
+
+　　-m mirror-list 指定要升级的镜像列表文件。
+
+　　-o output-file 重定向输出到指定文件。
+
+　　-p proxy 指定使用的代理服务器，需要遵从 [server]:[port] 的格式。
+
+　　-s country_list 指定要进行测试的国家。不能和 -a 参数同时使用。
+
+　　-t time 指定进行测试时每台服务器的超时时间，只能是正整数。
+
+　　-u update-URL 从指定的 URL 获得镜像列表更新。
+
+　　-w file 输出 -i 参数提供的服务器列表中速度最快的前几台镜像服务器（缺省是前 5 台）。
+
+　　-n number 制定 -w 参数输出的服务器数量。
+
+　　-v 输出版本信息。
+
+　　-h 输出当前帮助信息
+
+　　update 升级镜像站点列表。
+
+　　有意思的是网上常见的文档都只介绍了很少几个参数的作用，所以看到好多“二手文档”里面说测试镜像服务器速度的时候（apt-spy -d testing -A Asia）需要很长时间。其实，只要加一个参数 -t 指定超时时间就可以大大加速这个过程（至少快 10 倍）。
