@@ -12,7 +12,8 @@
 call plug#begin('~/.vim/plugged')                                          
 
 Plug 'scrooloose/nerdtree'
-"Plug 'mhinz/vim-startify'
+Plug 'Valloric/YouCompleteMe'
+
 
 call plug#end()
 
@@ -32,8 +33,17 @@ let g:NERDTreeShowLineNumbers=1                 " 窗口是否显示行号
 
 
 """=======================
-"""vim-startify 插件配置文件
-
+"""YouCompleteMe 插件配置文件
+let g:ycm_seed_identifiers_with_syntax=1
+let g:ycm_complete_in_comments=1
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_complete_in_strings=1
+let g:ycm_collect_identifiers_from_comments_and_strings=0
+autocmd InsertLeave * if pumvisible()==0\pclose\endif
+inoremap <expr> <CR> pumvisble() ? "\<C-y>" : "\<CR>"
+let g:ycm_seed_identifiers_with_syntax=1
+let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
