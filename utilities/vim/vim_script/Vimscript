@@ -1,14 +1,322 @@
-### % https://www.w3cschool.cn/vim/gsenvozt.html
-" 插件管理
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+### 
+% 如果要通过内置的帮助系统读取 Vim 自带的 Vimscript 文档，在任何 Vim 会话内部输入下面的内容即可：
+:help vim-script-intro
+% 运行 Vim 脚本
+有许多种方法可以执行 Vim 脚本命令。最简单的方法
+:source /full/path/to/the/scriptfile.vim
+
+
+
+
+% 语法示例
+% Vim 提供有非常复杂的语法突出显示功能，该特性可以通过内置 
+:syntax enable 命令启用，并使用 :syntax off 命令关闭。
+但是，在每次需要启用或关闭语法突出显示功能时，都需要输入 10 个以上的字符，这一点令人很恼火。
+相反，您可以在自己的 .vimrc 文件中添加以下 Vimscript 代码行：
+% 清单 1. 启用或关闭语法突出显示功能
+function! ToggleSyntax()
+   if exists("g:syntax_on")
+      syntax off
+   else
+      syntax enable
+   endif
+endfunction
+ 
+nmap <silent>  ;s  :call ToggleSyntax()<CR>
+
+这些代码的作用是：在 Normal 模式下，每当输入命令时，;s 序列将开启或关闭语法突出显示功能。让我们看看这段脚本的每个部分。
+
+显然，第一个代码块是一个函数声明，定义了名为 ToggleSyntax() 的函数，它没有包含任何参数。
+这个用户定义函数首先调用名为 exists() 的 Vim 函数，为它传递一个字符串。
+exists() 函数确定是否定义了一个具有由字符串定义的名称的变量（在本例中为全局变量 g:syntax_on）。
+
+如果是的话，if 语句将执行一个 syntax off 命令；否则它将执行 syntax enable 命令。
+由于 syntax enable 定义了 g:syntax_on 变量，而 syntax off 解除了变量定义，
+反复调用 ToggleSyntax() 函数将不停地启用和禁用语法突出显示。
+
+剩下的工作就是设置一个关键的序列（本例中为 ;s）来调用 ToggleSyntax() 函数：
+
+nmap <silent> ;s :call ToggleSyntax()<CR>
+
+nmap 表示 “normal-mode key mapping”。nmap 之后的 <silent> 选项使得映射不能回传它所执行的任何命令，确保新的 
+;s 命令默默地完成它的工作。它的职责就是执行下面的命令：
+
+:call ToggleSyntax()<CR>
+
+这就是希望忽略返回值时，在 Vimscript 中调用函数的方式。
+
+注意，最后的 <CR> 序列是字符 <、C、R 和 > 的字母序列。Vimscript 将它与回车符等同起来。
+事实上，Vimscript 理解非打印字符的许多其他类似的表示。
+例如，可以创建一个键盘映射，使空格键起到下翻键的功能（和在大多数 Web 浏览器中一样），如下所示：
+
+:nmap <Space> <PageDown>
+
+通过在 Vim 内输入 :help keycodes，可以看到这些特殊符号的完整列表。
+
+还需注意，ToggleSyntax() 能够直接调用内置 syntax 命令。
+这是因为 Vim 中的每个内置冒号命令都自动成为 Vimscript 中的一个语句。
+例如，要为使用 Vim 编写的文档更方便地创建中心标题，可以创建一个函数，将当前行中的每个字母大写，
+将整个行集中在一起，然后跳到下一行，如下所示：
+
+清单 2. 创建中心标题	
+function! CapitalizeCenterAndMoveDown()
+   s/\<./\u&/g   "Built-in substitution capitalizes each word
+   center        "Built-in center command centers entire line
+   +1            "Built-in relative motion (+1 line down)
+endfunction
+ 
+nmap <silent>  \C  :call CapitalizeCenterAndMoveDown()<CR>
+
+
+
+
+% Vimscript 语句
+% 如此前的例子所示，Vimscript 中的所有语句都以换行符结尾（和 shell 脚本或 Python 一样）。
+如果需要跨多个行运行一条语句，只需要使用反斜杠作为续行符。
+在表示续行时，反斜杠很少被放在行的末尾，而是放在延续行的开始处：
+清单 3. 使用反斜杠作为续行符	
+call SetName(
+\             first_name,
+\             middle_initial,
+\             family_name
+\           )
+
+通过使用竖线做分隔符，可以将两个或更多个语句放在单个行中：
+echo "Starting..." | call Phase(1) | call Phase(2) | echo "Done"
+
+也就是说，Vimscript 中的竖线相当于其他大多数编程语言中的分号。
+不幸的是，Vim 不能使用分号，因为这个符号在命令的开始处已经有了其他含义（它表示 “从当前行到……”，是命令的行范围的一部分）。
+
+
+
+
+
+% 竖线作为语句分隔符的一个重要用途体现在注释中。Vimscript 注释以一个双引号开始并持续到行末，如下所示：
+清单 4. Vimscript 中的注释
+if exists("g:syntax_on")
+   syntax off      
+else
+   syntax enable   
 endif
 
+不幸的是，Vimscript 字符串也可以以双引号开头并且始终优先于注释。
+这意味着不能把注释放到可能需要使用字符串的位置，因为注释将始终被解释为字符串：
 
-### ========================================================= vimscript 一些概念
-"buffer"、"window"、 "normal mode"、"insert mode"、"text mode"
+echo "> " "Print generic prompt
+
+echo 命令要求一个或多个字符串，因此此行代码将生成一个错误，指出第二个字符串缺少一个右引号（Vim 是这样认为的）。
+
+然而，可以始终将注释放在语句的最前头，这样，通过在开始注释之前使用竖线显式地开始一条新语句，就可以解决上面的问题，如下所示：
+
+echo "> " |"Print generic prompt
+
+
+
+
+
+
+% 值和变量
+% Vimscript 中的变量分配需要一个特殊的关键字，let：
+清单 5. 使用 let 关键字
+let name = "Damian"
+let height = 165
+let interests = [ 'Cinema', 'Literature', 'World Domination', 101 ]
+let phone     = { 'cell':5551017346, 'home':5558038728, 'work':'?' }
+
+注意，字符串可以使用双引号或单引号作为分隔符进行指定，
+双引号字符串用于特殊的 “转义序列”，比如 "\n"（用于换行符）、
+"\t"（用于制表符）、"\u263A"（用于 Unicode 笑脸标志）或者 "\<ESC>"（用于转义字符）。
+相比之下，使用单引号分隔的字符串将包括在其中的所有内容视为文字字符 — 两个连续的单引号是一个例外，它们被单纯地当作单引号。
+
+Vimscript 的值通常为以下三种类型的其中之一：
+
+    scalar：一个单个值，比如字符串或数字。例如："Damian" 或 165
+    list：使用方括号分隔的有序值序列，并带有以 0 开头的隐式整数索引。例如：['Cinema', 'Literature', 'World Domination', 101]
+    dictionary：使用花括号分隔的一组无序值集合，带有显式的的字符串键。例如：{'cell':5551017346, 'home':5558038728, 'work':'?'}
+
+注意，列表或字典中的值不一定必须是相同的类型；可以混合使用字符串、数字，甚至是嵌套的列表或字典，如果需要的话。
+
+和值不同的是，变量没有固有类型。相反，它们使用分配得到的第一个值的类型。因此，在前面的例子中，name 和 height 变量现在都是标量（就是说，它们现在只能存储字符串或数字），interests 现在是一个 list 变量（就是说，它只能存储列表），而 phone 现在是一个 dictionary 变量（并且只能存储字典）。变量类型一旦分配后，就会保持不变并在运行时严格遵守：
+
+let interests = 'unknown' " Error: variable type mismatch
+
+默认情况下，变量的范围是变量第一次被分配到的函数的内部，如果它的第一次分配出现在任何函数的外部，那么它就是全局变量。然而，也可以显式地将变量声明为属于其他范围，可以使用各种前缀进行声明，表 1 进行了总结。
+
+
+% 表 1. Vimscript 变量范围
+前缀	        含义
+g:varname	变量为全局变量
+s:varname	变量的范围为当前的脚本文件
+w:varname	变量的范围为当前的编辑器窗口
+t:varname	变量的范围为当前的编辑器选项卡
+b:varname	变量的范围为当前的编辑器缓冲区
+l:varname	变量的范围为当前的函数
+a:varname	变量是当前函数的一个参数
+v:varname	变量是 Vim 的预定义变量 
+
+还有一些伪变量（pseudovariables），脚本可以使用它们访问 Vim 提供的其他类型的值容器。表 2 对此进行了总结。
+
+% 表 2. Vimscript 伪变量
+前缀	        含义
+&varname	一个 Vim 选项（如果指定的话，则为本地选项，否则为全局选项）
+&l:varname	本地 Vim 选项
+&g:varname	全局 Vim 选项
+@varname	一个 Vim 注册器
+$varname	一个环境变量
+
+“option” 伪变量非常有用。例如，可以设置两个键映射（key-map）来增加或减小当前的表空间，如下所示：
+
+nmap <silent> ]] :let &tabstop += 1<CR>
+
+nmap <silent> [[ :let &tabstop -= &tabstop > 1 ? 1 : 0<CR>
+
+
+
+
+
+% 表达式
+% 注意，上例中的 [[ 键映射使用了一个包含类似 C 的 “三元表达式” 的表达式：
+
+&tabstop > 1 ? 1 : 0
+
+这可以阻止键映射将当前表空间递减到最小值 1 以下。如这个例子所示，
+Vimscript 中的表达式由大多数其他现代脚本语言中使用的相同的基本运算符组成，并且使用基本相同的语法。
+可用的运算符（按照优先权分组）在表 3 中做了总结。
+表 3. Vimscript 运算符优先表
+运算	运算符语法
+letvar=expr     赋值
+let var+=expr   数值相加并赋值
+let var-=expr   数值相减并赋值
+let var.=expr   字符串连接并赋值	
+
+bool?expr-if-true:expr-if-false 三元运算符
+ 	
+bool||bool      逻辑 OR 	
+bool&&bool      逻辑 AND 
+
+expr==expr      数值或字符串相等
+expr!=expr      数值或字符串不相等
+expr>expr       数值或字符串大于
+expr>=expr      数值或字符串大于等于
+expr<expr       数值或字符串小于
+expr<=expr      数值或字符串小于等于
+	
+num+num         数值相加
+num-num         数值相减
+str.str         字符串连接
+num*num         数值相乘
+num/num         数值相除
+num%num         数值系数
+
++num            转换为数值
+-num            求负数
+!bool           逻辑 NOT 	
+(expr)          括号优先 
+
+
+
+
+
+% 在 Insert 模式下使用脚本
+% Vimscripting 绝不仅限于 Normal 模式。还可以使用 imap 或 iabbrev 命令设置键映射或缩写词，可以在插入文本时使用。例如：
+
+imap <silent> <C-D><C-D> <C-R>=strftime("%e %b %Y")<CR>
+
+imap <silent> <C-T><C-T> <C-R>=strftime("%l:%M %p")<CR>
+
+在 .vimrc 中有了这些映射后，在 Insert 模式下输入两次 CTRL-D 将促使 Vim 调用它的内置 strftime() 函数并插入生成的日期，同样，两次按下 CTRL-T 将插入当前时间。
+
+可以使用相同的通用模式，让插入模式或缩写词执行任何 可编写脚本的操作。只需要将相应的 Vimscript 表达式或函数调用放到第一个 <C-R>=（告诉 Vim 插入后面内容的计算结果）和最后一个 <CR>（告诉 Vim 实际地执行前面的表达式）之间。但是，要注意，<C-R>（Vim 对 CTRL-R 使用的缩写）和 <CR>（Vim 对回车使用的缩写）是不同的。
+
+比如，可以使用 Vim 的内置 getcwd() 函数为当前的工作目录创建缩写，如下所示：
+
+iabbrev <silent> CWD <C-R>=getcwd()<CR>
+
+或者，可以嵌入一个简单的计算器，在文本插入期间输入 CTRL-C 便可调用该计算器：
+
+imap <silent> <C-C> <C-R>=string(eval(input("Calculate: ")))<CR>
+
+下面这个表达式：
+
+string( eval( input("Calculate: ") ) )
+
+首先调用内置的 input() 函数来请求用户输入他们的计算，随后 input() 作为一个字符串返回。该输入字符串被传递到内置的 eval() 中，后者将它作为一个 Vimscript 表达式进行计算并返回结果。接下来，内置 string() 函数将数值结果转换回一个字符串，键映射的 <C-R>= 序列将能够插入该字符串。
+
+
+
+
+
+
+% 更加复杂的 Insert 模式的脚本
+% 插入映射所涉及的脚本要比前面的例子更加复杂。在这种情况下，通常最好将代码重构为一个用户定义的函数，键映射随后就可以调用该函数。
+
+例如，可以在插入期间改变 CTRL-Y 的行为。通常，CTRL-Y 在 Insert 模式下会执行 “纵向复制（vertical copy）”。也就是说，它将从紧挨着游标的上一行中复制同一列中的字符。例如，在下面的情形中，将在游标处插入一个 “m”：
+
+Glib jocks quiz nymph to vex dwarf
+Glib jocks quiz ny_
+
+然而，您可能希望忽略中间的空行，并复制插入点上方的第一个非空 行的同一列中的字符。这将意味着，举例说，下面情形中的 CTRL-Y 也将插入一个 “m”，即使紧挨着它的上一行是空行：
+
+Glib jocks quiz nymph to vex dwarf
+
+Glib jocks quiz ny_
+
+通过在 .vimrc 文件中添加以下代码，您就可以实现这种增强的行为：
+清单 11. 改进纵向复制，忽略空行
+"Locate and return character "above" current cursor position...
+function! LookUpwards()
+   "Locate current column and preceding line from which to copy...
+   let column_num      = virtcol('.')
+   let target_pattern  = '\%' . column_num . 'v.'
+   let target_line_num = search(target_pattern . '*\S', 'bnW')
+ 
+   "If target line found, return vertically copied character...
+   if !target_line_num
+      return ""
+   else
+      return matchstr(getline(target_line_num), target_pattern)
+   endif
+endfunction
+ 
+"Reimplement CTRL-Y within insert mode...
+imap <silent>  <C-Y>  <C-R><C-R>=LookUpwards()<CR>
+
+LookUpwards() 函数首先判断插入点目前位于屏幕上的哪个列（即 “虚拟列”），使用内置的 virtcol() 函数可以做到这点。'.' 参数指定当前游标位置的列编号：
+
+let column_num = virtcol('.')
+
+LookUpwards() 随后使用内置 search() 函数从当前的游标位置倒退着浏览文件：
+
+let target_pattern = '\%' . column_num . 'v.'
+let target_line_num = search(target_pattern . '*\S', 'bnW')
+
+搜索使用了一个特殊的目标模式（即 \%column_numv.*\S）来查找最近的一个行，这个行在游标所处的这一列（\%column_numv）或后一列（.*）应当具有一个非空字符（\S）。search() 的第二个参数是配置字符串 bnW，它告诉函数向后搜索，而不是移动游标，也不是封装搜索。如果搜索成功，search() 将返回相应行的行号；如果搜索失败，它将返回 0。
+
+if 语句将判断哪个字符 — 如果有的话 — 将被复制到插入点。如果没有找到符合条件的行，target_line_num 将被分配一个 0 值，因此，第一个返回语句被执行并返回空字符串（表示 “没有插入任何内容”）。
+
+但是，如果找到符合条件的行，那么将执行第二个返回语句。它首先从当前编辑器缓冲区中获得前面行的副本：
+
+return matchstr(getline(target_line_num), target_pattern)
+
+然后查找并返回之前调用 search() 并成功匹配的只包含一个字符的字符串：
+
+return matchstr(getline(target_line_num), target_pattern)
+
+在 LookUpwards() 内部实现了这个新的纵向复制行为后，剩下的工作就是在 Insert 模式中覆盖标准的 CTRL-Y 命令，使用下面的 imap：
+
+imap <silent> <C-Y> <C-R><C-R>=LookUpwards()<CR>
+
+注意，考虑到前面的 imap 示例都使用 <C-R>= 调用 Vimscript 函数调用，因此本例使用 <C-R><C-R>=。使用 single-CTRL-R 表单插入后面的表达式的结果，就好象是直接输入的一样，这意味着结果中的任何特殊字符将保留它们的特殊含义和行为。另一方面，double-CTRL-R 表单将按原样逐字插入结果，不做任何处理。
+
+在本例中更适合使用逐字插入，因为这里的目标是精确地复制游标上方的文本。如果键映射使用 <C-R>=，那么从前面的行中复制字母转义字符就相当于输入字符，而这将会造成编辑器立刻退出 Insert 模式。 
+
+
+
+
+
+
+%===================================================== vimscript 一些概念
+% "buffer"、"window"、 "normal mode"、"insert mode"、"text mode"
 
    
 % Buffer
@@ -199,76 +507,6 @@ Vim的选项和命令经常会比较简短生硬，并且难于阅读，另外�
 这些注释也会帮助其他的人理解你的脚本。
 
 
-% 分组
-之前创建的映射可以让我们在使用Vim的同时方便快捷地编辑和加载~/.vimrc。
-不幸的是这会导致~/.vimrc中的代码快速增长以至失去控制，并且变得难于阅读浏览。
-
-我们用于对付这种情况的方法是使用Vim的代码折叠功能，将多行代码组织起来的作为一个部分然后对这部分的代码进行折叠。
-如果你从来没有用过Vim的折叠功能，那么你现在应该尽快去瞄一瞄。很多人（包括我自己）都认为在日常编码工作中代码折叠是不可或缺的。
-首先我们需要为Vim脚本文件设置折叠。在你的~/.vimrc文件中添加下面几行：
-augroup filetype_vim
-    autocmd!
-    autocmd FileType vim setlocal foldmethod=marker
-augroup END
-
-这会告诉Vim对任何Vim脚本文件使用marker折叠方法。
-现在在显示~/.vimrc文件的窗口中执行:setlocal foldmethod=marker。
-如果你不执行这个命令，你会发现加载~/.vimrc文件后没什么效果，
-这是因为Vim已经为这个文件设置了文件类型(FileType)，
-而自动命令只会在设置文件类型的时候执行。这让你以后不需要手动来做这个事情。
-
-现在在自动命令组开始和结束的地方添加两行，像下面这样：
-" Vimscript file settings ---------------------- {{{
-augroup filetype_vim
-    autocmd!
-    autocmd FileType vim setlocal foldmethod=marker
-augroup END
-" }}}
-
-切换到常用模式，将光标放到这些文字中的任意一行，然后敲击za。
-Vim会折叠从包含{{{的行到包含}}}的行之间的所有行。再敲击za会展开所有这些行。
-
-刚开始你可能会觉得为了代码折叠而对源代码进行注释会有些不合理，我刚开始也这么想。
-对于大多数文件我现在仍然觉得这种做法并并不合适。因为不是所有人都使用相同的编辑器，
-所以在代码中添加的折叠注释对于那些不用Vim的人而言就像是噪音。
-
-不过Vim脚本文件比较特殊，因为一个不用Vim的人不太可能会读你的代码，
-并且最重要的是如果不对代码进行分组处理，写着写着你就不知道写到哪里了，严重点可能会经脉尽断，吐血而亡。
-
-先自己尝试尝试吧，说不定你会逐渐喜欢上它。
-简短的名称(Short Names)
-
-对于大多数命令和选项，Vim支持使用它们的缩写。例如，下面的两个命令做的事情完全一样：
-
-:setlocal wrap
-:setl wrap
-
-我_强烈_提醒你不要在你的~/.vimrc或者是你编写的插件中使用这些缩写。
-Vim脚本对于初学者而言本来就已经够晦涩难懂了；
-从长远来看使用缩写只会使得它更难于阅读。即使_你_知道某个缩写的意思，其他人未必读得懂。
-
-换句话说，缩写只在编码的过程中手动执行命令的时候会很有用。
-在你按了回车键以后，就没人会看到你输入什么了，这样你也没必要输入更多的字符。
-
-% 练习
-检查你的~/.vimrc文件，将所有相关的行组织起来。
-你可以这么开头：“基本设置(Basic Settings)“，
-”文件类型相关设置(FileType-specific settings)”，“映射(Mappings)”，
-和“状态条(Status Line)”。然后在每个部分添加折叠标记和标题。
-
-想想怎么让Vim在第一次打开~/.vimrc文件的时候自动折叠所有设置了折叠注释的行。
-阅读:help foldlevelstart你会知道怎么搞。
-
-检查你的~/.vimrc文件，把所有的命令和选项的缩写改成全称。
-
-检查你的~/.vimrc文件，确保里面没有什么敏感信息。
-然后创建一个git或者Mercurial仓库，再将~/.vimrc文件放到里面，然后将这个文件链接到~/.vimrc。
-
-提交你刚才创建的仓库，并把它放到Bitbucket或者GitHub上，
-这样其他的人都可以看到和学习它。记住要经常提交和推送到仓库中，这样你所做的修改也会被记录下来。
-
-如果你不只在一个机器上使用Vim，那你就可以克隆那个仓库，
-然后像之前一样将这个文件链接到~/.vimrc文件。这样你就可以在所有的机器上都使用同样的Vim配置了。
 
 
 
@@ -366,147 +604,6 @@ Vim会输出你刚刚使用的搜索模式。这样你就可以通过编程来�
 阅读:help registers，然后看看你可以进行读和写的寄存器列表。
 
 
-
-
-
-
-
-
-
-
-### =====================================================%Vimscript Execute命令
-execute命令用来把一个字符串当作Vimscript命令执行。
-在前面的章节我们曾经跟它打过交道， 
-不过随着对Vimscript中的字符串有更深入的了解，现在我们将再次认识它。
-
-
-execute基本用法
-% 执行下面的命令：
-% Vim把echom 'Hello, world!'当作一个命令，而且尽职地在把它输出的同时将消息记录下来。 
-% Execute是一个非常强大的工具，因为它允许你用任意字符串来创造命令。
-:execute "echom 'Hello, world!'"
-
-
-
-% 让我们试试一个更实用的例子。先在Vim里打开一个文件作为准备工作，
-% 接着使用:edit foo.txt在同一个窗口创建新的缓冲区。 现在执行下面的命令：
-% Vim将在第二个文件的右边打开第一个文件的竖直分割窗口(vertical split)。为什么会这样？
-% 首先，Vim将"rightbelow vsplit"和bufname('#')调用的结果连接在一起，创建一个字符串作为命令。
-% 我们过一段时间才会讲到相应的函数，现在姑且认为它返回前一个缓冲区的路径名。 你可以用echom来确认这一点。
-% 待bufname执行完毕，Vim将结果连接成"rightbelow vsplit bar.txt"。 
-% execute命令将此作为Vimscript命令执行，在新的分割里打开该文件。
-:execute "rightbelow vsplit " . bufname("#")
-
-
-
-
-% Execute危险吗？
-在大多数编程语言中使用诸如"eval"来构造可执行的字符串是会受到谴责的(如果不会是更严重的后果)。
- 因为两个原因，Vimscript中的execute命令能免于操这份心。
-% 首先，大多数Vimscript代码仅仅接受唯一的来源——用户的输入。 
-假设有用户想输入一个古怪的字符串来执行邪恶的命令，无所谓，反正这是他们自己的计算机！ 
-然而在其他语言里，程序通常得接受来自不可信的用户的输入。
-Vim是一个特殊的环境， 在此无需担心一般的安全性问题。
-% 第二个原因是因为Vimscript有时候处理问题的方式过于晦涩难懂且稀奇古怪。 
-这时execute会是完成任务的最简单，最直白的方法。 
-在大多数其他语言中，使用"eval"不会省下你多少击键的生命，但在Vimscript里这样做可以化繁为简。
-
-
-
-% 练习
-浏览:help execute来明了哪些命令你可以用execute实现而哪些不可以。 
-但当涉猎，因为我们很快将重新审视这个问题。
-阅读:help leftabove，:help rightbelow，
-:help :split和:help :vsplit(注意最后两个条目中额外的分号)。
-在你的~/.vimrc中加入能在选定的分割(竖直或水平，
-上/下/左/右方位)中打开前一个缓冲区的映射。
-
-
-
-### =======================================================%Vimscript Normal命令
-目前为止我们已经介绍了几个最为常用的Vimscript命令，
-但都跟日常中在normal模式下处理文本的方式无关。 
-有没有一种办法能把我们的脚本跟日常的文本编辑命令结合起来呢？
-% 答案显然是肯定的。之前我们已经见过normal命令，是时候更详细地介绍它了。
-% Vim将把你的光标移到当前文件的最后一行，就像是在normal模式里按下G。
-:normal G
-
-% Vim将移动到文件的第一行(gg)并删除它(dd)。
-% normal命令简单地接受一串键值并当作是在normal模式下输入的。就是那么简单！
-:normal ggdd
-
-
-% 避免映射
-执行下面的命令来映射G键到别的东西：
-现在在normal模式按下G将删除一整行。
-:nnoremap G dd
-
-Vim将删除当前行。normal命令将顾及当前的所有映射。
-这意味着我们需要给normal提供类似于nnoremap之于nmap的版本，
- 否则我们没法使用它——考虑到我们猜测不了用户的映射方式。
-:normal G
-
-幸好Vim真的有这样的命令叫normal!。执行这个命令：
-这次Vim将移动光标到文件底部，即使G已经被映射了。
-在写Vim脚本时，你应该_总是_使用normal!，_永不_使用normal。不要信任用户在~/.vimrc中的映射。
-:normal! G
-
-
-% 特殊字符
-如果你使用normal!一段时间了，就很可能注意到一个问题。试试下面的命令：
-:normal! /foo<cr>
-
-第一眼看上去它应该会开始搜索foo，但你将看到它不会正常工作。 问题在于normal!不会解析像<cr>那样的特殊字符序列。
-于是，Vim认为你想要搜索字符串序列"foo"，没有意识到你甚至按下了回车来进行搜索！ 
-(译注：原文为you even pressed return to perform the search! 
-按后文的意思应该是没有按下return,待问作者) 我们将在下一章讨论如何应对这个问题。
-
-
-
-% 练习
-阅读:help normal。在最后部分，你将获得关于下一章主题的提示。
-
-
-% 附加题
-如果你还没准备好面对挑战，跳过这一节。如果你够胆，祝你好运！
-重温:help normal关于undo的部分。尝试设计一个删除两行却能单独撤销每次删除的映射。
- 建议从nnoremap <leader>d dddd开始吧。
-这次你并不真的需要normal!(nnoremap就够了)， 但是它揭示了一点：
-有时阅读一个Vim命令的文档可以激发关于别的内容的奇思妙想。
-如果你未尝使用过helpgrep命令，那就是时候用上它了。阅读:help helpgrep。 留心关于怎样在匹配内容中浏览的部分。
-暂时先别纠结模式(patterns)，我们很快就要谈到它们。 现在只需了解你可以用类似foo.*bar来查找文档中包括该正则模式的行。
-不幸的是，helpgrep会不时给你带来挫折感，因为为了找到某些词，你需要懂得去搜索某些词。 
-我会帮你省下些无用功，这次你得查找到一种手工修改Vim的撤销序列的方法， 这样你映射的两个删除才能独立地撤销。
-在以后你要灵活变通(pragmatic)。有时在你迷惘徘徊的时候，Google一下，你就知道。
-
-
-
-
-
-
-### =======================================================%Vimscript 执行normal!
-
-既然已经学了execute和normal!，我们就可以深入探讨一个Vimscript惯用法。 执行下面的命令：
-:execute "normal! gg/foo\<cr>dd"
-% 这将移动到文件的开头，查找foo的首次出现的地方，并删掉那一行。
-% 之前我们尝试过用normal!来执行一个搜索命令却无法输入必须的回车来开始进行搜索。 结合execute和normal!将解决这个问题。
-% execute允许你创建命令，因而你能够使用Vim普通的转义字符串来生成你需要的"打不出"的字符。 尝试下面的命令：
-:execute "normal! mqA;\<esc>`q"
-
-% 这个命令做了什么？让我们掰开来讲：
-% :execute "normal! ..."  ：执行命令序列，一如它们是在normal模式下输入的，忽略所有映射， 并替换转义字符串。
-    mq      ：保存当前位置到标记"q"。
-    A       ：移动到当前行的末尾并在最后一个字符后进入insert模式。
-    ;       ：我们现在位于insert模式，所以仅仅是写入了一个";"。
-    \<esc>  ：这是一个表示Esc键的转义字符串序列，把我们带离insert模式。
-    `q      ：回到标记"q"所在的位置。
-% 看上去有点绕，不过它真的很有用：它在当前行的末尾补上一个分号并保持光标不动。 
-% 在写Javascript，C或其他以分号作为语句分隔符的语言时，一旦忘记加上分号，这样的映射将助你一臂之力。
-
-
-% 练习
-重读:help expr-quote(你之前应该看过)来提醒你怎么用execute通过转义字符串传递特殊字符给normal!。
-在翻开下一章之前，放下本书休息一下。吃一个三明治或喝一杯咖啡(译注：或者茶！)， 喂一下你的宠物——如果你有的话。
 
 
 
@@ -784,7 +881,7 @@ Vimscript函数可以设计为接受不定数目的参数，
 
 
 
-### ============================================================== vim 内置寄存器
+### ============================================================== %vim 内置寄存器
 % 首先对vim中的寄存器来进行个大致浏览，它主要分为这么几个部分：
 　　　　1.无名寄存器,缓存最后一次操作的内容（"" ）
 　　　　2.复制专用寄存器 （"0~"9）,"0寄存器缓存最近一次复制的内容
@@ -827,7 +924,7 @@ paste <===> put
 
 
 
-==================================================== 命令的记录与回放
+==================== 命令的记录与回放
 1 q{register_name}      %将后续的动作记录到名为{register_name}的寄存器中，
                         %其中给出的寄存器名字必须是 a到z之间的一个字母。                       
 2 在命令模式中，[ 输入q，在输入a ]; 
@@ -835,13 +932,6 @@ paste <===> put
 3 此时你所输入的任意字符都会被记录下来 ,它记录到寄存器“a”中了
 4 用“q”来结束记录
 5 在按“Esc”,  用“@a” 来回放你的记录
-
-
-
-
-### ================================================================ copy paste
-
-set paste
 
 
 
@@ -854,7 +944,7 @@ set paste
 寄存器是Vim用来存储文件的临时空间，当使用命令y（yank）或d（delete）复制删除文本时，
 该文本就会被保存在寄存器中，通过p（put）命令插入刚删除或复制的内容。vim的寄存器分为不同的种类：
 
-数字寄存器：
+% 数字寄存器：
 在normal模式下输入:reg，您是否看到很多“（双引号）开头的数字了呢，这些都是寄存器，
 （如果暂时没看到，那么在对文本做几个操作，比如：dd,yy等），这些寄存器里保存了最近删除的和复制的文本。
 
@@ -872,8 +962,7 @@ set paste
 
 
 
-字母寄存器：
-
+% 字母寄存器：
 "a，"b，"c...都是字母寄存器，也许你执行:reg的时候看不到这些命令，不要紧，稍后就有了。
 之前粘贴我们用的都是p命令，如果我想粘贴其他寄存器里面的内容呢，
 你想到了吗？答案就是：寄存器的名称+p。现在我们新建一个字母寄存器，
@@ -891,23 +980,6 @@ set paste
 而是保存在"-寄存器里面。所有不包含换行符的删除都会保存在此寄存器中。
 
 "* ：这个就是系统寄存器喽，最开始的问题的第二个答案知道了吧 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
