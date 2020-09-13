@@ -9,7 +9,7 @@ tmux rename-session -t session_old session_new  #重命名会话
 tmux kill-server                                #关闭tmux服务器
 tmux kill-server -t session_name                #关闭指定的会话
 tmux kill-server -a -t session_name             #关闭所有会话，除了这个会话
-
+% 服务器 窗口 面板
 
 
 ### =================================================================== 系统操作

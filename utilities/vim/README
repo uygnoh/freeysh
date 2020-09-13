@@ -1,5 +1,5 @@
-% vim插件存放目录
-如果没有（一般自己创建）mkdir ~/.vimvim下文件夹解释
+% $home/.vim
+% :h vimfiles
 
     ~/.vim/colors/是用来存放vim配色方案的。
     
