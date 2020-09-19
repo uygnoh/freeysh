@@ -1,4 +1,6 @@
 ### 此目录下有FVWM的隐藏配置文件
+cp -r .fvwm .Xdefaults $HOME/
+
 
 ### FVWM是一个高度可配置化的窗口管理器
 
