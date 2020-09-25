@@ -19,4 +19,5 @@ export PATH=$PATH:/opt/eclipse-cpp-2018-09-linux-gtk-x86_64/eclipse/
 
 
 
-
+export JAVA_HOME=/opt//home/ysh/Documents/Java/jdk-15_linux-x64_bin/jdk-15/
+export PATH=$PATH:$JAVA_HOME/bin

@@ -1,3 +1,0 @@
-### atom 文本编辑器
-wget https://atom.io/download/deb -O atom.deb
-sudo dpkg -i atom.deb

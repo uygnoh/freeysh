@@ -2,7 +2,7 @@
 
 % ~# time dd if=xxx.iso of=/dev/sdb bs=4M status=progress oflag=sync
 
-
+time dd if=ubuntu-20.04.1-desktop-amd64.iso of=/dev/sdd bs=4M status=progress oflag=sync
 
 ### =================================================================== dd命令
 dd [bs=<字节数>][cbs=<字节数>][conv=<关键字>][count=<区块数>]   \
