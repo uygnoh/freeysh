@@ -1,6 +1,11 @@
 ### ======================================================== eclipse安装stm32插件
+https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2020-09/R/eclipse-cpp-2020-09-R-linux-gtk-x86_64.tar.gz&mirror_id=1282
+eclipse需要java的JDK环境
 % Help-> Install New Software
 % http://gnuarmeclipse.sourceforge.net/updates
+
+% Help-> Install New Software
+https://download.eclipse.org/embed-cdt/releases/5.1.1/p2/
 
 
 

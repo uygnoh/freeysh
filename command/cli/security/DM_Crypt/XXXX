@@ -7,9 +7,10 @@
 % 磁盘加密分区制作(1, 2, 3, 4, 5, 6, 7,)
 
 % 磁盘加密分区打开    
-root@debian:/mnt# cryptsetup luksOpen -d /root/enc.key /dev/sda2 mydisk
-root@debian:/mnt# ls /dev/mapper/
-root@debian:/mnt# mount /dev/mapper/mydisk /mnt
+root@debian:/mnt# 
+cryptsetup luksOpen -d /home/ysh/Documents/FREEYSH/command/cli/security/DM_Crypt/enc.key /dev/sda2 mydisk
+ls /dev/mapper/
+mount /dev/mapper/mydisk /mnt
 
 
 % 磁盘加密分区关闭　　

@@ -1,0 +1,34 @@
+###
+% 数据类型
+    portCHAR    char
+    portSHORT   short
+    portLONG    long
+    protTickType
+    protBASE_TYPE long
+    
+    
+% 变量名
+   char  类型变量的前缀为 c 
+   short 类型变量的前缀为 s 
+   long  类型变量的前缀为 l
+   portBASE_TYPE类型变量的前缀为 x
+   char    类型无符号变量的前缀为 uc
+   char    类型指针变量的前缀为   pc
+   
+   
+% 函数名
+    vTaskPrioritySet()      返回值为void类型
+    xQueueReceive()         返回值为portBASE_TYPE类型
+    vSemaphoreCreateBinary()返回值为void类型
+    
+% 宏
+    前缀                                  宏定义的文件
+    port  (例如, portMAX_DELAY)           portable.h
+    task  (例如, taskENTER_CAITICAL)      task.h
+    pd    (例如, pdTRUE)                  projdefs.h
+    config(例如, configUSE_PREEMPTION)    FreeRTOSConfig.h
+    err   (例如, errQUEUE_FULL)           projdefs.h
+    
+    
+% 格式
+1 个TAB键 == 4 空格

@@ -60,6 +60,7 @@ set ttyfast             " 使屏幕显示更流畅
 
 " => tab & 缩进 & 正常处理indent, eol, start等  
 set noexpandtab         " 不要用空格代替制表符
+set expandtab           " 用空格代替制表符
 set tabstop=4           " Tab键的宽度    
 set softtabstop=4       " 统一缩进为4  
 set shiftwidth=4        " 反向制表符中的空格数目 

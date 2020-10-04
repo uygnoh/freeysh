@@ -1,0 +1,61 @@
+### FreeRTOS
+% https:/RTOS代码的核心包含在三个文件中：[ tasks.c、queue.c、list.c ]
+这三个文件位于FreeRTOS/Source目录。
+在该目录下还包含三个可选的文件：timers.c、event_groups.c、croutine.c，分别实现软件定时、事件组和协程功能。
+
+
+    FreeRTOS
+        | +-- Source  FreeRTOS内核代码文件
+        |   |+-- include          FreeRTOS内核代码头文件
+        |   |+-- Portable         处理器特定代码
+        |   |  |+--Compiler x     支持编译器x的所有移植包
+        |   |  |+--Compiler y     支持编译器y的所有移植包
+        |   |  |+--MemMang        内存堆实现范例
+        
+
+% 每个支持的处理器架构需要一小段与处理器架构相关的RTOS代码。
+这个是RTOS移植层，它位于FreeRTOS/Source/Portable/[相应编译器]/[相应CPU架构]子目录。
+
+% 对于FreeRTOS，堆栈设计也属于移植层。
+FreeRTOS/Source/portable/MemMang目录下heap_x.c文件给出了多种堆栈方案，后续文章将会详细介绍堆栈操作。
+
+
+% 移植层目录举例：
+ 如果在GCC编译器下使用TriCore1782：TriCore特定文件（port.c）位于FreeRTOS/Source/Portable/GCC/TriCore_1782目录下。
+ FreeRTOS/Source/Portable 子目录下的所有文件，除了FreeRTOS/Source/Portable/MemMang目录外都可以忽略或删除
+ 
+ 
+% FreeRTOS下载包中还包含各种处理器架构和编译器的演示例程。
+大多数的演示例程代码对所有移植都是通用的，位于FreeRTOS/Demo/Common/Minimal目录。
+FreeRTOS/Demo/Common/Full目录下的是历史遗留代码，仅用于PC。
+
+      % FreeRTOS/Demo目录结构如下所示：
+
+        FreeRTOS
+          |+-- Demo
+          |  |+-- Common          所有例程都可以使用的演示例程文件
+          |  |+-- Dir x           用于x平台的演示例程工程文件
+          |  |+-- Dir y           用于y平台的演示例程工程文件
+ 
+ 
+% FreeRTOS/Demo目录下剩余的子目录包含预先配置好的工程，可以用于构建个人演示例程。
+子目录的命名与移植平台和编译器相关。每一个RTOS移植包都有自己的说明文档。
+
+      %演示例程目录举例：
+
+    如果以英飞凌TriBoard开发板硬件构建TriCoreGCC演示例程：
+    TriCore演示例程工程文件位于FreeRTOS/Demo/TriCore_TC1782_TriBoard_GCC目录。
+    目录FreeRTOS/Demo下的所有子目录（Common目录除外）都可以忽略或删掉。 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
