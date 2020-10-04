@@ -50,12 +50,97 @@ FreeRTOS/Demo/Common/Full目录下的是历史遗留代码，仅用于PC。
  
  
  
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++FreeRTOS学习笔记——链表 
+% 习下FreeRTOS中有关链表的操作，查看源代码发现链表的代码貌似很精简，
+有三个结构分别是xLIST_ITEM、xMINI_LIST_ITEM、xLIST，
+其中xLIST_ITEM和xMINI_LIST_ITEM类似可以归为一类
+/*
+ * Definition of the only type of object that a list can contain.
+ */
+struct xLIST_ITEM
+{
+	configLIST_VOLATILE TickType_t xItemValue;			
+	struct xLIST_ITEM * configLIST_VOLATILE pxNext;	
+	struct xLIST_ITEM * configLIST_VOLATILE pxPrevious;	
+	void * pvOwner;										
+	void * configLIST_VOLATILE pvContainer;				
+};
+typedef struct xLIST_ITEM ListItem_t;					
+ 
+struct xMINI_LIST_ITEM
+{
+	configLIST_VOLATILE TickType_t xItemValue;
+	struct xLIST_ITEM * configLIST_VOLATILE pxNext;
+	struct xLIST_ITEM * configLIST_VOLATILE pxPrevious;
+};
+typedef struct xMINI_LIST_ITEM MiniListItem_t;
+ 
+/*
+ * Definition of the type of queue used by the scheduler.
+ */
+typedef struct xLIST
+{
+	configLIST_VOLATILE UBaseType_t uxNumberOfItems;
+	ListItem_t * configLIST_VOLATILE pxIndex;		
+	MiniListItem_t xListEnd;						
+} List_t; 
+
+% xMINI_LIST_ITEM可以算是xLIST_ITEM的子类，两者可以相互转换，
+xLIST是我们需要关注的xLIST_ITEM和xMINI_LIST_ITEM都是基本结构都是有xLIST来管理，
+在list.h文件中以宏定义定义了一些链表的操作 
+#define listSET_LIST_ITEM_OWNER( pxListItem, pxOwner )		( ( pxListItem )->pvOwner = ( void * ) ( pxOwner ) )
+ 
+#define listGET_LIST_ITEM_OWNER( pxListItem )	( ( pxListItem )->pvOwner )
  
  
+#define listSET_LIST_ITEM_VALUE( pxListItem, xValue )	( ( pxListItem )->xItemValue = ( xValue ) )
+ 
+#define listGET_LIST_ITEM_VALUE( pxListItem )	( ( pxListItem )->xItemValue )
+ 
+#define listGET_ITEM_VALUE_OF_HEAD_ENTRY( pxList )	( ( ( pxList )->xListEnd ).pxNext->xItemValue )
+ 
+#define listGET_HEAD_ENTRY( pxList )	( ( ( pxList )->xListEnd ).pxNext )
+ 
+#define listGET_NEXT( pxListItem )	( ( pxListItem )->pxNext )
+ 
+#define listGET_END_MARKER( pxList )	( ( ListItem_t const * ) ( &( ( pxList )->xListEnd ) ) )
+ 
+#define listLIST_IS_EMPTY( pxList )	( ( BaseType_t ) ( ( pxList )->uxNumberOfItems == ( UBaseType_t ) 0 ) )
+ 
+#define listCURRENT_LIST_LENGTH( pxList )	( ( pxList )->uxNumberOfItems )
+ 
+#define listGET_OWNER_OF_NEXT_ENTRY( pxTCB, pxList )										\
+{																							\
+List_t * const pxConstList = ( pxList );													\
+	/* Increment the index to the next item and return the item, ensuring */				\
+	/* we don't return the marker used at the end of the list.  */							\
+	( pxConstList )->pxIndex = ( pxConstList )->pxIndex->pxNext;							\
+	if( ( void * ) ( pxConstList )->pxIndex == ( void * ) &( ( pxConstList )->xListEnd ) )	\
+	{																						\
+		( pxConstList )->pxIndex = ( pxConstList )->pxIndex->pxNext;						\
+	}																						\
+	( pxTCB ) = ( pxConstList )->pxIndex->pvOwner;											\
+}
+ 
+#define listGET_OWNER_OF_HEAD_ENTRY( pxList )  ( (&( ( pxList )->xListEnd ))->pxNext->pvOwner )
+ 
+#define listIS_CONTAINED_WITHIN( pxList, pxListItem ) ( ( BaseType_t ) ( ( pxListItem )->pvContainer == ( void * ) ( pxList ) ) )
  
  
+#define listLIST_ITEM_CONTAINER( pxListItem ) ( ( pxListItem )->pvContainer )
  
+#define listLIST_IS_INITIALISED( pxList ) ( ( pxList )->xListEnd.xItemValue == portMAX_DELAY )
  
+void vListInitialise( List_t * const pxList );
  
+void vListInitialiseItem( ListItem_t * const pxItem );
+ 
+void vListInsert( List_t * const pxList, ListItem_t * const pxNewListItem );
+ 
+void vListInsertEnd( List_t * const pxList, ListItem_t * const pxNewListItem );
+ 
+UBaseType_t uxListRemove( ListItem_t * const pxItemToRemove ); 
+ 
+这其中文档有提到xLIST_ITEM中pvOwner一般是指向TCB任务控制块的指针，而pvContainer一般是指向xLIST的指针，链表的排序都是以xItemValue为基准降序排列，xLIST中的xListEnd是链表的末尾，在链表中是不含有有效数据的，因此也不记录在uxNumberOfItems中整个链表的结构差不多是下面形式，关于xListEnd的处理可能不是很对 
  
  
