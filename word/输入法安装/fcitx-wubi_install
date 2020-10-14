@@ -13,9 +13,9 @@
 
 5 在左下角会弹出 fcitx的图标， Setting->Configuration
 
-___________________________________________________________
-(五笔输入法：fcitx-table-wubi 和fcitx-table-wbpy)
-% root@localhost:/home/ysh # apt-get install fcitx-table-wubi
+
+% 五笔输入法,sudo apt-get install fcitx-table-wubi
+apt-get install fcitx-table-wubi
  
 
 

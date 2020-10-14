@@ -14,8 +14,8 @@
 ### ============================================================== git 初始化设置	
 git config --global user.name "hongyu"
 git config --global user.email "961832097@qq.com"
-git config --global core.editor vim         ##文本编辑器设定
-git config --list                           ##查看配置信息
+git config --global core.editor vim         
+git config --list                           
 
 
 
@@ -31,7 +31,7 @@ git commit -m "First comment"               # 然后执行 git commit 提交
 
 2 创建一个仓库 Create a new repository
 
-3 生成 OpenSSH 公钥和私钥文件 
+3 生成 OpenSSH 公钥和私钥文件 ,文件位置： cd /home/ysh/.ssh
   % ssh-keygen -t rsa
   
 4 git-hub添加OpenSS私钥文件

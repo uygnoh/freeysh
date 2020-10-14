@@ -30,7 +30,6 @@ FreeRTOS/Source/portable/MemMang目录下heap_x.c文件给出了多种堆栈方�
 FreeRTOS/Demo/Common/Full目录下的是历史遗留代码，仅用于PC。
 
       % FreeRTOS/Demo目录结构如下所示：
-
         FreeRTOS
           |+-- Demo
           |  |+-- Common          所有例程都可以使用的演示例程文件
@@ -42,7 +41,6 @@ FreeRTOS/Demo/Common/Full目录下的是历史遗留代码，仅用于PC。
 子目录的命名与移植平台和编译器相关。每一个RTOS移植包都有自己的说明文档。
 
       %演示例程目录举例：
-
     如果以英飞凌TriBoard开发板硬件构建TriCoreGCC演示例程：
     TriCore演示例程工程文件位于FreeRTOS/Demo/TriCore_TC1782_TriBoard_GCC目录。
     目录FreeRTOS/Demo下的所有子目录（Common目录除外）都可以忽略或删掉。 

@@ -27,7 +27,7 @@ sed -i 's#http://deb.debian.org#https://mirrors.163.com#g' /etc/apt/sources.list
 
 
 
-% 常用安装源站点列表
+% Debian Buster常用安装源站点列表
 %163镜像站 
 deb http://mirrors.163.com/debian/ buster main non-free contrib
 deb http://mirrors.163.com/debian/ buster-updates main non-free contrib
