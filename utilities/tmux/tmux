@@ -1,4 +1,11 @@
-### ~=================================================================== tmux
+### % tmux常用命令
+
+( server )      服务器 
+( session )     会话
+( window )      窗口 
+( panel )       面板
+
+
 <crtl+a   >                                     #激活控制台(系统默认Ctrl+b)
 <ctrl+a s >                                     #会话切换
 tmux new-session -s <session_name>              #创建一个会话
@@ -9,10 +16,10 @@ tmux rename-session -t session_old session_new  #重命名会话
 tmux kill-server                                #关闭tmux服务器
 tmux kill-server -t session_name                #关闭指定的会话
 tmux kill-server -a -t session_name             #关闭所有会话，除了这个会话
-% 服务器 窗口 面板
 
 
-### =================================================================== 系统操作
+
+### % 系统操作
 ?               列出所有快捷键,按q返回
 d               脱离当前会话
 D               选择要脱离的会话,在同时开启多个会话时使用
@@ -24,7 +31,7 @@ s               选择并切换会话
 ~               列出提示信息缓存
 
 
-### ==================================================================== 窗口操作
+### % 窗口操作
 c               创建新窗口
 &               关闭当前窗口
 数字键          切换指定窗口
@@ -37,7 +44,7 @@ w               通过窗口列表切换窗口
 f               在所有窗口查看指定文本
 
 
-### ==================================================================== 面板操作
+### % 面板操作
 "               将当前面板分为上下2块
 %               将当前面板分为左右2块
 x               关闭当前面板
@@ -64,28 +71,25 @@ tmux会显示每个pane的序号，按这个序号就可以跳过去了
 
 
 
-###================================================= tmux配置文件位置 ~/.tmux.conf
+################################################################################
+% tmux配置文件位置 ~/.tmux.conf
+
 # Changing the default prefix key
 set-option -g prefix C-a
 unbind-key C-b
 bind-key C-a send-prefix
 
 
-
-### +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # windows operation,窗口操作 
 # 不用按prefix，直接用shift+箭头在窗口之间switch
-
 bind -n S-Left previous-window 
 bind -n S-Right next-window 
 
 
-
-### +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # pane operation,窗格操作
- 
 bind-key v split-window -h              # prefix + v 代表竖着切
 bind-key h split-window -v              # prefix + h 代表横着切
+
 
 # 不用按prefix，直接用alt+箭头在pane之间switch
 bind -n M-Left select-pane -L 
@@ -94,17 +98,22 @@ bind -n M-Up select-pane -U
 bind -n M-Down select-pane -D 
 
 
-
-### +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+### 
 set-window-option -g mode-keys vi       # 复制模式中的默认键盘布局使用 vi
 set-option -g mouse on                  # Mouse mode on
 
+
 # 直接用prefix+r,就能重新加载设置。
 bind-key r source-file ~/.tmux.conf \; display-message "tmux.conf reloaded"
+################################################################################
 
 
 
-### +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+################################################################################
 # status-bar,状态栏
 
 ### pretty colors,漂亮的颜色
@@ -125,7 +134,7 @@ set-window-option -g window-status-current-format '#[fg=cyan,bold]#I#[fg=blue]:#
 
 ### 右下角
 set -g status-right '#[fg=green][#[fg=cyan]%Y-%m-%d#[fg=green]]'
-
+################################################################################
 
 
 
@@ -148,7 +157,7 @@ tmux split-window -h
 
 tmux attach -t $SESSION
 
-### ============================================================ tmux_script
+### % tmux_script
 % touch tmuxlaunch.sh
 
 SESSION=stm32
@@ -163,6 +172,6 @@ tmux split-window -h
 # tmux send-keys 'cd example/ysh; python -m SimplHTTPServer' C-m
 
 tmux attach -t $SESSION
-
+################################################################################
 
 
