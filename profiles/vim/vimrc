@@ -1,23 +1,20 @@
-
-""" 1#19CAAD, 2#D1BA74, 3#F4606C, 4#ECAD9E, #00FF00绿色
-""" vim配色方案 :h vimfiles
-""" 1 :colorscheme slate
-""" 2 :colorscheme delek
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 1#19CAAD, 2#D1BA74, 3#F4606C, 4#ECAD9E, #00FF00绿色
+" vim配色方案 :h vimfiles
+"   1 :colorscheme slate
+"   2 :colorscheme delek
 " 追加到下面两行到 ~/.bashrc
-" export ysh=/home/ysh/Documents/FREEYSH
-" alias lsf='cd $ysh; ls' 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"   export ysh=/home/ysh/Documents/FREEYSH
+"   alias lsf='cd $ysh; ls' 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let my_vimrc = 256
-let master_vimrc = 86
+let vimrc_ch = 256
+let vimrc_en = 86
 
 if my_vimrc > master_vimrc
-    source ~/Documents/FREEYSH/profiles/vim/my_vimrc/vimrc
+    source ~/Documents/FREEYSH/profiles/vim/my_vimrc/vimrc_ch
 else
-    source ~/Documents/FREEYSH/profiles/vim/master_vimrc/vimrc
+    source ~/Documents/FREEYSH/profiles/vim/my_vimrc/vimrc_en
 endif
 
 

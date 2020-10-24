@@ -1,17 +1,15 @@
-" => => => => => => => => my_vimrc 插件配置文件
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => 安装vim-plug插件管理器                  
 " Download plug.vim and put it in ~/.vim/autoload
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
-" => plug-in插件管理器配置文件 
+" plug-in插件加载器
 call plug#begin('~/.vim/plugged')                                          
 Plug 'scrooloose/nerdtree'
-
 call plug#end()
 
-" => NERDTreeFind插件配置文件
-" 
+" NERDTreeFind插件配置文件
 nnoremap ,v :NERDTreeFind<cr>                   " ,v 设置为开关NERDTree的快捷键
 nnoremap ,g :NERDTreeToggle<cr>                 " ,g 设置为开关NERDTree的快捷键
 autocmd vimenter * NERDTree                     " 打开vim时自动打开NERDTree
@@ -22,10 +20,17 @@ let g:NERDTreeDirArrowCollapsible = '-'         " 修改树的显示图标
 "let g:NERDTreeSize=20                          " 窗口尺寸
 let g:NERDTreeShowLineNumbers=1                 " 窗口是否显示行号
 
-" => colors & molokai配色主题
-set cursorline          " 高亮显示当前行
-syntax enable           " 语法高亮 
-syntax on               " 语法高亮
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" colors & molokai配色主题
+" 复制molokai主题到/usr/share/vim/vim80/colors/目录下
+" cp molokai.vim /usr/share/vim/vim80/colors/
+" % 有关vim主题的命令
+"   :colorscheme            "查看当前主题
+"   :colorscheme space tab  "列出所有主题
+"   :colorscheme your-theme "切换主题
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 colorscheme  molokai 
 set t_Co=256            " 启用256色 
 set background=dark     " 设置背景色
@@ -34,12 +39,12 @@ let g:rehash256=1
 
 
 
-
-
-
-
-" => => => => => => => => my_vimrc 配置文件
-" => VIM & 行号 & 光标设置 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM 显示 & 行号 & 光标设置 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set cursorline          " 高亮显示当前行
+syntax enable           " 语法高亮 
+syntax on               " 语法高亮
 set novisualbell        " turn off visual bell
 set visualbell t_vb=    " turn off error beep/flash
 set nocompatible        " 不与vi兼容(采用vim自己的操作命令)    
@@ -57,8 +62,9 @@ set ttyfast             " 使屏幕显示更流畅
 
 
 
-
-" => tab & 缩进 & 正常处理indent, eol, start等  
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => tab & 缩进 & 正常处理indent, eol, start等 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" 
 set noexpandtab         " 不要用空格代替制表符
 set expandtab           " 用空格代替制表符
 set tabstop=4           " Tab键的宽度    
@@ -83,7 +89,9 @@ set backspace=2
 
 
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => 文件类型侦测 & 查找 & 文件备份 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 filetype on             " 侦测文件类型     
 filetype indent on      " 文件类型，开启缩进规则
 filetype plugin on      " 顾名思义，这是开启对应插件的 
@@ -97,7 +105,10 @@ set nobackup            " 用来控制我们是否为当前正在编辑的文件
 set confirm             " 在处理未保存或只读文件的时候，弹出确认
 
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => 编码设置 & 语言设置 & 鼠标设置
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936
 set fileencoding=gb2312
@@ -109,7 +120,10 @@ set selection=exclusive
 set selectmode=mouse,key  
 
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => 窗格切换  & 命令行模式增强
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -118,7 +132,10 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => 自动插入文件头 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 autocmd BufNewFile *.cpp,*.cc,*.c,*.h,*.sh,*.py exec ":call SetHeader()" 
 function! SetHeader() 
     if expand("%:e") == 'sh' 
@@ -154,7 +171,10 @@ function! SetHeader()
 endfunction
 
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => 自动命令分组
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 augroup configgroup
 	autocmd!
 	autocmd BufEnter *.c inoremap ( ()<Esc>i
@@ -163,7 +183,6 @@ augroup configgroup
 	autocmd BufEnter *.c inoremap " ""<Esc>i
 	autocmd BufEnter Makefile setlocal noexpandtab
 augroup END
-
 
 autocmd BufNewFile * normal G
 
