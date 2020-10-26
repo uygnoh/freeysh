@@ -83,9 +83,12 @@ typedef struct xLIST
 	MiniListItem_t xListEnd;						
 } List_t; 
 
+
+
 % xMINI_LIST_ITEM可以算是xLIST_ITEM的子类，两者可以相互转换，
-xLIST是我们需要关注的xLIST_ITEM和xMINI_LIST_ITEM都是基本结构都是有xLIST来管理，
-在list.h文件中以宏定义定义了一些链表的操作 
+% xLIST是我们需要关注的xLIST_ITEM和xMINI_LIST_ITEM都是基本结构都是有xLIST来管理，
+% 在list.h文件中以宏定义定义了一些链表的操作 
+
 #define listSET_LIST_ITEM_OWNER( pxListItem, pxOwner )		( ( pxListItem )->pvOwner = ( void * ) ( pxOwner ) )
  
 #define listGET_LIST_ITEM_OWNER( pxListItem )	( ( pxListItem )->pvOwner )
@@ -139,6 +142,62 @@ void vListInsertEnd( List_t * const pxList, ListItem_t * const pxNewListItem );
  
 UBaseType_t uxListRemove( ListItem_t * const pxItemToRemove ); 
  
-这其中文档有提到xLIST_ITEM中pvOwner一般是指向TCB任务控制块的指针，而pvContainer一般是指向xLIST的指针，链表的排序都是以xItemValue为基准降序排列，xLIST中的xListEnd是链表的末尾，在链表中是不含有有效数据的，因此也不记录在uxNumberOfItems中整个链表的结构差不多是下面形式，关于xListEnd的处理可能不是很对 
- 
+这其中文档有提到xLIST_ITEM中pvOwner一般是指向TCB任务控制块的指针，而pvContainer一般是指向xLIST的指针，
+链表的排序都是以xItemValue为基准降序排列，xLIST中的xListEnd是链表的末尾，在链表中是不含有有效数据的，
+
+
+
+
+
+###
+% 数据类型
+    portCHAR    char
+    portSHORT   short
+    portLONG    long
+    protTickType
+    protBASE_TYPE long
+    
+    
+% 变量名
+   char  类型变量的前缀为 c 
+   short 类型变量的前缀为 s 
+   long  类型变量的前缀为 l
+   portBASE_TYPE类型变量的前缀为 x
+   char    类型无符号变量的前缀为 uc
+   char    类型指针变量的前缀为   pc
+   
+   
+% 函数名
+    vTaskPrioritySet()      返回值为void类型
+    xQueueReceive()         返回值为portBASE_TYPE类型
+    vSemaphoreCreateBinary()返回值为void类型
+    
+% 宏
+    前缀                                  宏定义的文件
+    port  (例如, portMAX_DELAY)           portable.h
+    task  (例如, taskENTER_CAITICAL)      task.h
+    pd    (例如, pdTRUE)                  projdefs.h
+    config(例如, configUSE_PREEMPTION)    FreeRTOSConfig.h
+    err   (例如, errQUEUE_FULL)           projdefs.h
+    
+    
+% 格式
+1 个TAB键 == 4 空格
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+因此也不记录在uxNumberOfItems中整个链表的结构差不多是下面形式，关于xListEnd的处理可能不是很对 
+
  

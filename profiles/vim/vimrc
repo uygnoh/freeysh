@@ -8,10 +8,10 @@
 "   alias lsf='cd $ysh; ls' 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let vimrc_ch = 256
-let vimrc_en = 86
+let vimrc_ch = 1024
+let vimrc_en = 512
 
-if my_vimrc > master_vimrc
+if vimrc_ch > vimrc_en
     source ~/Documents/FREEYSH/profiles/vim/my_vimrc/vimrc_ch
 else
     source ~/Documents/FREEYSH/profiles/vim/my_vimrc/vimrc_en
