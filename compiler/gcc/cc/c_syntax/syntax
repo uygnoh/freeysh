@@ -1,0 +1,110 @@
+/*
+ *
+ * @freeysh 2020/10/26
+ */
+
+switch(expression) {
+case constant-expression  :
+   statement(s);
+   break; /* 可选的 */
+case constant-expression  :
+   statement(s);
+   break; /* 可选的 */
+/* 您可以有任意数量的 case 语句 */
+default : /* 可选的 */
+   statement(s);
+}
+
+
+
+if (boolean_expression) {
+   /* 如果布尔表达式为真将执行的语句 */
+}
+
+
+if (boolean_expression) {
+   /* 如果布尔表达式为真将执行的语句 */
+} else {
+   /* 如果布尔表达式为假将执行的语句 */
+}
+
+
+if (boolean_expression 1) {
+   /* 当布尔表达式 1 为真时执行 */
+} else if (boolean_expression 2) {
+   /* 当布尔表达式 2 为真时执行 */
+} else if (boolean_expression 3) {
+   /* 当布尔表达式 3 为真时执行 */
+} else {
+   /* 当上面条件都不为真时执行 */
+}
+
+
+if (boolean_expression 1) {
+   /* 当布尔表达式 1 为真时执行 */
+   if (boolean_expression 2) {
+      /* 当布尔表达式 2 为真时执行 */
+   }
+}
+
+
+
+while (condition) {
+   statement(s);
+}
+
+
+do {
+   statement(s);
+} while ( condition );
+
+
+while (condition) {
+   while (condition){
+      statement(s);
+   }
+   statement(s);
+}
+
+
+do {
+   statement(s);
+   do {
+      statement(s);
+   } while ( condition );
+
+} while ( condition );
+
+
+
+
+for ( init; condition; increment ) {
+   statement(s);
+}
+
+
+for ( init; condition; increment ) {
+   for ( init; condition; increment ) {
+      statement(s);
+   }
+   statement(s);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

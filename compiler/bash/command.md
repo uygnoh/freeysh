@@ -467,7 +467,7 @@ done
 
 
 
-# 命令处理
+### 命令处理
 ```note
 command ls                         # 忽略 alias 直接执行程序或者内建命令 ls
 builtin cd                         # 忽略 alias 直接运行内建的 cd 命令
