@@ -1,4 +1,3 @@
-
 ### 环境变量配置文件 
 ```note
     vim /etc/profile
