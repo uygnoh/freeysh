@@ -6,10 +6,46 @@
 + https://www.3cschool.com
 
 
+
 ### 命令行终端字体大小调整
 + Maximum     ->ctrl+shift++
 + Minimum     ->ctrl+-
 + F11         ->全屏
+
+
+
+### gnome3快捷键
+```
+.................................................
+.                                               . 
+. F2            ;Grub2                          .
+. F11			;Screen Full                    .
+.                                               .
+. Super+L		;Lock Screen                    .
+. Super+H		;Hide window                    .
+. Super+Up		;Maximize window                .
+. Super+Left	;View split on left             .
+. Super+right	;View split on right            .
+.                                               .
+. Alt+F2		;Show the run command prompt    .
+. Alt+F4		;Close window                   . 
+. Alt+Tab       ;Browser Switching              .
+.                                               .
+. Ctrl+Shitf++	;Increase font size             .
+. Ctrl+-		;Decrease font size             .
+. Ctrl+7		;turn terminal                  .
+. Ctrl+H		;Display hidden files           .
+. Ctrl+C		;Keyboard interrupt             .
+. Ctrl+D		;echo <<-EOF                    .
+. Ctrl+Z        ;Stop the process[background]   .   
+. Ctrl+/        ;Send SIGQUIT 3 [foreground]    .
+. Ctrl+S        ;Interrupt console output       .
+. Ctrl+Q        ;Recovery console output        .
+. Ctrl+L        ;clear                          .
+. Ctrl+Tab		;Window Switching               .
+.................................................
+```
+
 
 
 ### tmux终端复用软件
@@ -45,6 +81,7 @@ tmux窗口
 + <ctrl+a l >          #前后窗口间互相切换
 
 
+
 ### vim文本编辑器 
 + vim左括号加自动换行   "inoremap { {}<ESC>i<CR><ESC>O  <第一种方案>
 + 数组则不换行         "inoremap { {}<ESC>i            <第二种方案>
@@ -55,62 +92,6 @@ tmux窗口
 
 
 
-
-### ========================================================================
-.................................................
-.                                               . 
-. F2            ;Grub2                          .
-. F11			;Screen Full                    .
-.                                               .
-. Super+L		;Lock Screen                    .
-. Super+H		;Hide window                    .
-. Super+Up		;Maximize window                .
-. Super+Left	;View split on left             .
-. Super+right	;View split on right            .
-.                                               .
-. Alt+F2		;Show the run command prompt    .
-. Alt+F4		;Close window                   . 
-. Alt+Tab       ;Browser Switching              .
-.                                               .
-. Ctrl+Shitf++	;Increase font size             .
-. Ctrl+-		;Decrease font size             .
-. Ctrl+7		;turn terminal                  .
-. Ctrl+H		;Display hidden files           .
-. Ctrl+C		;Keyboard interrupt             .
-. Ctrl+D		;echo <<-EOF                    .
-. Ctrl+Z        ;Stop the process[background]   .   
-. Ctrl+/        ;Send SIGQUIT 3 [foreground]    .
-. Ctrl+S        ;Interrupt console output       .
-. Ctrl+Q        ;Recovery console output        .
-. Ctrl+L        ;clear                          .
-. Ctrl+Tab		;Window Switching               .
-.................................................
-
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+                                                                        +
-+ 窗口切换 vim <===>Buffer              tmux<===>Shift+arrow              +
-+ 窗格切换 vim <===>Ctrl+arrow          tmux<===>Alt+arrow                 +
-+ 分屏操作 vim <===>:split, :vsplit     tmux<===> PREFIX+h, PREFIX+v      +
-+                                                                        +
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+ 
-+ 参考文件位置: /home/ysh/Documents/FREEYSH/readme.md
-+ Vim 中的 Buffer 是文件在内存中的缓存数据，一个 Buffer 总是也只能是对应一个文件
-+ :ls   :buffer number  :buffer next    :buffer previous   <buffer == b> 
-+
-+ tmux Ctrl+b激活控制台；此时以下按键生效, PREFIX = Ctrl+a自定义方式
-+ tmux 使用C/S模型构建, 包括的单元模块有 server, session, window, panel
-+ tmux new-session -s <session_name> 创建一个新的会话
-+ 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-
-
-
-
-
-### ========================================================================
 ### 一些需要注意的代码风格
 
 + 宏或者常量所有用大写  #define MAXLENGTH 10;  const int MAXLENGTH = 10；
@@ -141,7 +122,6 @@ void print_msg(int a)
     }
 
 }
-```
 
 + 使用空格缩进为: “4个空格”
 + switch ... case ...语句中，switch和case具有相同的缩进（参考上文）
@@ -171,4 +151,5 @@ void print_msg(int a)
     } while (0)
 ```
 
+```
 
