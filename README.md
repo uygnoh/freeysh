@@ -12,7 +12,7 @@
 + F11         ->全屏
 
 
-##### tmux终端复用软件
+### tmux终端复用软件
 + <crtl  +a>           #激活控制台(系统默认Ctrl+b)
 + <shift +上下左右箭头>#窗口(window)切换
 + <alt   +上下左右箭头>#窗格(pane)切换
@@ -36,7 +36,7 @@ tmux会话
 + <ctrl+a (>                                      #Switch the attached client to the previous session.
 + <ctrl+a )>                                      #Switch the attached client to the next session.
 
-##### tmux窗口
+tmux窗口
 + tmux new-window      #创建一个新的 window
 + tmux list-windows    #列出当前窗口
 + <ctrl+a , >          #重命明当前窗口
