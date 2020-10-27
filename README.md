@@ -19,15 +19,15 @@
 .................................................
 .                                               . 
 . F2            ;Grub2                          .
-. F11			;Screen Full                    .
-. Super+L		;Lock Screen                    .
-. Super+H		;Hide window                    .
-. Super+Up		;Maximize window                .
+. F11           ;Screen Full                    .
+. Super+L       ;Lock Screen                    .
+. Super+H       ;Hide window                    .
+. Super+Up      ;Maximize window                .
 . Super+Left    ;View split on left             .
 . Super+right   ;View split on right            .
 .                                               .
-. Alt+F2		;Show the run command prompt    .
-. Alt+F4		;Close window                   . 
+. Alt+F2        ;Show the run command prompt    .
+. Alt+F4        ;Close window                   . 
 . Alt+Tab       ;Browser Switching              .
 .                                               .
 . Ctrl+Shitf++  ;Increase font size             .
