@@ -20,29 +20,28 @@
 .                                               . 
 . F2            ;Grub2                          .
 . F11			;Screen Full                    .
-.                                               .
 . Super+L		;Lock Screen                    .
 . Super+H		;Hide window                    .
 . Super+Up		;Maximize window                .
-. Super+Left	;View split on left             .
-. Super+right	;View split on right            .
+. Super+Left    ;View split on left             .
+. Super+right   ;View split on right            .
 .                                               .
 . Alt+F2		;Show the run command prompt    .
 . Alt+F4		;Close window                   . 
 . Alt+Tab       ;Browser Switching              .
 .                                               .
-. Ctrl+Shitf++	;Increase font size             .
-. Ctrl+-		;Decrease font size             .
-. Ctrl+7		;turn terminal                  .
-. Ctrl+H		;Display hidden files           .
-. Ctrl+C		;Keyboard interrupt             .
-. Ctrl+D		;echo <<-EOF                    .
+. Ctrl+Shitf++  ;Increase font size             .
+. Ctrl+-        ;Decrease font size             .
+. Ctrl+7        ;turn terminal                  .
+. Ctrl+H        ;Display hidden files           .
+. Ctrl+C        ;Keyboard interrupt             .
+. Ctrl+D        ;echo <<-EOF                    .
 . Ctrl+Z        ;Stop the process[background]   .   
 . Ctrl+/        ;Send SIGQUIT 3 [foreground]    .
 . Ctrl+S        ;Interrupt console output       .
 . Ctrl+Q        ;Recovery console output        .
 . Ctrl+L        ;clear                          .
-. Ctrl+Tab		;Window Switching               .
+. Ctrl+Tab      ;Window Switching               .
 .................................................
 ```
 
@@ -92,8 +91,7 @@ tmux窗口
 
 
 
-### 一些需要注意的代码风格
-
+### 编码风格
 + 宏或者常量所有用大写  #define MAXLENGTH 10;  const int MAXLENGTH = 10；
 + 函数名或者类名用     do_something
 + 变量名用            do_something
