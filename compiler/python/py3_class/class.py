@@ -1,5 +1,5 @@
-#!/usr/bin/python3:
-### =======================================================
+#!/usr/bin/python3
+### ==============
 
 ### 定义类:	 class Class_name:
 ### 类名规则: 建议首字符大写
@@ -77,9 +77,7 @@ print("############################################# demo_1 file of end")
 
 	
 	
-	
-	
-	
+
 	
 class Player():
     def __init__(self, name):
@@ -96,19 +94,6 @@ print(curry.name)
 curry.sayHelo()
 curry.intro()
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 
 

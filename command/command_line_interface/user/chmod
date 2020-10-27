@@ -1,7 +1,0 @@
-### ====================================================================ＣＨＭＯＤ
-change th permissions mode of a file,　　                 ### chmod,改变文件的权限
-chmod [{ugoa}{+-=}{rwx}] [文件或目录]
-      [mode=421] [文件或目录]
-      -R,递归修改
-u==user, g==group, o==other, a==all
-r==4,    w==2,     x==1
