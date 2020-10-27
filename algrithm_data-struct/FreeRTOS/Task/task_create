@@ -1,7 +1,7 @@
 /*
  *
- *
- /
+ * @freeysh2018/10/24
+ */
  
 /* 动态创建任务 xTaskCreate(); */
 1 申请堆栈内存
@@ -9,6 +9,7 @@
 3 把申请到的 [堆栈内存首地址] 保存到任务控制块中 {pxNewTCB->pxStack = pxStack}
 4 调用 prvInitialiseNewTask(); 初始化任务
 5 调用 prvAddNewTaskToReadyList(); 添加新的任务到就绪列表中
+
 
 
 /* prvInitialiseNewTask() */
@@ -20,7 +21,6 @@
 6 初始化各种任务控制块成员变量
 7 调用 pxPortInitialiseStack(); 初始化堆栈
 8 保存，记录任务句柄，其实就是任务控制块
-
 
 /* prvAddNewTaskToReadyList() */
 1 uxCurrentNumberOfTasks加1, 记录系统中有多少个任务
