@@ -1,4 +1,6 @@
-### ===============================================================% 硬盘加密使用
+###########################################################
+### % 硬盘加密使用
+###########################################################
 % LUKS （Linux Unified Key Setup）是 Linux 硬盘加密的标准。 
 % 通过提供标准的磁盘格式，它不仅可以促进发行版之间的兼容性，
 % 还可以提供对多个用户密码的安全管理。 
@@ -17,12 +19,18 @@ root@debian:~# umount /mnt
 root@debian:~# cryptsetup luksClose mydisk
 　　
 
-### ================================================================= 步骤 1
+
+
+###########################################################
+#### % cryptsetup加密磁盘
+###########################################################
+### ======== 步骤 1
 % 安装加密软件
 % 通常的发行版已经预装了该软件包，可以直接使用，下面是 Debian 的安装方法
 # apt-get install cryptsetup
 
-### ================================================================= 步骤 2
+
+### ======== 步骤 2
 % 创建加密分区
 % 注意，该操作会清空你选择分区或设备上的所有数据，请谨慎操作，输入大写的 YES 确认
 # cryptsetup -s 512 luksFormat /dev/sda2
@@ -35,7 +43,7 @@ Are you sure? (Type uppercase yes): YES
 Enter passphrase: 
 Verify passphrase:
     
-### ================================================================= 步骤 3 
+### ======== 步骤 3 
 % 利用key-file加密分区 
 % 除了密码之外，还可以选择使用 key file 解密你的硬盘，也就是相当于一个密钥，
 % 当然可以也可以只使用 key file 或者同时使用密码与 key file
@@ -56,8 +64,7 @@ Enter LUKS passphrase to be deleted: ...
 # cryptsetup luksRemoveKey -d /root/enc.key /dev/sdd
 
 
-
-### ================================================================= 步骤 4 
+### ======== 步骤 4 
 % 映射分区
 % 1 解密普通密码
 # cryptsetup luksOpen /dev/sdd myusb
@@ -67,7 +74,7 @@ Enter passphrase for /dev/sdd:
 # cryptsetup luksOpen -d /root/enc.key /dev/sdd myusb
 
 
-### ================================================================= 步骤 5 
+### ======== 步骤 5 
 % 创建文件系统
 % 在挂载使用之前，我们仍然需要对设备创建文件系统才可以使用，可以选择任何你喜欢的文件系统，
 % 例如 btrfs，ext4，vfat，ntfs, xfs,等
@@ -83,7 +90,8 @@ Writing inode tables: done
 Creating journal (8192 blocks): done
 Writing superblocks and filesystem accounting information: done
 
-### ================================================================= 步骤 6
+
+### ======== 步骤 6
 % 挂载加密分区设备
 % 现在可以像正常分区一样挂载我们的加密分区设备了
 # mount /dev/mapper/myusb /mnt/
@@ -91,13 +99,12 @@ Writing superblocks and filesystem accounting information: done
 /dev/mapper/myusb  1.9G  5.7M  1.7G   1% /mnt
 
 
-### ================================================================= 步骤 7 
+### ======== 步骤 7 
 % 卸载挂载点并关闭加密分区
 % 当你已经打开某个加密盘之后，可以用如下命令关闭该加密盘。
 % ~#    cryptsetup close 映射名
 # umount /mnt
 # cryptsetup luksClose myusb
-
 
 % 当你已经打开某个加密盘之后，可以用如下命令查看该加密盘的状态。
 ~# cryptsetup status 映射名
