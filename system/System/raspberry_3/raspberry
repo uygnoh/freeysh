@@ -1,4 +1,6 @@
-### ================================================= vi /etc/network/interfaces
+###########################################################
+###  vi /etc/network/interfaces
+###########################################################
 % 树莓派设置固定IP地址
 
 # interfaces(5) file used by ifup(8) and ifdown(8)
@@ -10,7 +12,7 @@
 source-directory /etc/network/interfaces.d
 
 
-####################### new_file
+% new_file
 auto eth0
 iface eth0 inet static
 

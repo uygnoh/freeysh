@@ -1,58 +1,39 @@
-### ====================================================== debian9 修改镜像源
-# gedit /etc/apt/sources.list
+###########################################################
+###  debian 修改镜像源
+###########################################################
+% gedit /etc/apt/sources.list
 
-# 注释下面这条:
+% 注释下面这条:
 # deb cdrom:[Debian GNU/Linux 9.4.0 _Stretch_ - Official amd64 DVD Binary-1 \
                                         20180310-11:21]/ stretch contrib main
 
-添加以下内容 1
-============
-deb http://mirrors.ustc.edu.cn/debian/ stretch main non-free contrib 
-deb http://mirrors.ustc.edu.cn/debian/ stretch-updates main non-free contrib 
-deb http://mirrors.ustc.edu.cn/debian/ stretch-backports main non-free contrib 
-deb-src http://mirrors.ustc.edu.cn/debian/ stretch main non-free contrib 
-deb-src http://mirrors.ustc.edu.cn/debian/ stretch-updates main non-free contrib 
-deb-src http://mirrors.ustc.edu.cn/debian/ stretch-backports main non-free contrib
-
-% 或添加下面内容 2
-% debian9 stable
-================    
-deb http://mirrors.163.com/debian/  stretch main non-free contrib
-deb http://mirrors.163.com/debian/  stretch-updates main non-free contrib
-deb http://mirrors.163.com/debian/  stretch-backports main non-free contrib
-deb-src http://mirrors.163.com/debian/  stretch main non-free contrib
-deb-src http://mirrors.163.com/debian/  stretch-updates main non-free contrib
-deb-src http://mirrors.163.com/debian/  stretch-backports main non-free contrib
-deb http://mirrors.163.com/debian-security/  stretch/updates main non-free contrib
-deb-src http://mirrors.163.com/debian-security/  stretch/updates main non-free contrib
 
 
-
-
-### ===================================================== 软件更新，切换至 root 用户 
+###########################################################
+###  软件更新，切换至 root 用户 
+###########################################################
 su - root
 apt-get update
 
 
 
-
-### ==================================================================== 安装sudo 
-1.默认状态是没有sudo命令的，需要安装。
+###########################################################
+###  安装sudo 
+###########################################################
+% 1.默认状态是没有sudo命令的，需要安装。
 apt-get update
 apt-get install sudo
 
-
-2.编辑sudoers文件, gedit /etc/sudoers在 
-  %sudo ALL=(ALL:ALL) ALL 下面添加：
-  ysh  ALL=(ALL:ALL) ALL
-其中 ysh 为自己的用户名
-
+% 2.编辑sudoers文件, gedit /etc/sudoers在 
+% 其中 ysh 为自己的用户名
+    %sudo ALL=(ALL:ALL) ALL 下面添加如下内容
+    ysh  ALL=(ALL:ALL) ALL
 
 
 
-
-### ============================================================ 其它重要的软件安装
-
+###########################################################
+###  其它重要的软件安装
+###########################################################
 sudo apt-get -y install gcc
 sudo apt-get -y install gdb
 sudo apt-get -y install make
@@ -80,8 +61,6 @@ sudo apt-get -y install dia
 sudo apt-get -y install virtualbox
 sudo apt-get -y install codeblocks
 
-
-
 sudo apt-get -y install expect
 sudo apt-get -y install gnupg
 sudo apt-get -y install cryptsetup
@@ -91,38 +70,50 @@ sudo apt-get -y install
 
 
 
+###########################################################
+###  % 五笔输入法安装
+###########################################################
+
+1 sudo dpkg-reconfigure locales
+% 选择 *zh_CN.UTF-8 中文语言环境
+% 最后选择 en_US.UTF-8， 然后点击OK
+
+2 执行如下命令进行系统环境软件更新和安装:
+% sudo apt-get update 
+
+3 安装fctix中文输入法
+% sudo apt install fcitx
+
+4 在终端输入 fcitx 然后退出
+
+5 在左下角会弹出 fcitx的图标， Setting->Configuration
+
+% 五笔输入法,sudo apt-get install fcitx-table-wubi
+apt-get install fcitx-table-wubi
+ 
 
 
-
-
-
-
-
-
-### ================================================================= GRUB2 启动器 
+###########################################################
+###  GRUB2 启动器 
+###########################################################
 % 生成grub.cfg, 一般来说, update-grub会更新grub并生成grub.cfg
 sudo update-grub
 % 当然也可以
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 
-
- sudo gedit /etc/default/grub
-==============================
+% sudo gedit /etc/default/grub
 1.修改等待时间
 修改文件中的：GRUB_TIMEOUT=10 （默认是为10秒的）
 修改为：GRUB_TIMEOUT=X (X表示你要设置的秒数，设置为负数为一直等待操作) 修改后保存。终端输入：
-
 
 2.修改默认启动系统
 sudo gedit /etc/default/grub
 修改文件中的GRUB_DEFAULT=0
 GRUB_DEFAULT=0 (0默认启动第1项，如果你的win是第5项，把这个0改为4) 保存文件后终端输入:
 
-
 3.选择启动的环境，“quiet splash”为图像界面，“text”为文本界面
         GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
-
 
 4.GRUB_TERMINAL=console
 #设置是否使用图形介面。前面有#注释（使用图形界面），前面没有#注释（仅使用控制台终端，不使用图形介面) )
@@ -138,10 +129,9 @@ GRUB_DEFAULT=0 (0默认启动第1项，如果你的win是第5项，把这个0改
 
 
 
-
-
-### =========================================================== debian语言环境设定 
-
+###########################################################
+###  debian语言环境设定 
+###########################################################
 # env | grep LANG               查看语系环境
 # export LANG=zh_CN.UTF-8       中文字符
 # export LANG=en_US.UTF-8       英文字符
@@ -153,16 +143,20 @@ locale -a                       语系字符集查看
 
 % 空格键选中目标　,tab键切换
 
-### ============================================================== 用于修改系统时区
+
+
+###########################################################
+###  用于修改系统时区
+###########################################################
 % 适用于Debian 命令, Asia,亚洲
 
 # dpkg-reconfigure tzdata 
 
 
 
-
-
-### =================================================================== 创建新用户 
+###########################################################
+###  创建新用户 
+###########################################################
 % useradd 选项 用户名  ;其中各选项含义如下：
 
 -c comment 指定一段注释性描述。
@@ -184,6 +178,37 @@ sudo 是一个非常有权势的群组，我决定把 tester3 加入到这个群
 tester3 的初始群组又是谁？这次没有创建与 tester3 同名的群组。用户 tester3 的初始群组变成了 sudo。
 
 
+
+
+###########################################################
+### debian auto_install_software
+###########################################################
+#!/bin/bash
+
+echo -e "\033[41;37m--->>>BEGING INSTALL UTILITIES\033[37;0m"
+sudo apt-get -y install gcc
+sudo apt-get -y install gdb
+sudo apt-get -y install git
+sudo apt-get -y install vim
+sudo apt-get -y install curl
+
+# sudo apt-get -y install make
+# sudo apt-get -y install cmake
+# sudo apt-get -y install openocd
+# sudo apt-get -y install automake
+# sudo apt-get -y install autoconf
+# sudo apt-get -y install libtool 
+# sudo apt-get -y install tmux
+# sudo apt-get -y install ranger 
+# sudo apt-get -y install xchm
+# sudo apt-get -y install kicad
+# sudo apt-get -y install dia
+# sudo apt-get -y install cmus 
+# sudo apt-get -y install smplayer
+# sudo apt-get -y install cryptsetup
+echo -e "\033[41;37mINSTALLATION IS COMPLETE--->>>\033[37;0m"
+
+echo "return $?"
 
 
 

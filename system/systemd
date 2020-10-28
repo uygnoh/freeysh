@@ -1,31 +1,45 @@
-### ================================================================= systemd服务
-### 列出系统的服务
-% systemctl --type=service
+###########################################################
+###  systemd服务
+###########################################################
+% 列出系统的服务
+systemctl --type=service
 
-### 列出OpenSSH服务状态 
-% systemctl status sshd.service
-% systemctl is-active sshd.service
+% 列出OpenSSH服务状态 
+systemctl status sshd.service
+%systemctl is-active sshd.service
 
-### ================================================================= systemd目标
-# 切换当前运行目标,该命令仅更改当前运行目标，对下次启动无影响 [系统运行级别]
-% systemctl isolate graphical.target 
 
-### 用 systemctl 检查当前的默认启动目标
-% systemctl get-default    
-% systemctl list-dependencies | grep target           
-% systemctl list-dependencies graphical.target | grep target
 
-### 用 systemctl 修改default.target以变更开机默认启动目标[runlevel]运行级别
-% systemctl set-default multi-user.target
+###########################################################
+###  systemd目标
+###########################################################
+% 切换当前运行目标,该命令仅更改当前运行目标，对下次启动无影响 [系统运行级别]
+systemctl isolate graphical.target 
 
-### ============================================================ 修改grub2启动顺序
-### 表示要启动的第3个操作系统[0-N]
-% grub-set-default 2  
+% 用 systemctl 检查当前的默认启动目标
+systemctl get-default    
+systemctl list-dependencies | grep target           
+systemctl list-dependencies graphical.target | grep target
 
-### 启动进入救援状态（单用户状态）
-% sudo systemctl rescue
+% 用 systemctl 修改default.target以变更开机默认启动目标[runlevel]运行级别
+systemctl set-default multi-user.target
 
-### ================================================================ 确认1号进程
+
+
+###########################################################
+###  修改grub2启动顺序
+###########################################################
+% 表示要启动的第3个操作系统[0-N]
+grub-set-default 2  
+
+%  启动进入救援状态（单用户状态）
+sudo systemctl rescue
+
+
+
+###########################################################
+###  确认1号进程
+###########################################################
 % /sbin/init 只是到 /lib/systemd/systemd 的链接文件，
 % 系统的 1 号进程的确是systemd，只不过在debain系统中被起了个别名叫 /sbin/init
 ps u -p 1
@@ -36,7 +50,10 @@ ls -al /sbin/init
 lrwxrwxrwx 1 root root 20 1月  15 17:59 /sbin/init -> /lib/systemd/systemd
 
 
-### =============================================================ＳＹＳＴＥＭＣＴＬ
+
+###########################################################
+### ＳＹＳＴＥＭＣＴＬ
+###########################################################
 systemctl start <unit>              立即激活单元
 systemctl stop <unit>               立即停止单元
 systemctl restart <unit>            重启单元
@@ -59,23 +76,23 @@ systemctl hybrid-sleep              混合休眠模式（同时休眠到硬盘�
 
 #################################################
 #                                               #
-# F11			;Screen Full                    #
+# F11           ;Screen Full                    #
 #                                               #
-# Super+L		;Lock Screen                    #
-# Super+H		;Hide window                    #
-# Super+Up		;Maximize window                #
-# Super+Left	;View split on left             #
-# Super+right	;View split on right            #
+# Super+L       ;Lock Screen                    #
+# Super+H       ;Hide window                    #
+# Super+Up      ;Maximize window                #
+# Super+Left    ;View split on left             #
+# Super+right   ;View split on right            #
 #                                               #
-# Alt+F2		;Show the run command prompt    #
-# Alt+F4		;Close window                   # 
+# Alt+F2        ;Show the run command prompt    #
+# Alt+F4        ;Close window                   # 
 #                                               #
 # Ctrl+Shitf++	;Increase font size             #
-# Ctrl+-		;Decrease font size             #
-# Ctrl+7		;turn terminal                  #
-# Ctrl+H		;Display hidden files           #
-# Ctrl+C		;Keyboard interrupt             #
-# Ctrl+D		;echo <<-EOF                    #
+# Ctrl+-        ;Decrease font size             #
+# Ctrl+7        ;turn terminal                  #
+# Ctrl+H        ;Display hidden files           #
+# Ctrl+C        ;Keyboard interrupt             #
+# Ctrl+D        ;echo <<-EOF                    #
 # Ctrl+Z        ;Stop the process[background]   #   
 # Ctrl+/        ;Send SIGQUIT 3 [foreground]    #
 # Ctrl+S        ;Interrupt console output       #
