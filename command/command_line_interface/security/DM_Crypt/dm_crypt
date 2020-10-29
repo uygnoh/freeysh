@@ -114,8 +114,8 @@ LVM 和 dm-crypt 都是基于 Linux 内核的 device mapper 机制。因此两�
 ###########################################################
 前面提到 dm-crypt/cryptsetup 支持的几种加密盘格式。作为扫盲教程，本文只介绍如何创建 LUKS 格式加密盘。
 另外，dm-crypt/cryptsetup 只能用来打开 TrueCrypt 或 VeraCrypt 的加密盘，但是【无法】创建。
-创建（格式化） LUKS 加密盘的命令，大致写法如下：
-~#    cryptsetup 相关参数 luksFormat 物理设备或逻辑设备
+% 创建（格式化） LUKS 加密盘的命令，大致写法如下：
+~# cryptsetup 相关参数 luksFormat 物理设备或逻辑设备
 
 运行该命令之后，首先警告你，格式化会导致原有数据被覆盖。如果你确实要格式化，需要输入【大写】的 YES 进行确认。
 然后会提示你输入两次密码（passphrase）。

@@ -1,0 +1,178 @@
+###########################################################
+### % debian系统安装指南
+###########################################################
+1  % 使用dd命令，将系统镜像文件写入 U盘
+2  % 插入U盘到电脑，重启计算机
+3  % 按<F2>热键进入BIOS系统
+4  % 修改电脑启动顺序为 [U盘为第一启动]
+5  % Secure 设置为禁止 [ Security ->Secure Boot menu ->Secure Boot Control [Disabled] ]
+6  % 保存BIOS设置
+
+
+% dd命令
+# time dd if=xxx.iso of=/dev/sdb bs=4M status=progress oflag=sync
+# time dd if=ubuntu-20.04.1-desktop-amd64.iso of=/dev/sdd bs=4M status=progress oflag=sync
+
+
+
+###########################################################
+###  % debian 修改镜像源
+###########################################################
+% gedit /etc/apt/sources.list
+
+% 注释下面这条:
+# deb cdrom:[Debian GNU/Linux 9.4.0 _Stretch_ - Official amd64 DVD Binary-1 \
+                                        20180310-11:21]/ stretch contrib main
+
+
+
+###########################################################
+###  % 软件更新，切换至 root 用户 
+###########################################################
+su - root
+apt-get update
+
+
+
+###########################################################
+###  % 安装sudo 
+###########################################################
+% 1.默认状态是没有sudo命令的，需要安装。
+apt-get update
+apt-get install sudo
+
+% 2.编辑sudoers文件, gedit /etc/sudoers在 
+% 其中 ysh 为自己的用户名
+    %sudo ALL=(ALL:ALL) ALL 下面添加如下内容
+    ysh  ALL=(ALL:ALL) ALL
+
+
+
+###########################################################
+###  % 五笔输入法安装
+###########################################################
+1 sudo dpkg-reconfigure locales
+% 选择 *zh_CN.UTF-8 中文语言环境
+% 最后选择 en_US.UTF-8， 然后点击OK
+
+2 执行如下命令进行系统环境软件更新和安装:
+% sudo apt-get update 
+
+3 安装fctix中文输入法
+% sudo apt install fcitx
+
+4 在终端输入 fcitx 然后退出
+
+5 在左下角会弹出 fcitx的图标， Setting->Configuration
+
+% 五笔输入法,sudo apt-get install fcitx-table-wubi
+apt-get install fcitx-table-wubi
+ 
+ 
+ 
+ 
+ ###########################################################
+###  % systemd服务
+###########################################################
+% 列出系统的服务
+systemctl --type=service
+
+% 列出OpenSSH服务状态 
+systemctl status sshd.service
+%systemctl is-active sshd.service
+
+
+
+###########################################################
+###  % systemd目标
+###########################################################
+% 切换当前运行目标,该命令仅更改当前运行目标，对下次启动无影响 [系统运行级别]
+systemctl isolate graphical.target 
+
+% 用 systemctl 检查当前的默认启动目标
+systemctl get-default    
+systemctl list-dependencies | grep target           
+systemctl list-dependencies graphical.target | grep target
+
+% 用 systemctl 修改default.target以变更开机默认启动目标[runlevel]运行级别
+systemctl set-default multi-user.target
+
+
+
+###########################################################
+###  % 修改grub2启动顺序
+###########################################################
+% 表示要启动的第3个操作系统[0-N]
+grub-set-default 2  
+
+%  启动进入救援状态（单用户状态）
+sudo systemctl rescue
+
+
+
+###########################################################
+###  % 确认1号进程
+###########################################################
+% /sbin/init 只是到 /lib/systemd/systemd 的链接文件，
+% 系统的 1 号进程的确是systemd，只不过在debain系统中被起了个别名叫 /sbin/init
+ps u -p 1
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.1 204592  6928 ?        Ss   11:43   0:01 /sbin/init
+
+ls -al /sbin/init
+lrwxrwxrwx 1 root root 20 1月  15 17:59 /sbin/init -> /lib/systemd/systemd
+
+
+
+###########################################################
+### % ＳＹＳＴＥＭＣＴＬ
+###########################################################
+systemctl start <unit>              立即激活单元
+systemctl stop <unit>               立即停止单元
+systemctl restart <unit>            重启单元
+systemctl reload <unit>             重新加载配置
+systemctl status <unit>             输出单元运行状态
+systemctl is-enable <unit>          检查单元是否配置为自动启动
+systemctl enable <unit>             开机自动激活单元
+systemctl enable --now <unit>       设置单元为自动启动并立即启动这个单元
+systemctl disable <unit>            取消开机自动激活单元
+systemctl mask <unit>               禁用一个单元（禁用后，间接启动也是不可能的）
+systemctl unmask <unit>             取消禁用一个单元
+systemctl help <unit>               显示单元的手册页（必须由单元文件提供）
+systemctl daemon-reload             重新载入 systemd 系统配置，扫描单元文件的变动
+systemctl reboot                    重启
+systemctl poweroff                  退出系统并关闭电源
+systemctl suspend                   待机
+systemctl hibernate                 休眠
+systemctl hybrid-sleep              混合休眠模式（同时休眠到硬盘并待机）
+
+
+#################################################
+#                                               #
+# F11           ;Screen Full                    #
+#                                               #
+# Super+L       ;Lock Screen                    #
+# Super+H       ;Hide window                    #
+# Super+Up      ;Maximize window                #
+# Super+Left    ;View split on left             #
+# Super+right   ;View split on right            #
+#                                               #
+# Alt+F2        ;Show the run command prompt    #
+# Alt+F4        ;Close window                   # 
+#                                               #
+# Ctrl+Shitf++	;Increase font size             #
+# Ctrl+-        ;Decrease font size             #
+# Ctrl+7        ;turn terminal                  #
+# Ctrl+H        ;Display hidden files           #
+# Ctrl+C        ;Keyboard interrupt             #
+# Ctrl+D        ;echo <<-EOF                    #
+# Ctrl+Z        ;Stop the process[background]   #   
+# Ctrl+/        ;Send SIGQUIT 3 [foreground]    #
+# Ctrl+S        ;Interrupt console output       #
+# Ctrl+Q        ;Recovery console output        #
+# Ctrl+L        ;clear                          #
+#                                               #
+#################################################
+
+
+

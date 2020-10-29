@@ -48,3 +48,5 @@ chmod 600 /home/freeysh/.ssh/authorized_keys
 度敏感, 但是仍然建议仅让此文件的用户读写, 而拒绝其他用户的访问.
 
 
+
+

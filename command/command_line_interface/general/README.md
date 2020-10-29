@@ -159,17 +159,5 @@ source ~/Documents/FREEYSH/profiles/aVIMRC/vimrc
 " 分屏操作 vim <===>:split, :vsplit     tmux<===> PREFIX+h, PREFIX+v      "
 "                                                                        "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 
-" 参考文件位置: /home/ysh/Documents/FREEYSH/readme.md
-" Vim 中的 Buffer 是文件在内存中的缓存数据，一个 Buffer 总是也只能是对应一个文件
-" :ls   :buffer number  :buffer next    :buffer previous   <buffer == b> 
-"
-" tmux Ctrl+b激活控制台；此时以下按键生效, PREFIX = Ctrl+a自定义方式
-" tmux 使用C/S模型构建, 包括的单元模块有 server, session, window, panel
-" tmux new-session -s <session_name> 创建一个新的会话
-" 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
-source ~/Documents/FREEYSH/profiles/VIMRC/vimrc
 
