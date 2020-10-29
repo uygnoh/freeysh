@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+###############
 use strict;
 use warnings;          
 use diagnostics;        
@@ -46,7 +47,6 @@ END
 say $bunch_on_info;
 
 
-
 ### %c  : Character
 ### %s  : String
 ### %d  : Decimal
@@ -66,7 +66,6 @@ my $first = 1;
 my $second = 2;
 ($first, $second) = ($second, $first);
 say "$first, $sceond"
-
 
 
 
@@ -171,7 +170,6 @@ say "You Guessed 7";
 
 
 
-
 ###########################################################
 ### perl字符串
 ###########################################################
@@ -229,7 +227,6 @@ my ($f_name, $address, $how_old, $height, $l_name) = @my_info;
 say "$f_name $l_name";
 
 
-
 # 将数组中的元素压入或弹出栈
 say "Popped Value ", pop @primes;
 say "Pushed Value ", push @primes, 17;
@@ -257,7 +254,6 @@ my @odds_array = grep {$_ % 2} @number_array;
 print join(", ", @cust_array), "\n";
 my @dbl_array = map {$_ * 2} @number_array;
 print join(", ", @dbl_array), "\n";
-
 
 
 
@@ -336,7 +332,6 @@ increment();
 increment();
 
 
-
 sub double_array {
     my @num_array = @_;
     $_ *= 2 for @num_array;
@@ -368,7 +363,6 @@ say "Factorial 4 = ", factorial(4);
 
 
 
-
 ###########################################################
 ### perl文件读写
 ###########################################################
@@ -377,7 +371,6 @@ Sally:Secretary:121
 Sam:Janitor:122
 Sue:Manager:123
 Mark:Salesman:124
-
 
 
 my $emp_file = 'empoyees.txt';
@@ -407,11 +400,6 @@ close $fh or die "Couldn't Close File : $_";
 #从标准输入读入数据,搜索带有 fred(不区分大小写)的行显示出来
 my @matching_lines = grep /\bfred\b/i, <>;
 print "@matching_lines"
-
-
-
-
-
 
 
 
