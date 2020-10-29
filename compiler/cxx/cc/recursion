@@ -23,8 +23,6 @@ int main(void)
 
 
 
-
-
 /*
  * 斐波那契数列,1 1 2 3 5 8 13 21...
  * f(1)=f(2)=1
@@ -45,10 +43,6 @@ int main(void)
 	printf("%d\n", fibo(5));
 	return 0;
 }
-
-
-
-
 
 
 /*
@@ -101,8 +95,6 @@ int main(void)
 	printf("Steps of moving %d disks form A to B by means of C:\n", n);
 	hanoi(n, 'A', 'B', 'C');
 }
-
-
 
 
 

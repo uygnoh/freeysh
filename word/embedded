@@ -1,8 +1,7 @@
 ###########################################################
 ### % eclipse
 ###########################################################
-IDE ->Integrated Development Environment,集成开发环境
-
+% IDE ->Integrated Development Environment,集成开发环境
 
 Build Automatically,自动生成                    Rebuild Last Target,重新生成上一个目标
 Re-resolve,重新解析                             Unresolved,未解决的
@@ -127,11 +126,10 @@ NVIC (Nested Vectored Interrupt Controller 内嵌向量中断控制器)
 %__________________________________________________________
 
 
-
 %__________________________________________________________
-%           BIOS    "Basic Input Output System"
-%           CMOS    "Complementary Metal Oxide Semiconductor"
-%           UEFI    "Unified Extensible Firmware Interface"
+% BIOS    "Basic Input Output System"
+% CMOS    "Complementary Metal Oxide Semiconductor"
+% UEFI    "Unified Extensible Firmware Interface"
 %__________________________________________________________
 BIOS即Basic Input/Output System，翻成中文是“基本输入/输出系统”，
 是一种所谓的“固件”，负责在开机时做硬件启动和检测等工作，
@@ -214,9 +212,6 @@ FPB		Flashpatch and Breakpoint
 DWT		Data Watchpoint and Trace
 TPIU	Trace Point Interface Unit
 MIPS    Million Instructions Per Second 			单字长定点指令平均执行速度
-
-
-
 
 
 
