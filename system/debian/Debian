@@ -1,4 +1,17 @@
 ###########################################################
+###  % dd命令，将系统镜像文件写入 U盘
+###  % 插入U盘到电脑
+###  % 按<F2>热键进入BIOS系统
+###  % 修改电脑启动顺序为 [U盘为第一启动]
+###  % Secure 设置为禁止
+###  % 保存BIOS设置
+###########################################################
+% ~# time dd if=xxx.iso of=/dev/sdb bs=4M status=progress oflag=sync
+time dd if=ubuntu-20.04.1-desktop-amd64.iso of=/dev/sdd bs=4M status=progress oflag=sync
+
+
+
+###########################################################
 ###  debian 修改镜像源
 ###########################################################
 % gedit /etc/apt/sources.list
@@ -29,44 +42,6 @@ apt-get install sudo
     %sudo ALL=(ALL:ALL) ALL 下面添加如下内容
     ysh  ALL=(ALL:ALL) ALL
 
-
-
-###########################################################
-###  其它重要的软件安装
-###########################################################
-sudo apt-get -y install gcc
-sudo apt-get -y install gdb
-sudo apt-get -y install make
-sudo apt-get -y install cmake
-sudo apt-get -y install openocd
-
-sudo apt-get -y install automake
-sudo apt-get -y install autoconf
-sudo apt-get -y install libtool
-
-sudo apt-get -y install git
-sudo apt-get -y install vim 
-sudo apt-get -y install tmux
-sudo apt-get -y install ranger 
-sudo apt-get -y install xchm
-
-sudo apt-get -y install kicad
-sudo apt-get -y install freecad
-sudo apt-get -y install openscad
-
-sudo apt-get -y install cmus 
-sudo apt-get -y install smplayer
-sudo apt-get -y install curl
-sudo apt-get -y install dia
-sudo apt-get -y install virtualbox
-sudo apt-get -y install codeblocks
-
-sudo apt-get -y install expect
-sudo apt-get -y install gnupg
-sudo apt-get -y install cryptsetup
-
-sudo apt-get -y install
-sudo apt-get -y install
 
 
 

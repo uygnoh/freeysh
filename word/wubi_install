@@ -1,4 +1,6 @@
-### ==================================================== debian五笔输入法安装
+###########################################################
+### % debian五笔输入法安装
+###########################################################
 1 sudo dpkg-reconfigure locales
 % 选择 *zh_CN.UTF-8 中文语言环境
 % 最后选择 en_US.UTF-8， 然后点击OK
@@ -12,8 +14,6 @@
 4 在终端输入 fcitx 然后退出
 
 5 在左下角会弹出 fcitx的图标， Setting->Configuration
-
-
 % 五笔输入法,sudo apt-get install fcitx-table-wubi
 apt-get install fcitx-table-wubi
  
