@@ -22,7 +22,10 @@
 7 调用 pxPortInitialiseStack(); 初始化堆栈
 8 保存，记录任务句柄，其实就是任务控制块
 
+
+
 /* prvAddNewTaskToReadyList() */
+0 taskENTER_CRITICAL();
 1 uxCurrentNumberOfTasks加1, 记录系统中有多少个任务
 2 如果创建的是第一个任务，初始化相关列表uxCurrentNumberOfTasks()
 3 调用 prvAddNewTaskToReadyList(); 添加新的任务到就绪列表中
@@ -30,7 +33,8 @@
 
 
 
-
+/* prvAddTaskToReadyList( pxNewTCB ); */
+1 
 
 
 
