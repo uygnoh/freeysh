@@ -1,0 +1,81 @@
+###########################################################
+### PendSV 异常
+###########################################################
+1 任务切换的具体过程是在PendSV中断服务函数里面
+2 如何引起PendSV中断， ICSR寄存器bit28置1
+#define portNVIC_PENDSVSET_BIT		( 1UL << 28UL )
+
+
+
+###########################################################
+### 任务切换场合
+###########################################################
+1 执行系统调用如： taskYIELD()
+% vTaskDelay() ->portYIELD_WITHIN_API ->portYIELD()
+
+2 systick中断服务函数, ICSR寄存器bit28置1
+% SysTick_Handler() ->xPortSysTickHandler() ->portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
+
+3 中断级的任务切换
+% portYIELE_FROM_ISR  最终是通过调用portYIELD()来完成任务切换的
+
+
+
+###########################################################
+### 任务切换 2
+###########################################################
+#define xPortPendSVHandler PendSV_Handler
+__asm void xPortPendSVHandler( void )
+1 判断是否使用FPU，如果使用了的话， 将s16到s31入栈
+% EXC_RETURN 当处理异常时bit4位，会被CONTROL的FPCA位替代
+% 判断EXC_RETURN的第4位是否为1, 如果为1,则要保存浮点寄存器
+tst r14, 0x10
+% 测试指令， r14与0x10时行与运算， 它会更新APSR寄存器的N位和Z位
+% N位， 负标志
+% Z位， 零
+it eq
+
+2 R4-R11， R14入栈
+3 关闭中断
+4 调用vTaskSwitchContext, 获取下一个要运行的任务
+5 打开中断
+6 获取要切换的任务的栈顶指针
+7 R4-R11， R14出栈
+8 判断是否使用FPU，如果使用了的话， 将s16到s31出栈
+9 任务切换完成 
+
+
+
+
+
+###########################################################
+### 任务切换 3
+###########################################################
+void vTaskSwitchContext( void )
+1 判断uxSchedulerSuspended是否为( UBaseType_t ) pdFALSE
+% 也就是任务调度是否被挂起， 如果被挂起， 那么 xYieldPending = pdTRUE;
+2 如果任务调度器没有被挂起，查找下一个要运行的任务
+3 更新当前任务运行时间
+4 调用taskSELECT_HIGHEST_PRIORITY_TASK(); 获取下一个要运行的任务， 通用方法或硬件方法。
+
+
+
+% taskSELECT_HIGHEST_PRIORITY_TASK();
+% 硬件方法
+1 调用portGET_HIGHEST_PRIORITY()获取最高优先级任务
+% CM3有一个计算前导零个数的指令 clz
+__clz(uxReadyPriorities)是计算前导零个数，
+前导零个数是从（bit31）到第1个为1的bit，其间0的个数，例如：
+% 1000 0000 0000 0000   前导零个数为 0
+% 0000 1001 1111 0001   前导零个数为 4
+得到uxTopReadyPriority的前导零个数后， 在用31减去这个前导零个数， 得到的就是处于就绪态最高优先级的任务！
+如，优先级30为此处最高优先级的任务，那么30的前导零为1, 31-1= 30； 得到处于就绪态最高优先级的任务为30
+2 listGET_OWNER_OF_NEXT_ENTRY()获取下一个要运行的任务的任务控制块， 并将其保存在 pxCurrentTCB
+
+
+
+% 通用方法
+1 获取处于就绪态的最高优级任务，
+2 直接读取uxTopReadyPriority即可，
+3 listGET_OWNER_OF_NEXT_ENTRY()获取下一个要运行的任务的任务控制块， 并将其保存在 pxCurrentTCB
+

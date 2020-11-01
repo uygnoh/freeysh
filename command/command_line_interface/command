@@ -10,7 +10,6 @@ vim /etc/bash.bashrc
 source                    # 不重新启动计算机使配置文件生效
 .                         # 不重新启动计算机使配置文件生效
 ~/.vimrc                  # Your personal Vim initializations.
-
 set                       # 显示ALL变量
 env                       # 显示环境变量
 export                    # 设定环境变量
@@ -43,8 +42,6 @@ tar -xvf xxx.tar.bz2 /etc #解压文件
 
 
 
-
-
 ###########################################################
 ###  % 快捷键
 ###########################################################
@@ -52,8 +49,6 @@ CTRL+D                    # EOF
 CTRL+C                    # 结束当前命令
 CTRL+L                    # 清屏并重新显示
 CTRL+Z                    # 暂停前台进程返回 bash，需要时可用 fg 将其切换回前台bg
-
-
 exit                      # 退出当前登陆
 echo $SHELL               # 显示你在使用什么 SHELL
 clear                     # 清初屏幕内容
@@ -149,27 +144,22 @@ ps axjf                   # 列出进程树
 ps -eo pid,user,command   # 按用户指定的格式查看进程
 ps aux | grep httpd       # 查看名为 httpd 的所有进程
 ps --ppid {pid}           # 查看父进程为 pid 的所有进程
- 
 kill {pid}                # 结束进程
 kill -9 {pid}             # 强制结束进程，9/SIGKILL 是强制不可捕获结束信号
 kill -KILL {pid}          # 强制执行进程，kill -9 的另外一种写法
 kill -l                   # 查看所有信号
 kill -l TERM              # 查看 TERM 信号的编号
 killall {procname}        # 按名称结束进程
- 
 top                       # 查看最活跃的进程
 top -u {user}             # 查看某用户最活跃的进程
- 
 any_command &             # 在后台运行某命令，也可用 CTRL+Z 将当前进程挂到后台
 jobs                      # 查看所有后台进程（jobs）
 bg                        # 查看后台进程，并切换过去
 fg                        # 切换后台进程到前台
 fg {job}                  # 切换特定后台进程到前台
- 
 trap cmd sig1 sig2        # 在脚本中设置信号处理命令
 trap "" sig1 sig2         # 在脚本中屏蔽某信号
 trap - sig1 sig2          # 恢复默认信号处理行为
- 
 nohup {command}           # 长期运行某程序，在你退出登陆都保持它运行
 nohup {command} &         # 在后台长期运行某程序
 disown {PID|JID}          # 将进程从后台任务列表（jobs）移除
@@ -186,7 +176,6 @@ ssh-copy-id user@host     # 拷贝你的 ssh key 到远程主机，避免重复�
 scp {fn} user@host:path   # 拷贝文件到远程主机
 scp user@host:path dest   # 从远程主机拷贝文件回来
 scp -P {port} ...         # 指定端口远程拷贝文件
- 
 uname -a                  # 查看内核版本等信息
 man {help}                # 查看帮助
 man -k {keyword}          # 查看哪些帮助文档里包含了该关键字
@@ -200,18 +189,15 @@ free                      # 显示内存和交换区使用情况
 df                        # 显示磁盘使用情况
 du                        # 显示当前目录占用，du . --max-depth=2 可以指定深度
 showkey -a                # 查看终端发送的按键编码
- 
 ping {host}               # ping 远程主机并显示结果，CTRL+C 退出
 ping -c N {host}          # ping 远程主机 N 次
 traceroute {host}         # 侦测路由连通情况
 mtr {host}                # 高级版本 traceroute
 whois {domain}            # 取得域名 whois 信息
 dig {domain}              # 取得域名 dns 信息
- 
 wget {url}                # 下载文件，可加 --no-check-certificate 忽略 ssl 验证
 wget -qO- {url}           # 下载文件并输出到标准输出（不保存）
 curl -sL {url}            # 同 wget -qO- {url} 没有 wget 的时候使用
- 
 sz {file}                 # 发送文件到终端，zmodem 协议
 rz                        # 接收终端发送过来的文件
 
@@ -233,11 +219,9 @@ array[1]=valB
 array[2]=valC
 array=([0]=valA [1]=valB [2]=valC)   # 另一种方式
 array=(valA valB valC)               # 另一种方式
- 
 ${array[i]}               # 取得数组中的元素
 ${#array[@]}              # 取得数组的长度
 ${#array[i]}              # 取得数组中某个变量的长度
- 
 declare -a                # 查看所有数组
 declare -f                # 查看所有函数
 dece -i                   # 查看所有整数

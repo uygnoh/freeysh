@@ -1,6 +1,6 @@
-###
-在 Ubuntu 执行 sudo apt-get upgrade 时，出现了如下的报错：
-
+###########################################################
+### 在 Ubuntu 执行 sudo apt-get upgrade 时，出现了如下的报错：
+###########################################################
 dpkg: error processing package bluez (--configure):
 dpkg: dependency problems prevent configuration of bluez-alsa:i386:                       
  ...等等一系列的错误
@@ -16,8 +16,9 @@ $ sudo apt-get -f install
 
 
 
-
-% 在执行更新或者安装软件命令时
+###########################################################
+### % 在执行更新或者安装软件命令时
+###########################################################
 sudo apt-get upgrade
 sudo apt-get install
 遇到：Errors were encountered while processing

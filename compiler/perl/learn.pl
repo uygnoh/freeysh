@@ -78,9 +78,9 @@ my $age_last_exam = 16;
 if ($age < 16) {
     say "You can't drvie";
 } elsif (!$is_not_intoxicated) {
-    "You can't driver";
+    say "You can't driver";
 } else {
-    "You can driver";
+    say "You can driver";
 }
 
 

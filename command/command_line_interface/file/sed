@@ -23,8 +23,6 @@ s       取代，可以直接进行取代的工作哩！通常这个 s 的动作
 
 
 
-
-
 ###########################################################
 ###  sed 字符串替换
 ###########################################################
@@ -36,8 +34,6 @@ sed ' /^ysh/ s@/bin/bash@/bin/sh@ ' /etc/passwd
 sed -n ' /^ysh/ s@/bin/bash@/bin/sh@p ' /etc/passwd
 % 把第2行到第5行的内容取代为“no 2-5number!”
 nl /etc/passwd | sed '2,5c no 2-5number!'
-
-
 
 
 
@@ -84,8 +80,6 @@ sed –e 'command1' –e 'command2' –e '命令3' fileName
 
 
 
-
-
 ###########################################################
 ###  sed脚本
 ###########################################################
@@ -112,10 +106,6 @@ sudo sed -i.bak -f rox.sed /etc/passwd
 
 
 
-
-
-
-
 ###########################################################	
 ###  sed模式匹配	
 ###########################################################
@@ -138,10 +128,6 @@ s/\([0-9][0-9]\)-\([0-9][0-9]\)-\([0-9][0-9]*\)/\3.\1.\2/g
 
 
 
-
-
-
-
 ###########################################################
 ###  sed字符过滤
 ###########################################################
@@ -149,9 +135,6 @@ s/\([0-9][0-9]\)-\([0-9][0-9]\)-\([0-9][0-9]*\)/\3.\1.\2/g
 % 也就是说，诸如“generateData”之类的程序生成数据，然后用sed把x替换成y。例如：
 $ echo xyz xyz | sed 's/x/y/g'
 yyz yyz
-
-
-
 
 
 
@@ -197,9 +180,6 @@ sed -f catalog.sed /proc/loadavg
 
 
 
-
-
-
 ###########################################################
 ###   使用sed执行命令
 ###########################################################
@@ -238,5 +218,41 @@ sed ' /^\// s/^/tar -rf catalog.tar /e ' cat.list
 
 
 
+###########################################################
+### % sed_demo
+###########################################################
+% vim sed-demo.txt
+    # cat sed-demo.txt
+    
+    1 Linux Operating System
+    2 Unix Operating System
+    3 RHEL
+    4 Red Hat
+    5 Fedora
+    6 Arch Linux
+    7 CentOS
+    8 Debian
+    9 Ubuntu
+    10openSUSE
+___________________________________________________________
+sed '1d' sed-demo.txt                   % 删除文件首行
+sed '$d' sed-demo.txt                   % 删除文件最后一行
+sed '3d' sed-demo.txt                   % 删除 sed-demo.txt 中的第 3 行
+sed '5,7d' sed-demo.txt                 % 删除 sed-demo.txt 中的第 5 到 7 行
+sed '1d;5d;9d;$d' sed-demo.txt          % 命令删除了第 1 行、第 5 行、第 9 行和最后一行
+sed '3,6!d' sed-demo.txt                % 删除 sed-demo.txt 中第 3 到 6 行范围以外的所有行
+sed '/^$/d' sed-demo.txt                % 删除 sed-demo.txt 中的空行
+sed '/System/d' sed-demo.txt            % 删除 sed-demo.txt 中匹配到 System 模式的行
+sed '/System\|Linux/d' sed-demo.txt     % 删除 sed-demo.txt 中匹配到 System 或 Linux 表达式的行
+sed '^[RF]/d' sed-demo.txt              % 删除 R 或者 F 字符开头的所有行
+sed '/m$/d' sed-demo.txt                % 删除 m 字符结尾的所有行
+sed '/[xm]$/d' sed-demo.txt             % 删除 x 或者 m 字符结尾的所有行s
+sed '/^[A-Z]/d' sed-demo.txt            % 删除所有大写字母开头的行
+sed '1,6{/Linux/d;}' sed-demo.txt       % 删除第 1 到 6 行中包含 Linux 表达式的行
+sed '/Ststem/{N;d;}' sed-demo.txt       % 删除包含 System 表达式的行以及它的下一行
+sed '/[0-9]/d' sed-demo.txt             % 删除所有包含数字的行
+sed '/^[0-9]/d' sed-demo.txt            % 删除所有以数字开头的行
+sed '/[0-9]$/d' sed-demo.txt            % 删除所有以数字结尾的行
+sed '/[A-Za-z]/d' sed-demo.txt          % 删除所有包含字母的行
 
 

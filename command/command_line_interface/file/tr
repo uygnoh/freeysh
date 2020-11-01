@@ -190,3 +190,6 @@ tr 命令可执行三种操作。
 % cat testfile |tr [:lower:] [:upper:] 
 
 
+
+
+
