@@ -1,4 +1,6 @@
-### ======================================================== eclipse安装stm32插件
+###########################################################
+###  eclipse安装stm32插件
+###########################################################
 https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2020-09/R/eclipse-cpp-2020-09-R-linux-gtk-x86_64.tar.gz&mirror_id=1282
 eclipse需要java的JDK环境
 % Help-> Install New Software
@@ -9,7 +11,9 @@ https://download.eclipse.org/embed-cdt/releases/5.1.1/p2/
 
 
 
-### ========================================================== stlink-v2 插件配置
+###########################################################
+###  stlink-v2 插件配置
+###########################################################
 % eclipse
 % Run->External tools->External tools Configurations
 Main
@@ -19,8 +23,10 @@ Main
 	Arguments: write ${project_name}.bin 0x8000000
 	
 	
-	
-### ========================================================== eclipse settings
+
+###########################################################	
+###  eclipse settings
+###########################################################
 % Project->Properties->C/C++ Build->Settings
 % 1.	Cross ARM C Compiler
 	Preprocessor:		
@@ -41,8 +47,9 @@ Main
 
 
 
-
-### ============================================================ ＧＤＢ硬件调试配置	
+###########################################################
+###  ＧＤＢ硬件调试配置	
+###########################################################
 % GDB Hardware Debugging 调试
 Run->Debug Configuration->GDB Hardware Debugging
 Name: debugTEST Debug
@@ -82,7 +89,9 @@ Diaplay in favorites menu
 
 
 
-### ============================================================ OpenOCD 调试配置
+###########################################################
+###  OpenOCD 调试配置
+###########################################################
 % GDB OpenOCD Debugging
 Run->Debug Configurations->GDB OpenOCD Debugging
 	testARM Release
@@ -107,8 +116,9 @@ Run->Debug Configurations->GDB OpenOCD Debugging
 
 
 
-
-### ===================================================== eclipse 系统环境变量设定　
+###########################################################
+###  eclipse 系统环境变量设定　
+###########################################################
 Eclipse Enviroment Varibale:
 Windows->Preferences->Run/Debug
 	String Substitution
@@ -117,11 +127,12 @@ Windows->Preferences->Run/Debug
 	
 
 
-### ============================================================= 串口调试软件安装　
+###########################################################
+###  串口调试软件安装　
+###########################################################
 # putty minicom serial port	
 sudo apt-get install minicom 
 sudo apt-get install putty
-
 
 
 

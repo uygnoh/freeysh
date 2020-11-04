@@ -7,6 +7,7 @@
 " plug-in插件加载器
 call plug#begin('~/.vim/plugged')                                          
 Plug 'scrooloose/nerdtree'
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 " NERDTreeFind插件配置文件
@@ -37,6 +38,12 @@ set background=dark     " 设置背景色
 let g:molokai_original=1
 let g:rehash256=1
 
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => coc.vim
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" let g:coc_disable_startup_warning = 1
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

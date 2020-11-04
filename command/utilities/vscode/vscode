@@ -1,0 +1,102 @@
+###########################################################
+### vscode快捷键
+###########################################################
+Ctrl+Shift+[        折叠（折叠）区域 Fold (collapse) region
+Ctrl+Shift+]        展开（未折叠）区域 Unfold (uncollapse) region
+Ctrl+K Ctrl+[       折叠（未折叠）所有子区域 Fold (collapse) all subregions
+Ctrl+K Ctrl+]       展开（未折叠）所有子区域 Unfold (uncollapse) all subregions
+Ctrl+K Ctrl+0       折叠（折叠）所有区域 Fold (collapse) all regions
+Ctrl+K Ctrl+J       展开（未折叠）所有区域 Unfold (uncollapse) all regions
+Ctrl+K Ctrl+C       添加行注释 Add line comment
+Ctrl+K Ctrl+U       删除行注释 Remove line comment
+Ctrl+/              切换行注释 Toggle line comment
+Shift+Alt+A         切换块注释 Toggle block comment
+Alt+Z               切换换行 Toggle word wrap
+
+% Navigation导航
+Ctrl + T            显示所有符号 Show all Symbols
+Ctrl + G            转到行… Go to Line…
+Ctrl + P            转到文件… Go to File…
+Ctrl + Shift + O    转到符号… Go to Symbol…
+Ctrl + Shift + M    显示问题面板 Show Problems panel
+F8                  转到下一个错误或警告 Go to next error or warning
+Shift + F8          转到上一个错误或警告 Go to previous error or warning
+Ctrl + Shift + Tab  导航编辑器组历史记录 Navigate editor group history
+Alt + ←/→           返回/前进 Go back / forward
+Ctrl + M            切换选项卡移动焦点 Toggle Tab moves focus
+
+
+
+###########################################################
+### vscode 用户设置
+###########################################################
+1 默认设置
+2 用户设置 <.vscode/settings.json>
+3 工作区设置
+
+
+% 自动保存设置
+File（文件）- Preferences（首选项）- Setting （设置）然后弹出下面界面，选择User（一般会默认选中该选项）， 
+接着如下图选择afterdelay选项即可，下面有个数字1000表示1秒，这个可自行设置，表示多少秒以后自动保存
+
+
+% 自动格式化代码
+File（文件）- Preferences（首选项）- Setting （设置）
+User（用户）- Text-Editor（文本编辑）- Formatng（格式化）
+然后勾选下图红色框中的选项后重启Vscode即可
+
+
+% Vscode更换主题
+File（文件）- Preferences（首选项）- Color-Theme （颜色主题）
+然后会出现下图红色框的界面，此时按键盘上的上下键即可实时查看主题颜色，直接回车可选中对应主题　　  
+注：可以点击插件直接搜索 theme 下载其它非内置主题
+
+
+
+###########################################################
+### 　Vscode界面介绍
+###########################################################
+% 主要分为5个区域，分别是活动栏，侧边栏，编辑栏，面板栏，状态栏
+①：活动栏从上到下依次为，打开侧边栏，搜索，使用git，debug，使用插件
+②：侧边栏，新建项目文件和文件夹
+③：编辑栏，编写代码的区域
+④：面板栏，从左到右依次为，问题，输出，调试栏，终端（terminal），最重要的是terminal，用来输入相关命令
+⑤：状态栏，点击  该区域可以调出面板栏
+⑥：需要注意的为下图红框所示，分别表示鼠标光标所在位置和tab缩进字符，这里为缩进4个字符
+% view ->Appearance 活动栏，侧边栏，编辑栏，面板栏，状态栏显示设置
+% vscode菜单隐藏解决办法， 按住 Alt键
+
+
+
+###########################################################
+### vscode-stm32开发环境
+###########################################################
+% 插件安装
+1 C/C++ for Visual Studio Code
+2 Cortex-Debug
+3 Bracket Pair Colorizer2       % 括号变彩色
+
+
+% CubeMX 生成工程文件 
+Pinout & Configuration
+1 System Core ->SYS ->Debug ->Serial Wire   % ST_Link调试模试
+
+Project Manager
+2 Toolchain/IDE     Makefile
+
+3 生成的文件夹直接用 VSCode打开
+
+
+% vscode配置
+1 在 main.c 文件中， 按ctrl+shift+p, 配置UI， C/C++ Configurations
+2 c语言的宏定义， Defines ->One definition per line
+-DUSE_HAL_DRIVER
+-DSTM32F401xE
+
+
+% vscode菜单隐藏解决办法
+1 切换到全屏模式
+2 按住 Alt键
+
+
+
