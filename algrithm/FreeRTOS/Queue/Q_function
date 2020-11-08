@@ -1,0 +1,139 @@
+/*  消息队列动态创建函数
+   xQuenuCreate()用于创建一个新的队列并返回用于访问这个队列的队列句柄
+   队列句柄其实就是一个指向队列数据结构类型的指针
+   1 队列就是一个数据结构，用于任务间的数据传递
+   2 每创建一个新的队列就需要为其分配RAM，一部分用于存储队列的状态
+   3 剩下的用于队列消息的存储区域，
+   4 使用xQuenuCreate()创建队列时，使用的是动态内存分配，
+   5 所以要使用该函数，必须在在FreeRTOS-config中把
+   6 configSUPPORT_DYNAMIC_ALLOCATION定义为1来启用
+   7 如果使用静态内存，则可以使用xQueueCreateStaic()来创建
+   8 静态创建消息队列需要更多参数，需要在内存编译时先分配好
+*/
+#if (configSUPPORT_DYNAMAIC_ALLOCATION == 1)
+#define xQueueCreate(uxQueueLength, uxItemSize) \
+xQueueGenericCreate( (uxQueueLlength), (uxItemSize), (queueQUEUE_TYPE_BASE) )
+#endif
+
+/* xQueueGenericCreate()主要用来分配消息队列内存 */
+QueueHandle_t xQueueGenericCreate( const UBaseType_t uxQueueLength,
+                                   const UBaseType_t uxItemSize,
+                                   const uint8_t ucQueueType )
+{
+    Queue_t *pxNewQueue;
+    size_t xQueueSizeInBytes;
+    uint8_t *pucQueueStorage;
+    
+    /* 如果uxItemSize为0，也就是单个消息空间大小为0，就不需要申请内存了，
+    那么将xQueueSizeInBytes设置为0即可，设置为0是可以的用途信号量时就可
+    以设置为0 
+       如果uxItemSize不为0，那么就需要分配足以存储消息的空间，内存的的大
+    小 == 队列长度X单个消息大小 */
+    if (uxItemSize == (UBaseType_t)0) {
+        xQueueSizeInBytes = (size_t)0;
+    } else {
+        xQueueSizeInBytes = (size_t)(uxQueueLength * ixItemSize);
+    }
+    
+    /* FreeRTOS调用pvPortMalloc()函数向系统申请内存空间，内存大小为==
+    消息队列控制块大小 + 消息存储空间大小， 这是因为这段内存空间要保证是连续
+    的 木*/
+    pxNewQueue = (Queue_t*)pvPortMalloc(sizeof(Queue_t) + xQueueSizeInBytes);
+    
+    if (pxNewQueue != NULL) {
+        /* 计算出消息存储内存空间的起始地址，因为申请的内存包含了消息控制块的
+        内存空间，但是我们存储消息的内存空间在消息队列控制块后面 */
+        pucQueueStorage = ((uint8_t*)pxNewQueue) + sizeof(Queue_t);
+        prvInitialiseNewQueue( uxQueueLength,
+                               uxItemSize,
+                               pucQueueStoragte,
+                               ucQueueType,
+                               pxNewQueue );                          
+    }
+    return pxNewQueue;
+        
+}   
+                                
+
+
+/* prvInitialiseNewQueue函数，消息队列初始化 */
+static void prvInitialiseNewQueue( 
+const UBaseType_t uxQueuelength,    //消息队列长度
+const UBaseType_t uxItemSize,       //单个消息大小 
+uint8_t *pucQueueStorage,           //存储消息起始地址
+const uint8_t ucQueueType,          //消息队列类型
+Queue_t *pxNewQueue )               //消息队列控制块
+/* 消息队列类型，包括以下6种
+1 queueQUEUE_TYPE_BASE              //表示队列
+2 queueQUEUE_TYPE_SET               //表示集合
+3 queueQUEUE_TYPE_MUTEX             //表示互斥量
+4 queueQUEUE_TYPE_COUNTING_SEMAPHORE//表示计数信号量
+5 queueQUEUE_TYPE_SEMAPHORE         //表示二进制信号量
+6 queueQUEUE_TYPE_RECURSIVE_MUTEX   //表示递归互斥信号量 */
+{
+    void(ucQueueType);
+    if (uxItemSize == (UBaseType_t)0) {
+        /* 即使没有为消息队列分配存储消息的内存空间，pcHead指针也不设置为NULL
+        因为队列作为互斥量时，pcHead如果设置为NULL，这里只能将pcHead指向一个
+        已知的区域 消息队列控制块pxNewQueue */
+        pxNewQueue->pcHead = (int8_t*)pxNewQueue;
+    } else
+    {
+        /* 如果分配了消息的内存空间，则设置pcHead指向存储消息的起始地址
+        pucQueueStorage */
+        pxNewQueue->pcHead = (int8_t*)pucQueueStorage;
+    }
+    
+    pxNewQueue->uxLength = uxQueueLength;
+    pxNewQueue->uxItemSize = uxItemSize;
+    (void)xQueueGenericRest(pxNewQueue, pdTRUE);
+    
+}
+
+
+/* xQueueGenericRest重置消息队列 */
+BaseType_t xQueueGenericRest( QueueHandle_t xQueue,
+                              BaseType_t xNewQueue)
+{
+    Queue_t * const pxQueue = (Queue_t*)xQueue;
+taskENTER_CRITICAL(); //进入临界段
+    {
+        /* 重置消息队列成员变量，pcTail指向存储消息内存的结束地址 */
+        pxQueue->pcTail = pxQueue->pcHead + (pxQueue->uxLength * 
+                                             pxQueue->uxItemSize);
+        /* 当前消息队列中的消息个数uxMessagewaiting为0*/
+        pxQueue->uxMessagewaiting = (UBaseType_t)0U;
+        /* pcWriteTo指向队列存储区下一个可用的消息空间，因为是重置消息队列，
+        就是指向消息队列的第一个消息空间，也就是pcHead指向的空间 */
+        pxQueue->pcWriteTo = pxQueut->pcHead;
+        /* pcReadFrom指向消息队列最后一个消息空间 */
+        pxQueue->u.pcReadFrom = pxQueue->pcHead +
+            ((pxQueue->uxLength - (UBaseType_t)1U) * pxQueue->uxItemSize);
+        
+        /* 消息队列没有上锁，设置为queueUNLOCK */
+        pxQueue->cRxLock = queueUNLOCKED;
+        pxQueue->cTxLock = queueUNLOCKED;
+        
+        /* 如果不是一个新建的消息队列，那么之前的消息队列可能阻塞了一些任务
+        需要将其解除，如果有发送消息任务被阻塞，那么需要将它恢复，而任务如果
+        是读取消息而阻塞的，那么重置之后的消息队列也是空的，则无需被恢复 */
+        if (xNewQueue == pdFALSE) {
+            if (listLIST_IS_EMPTY(&(pxQueue->xTaskWaitingToSend)) == pdFALSE) {
+                if (xTaskRemoveFromEventList(&(pxQueue->TaskWaitingToSend)) != pdFALSE ) {
+                    queueYIELD_IF_USING_PREEMPTION();
+                } else { mtCOVERAGE_TEST_MARKER(); }                        
+            } else { mtCOVERAGE_TEST_MaRKEER(); }
+        /* 如果是新建的一个消息队列，则需要将xTasksWaitingToSend和xTasksWaitingToReceive
+        列表初始化它 */
+        } else {
+            vListInitialise(&(pxQueue->xTasksWaitingToSend));
+            vListInitialise(&(pxQueue->xTasksWaitingToRecevie));
+             
+        }
+    }
+taskEXIT_CRITICAL()   //退出临办段
+}
+
+
+
+

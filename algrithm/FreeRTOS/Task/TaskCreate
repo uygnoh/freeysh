@@ -1,0 +1,52 @@
+/*
+ *
+ * @freeysh2018/10/24
+ */
+
+/* 动态创建任务 xTaskCreate(); */
+1 申请堆栈内存
+2 申请任务控制块内存
+3 把申请到的 [堆栈内存首地址] 保存到任务控制块中 {pxNewTCB->pxStack = pxStack}
+4 调用 prvInitialiseNewTask(); 初始化任务
+5 调用 prvAddNewTaskToReadyList(); 添加新的任务到就绪列表中
+
+
+
+/* prvInitialiseNewTask() */
+1 初始化堆栈内容为 0xa5, [可选功能]， 作用是为了检查堆栈内存溢出
+2 获取栈顶地址，保存到 pxTopOfStack 
+3 将任务名称存储到 pxNewTCB->pcTaskName
+4 保存任务优先级到 pxNewTCB->uxPriority
+5 初始化两个列表项 vListInitialiseItem( &(pxNewTCB->xStateListItem) ); vListInitialiseItem( &(pxNewTCB->xEventListItem) );
+6 初始化各种任务控制块成员变量
+7 调用 pxPortInitialiseStack(); 初始化堆栈
+8 保存，记录任务句柄，其实就是任务控制块
+
+
+/* prvAddNewTaskToReadyList() */
+0 taskENTER_CRITICAL();
+1 uxCurrentNumberOfTasks加1, 记录系统中有多少个任务
+2 如果创建的是第一个任务，初始化相关列表uxCurrentNumberOfTasks()
+3 调用 prvAddNewTaskToReadyList(); 添加新的任务到就绪列表中
+4 如果新创建的任务比当前的任务优先级要高，那么调用 taskYIELD_IF_USING_PREEMPTION(); 时行任务切换 
+
+
+/* prvAddTaskToReadyList( pxNewTCB ); */
+1 
+
+
+###########################################################
+#### 任务创建实现
+###########################################################
+
+
+
+###########################################################
+#### 初始化新的任务
+###########################################################
+
+
+###########################################################
+#### 添加新的任务到就绪一列表 
+###########################################################
+
