@@ -1,5 +1,49 @@
-#include "tash.h"
+/* FreeRTOS静态任务创建方法 */
 
+
+/* 定义任务栈
+栈是单片机RAM中一段连续的内存空间，栈的大小一般在启动文件或者链接脚本中指定，最后由C库函数
+__main()进行初始化 
+但是在多任务系统中，每个任务都是独立的，互不干扰，所以要为每一个任务都分配独立的栈空间，这个
+栈空间通常是一个预先定义好的全局数组， 也可以是动态分配一段连续的内存空间， 但是它们都存在于 
+RAM中 */
+/* 我们在实现2个变量按照一定的频率轮流翻转，每个变量对应一个任务
+那么就需要定义2个任务栈，在多任务系统中，有多少个任务，就定义多少个任务栈*/
+/* 任务栈就是1个预先定义好的全局数据，数据类型为StackType
+大小由TASK1_STACK_SIZE这个宏来定义，默认为128，单位为字，即512字节，也就是FreeRTOS推荐的
+最小任务栈。在FreeRTOS中，凡是涉及数据类型的地方，FreeRTOS都会将标准的C数据类型有typedef重
+新定义一个类型名。这些经过重新定义的数据类型放在portmacro.h中。*/
+#define TASK1_STACK_SIZE    128
+StackType_t Task1Stack[TASK1_STACK_SIZE];
+#define TASK2_STACK_SIZE    128
+StackType_t Task2Stack[TASK2_STACK_SIZE];
+
+
+/* 在FreeRTOS中任务由2种创建方法
+1 动态创建，任务控制块和栈内存是创建任务时动态分配的，任务删除时，内存可以释放 
+2 静态创建，任务控制块和栈内存需要事先定义好，任务删除时，内存不能释放 */
+
+
+/* 定义任务控制块
+在裸机系统中，程序的主体是CPU按照顺序执行的，而在多任务系统中，任务的执行由系统调度的。 系统为
+了能够顺利的调度任务，为每一个任务都额外定义了一个任务控制块，这个任务控制块就相当于任务的身份证
+里面存放有任务的所有信息，比如任务的栈指针，任务名称，任务形参等。有了这个任务控制块后，以后系统
+对任务的全部操作都可以通过这个任务控制块实现。定义一个任务控制块需要一个新的数据类型*/
+typedef struct tskTaskControlBlock {
+    //栈顶指针，作为TCB的第1个成员
+    volatile StackType_t *pxTopOfStack;
+    //任务节点，这是一个内置在TCB控制块中的链表节点，通过这个节点，可以将任务控制块挂接到各种
+    //链表中。
+    ListItem_t xStateListItem;
+    //任务栈的起始地址
+    StackType_t *pxStack;
+    //任务名称为字符串形试，长度由configMAX_TASK_NAME_LEN这个宏来定义，
+    char pcTaskName[configMAX_TASK_NAME_LEN];
+} tskTCB;
+typedef tskTCB TCB_t;
+
+
+//创建静态任务
 TaskHandle_t xTaskCreateStatic(TaskFunction_t pxTaskCode,           /* 任务的入口，任务函数名称 */
                                const char * const pcName,           /* 任务名称，以字符串形式 */
                                const uint32_t ulStackDepth,         /* 任务栈大小，单位为字 */
@@ -7,8 +51,10 @@ TaskHandle_t xTaskCreateStatic(TaskFunction_t pxTaskCode,           /* 任务的
                                StackType_t * const puxStackBuffer,  /* 任务栈起始地址 */
                                TCB_t * const pxTaskBuffer)          /* 任务控制块指针 */
 {
-    TCB_t *pxNewTCB;                                                
-    TaskHandle_t xReturn;                                           /* 定义一个任务句柄 */
+    TCB_t *pxNewTCB; 
+    /* 定义一个任务句柄xReturn，用于指向任务的TCB。任务句柄的数据类型为TaskHandlel_t
+    typedef void *  TaskHandlel_t */                                               
+    TaskHandle_t xReturn;                                           
     
     if ( ( pxTaskBuffer != NULL ) && ( puxStackBuffer != NULL ) )
     {
@@ -32,6 +78,7 @@ TaskHandle_t xTaskCreateStatic(TaskFunction_t pxTaskCode,           /* 任务的
 }
 
 
+//新创建的任务初始化
 static void prvInitialiseNewTask(TaskFunction_t pxTaskCode,             /* 任务入口 */
                                  const char * const pcName,             /* 任务名称，为字符串形式 */
                                  const unit32_t ulStackDepth,           /* 任务栈大小，单位为字 */
@@ -82,30 +129,37 @@ static void prvInitialiseNewTask(TaskFunction_t pxTaskCode,             /* 任�
 }
 
 
+//任务返回函数
 static void prvTaskExitError( void )
 {
     /* 函数停在这里 */
     for (;;);
 }
+// RAM栈初始化函数，返回栈顶指针
 StackType_t * pxPortInitialiseStack( StackType_t *pxTopOfStack,
                                      TaskFunction_t pxCode,
                                      void *pvParameters )
 {
-    /* 异常发生时，自动加载到CPU寄存器中的内容 */
+    /* 异常发生时，自动加载到CPU寄存器中的内容，包括8个寄存器，
+    r0, r1, r2, r3, r12, r14, r15, xPSR, 且顺序不能改变 */
     pxTopOfStack--;
+    //xPSR的位24必须为1，即0x01000000
     *pxTopOfStack = portINITIAL_XPSR;
     pxTopOfStack--;
+    //任务的入口地址
     *pxTopOfStack = ( (StackType_t)pxCode ) & portSTART_ADDRESS_MASK;
     pxTopOfStack--;
+    //任务的返回地址，通常任务是不能返回的，如果返回就跳转到prvTaskExitError
     *pxTopOfStack = ( StackType_t )prvTaskExitError;
     pxTopOfStack--;
-    pxTopOfStack -= 5; /* r12, r3, r2, r1默认初始化为0 */
+    ///* r12, r3, r2, r1默认初始化为0 */
+    pxTopOfStack -= 5; 
     *pxTopOfStack = ( StackType_t )pvParameters;
     
-    /* 异常发生时，手动加载到CPU寄存器中的内容 */
+    /* 异常发生时，手动加载到CPU寄存器中的内容， r4,r5,r6,r7,r8,r9,r10,r11初始化为0 */
     pxTopOfStack -= 8;
     
-    /* 返回栈顶指针， 此时 pxTopOfStack 指向空栈 */
+    /* 返回栈顶指针， 此时 pxTopOfStack 指向空栈*/
     return pxTopOfStack;
 }                                     
 
