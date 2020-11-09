@@ -16,19 +16,30 @@ void vListInitialise( List_t * const pxList )
     pxList->uxnumberOfItems = 0;
 }
 
-/* 将节点插入链表尾部 */
+
+
+//将节点插入链表尾部,      链表根节点（要插入的链表）原End节点，     新节点
 void vListInsertEnd( List_t * const pxList, ListItem_t * const pxNewListItem )
 {
+    //定义一个索引指向新的根节点，就是End节点传递为不同的数据类型
     ListItem_t * const pxIndex = pxList->pxIndex;
     
+
+	//(1)下一个节点Next指向End, 新节点的下一个节点 == 原End节点
     pxNewListItem->pxNext = pxIndex;
+    //(2)新节点上一个节点 == 原End节点的上一个节点
     pxNewListItem->pxPrevious = pxIndex->pxPrevious;
+    //(3)原End节点的上一个节点的下一个节点 == 新节点
     pxIndex->pxPrevious->pxNext = pxNewListItem;
+    //(4)原End节点的上一个节点 == 新节点
     pxIndex->pxprevious = pxNewListItem;
-    
+    //(5)记记住该节点所在的链表
     pxNewListItem->pvContainer = ( void * )pxList;
+    //(6)链表节点记数器++
     ( pxList->uxNumberOfItems )++;
 }
+
+
 
 /* 将节点按照升序排列插入链表 */
 /* 如果两个链表节点相同，则新节点在旧节点后面插入 */
@@ -58,6 +69,8 @@ void vListInsert( List_t * const pxList, ListItem * const pxNewListItem )
     pxNewListItem->pvContainer = ( void * ) pxList;
     ( pxList->uxNumberOfItems )++;
 }
+
+
 
 /* 将节点从链表中删除 */
 int uxListRemove( ListItem_t * const pxItemToRemove )

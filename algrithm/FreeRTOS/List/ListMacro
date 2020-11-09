@@ -1,0 +1,32 @@
+//设置列表项的所有者。列表项的所有者是包含列表项的对象(通常是TCB)。
+#define listSET_LIST_ITEM_OWNER(pxListItem, pxOwner)                \
+        ((pxListItem)->pvOwner = (void *)(pxOwner))
+        
+//获取列表项的所有者。列表项的所有者是包含列表项的对象(通常是TCB)。
+#define listGET_LIST_ITEM_OWNER(pxListItem)                         \
+        ((pxListItem)->pvOwner)
+
+//设置列表项的值。在大多数情况下，该值用于按降序对列表进行排序
+#define listSET_LIST_ITEM_VALUE(pxListItem, xValue)                 \
+        ((pxListItem)->xItemvalue)
+
+//得到列表中第一个列表项的xItemValue值
+#define listGET_ITEM_VALUE_OF_HEAD_ENTRY(pxList)                    \
+        (((pxList)->xListEnd).pxNext->xItemValue)
+
+//获取链表的入口节点
+#define listGET_HEAD_ENTRY(pxList)                                  \
+        (((pxList)->xListEnd).pxNext)
+
+//获取节点的下一个节点
+#define listGET_NEXT(pxListItem)                                    \
+        ((pxListItem)->pxNext)
+
+//获取链表的最后一个节点
+#define listGET_END_MARKER(pxList)                                  \
+        ((ListItem_t const *)(&((pxList)->xListEnd)))
+
+//判断列表是否为空
+#define listLIST_IS_EMPTY(pxList)                                   \
+        ((UBaseType_t)((pxList)->uxNumberOfItems == (UBaseType_t)0))
+        
