@@ -1,4 +1,22 @@
 ###########################################################
+### /home/ysh/.config/Code/User/Settings.json
+###########################################################
+{
+    "C_Cpp.updateChannel": "Insiders",
+    "window.zoomLevel": 1,
+    "editor.minimap.enabled": false,
+    "breadcrumbs.enabled": true,
+    "editor.renderWhitespace": "none",
+    "window.menuBarVisibility": "default",
+    "workbench.editor.showTabs": true,
+    "workbench.statusBar.visible": true,
+    "workbench.activityBar.visible": true,
+    "http.proxySupport": "off",
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.colorTheme": "Github Light Theme"
+}
+
+###########################################################
 ### vscode快捷键
 ###########################################################
 Ctrl+Shift+[        折叠（折叠）区域 Fold (collapse) region

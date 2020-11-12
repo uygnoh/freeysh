@@ -346,10 +346,113 @@ __asm void vPortSVCHandler(void)
 }
 
 
+/* 任务切换
+任务切换就是在就是在就绪列表中，寻找优先级最高的任务，然后执行该任务。*/
+#define taskYIELD()     portYIELD
+/* 在portmacro.h中定义
+中断控制状态寄存器：0xE000ED04
+Bit28位 PendSV挂起位 */
+#define portNVIC_INT_CTRL_REG   (*((volatile uint32_t *)0xE000ED04))
+#define portNVIC_PENDSVSET_BIT  (1UL << 28UL)
+#define portSY_FULL_READ_WRIT   (15)
+/* portYIELD()函数的实现其实很简单
+实际就是将PendSV的悬起位置1，当没有其它中断运行时响应PendSV中断，去执行我们写好的
+PendSV中断服务函数，在这里面实现任务的切换 */
+ #define portYIELD()                                    \
+ {                                                      \
+     portNVIC_INT_CRTL_REG = portNVIC_PENDSVSET_BIT;    \
+     __dsb(portSY_FULL_READ_WRITE);                     \
+     __isb(portSY_FULL_READ_WRITE);                     \
+ }
 
 
+ /* xPortPendSVHandler函数
+ PendSV中断服务函数xPortPendSVHandler()是真正实现任务切换的地方 */
+__asm void xPortPendSVHandler(void)
+{
+    //声明外部变量pxCurrentTCB，pxCurrentTCB是一个在tasks.c中定义的全局指针，
+    //用于指向当前正在运行的任务或即将运行的任务的任务的控制块
+    extern pxCurrentTCB;
+    //声明外部函数vTaskSEitchContex()
+    extern vTaskSwitchContext;
+    //当前栈需要8字节对齐，在Cortex-M中浮点运算是8字节
+    PRESERVE8
+
+    //将psp的值存储到r0
+    //当进入PendSVHandler时，上一个任务运行环境即xPSR,PC,r14,r12,r3,r2,r1,r0,
+    //这些CPU寄存器的值会自动存储到任务栈中，剩下的r4-r11需要手动保存，同时psp会自动
+    //更新，
+    mrs r0, psp
+    isb
+
+    //加载pxCurentTCB的地址到r3
+    ldr r3, =pxCurrentTCB
+    //加载r3指向的内容到r2，即r2等于pxCurrentTCB
+    ldr r2, [r3];
+
+    //以r0作为基址，指针先递减再操作，将CPU寄存器r4-r11的值存储到任务栈中，同时更新r0
+    stmdb r0!, {r4-r11}
+    //将r0的值存储到r2指向的内容，r2等于pxCurrentTCB
+    //具体为将r0的值存储到上一个任务的栈顶指针pxTopOfStack,
+    //上下文切换，上文保存就完成了
+    str r0, [r2]
 
 
+    //将r3和r4临时压入栈中，（在整个系统中，中断使用的是主栈，栈指针使用的是MSP）
+    //因此接下来要调用函数vTaskSwitchContext()，调用函数时，返回地址自动保存到
+    //r14中，所以一旦调用发生，所以一旦调用发生，r14的值就会被覆盖（PendSV中断
+    //服务函数执行完毕后，返回时需要根据r14的值来决定返回处理器模式还是任务模式工，出
+    //栈使用的是PSP还是MSP。因此需要入栈保护，）
+    //r3保存的是当前正在运行的任务，（准确来说是上文，因为接下来要切换到新的任务）
+    //的TCB指针（pxCurrentTCB）地址，函数调用后pxCurrentTCB的值也会被更新，后面还
+    //需要r3来操作pxCurrentTCB,但是运行函数vTaskSwitchContext()时不确定会不会使
+    //用到r3寄存器来作为中间变量，所以为了保险起间，将r3也入栈
+    stmdb sp!, {r3, r14}
+
+
+    //将configMAX_SYSCALL_INTERRUPT_PRIORITY的值存储到r0
+    //该宏在FreeRTOSConfig.h中定义，用来配置中断屏蔽寄存器basepri的值，高4位有效
+    //目前配置为191，因为高4位有效，所以实际值是11，即优先级高于或等于11的优先级都会
+    //被屏蔽。 在关中断方面FreeRTOS与其它RTOS关中断不同，是操作BASEPRI寄存器来预留
+    //一部分中断
+    mov r0, #configMAX_SYSCALL_INIERRUPT_PRIORITY
+    //关中断，进入临界段，因为下来要更新全局指针pcCurrentTCB的值
+    msr basepri, r0
+    dsb
+    isb
+
+    //调用函数vTaskSwitchContext，该函数在Task.c中定义的全局指针，
+    //作用只有一个，选择优先级最高的任务，然后更新pxCurrentTCB
+    bl vTaskSwitchContext
+
+    //退出临界段，开中断，直接向basepri中写0
+    mov r0, #0
+    msr basepri, r0
+
+    //从主栈中恢复寄存器r3， r14的值要，此时的sp使用的是MSP
+    ldmia sp!, {r3, r14}
+
+    //加载r3指向的内容到r1，r3存放的是pxCurentTCB的地址，即让r1等于pxCurentTCB
+    //pxCurentTCB在上面vTaskSwitchContext（）函数中被更新，指向了下一个要运行的任务TCB
+    ldr r1, [r3]
+
+    //加载r1指向的内容到r0，即下一个要运行任务的栈顶指针，
+    ldr r0, [r1]
+
+    //以r0为基地址，将下一个要运行的任务的任务栈内容加载到CPU寄存器r4-r11中
+    ldmia r0!, {r4-r11}
+    //更新PSP的值，等异常退出时，会以PSP作为基地址，将任务栈中剩下的内容加载到CPU寄存器
+    msr psp, r0
+    isb
+
+    //异常发生时，r14保存异常返回标志，包括返回进入任务模式还是处理器模式，使用PSP还是MSP
+    //此时r14等于0xFFFFFFFD，表示异常返回进入任务模式，sp以PSP作为栈指针出栈，出栈完毕后
+    //PSP指向任务栈的栈顶，当调用 bx r14指令后，系统以PsP作为sp指针出栈，接下来要运行的新
+    //的任务的任务栈中剩下的内容加载一到CPU寄存器。
+    //r0, r1, r2, r3, r12, r14, r15, xPSR,从而切换到新的任务
+    bx r14
+    nop
+}
 
 
 
