@@ -2,7 +2,7 @@
  * 使用 typedef 定义函数指针
  * @freeysh 2020/10/26
  */
- /****************************************************************************/
+/****************************************************************************/
 typedef long BaseType_t;
 typedef BaseType_t (*TaskHookFunction_t)( void * );
 TaskHookFunction_t xTaskGetApplicationTaskTag( TaskHandle_t xTask )	;
