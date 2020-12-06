@@ -13,7 +13,7 @@ git push origin master
 ### google后发现可能是该子文件夹下有.git文件夹导致无法上传。删除子文件夹下.git后，依然无法提交子文件夹下的文件。
 ### 继续google，
 ### 
-### 尝试以下方法：
+### 尝试以下方法
 ###  git rm --cached directory
 ###  git add directory
 ### 注：directory为子文件夹的路径。

@@ -60,17 +60,17 @@ int j = ++i;
 /* SWAP2 这种算法的缺陷为，当a和b的数值很大时，可能出现溢出 */
 #define SWAP2(a, b) \
 {                   \
-a = a+b             \
-b = a-b;            \
-a = a-b;            \
+    a = a+b         \
+    b = a-b;        \
+    a = a-b;        \
 }			
 
 /* SWAP3 采用按位异或运算，效率是非常高的 */
 #define SWAP3(a, b) \
 {                   \
-a = a^b;            \
-b = a^b;            \
-a = a^b;            \
+    a = a^b;        \
+    b = a^b;        \
+    a = a^b;        \
 }			
 
 
