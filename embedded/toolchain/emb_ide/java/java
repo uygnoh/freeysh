@@ -1,0 +1,32 @@
+###########################################################
+### % java JDK下载
+###########################################################
+% https://www.oracle.com/java/technologies/javase-downloads.html
+% gedit $HOME/.bashrc
+export JAVA_HOME=/opt/java/jdk-8u261-linux-x64/jdk1.8.0_261/
+export PATH=$PATH:$JAVA_HOME/bin
+
+
+
+###########################################################
+### % STM32Programmer oracle-java环境手动安装
+###########################################################
+1 我这里预先下载了 jdk-8u261-linux-x64.tar.gz，将其解压到 /usr/lib/jvm 目录。
+% sudo tar zxvf jdk-8u261-linux-x64.tar.gz -C /usr/lib/jvm
+
+2 将此 JDK 注册到系统中
+% sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.8.0_261/bin/java 300
+
+3 切换 JDK, 选择第 2 个(/usr/lib/jvm/jdk1.8.0_261/bin/java)
+% sudo update-alternatives --config java
+There are 2 choices for the alternative java (providing /usr/bin/java).
+
+  Selection    Path                                         Priority   Status
+------------------------------------------------------------
+* 0            /usr/lib/jvm/java-11-openjdk-amd64/bin/java   1111      auto mode
+  1            /usr/lib/jvm/java-11-openjdk-amd64/bin/java   1111      manual mode
+  2            /usr/lib/jvm/jdk1.8.0_261/bin/java            300       manual mode
+
+Press <enter> to keep the current choice[*], or type selection number: 2
+update-alternatives: using /usr/lib/jvm/jdk1.8.0_261/bin/java to provide /usr/bin/java (java) in manual mode
+

@@ -1,0 +1,54 @@
+###########################################################
+###
+###########################################################
+% Downloading and Installing the Software
+The files for the ST-LINK program can be found on texane's 
+stlink page at github.com. A tutorial on how to install and 
+use the st-flash command line program is available – click 
+the "Raw" button to open the pdf file.
+
+% The following instructions will show you how to install st-flash on Ubuntu 11.10:
+1. First install dependencies. Open a terminal window and enter:
+sudo apt-get install libusb-1.0-0-dev git
+
+% Another dependency is pkg-config which should already be installed on Ubuntu.
+2. In the terminal window, change to a suitable directory to work from and enter:
+git clone https://github.com/texane/stlink stlink.git
+
+% 3. Change to the new directory and then make the project. Enter these two 
+lines in the terminal window:
+cd stlink.git
+make
+
+% 4. Copy the st-flash file to the file system.
+% In the stlink.git directory where you ran the "make" command, 
+% there is a directory called flash that contains the st-flash program. 
+% To copy it to the file system, first change to the flash directory and 
+% then copy the file. In the terminal window, enter:
+
+cd flash
+sudo cp st-flash /usr/bin
+
+
+% 5. Set up udev rules so that it is possible to run st-flash without using the 
+% sudo command. Change back to the stlink.git directory and then copy the rules 
+% files to the file system. In the terminal window enter:
+
+cd ..
+sudo cp *.rules /etc/udev/rules.d
+
+% 6. Finally enter:
+sudo restart udev
+
+
+% Programming the STM32 Flash
+% Plug the STM32 value line discovery board into a spare USB port on the Linux PC.
+% In a terminal window, change to the directory containing the binary file that you 
+% want to load to the STM32 value line discovery board. Enter:
+
+st-flash write v1 myflash.bin 0x8000000
+
+Where myflash is the name of your binary file to load. If you get an error message, 
+then try using sudo in front of the above command or try rebooting the system.
+
+

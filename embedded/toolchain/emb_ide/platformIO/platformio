@@ -1,0 +1,31 @@
+###########################################################
+###
+###########################################################
+ysh@debian:~$ sudo apt-get install python3-venv
+
+
+
+###########################################################
+### stm32&platformI创建工程
+###########################################################
+% Name
+    stm32f412re
+% Board
+    STM32F412RE(256K RAM. 512K Flash)(Gneric)
+% Framework
+    STM32Cube
+% Location
+    Use default location
+    
+ysh@debian:~/Documents/PlatformIO/pio_stm32f103c8$ ls
+include  lib  platformio.ini  src  test
+
+
+
+###########################################################
+### % Linux os下st-flash写不进固件
+###########################################################    
+1 Short the BOOT0 pin with VDD
+2 Reset the board
+3 st-flash erase    
+    

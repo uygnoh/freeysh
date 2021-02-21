@@ -1,0 +1,45 @@
+###########################################################
+### 
+###########################################################
+1 % STSW-STM8069，下载stm8s库文件
+STM8S/A Standard peripheral library 
+https://www.st.com/en/embedded-software/stsw-stm8069.html
+https://www.st.com/zh/embedded.software/stsw-stm8069.html
+
+2 % STM8-SPL_SDCC_patch，补丁文件
+https://github.com/gicking/STM8-SPL_SDCC_patch
+% 把下面的文件放在一起
+apply_patch.sh  STM8S_StdPeriph_Lib/  STM8S_StdPeriph_Lib_V2.3.1_sdcc.patch
+
+
+3 % STM8FLASH，stm8写入工具
+https://github.com/ududouyt/stm8flash
+
+
+
+###########################################################
+### 
+###########################################################
+4 更新补丁文件
+ysh@debian:~/Documents/stm8$ ls
+apply_patch.sh  STM8S_StdPeriph_Lib  STM8S_StdPeriph_Lib_V2.3.1_sdcc.patch
+ysh@debian:~/Documents/stm8$ ./apply_patch.sh 
+
+5 运行到这里外设库已经可以在SDCC下使用了
+ysh@debian:~/Documents/stm8$ rm -rf apply_patch.sh STM8S_StdPeriph_Lib_V2.3.1_sdcc.patch 
+ysh@debian:~/Documents/stm8$ ls
+STM8S_StdPeriph_Lib
+
+6 已经生成SDCC的测试代码，STM8S_StdPeriph_test
+ysh@debian:~/Documents/stm8/STM8S_StdPeriph_Lib/Project$ ls
+STM8S_StdPeriph_Examples  STM8S_StdPeriph_Template  STM8S_StdPeriph_test
+
+7 ysh@debian:~/Documents/stm8/STM8S_StdPeriph_Lib/Project$ 
+cp STM8S_StdPeriph_test/ STM8S_StdPeriph_demo
+
+8 ysh@debian:~/Documents/stm8/STM8S_StdPeriph_Lib/Project/STM8S_StdPeriph_demo/SDCC$ 
+make
+
+
+
+
