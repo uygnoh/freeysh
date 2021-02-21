@@ -1,5 +1,5 @@
 ###########################################################
-### 
+### % STM8S库开发，需要补丁文件
 ###########################################################
 1 % STSW-STM8069，下载stm8s库文件
 STM8S/A Standard peripheral library 
@@ -16,10 +16,6 @@ apply_patch.sh  STM8S_StdPeriph_Lib/  STM8S_StdPeriph_Lib_V2.3.1_sdcc.patch
 https://github.com/ududouyt/stm8flash
 
 
-
-###########################################################
-### 
-###########################################################
 4 更新补丁文件
 ysh@debian:~/Documents/stm8$ ls
 apply_patch.sh  STM8S_StdPeriph_Lib  STM8S_StdPeriph_Lib_V2.3.1_sdcc.patch
@@ -39,6 +35,36 @@ cp STM8S_StdPeriph_test/ STM8S_StdPeriph_demo
 
 8 ysh@debian:~/Documents/stm8/STM8S_StdPeriph_Lib/Project/STM8S_StdPeriph_demo/SDCC$ 
 make
+
+
+
+###########################################################
+### % SDCC STM8FLASH
+###########################################################
+1 安装sdcc编译器
+% sudo apt-get install sdcc
+
+2 安装stm8flash
+% https://github.com/ududouyt/stm8flash
+
+3 加入stm8头文件 stm8s.h, 到工做目录
+% https://github.com/erno-szabados/sdcc-stm8s/stm8s.h
+
+4 到工做目录
+touch main.c
+
+
+5 sdcc编译源码
+sdcc -mstm8 --out-fmt-ihx -o main.ihx main.c
+
+6 写入程序
+sudo stm8flash -c stlinkv2 -d /dev/ttyUSB0 -p stm8s103f3 -w main.ihx
+
+
+
+
+
+
 
 
 
