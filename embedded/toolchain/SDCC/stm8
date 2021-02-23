@@ -60,6 +60,12 @@ sdcc -mstm8 --out-fmt-ihx -o main.ihx main.c
 6 写入程序
 sudo stm8flash -c stlinkv2 -d /dev/ttyUSB0 -p stm8s103f3 -w main.ihx
 
+% $ sudo stm8flash -c stlinkv2  -p stm8s103f3 -w main.ihx
+Determine FLASH area
+Due to its file extension (or lack thereof), "main.ihx" is considered as INTEL HEX format!
+71 bytes at 0x8000... OK
+Bytes written: 71
+
 
 
 

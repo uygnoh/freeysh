@@ -1,0 +1,56 @@
+###########################################################
+### % STM8S通用输入输出
+###########################################################
+
+% 
+
+
+
+
+
+
+
+
+###########################################################
+### % STM8S时钟系统
+###########################################################
+% CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);
+% 函数设置内部时钟不分频。
+
+void CLK_HSIPrescalerConfig(CLK_Prescaler_TypeDef HSIPrescaler)
+{
+ 
+    /* check the parameters */
+    assert_param(IS_CLK_HSIPRESCALER_OK(HSIPrescaler));
+ 
+    /* Clear High speed internal clock prescaler */
+    CLK->CKDIVR &= (uint8_t)(~CLK_CKDIVR_HSIDIV);
+ 
+    /* Set High speed internal clock prescaler */
+    CLK->CKDIVR |= (uint8_t)HSIPrescaler;
+ 
+}
+
+
+
+
+% 配置系统主时钟为HSI
+
+
+
+
+% 时钟门控 时钟安全 时钟输出
+
+
+
+
+###########################################################
+### % STM8S中断系统
+###########################################################
+
+
+
+###########################################################
+### % STM8S定时器
+###########################################################
+
