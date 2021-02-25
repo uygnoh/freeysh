@@ -5,21 +5,43 @@
 $ sudo apt-get install sdcc
 
 
-2 % 安装STlink驱动
-
-
-###########################################################
-### % 安装stm8flash =>STM8
-###########################################################
-git clone https://github.com/vdudouyt/stm8flash.git
-cd stm8flash
-make
-sudo make install
 
 
 
 ###########################################################
-### % 安装stcflash =>MCS8051
+### % sdcc-stm8
+###########################################################
+1 安装sdcc编译器
+% sudo apt-get install sdcc
+
+2 安装stm8flash
+% https://github.com/ududouyt/stm8flash
+
+3 加入stm8头文件 stm8s.h, 到工做目录
+% https://github.com/erno-szabados/sdcc-stm8s/stm8s.h
+
+4 到工做目录
+touch main.c
+
+
+5 sdcc编译源码
+sdcc -mstm8 --out-fmt-ihx -o main.ihx main.c
+
+6 写入程序
+sudo stm8flash -c stlinkv2 -d /dev/ttyUSB0 -p stm8s103f3 -w main.ihx
+
+% $ sudo stm8flash -c stlinkv2  -p stm8s103f3 -w main.ihx
+Determine FLASH area
+Due to its file extension (or lack thereof), "main.ihx" is considered as INTEL HEX format!
+71 bytes at 0x8000... OK
+Bytes written: 71
+
+
+
+
+
+###########################################################
+### % sdcc-mcs51
 ###########################################################
 % stcflash可以中github直接下载到本地，加入环境变量即可
 wget https://github.com/laborer/stcflash/archive/master.zip
@@ -31,8 +53,10 @@ sudo mv stcflash /usr/local/bin
 sudo apt install python-serial
 
 
-% STC8051单片机例程
-% 需要注意的是:
+
+
+
+% STC8051单片机例程, 需要注意的是:
 % sdcc中所有非C标准关键字都以两个下划线开头单个引脚的表示使用下划线表示，
 % 例如P3_2，与keil的^不同引用的头文件为mcs51/8051.h
 #include <mcs51/8051.h>

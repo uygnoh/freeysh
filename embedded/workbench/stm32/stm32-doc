@@ -1,12 +1,9 @@
 ###########################################################
-### % STM32通用输入输出 ->GPIO
+### % STM32通用功能和复用功能I/O
 ###########################################################
-/*
- * General-purpose and alternate-function I/O
- * 通用功能和复用功能I/O
- */
+% General-purpose and alternate-function I/O
 % /* GPIOx_CRL和GPIOx_CRH 配置表 */
-                            CNF1   CNF0  MODE1  MODE0   PxODR  
+%           %               CNF1   CNF0  MODE1  MODE0   PxODR  
 Input       Analog            0     0     0      0      x     模拟输入
 Input       Input floating    0     1     0      0      x     浮空输入
 input       Input pull-down   1     0     0      0      0     下拉输入
@@ -66,7 +63,7 @@ GPIO_PinRemapConfig(GPIO_Remap_USART1, ENABLE);
 
 
 ###########################################################
-### % STM32时钟系统 ->RCC
+### % STM32时钟系统
 ###########################################################
 % /* STM32时钟源 */
 内部高速时钟HSI, 外部高速时钟HSE, 
@@ -80,7 +77,7 @@ CSS         时钟监视系统，一旦HSE时钟失效，则自动切换至 SYSC
 
 
 
-% /* 使用外部高速晶体振荡器 */
+% /* 使用外部高速晶体振荡器, 配置为72MHz */
 void rcc_configure(void)
 {
 	/* HSE_configuration */
@@ -103,7 +100,6 @@ void rcc_configure(void)
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
 }
-
 % /* RCC 时钟配置流程 */
 RCC_DeInit();                                        /* 1  将RCC寄存器重新设置为默认值 */    
 RCC_HSEConfig(RCC_HSE_ON);                           /* 2  打开外部高速时钟晶振HSE */          
@@ -119,8 +115,95 @@ while(RCC_GetSYSCLKSource() != 0x08);                /* 11 判断是否 PLL 是�
 RCC_APB2PerphClockCmd();                             /* 12 打开要使用的外设时钟 */        
 RCC_APB1PerphClockCmd();
 					
-	
 					
+					
+					
+					
+					
+	
+###########################################################
+### % STM32中断系统
+###########################################################					
+% NVIC嵌套向量中断控制器
+
+
+
+% 外部中断/事件控制器(EXTI)
+对于互联型产品,外部中断/事件控制器由20个产生事件/中断请求的边沿检测器组成,对于其它
+产品,则有19个能产生事件/中断请求的边沿检测器。每个输入线可以独立地配置输入类型(脉冲
+或挂起)和对应的触发事件(上升沿或下降沿或者双边沿都触发)。每个输入线都可以独立地被屏
+蔽。挂起寄存器保持着状态线的中断请求。
+1 中断屏蔽寄存器(EXTI_IMR)
+2 事件屏蔽寄存器(EXTI_EMR)
+3 上升沿触发选择寄存器(EXTI_RTSR)
+4 下降沿触发选择寄存器(EXTI_FTSR)
+5 软件中断事件寄存器(EXTI_SWIER)
+6 挂起寄存器(EXTI_PR)
+
+
+
+% 中断配置
+1 时钟配置
+2 GPIO配置
+3 EXTI配置
+(中断源的选择，清除中断标志为了避免误操作，触发模式)
+4 NVIC配置
+(配置NVIC是那一个组， 指定主优先级&从优先级， 中断通道是否开启 )
+5 中断服务子程序
+
+
+
+% STM32中断系统配置例程
+{
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);   //使能GPIOB时钟
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);    //使能GPIO的复用功能
+    
+    
+    // GPIO, 配置PB6为外部中断
+    GPIO_DeInit(GPIOB);
+    GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
+    
+    
+    GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource6); //选择 GPIO 管脚用作外部中断线路
+    //EXTI, 外部中断配置
+    EXIT_DeInit();
+    EXTI_InitTypeDef EXTI_InitStructure;
+    EXTI_InitStructure.EXTI_Line = EXTI_Line6;
+    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
+    EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+    EXTI_Init(&EXTI_InitStructure);
+    EXTI_ClearITpendingBit(EXTI_Line6); //清除EXTI_Line6中断标志，为了安全
+    
+    
+    //NVIC配置
+    NVIC_InitTypeDef NVIC_InitStructure;
+    /* 配置组为第1组，先占优先级 1 位， 从优先级 3 位 */
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+    NVIC_InitStructure.NVIC_IRQChannel = EXTI9_5_IRQChannel; /* 外部中断线 9-5 中断 */
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_InitStructure(&NVIC_InitStructure);
+    
+    
+    
+    
+    
+    //中断服务子程序
+    void EXTI9_5_IRQHandler(void)
+    {
+        GPIO_ResetBits(GPIOA, GPIO_Pin_3);
+        Delay_MS(1000);
+        EXTI_ClearITPendingBit(EXTI_Line6); //清除中断标志位
+    }
+        
+}
+
 
 
 
@@ -152,8 +235,7 @@ Bound = 9600;
 Div = (float)(72*1000*1000)/(Bound*16);
 M = Div;	// 取整数部分
 F = (Div-M)*16; // 小数部分
-
-/* 整合整数部分和小数部分 */
+% /* 整合整数部分和小数部分 */
 BRR = M<<4 + F;
 USART1->BRR = BRR;
 
@@ -162,10 +244,10 @@ USART1->BRR = BRR;
 	int i, data,;
 	data = 'A';
 	USART->DR = data;
-	for (i = 0; i < 30; i++)
+	for (i = 0; i < 30; i++) 
 	{
 		data++;
-		while ((USART1_SR & (1<<6) == 0);
+		while ((USART1->SR & (1<<6) == 0);
 	}
 	
 	
