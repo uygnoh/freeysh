@@ -1,4 +1,18 @@
 ###########################################################
+### % STM32标准库程序配置流程
+###########################################################
+1 rcc_configuration();
+2 gpio_configuration();
+3 nvic_configuration();
+4 xxx_configuration();
+
+
+typedef 的真正意思是给一个已经存在的数据类型(注意:是类型不是变量)取一个别
+名,而非定义一个新的数据类型
+
+
+
+###########################################################
 ### % STM32通用功能和复用功能I/O
 ###########################################################
 % General-purpose and alternate-function I/O
@@ -6,12 +20,12 @@
 %           %               CNF1   CNF0  MODE1  MODE0   PxODR  
 Input       Analog            0     0     0      0      x     模拟输入
 Input       Input floating    0     1     0      0      x     浮空输入
-input       Input pull-down   1     0     0      0      0     下拉输入
-input       input pull-up     1     0     0      0      1     上拉输入
-output      Push-pull         0     0     01-10-11      0 or 1通用推完输出 
-output      Open-drain        0     1     01-10-11      0 or 1通用开漏输出
-output      Push-pull         1     0     01-10-11      x     推挽式复用功能
-output      Open-drain        1     1     01-10-11      x     开漏式复用功能
+Input       Input pull-down   1     0     0      0      0     下拉输入
+Input       Input pull-up     1     0     0      0      1     上拉输入
+Output      Push-pull         0     0     01-10-11      0 or 1通用推完输出 
+Output      Open-drain        0     1     01-10-11      0 or 1通用开漏输出
+Output      Push-pull         1     0     01-10-11      x     推挽式复用功能
+Output      Open-drain        1     1     01-10-11      x     开漏式复用功能
 % 注意：下拉输入和上拉输入是通过端口输出寄存器 GPIOxODR 来区分。
 % 01-10-11  输出最大速度分别是： 10 MHz, 2 MHz, 50 MHz.
 
@@ -129,16 +143,17 @@ RCC_APB1PerphClockCmd();
 
 
 % 外部中断/事件控制器(EXTI)
+% External interrupt/event controller (EXTI)
 对于互联型产品,外部中断/事件控制器由20个产生事件/中断请求的边沿检测器组成,对于其它
 产品,则有19个能产生事件/中断请求的边沿检测器。每个输入线可以独立地配置输入类型(脉冲
 或挂起)和对应的触发事件(上升沿或下降沿或者双边沿都触发)。每个输入线都可以独立地被屏
 蔽。挂起寄存器保持着状态线的中断请求。
-1 中断屏蔽寄存器(EXTI_IMR)
-2 事件屏蔽寄存器(EXTI_EMR)
-3 上升沿触发选择寄存器(EXTI_RTSR)
-4 下降沿触发选择寄存器(EXTI_FTSR)
-5 软件中断事件寄存器(EXTI_SWIER)
-6 挂起寄存器(EXTI_PR)
+1 中断屏蔽寄存器(EXTI_IMR),       Interrupt mask register (EXTI_IMR)
+2 事件屏蔽寄存器(EXTI_EMR),       Event mask register (EXTI_EMR)
+3 上升沿触发选择寄存器(EXTI_RTSR), Rising trigger selection register (EXTI_RTSR)
+4 下降沿触发选择寄存器(EXTI_FTSR), Falling trigger selection register (EXTI_FTSR)
+5 软件中断事件寄存器(EXTI_SWIER),  Software interrupt event register (EXTI_SWIER)
+6 挂起寄存器(EXTI_PR),           Pending register (EXTI_PR)
 
 
 
@@ -190,10 +205,7 @@ RCC_APB1PerphClockCmd();
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_InitStructure(&NVIC_InitStructure);
     
-    
-    
-    
-    
+ 
     //中断服务子程序
     void EXTI9_5_IRQHandler(void)
     {
@@ -207,8 +219,84 @@ RCC_APB1PerphClockCmd();
 
 
 
+
+
 ###########################################################
-### % usart通信
+### % STM32定时器
+###########################################################
+% TIM1 和 TIM8 是能够产生 3 对PWM互补输出的高级定时器，用于3相电机 ，时钟由APB2产生
+% 其余 6 个为普通定时器， 时钟由APB1的输出产生
+1 定时功能
+2 计数功能
+3 输入补获
+4 比较输出
+5 PWM脉冲宽度调制
+
+
+
+% 通用定时器是一个通过可编程预分频器驱动的 16位自动重装载计数器构成
+% 测量输入信号的脉冲长度(输入采集), 产生输出波形(输出比较和PWM)
+% 定时器的硬件是完全独立的，而且没有互相共享任何资源
+% 定时器还可以与定时器形成级联，组成更大的定时范围
+Note: 只要你使用的库默认配置时钟为 72MHz，无论是TIM1还是TIMx, 它们的计数频率都是 72MHz
+1 时钟源选择
+2 时基单元
+3 输入补获
+4 输出比较
+
+
+
+% 通用定时器计数模式
+1 当TIMx_CR1寄存器中有DIR位为0时，执行向上计数
+  向上计数模式中，计数器从0计数到自动装值(TIMx_ARR计数器的内容),
+  然后从0开始计数并且产生一个计数向上溢出事件
+2 当TIMx_CR1寄存器中有DIR位为1时，执行向下计数
+  向下计数模式中，计数器从自动装载值(TIMx_ARR计数器的内容)开始向下计数到0,
+  然后从自动装入值重新开始到0，并且产生一个计数向下溢出事件
+3 当TIMx_CR1寄存器中的CMS位不为00时，为中央对齐模式
+  而中央对齐模式(向上/向下计数)，是计数器从0开始计数到自动装入值，
+  产生一个计数溢出事件，然后向下计数到1并且产生一个计数器溢出事件，
+  然后再从0开始计数。
+
+
+
+% 用定时器2实现1S中断一次
+RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE); //开启定时器2时钟
+NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);      //Nvic
+NVIC_InitTypeDef NVIC_InitStructure;
+NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQChannel;
+NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+NVIC_InitStructure.NVIC_IRQChannelcmd = ENABLE;
+NVIC_Init(&NVIC_InitStructure);
+
+TIM_DeInit(TIM2);
+TIM_InternalClockConfig(TIM2);  //选择内部时钟=72MHz
+
+TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
+TIM_OCInitTypeDef TIM_OCInitStructure;
+TIM_TimeBaseStructure.TIM_Period = 2000;    //自动重装载寄存器值
+//CK_PSC预分频值为35999，则时钟分频为35999+1=36000
+//CK_PSC=72MHz, CK_CNT=(72MHz/36000=2000Hz), 自动重装载寄存器值(2000), 1S更新
+TIM_TimeBaseStructure.TIM_Prescaler = 35999;
+TIM_TimeBaseStructure.TIM_clockDivsion = 0x00;
+TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
+TIM_Cmd(TIM2, ENABLE);
+
+TIM_PrescalerConfig(TIM2, 35999, TIM_PSCReloadMode_Immediate); //让定时器预分频值立即装入
+TIM_ClearFlag(TIM2, TIM_FLAG_Update); //清除中断标志
+TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE); //使能定时器中断
+
+
+
+
+
+
+
+
+###########################################################
+### % usart通用异步同步收发器
 ###########################################################
 /* 串口1(USART1)初始化配置(寄存器版)
  * 2018.10.29
@@ -291,6 +379,237 @@ USART_CR3	控制寄存器 3
 3. 奇偶校验位 (9 bit)
 4. 停止位 (1, 1.5, 2)
 5. 波特率设置 (速度)
+
+
+
+
+
+
+###########################################################
+### % ADC模拟数字转换器
+###########################################################
+被控制对象 --->非电量 --->模拟传感器 --->模拟电量 --->A/D转换器 --->数字量 --->单片机
+单片机 ---> 数字量 --->D/A转换器 --->模拟电量 --->执行元件 --->控制操作 --->被控制对象
+% 将模拟量转换为数字量的过程称为模数转换，完成这一转换的器件称为ADC
+% 将数字量转换为模拟量的过程称为数模转换，完成这一转换的器件称为DAC
+
+
+
+% ADC转换器主要参数
+1 分辨率
+% 分辨率是指AD转换器输出数字量的最低有效位变化一个数码时，对应输入模拟量的变化
+% 最大输入电压为5V，8位的A/D转换器，它分辨最小的输入电压变体化量为[5V/2^8=19.53mV]
+2 相对精度
+% 相对精度是指A/D转换器实际输出数字量与理论输出数字量之间的最大差值
+% 通常用最低有效位LSB的倍数来表示
+3 转换速度
+% 转换速度是指A/D转换器完成一次转换所需要的时间
+% 即从转换开始到输出端出现的稳定的数字信号所需要的时间
+
+
+
+% STM32的ADC功能描述
+1 STM32的ADC是12位逐次逼近型的模数转换器
+2 它有18个通道，可以测量16个外部和2个内部信号源
+3 各通道的AD转换可以 单次，连续，扫描，间断，模式执行
+4 ADC的结果可以左对齐或右对齐方式存储在16位数据寄存器中
+5 模拟看门狗特性允许应用程序检测输入电压是否超出用户定义的高/低阀值
+6 STM32的ADC最大转换速率为1MHz，也就是1uS(在ADCCLK=14M,采样周期为1.5个ADC时钟下得到)
+7 不要让ADC的时钟超过14MHz，否则将导致结果准确度下降
+
+
+
+% ADC模数转换器配置流程
+{
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1,  ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+    
+    //将PC5引脚配置为模拟输入模式
+    GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+    
+    //ADC1的配置
+    ADC_InitTypeDef   ADC_InitStructure;
+    ADC_InitStructure.ADC_Mode               = ADC_Mode_Independent; //独立模式
+    ADC_InitStructure.ADC_ScanConvMode       = ENABLE; //连续多通道模式
+    ADC_InitStructure.ADC_ContinuousConVMode = ENABLE; //连续转换模式
+    ADC_InitStructure.ADC_ExternalTrigConv   = ADC_ExternalTrigConv_None;//不受外界决定 
+    ADC_InitStructure.ADC_DataAlign          = ADC_DataAlign_Right;//数据右对齐
+    ADC_InitStructure.ADC_NBrOfChannel       = 1;      //扫描通道数1
+    
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_15, 1, ADC_SampleTime_55Cycles5)
+    ADC_Cmd(ADC1, ENABLE);
+    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+}
+% 获得ADC1中的数据，并转换
+u32 conresult;
+u32 Test_ConverisonResult(void)
+{
+    if (ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == SET)
+    {
+        conresult = ADC_GetConversionValue(ADC1);
+        //2^12=4096 VDDA=3.3V=3300mV
+        conresult = conresult * 3300;
+        conresult = conresult / 4096;
+    }
+    ADC_ClearITPendingBit(ADC1, ADC_IT_EOC); //清除ADC中断
+    return(conresult);
+}
+//数码管显示转换结果，显示在4位数码管上
+while (1)
+{
+    conversionValue = Test_ConversionResult();
+    ConversionValue = ConversionValue * 1000;
+    NumbTube_Display(conversionValue, 4);
+}
+
+
+
+
+
+###########################################################
+### % RTC实时时钟
+###########################################################
+void RTC_Configuration(void)
+{
+1 % 打开APB1总线上的PWR,BKP时钟
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE);
+    
+2 % 使能RTC和后备寄存器访问, PWR_CR DBP=1
+    PWR_BackupAccessCmd(ENABLE);
+    
+3 % 复位备份寄存器设置
+    BKP_DeInit();
+    
+4 % 打开外部低速晶体振荡器
+    RCC_LSEConfig(RCC_LSE_ON);
+    // % 等侍LSE起振
+    while(RCC_GetFlagStatus(RCC_FLAG_LSIRDY) == RESET);   
+    // % 选择LSE为RTC时钟源
+    RCC_RTCCLKConfig(RTCCLKSource_LSE);
+    //使能 RTC 时钟
+    RCC_RTCCLKCmd(ENABLE);
+    
+5 % 等侍 RTC 寄存器同步(APB1)完成
+    RTC_WaitForSynchro();
+    
+6 % 等侍最近一次对 RTC寄存器 的写操作完成
+    RTC_WaitForLastTask();
+    
+7 % 使能RTC秒中断, 使能闹钟中断
+    RTC_ITConfig(RTC_IT_SEC, ENABLE);
+    RTC_ITConfig(RTC_IT_ALR, ENABLE);
+    // % 等侍最近一次对 RTC寄存器 的写操作完成
+    RTC_WaitForLastTask();
+    
+8 % 设置RTC时钟分频为32767， 则计数频率 = (32.768KHz / (32767 + 1)) = 1Hz
+    //设置为0，为1分频
+    RTC_SetPrescaler(32767);
+    // % 等侍最近一次对 RTC寄存器 的写操作完成
+    RTC_WaitForLastTask();
+    
+9 % 设置当前的时间值; 年 月 日 时 分 秒 星期
+    //t = 秒 + (分*60) + (时*3600) (日*24*3600)
+    RTC_SetCounter((u32)t);
+    // % 等侍最近一次对 RTC寄存器 的写操作完成
+    RTC_WaitForLastTask();
+    
+10 % 失能RTC和后备寄存器访问, PWR_CR DBP=0
+    //PWR_CR DBP:取消后备区域的写保护
+    //注:如果RTC的时钟是HSE/128,该位必须保持为’1’。
+    PWR_BackupAccessCmd(DISENABLE);
+
+}
+
+
+
+
+###########################################################
+### % STM32内部温度传感器
+###########################################################
+1 该温度传感器在内部和 ADCx_IN16 输入通道相连
+2 温度传感器模拟输入推荐采样时间是 17.1uS
+3 -40~125度， 精度为正负1.5度
+
+
+
+% 使用温度传感器
+1 选择ADC_IN16输入通道
+2 选择采样时间为 17.1uS
+3 设置ADC控制寄存器2(ADC_CR2)的TSVREFE位，以唤醒关电模式下的温度传感器
+4 通过设置ADON位启动ADC转换(或用外部触发)
+5 读ADC数据寄存器上的Vsense数据结果
+6 利用下列公式得出温度
+
+
+
+
+
+###########################################################
+### % STM32_PWM
+###########################################################
+% PWM(Pulse Width Modulation)脉冲宽度调制
+1 PWM信号是数字的，在给定的任意时刻，满幅值的直流供电要么是完全有(ON), 要么是完全无(OFF)
+2 电压或电流源是以种通(ON)或断(OFF)的重复脉冲序列被加载到模拟负载上
+3 改变脉冲的周期可以达到高频的效果
+4 改变脉冲的宽度或占空比可以达到调压的效果
+
+
+
+STM32_PWM输出模式
+% STM32_PWM有2种模式， 模式1和模式2， 由TIMx_CCMRx寄存器中的OCxM位确定
+% (110为模式1; 111为模式2)
+110 PWM模式1在向上计数时， 一旦 TIMx_CNT < TIMx_CCR1 时，通道1为有效电平(OC1REF=1)，否则为无效电平(OC1REF=0)
+    PWM模式1在向下计数时， 一旦 TIMx_CNT > TIMx_CCR1 时，通道1为无效电平(OC1REF=0)，否则为有效电平(OC1REF=1)
+
+110 PWM模式2在向上计数时， 一旦 TIMx_CNT < TIMx_CCR1 时，通道1为无效电平(OC1REF=0)，否则为有效电平(OC1REF=1)
+    PWM模式2在向下计数时， 一旦 TIMx_CNT > TIMx_CCR1 时，通道1为有效电平(OC1REF=1)，否则为无效电平(OC1REF=0)
+
+
+% pwm占空比计算公式
+占空比 = (TIMx_CRRx / TIMx_ARR) * 100%
+
+
+
+% 通过PWM控制LED的亮度，配置PA1为TIM2的PWM输出
+1 RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+2 RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+3 void GPIO_Configuration(void)
+{
+    GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_MOde_AF_PP;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+}   
+4 void TIM_configuration(void)
+{
+    TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
+    TIM_OCInitTypeDef TIM_OCInitStructure;
+    
+    TIM_TimeBaseStructure.TIM_Prescaler = 0; //72MHz
+    TIM_TimeBaseStructure.TIM_CounterMode = TIM_counterMode_Up;
+    TIM_TimeBaseStructure.TIM_Period = 0xff; 
+    TIM_TimeBaseStructure.TIM_ClockDivision = 0x00;
+    TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
+    
+    TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+    TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+    TIM_OCInitStructure.TIM_Channel = TIM_Channel_2;
+    TIM_OCInitStructure.TIM_Pulse = 0xff;
+    TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+    TIM_OC2PreloadConfig(TIM2, TIM_OCPreload_Enable);
+    TIM_Cmd(TIM2, ENABLE);
+}
+
+
+
+
+
+
 
 
 
