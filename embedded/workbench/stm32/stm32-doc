@@ -608,10 +608,47 @@ STM32_PWM输出模式
 
 
 
-
-
-
-
+###########################################################
+### % SMG_数码管
+###########################################################
+% 数码管控制软件模拟， 74hc595是低位先传数据的
+% 数码管位段控制->PC8=0，为共阳数码管
+% 74H595控制  ->RCK(PA1) ->SCK(PA5) ->MISO(PA6) ->MOSI(PA7) ->595_ncs(PA0)
+1 数码管位段控制->PC8=0; 595_ncs=0
+GPIO_ResetBits(GPIOC, GPIO_Pin_8);
+GPIO_ResetBits(GPIOA, GPIO_Pin_0);
+/*********************************************************/
+2 SCK上升沿， MOSI数据输入，完成这个数据通信 00100101, 先传最高位
+u8 data = 0x25;
+u8 i;
+for (i = 0; i < 8; i++)
+{
+    GPIO_ResetBits(GPIOA, GPIO_Pin_5);     //->SCK(PA5)=0,先把SCK置低
+    if ((data & 0x80) == 0x00)
+        GPIO_ResetBits(GPIOA, GPIO_Pin_7); //->MOSI(PA7)=0,主机发送数据，从机接受数据
+    else
+        GPIO_setBits(GPIOA, GPIO_Pin_7);   //->MOSI(PA7)=1,主机发送数据，从机接受数据
+    GPIO_setBits(GPIOA, GPIO_Pin_5);       //->SCK(PA5)=1,先把SCK拉高，产生一个上升沿
+    date = data<<1;                        //数据向右移动1位
+}
+/*********************************************************/
+22 SCK上升沿， MOSI数据输入，完成这个数据通信 00100101, 先传最低位数据
+u8 data = 0x25;
+u8 i;
+for (i = 0; i < 8; i++)
+{
+    GPIO_ResetBits(GPIOA, GPIO_Pin_5);     //->SCK(PA5)=0,先把SCK置低
+    if ((data & 0x01) == 0x00)
+        GPIO_ResetBits(GPIOA, GPIO_Pin_7); //->MOSI(PA7)=0,主机发送数据，从机接受数据
+    else
+        GPIO_setBits(GPIOA, GPIO_Pin_7);   //->MOSI(PA7)=1,主机发送数据，从机接受数据
+    GPIO_setBits(GPIOA, GPIO_Pin_5);       //->SCK(PA5)=1,先把SCK拉高，产生一个上升沿
+    date = data>>1;                        //数据向左移动1位
+}
+3 RCK(PA1)上升沿数据进行锁存
+GPIO_ResetBits(GPIOA, GPIO_Pin_1);         //->SCK(PA1)=0,先把RCK置低
+Delay_MS(2);
+GPIO_setBits(GPIOA, GPIO_Pin_1);           //->SCK(PA1)=1,再把RCK拉高
 
 
 
