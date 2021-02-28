@@ -13,7 +13,7 @@ void delay_ms(uint z)
     for (x = z; x > 0; x--) 
     {
         for (y = 110; y > 0; y--);
-     }
+    }
 }
 
 int main(void)

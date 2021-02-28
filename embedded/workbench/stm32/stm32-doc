@@ -609,7 +609,7 @@ STM32_PWM输出模式
 
 
 ###########################################################
-### % SMG_数码管
+### % SMG_数码管 | SPI
 ###########################################################
 % 数码管控制软件模拟， 74hc595是低位先传数据的
 % 数码管位段控制->PC8=0，为共阳数码管
@@ -651,6 +651,29 @@ Delay_MS(2);
 GPIO_setBits(GPIOA, GPIO_Pin_1);           //->SCK(PA1)=1,再把RCK拉高
 
 
+
+% SPI_SMG/SPI是一个全双工的同步串行接口
+% 在数据传输过程中，总线上只能是一个主机和一个从机进行通信
+1 MISO(Master In Slave Out) 主机输入，从机输出信号
+2 MOSI(Master Out Slave In) 主机输出，从机输入信号
+3 SCK (Serial Clock)        串行时钟信号
+4 SS  (Slave Select)        从机选择信号，低电平有效
+% CPOL时钟极性；决定时钟SCK的有效脉冲(正脉冲，负脉冲)
+% CPHA时钟相位；决定数据线什么时候输出数据或采集数据 
+1 % 数据与时钟的相位关系图
+CPOL/CPHA           第一位数据的输出        其它位输出       数据采集
+CPOL=0, CPHA=0      在第1个SCK上升沿之前    SCK下降沿       SCK上升沿
+CPOL=1, CPHA=1      第1个SCK下降沿         SCK下降沿       SCK上升沿
+CPOL=1, CPHA=0      在第1个SCK下降沿之前    SCK上升沿       SCK下降沿
+CPOL=0, CPHA=1      第1个SCK上升沿         SCK上升沿       SCK下降沿
+2 % 根据SPI_CR1寄存器中的LSBFIRST位，输出数据位时可以MSB在先也可以LSB在先
+3 % 根据SPI_CR1寄存器中的DFF位，每个数据帧可以是8位或是16位
+
+
+
+% 74HC595_SPI通信
+ 
+ 
 
 
 
