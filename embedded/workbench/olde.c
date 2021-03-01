@@ -33,7 +33,7 @@
 #define OLED_COMM	0
 
 /* 使用外部高速晶体振荡器, 配置为72MHz */
-void rcc_configure(void)
+void rcc_conf(void)
 {
     RCC_DeInit();                                         /* 初始化为缺省值               */
     RCC_HSEConfig(RCC_HSE_ON);                            /* 使能外部高速时钟             */			
@@ -57,10 +57,10 @@ void rcc_configure(void)
 
 
 /* GPIOA端口配置 */
-void spi1_gpio_init(void)
+void gpio_init(void)
 {
     GPIO_InitTypeDef gpio_conf;
-    gpio_conf.GPIO_Pin      = SPIM1_CLK | SPIM1_MOSI;
+    gpio_conf.GPIO_Pin      = SPI1_SCLK | SPIM_MOSI;
     gpio_conf.GPIO_Mode     = GPIO_Mode_AF_PP;  
     gpio_conf.GPIO_Speed    = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &gpio_conf);
@@ -327,6 +327,22 @@ void oled_dis_picture(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t *b
 }
 
 
+
+uint32_t oled_pow(uint8_t m, uint8_t n)
+{
+    uint32_t ret = 1;
+
+    while(n--)
+    {
+        ret *= m;
+    }
+
+    return ret;
+}
+
+
+
+//num：显示数字; len：数字长度; size_num：数字大小
 void oled_dis_num(uint8_t x, uint8_t y, uint32_t num, uint8_t len, uint8_t size_num)
 {
     uint8_t i = 0;
@@ -355,6 +371,51 @@ void oled_dis_num(uint8_t x, uint8_t y, uint32_t num, uint8_t len, uint8_t size_
 
 
 
+
+
+
+void oled_init(void)
+{
+    oled_gpio_init();	//oled cs/dc/rst 三个io初始化
+
+    OLED_RST_HIGH;
+    delay_ms(200);
+    OLED_RST_LOW;
+    delay_ms(200);
+    OLED_RST_HIGH; 
+	    
+    oled_write_operate(OLED_COMM, 0xAE);    //关闭OLED
+    oled_write_operate(OLED_COMM, 0x00);    //设置列低位地址
+    oled_write_operate(OLED_COMM, 0x10);    //设置列高位地址
+    oled_write_operate(OLED_COMM, 0x40);    //设置起始行地址及映射RAM显示起始行 (0x00~0x3F)
+    oled_write_operate(OLED_COMM, 0x81);    //对比度设置
+    oled_write_operate(OLED_COMM, 0xCF);    // Set SEG Output Current Brightness
+    oled_write_operate(OLED_COMM, 0xA1);    //--Set SEG/Column Mapping     0xa0左右反置 0xa1正常
+    oled_write_operate(OLED_COMM, 0xC8);    //Set COM/Row Scan Direction   0xc0上下反置 0xc8正常
+    oled_write_operate(OLED_COMM, 0xA8);    //设置驱动路数(1 to 64)
+    oled_write_operate(OLED_COMM, 0x3f);    //--1/64 duty
+    oled_write_operate(OLED_COMM, 0xD3);    //-设置显示偏移(0x00~0x3F)
+    oled_write_operate(OLED_COMM, 0x00);    //-not offset
+    oled_write_operate(OLED_COMM, 0xd5);    //--set display clock divide ratio/oscillator frequency
+    oled_write_operate(OLED_COMM, 0x80);    //--set divide ratio, Set Clock as 100 Frames/Sec
+    oled_write_operate(OLED_COMM, 0xD9);    //--set pre-charge period
+    oled_write_operate(OLED_COMM, 0xF1);    //Set Pre-Charge as 15 Clocks & Discharge as 1 Clock
+    oled_write_operate(OLED_COMM, 0xDA);    //--set com pins hardware configuration
+    oled_write_operate(OLED_COMM, 0x12);
+    oled_write_operate(OLED_COMM, 0xDB);    //--set vcomh
+    oled_write_operate(OLED_COMM, 0x40);    //Set VCOM Deselect Level
+    oled_write_operate(OLED_COMM, 0x20);    //设置页地址模式(0x00/0x01/0x02)
+    oled_write_operate(OLED_COMM, 0x02);    //
+    oled_write_operate(OLED_COMM, 0x8D);    //--set Charge Pump enable/disable
+    oled_write_operate(OLED_COMM, 0x14);    //--set(0x10) disable
+    oled_write_operate(OLED_COMM, 0xA4);    //显示开启(显示:A4;无显示:A5)
+    oled_write_operate(OLED_COMM, 0xA7);    // 背景正反向显示 (0xa6:正显;a7:反显) 
+    oled_write_operate(OLED_COMM, 0xAF);    //打开显示
+
+    oled_write_operate(OLED_COMM, 0xAF);    //display ON(on:AF;off:AE)
+    oled_dis_clear();
+    oled_set_pos(0, 0); 	
+}  
 
 
 
