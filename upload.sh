@@ -5,6 +5,18 @@ git commit -m "$(date)"
 git push origin master
 
 
+# standard peripheral library  ->spl
+
+
+
+
+
+
+
+
+
+
+
 
 ###########################################################
 ### git常见错误解决
@@ -47,3 +59,12 @@ git push origin master
 ### .tmux.conf
 ###########################################################
 # cp /home/ysh/Documents/FREEYSH/profiles/tmux/tmux_cfg /home/ysh/.tmux.conf
+
+
+
+
+
+
+
+
+
