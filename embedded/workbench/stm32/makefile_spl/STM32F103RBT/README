@@ -1,20 +1,12 @@
 ###############################################################
-% Linux OS 嵌入式开发环境， 系统环境变量配置 
 % sudo gedit ~/.bashrc
 ###############################################################
-
 % GNU Arm Embedded Toolchain ->CORTEX-M 编译环境
 export GCC_HOME=/opt/gcc-arm-none-eabi-7-2018-q2-update-linux\
                 /gcc-arm-none-eabi-7-2018-q2-update/
 export PATH=$PATH:$GCC_HOME/bin
 
 
-% JAVA-JDK java虚拟机
-export JAVA_HOME=/opt/jdk-8u181-linux-x64/jdk1.8.0_181/
-export PATH=$PATH:$JAVA_HOME/bin
-
-% eclipse IDE开发环境
-export PATH=$PATH:/opt/eclipse-cpp-2018-09-linux-gtk-x86_64/eclipse/
 
 
 

@@ -1,65 +1,14 @@
-/* 
- * 0.96OLED-四线SPI1，SSD1306只支持向模块写数据不能读数据
- * Under serial mode, only write operations are allowed.
- * stm32-io     oled-io     说明
- * PA1          OLED_CS     OLED     片选信号, 0为选择
- * PA3	        OLED_DC     OLED     命令/数据标志(0写命令, 1写数据)
- * PA4	        OLED_RST    OLED     硬件复位 
- * PA5	        OLED_D0     D0(SCLK) 信号线作为串行时钟线 SPI_SCLK
- * PA7	        OLED_D1     D1(SDAT) 信号线作为串行数据线 SPI1_MOSI
- */
-
-#define SPI1_SCLK       (GPIO_Pin_5)
-#define SPI1_MISO       (GPIO_Pin_6)
-#define SPI1_MOSI       (GPIO_Pin_7)
-
-#define OLED_CS_PIN     GPIO_Pin_1      //OLED_CS
-#define OLED_CS_LOW     GPIO_ResetBits(GPIOC, GPIO_Pin_1)						
-#define OLED_CS_HIGH    GPIO_SetBits(GPIOC, GPIO_Pin_1)
-
-#define OLED_DC_PIN     GPIO_Pin_3      //OLED_DC
-#define OLED_DC_LOW     GPIO_ResetBits(OLED_PORT, OLED_DC_PIN)
-#define OLED_DC_HIGH    GPIO_SetBits(OLED_PORT, OLED_DC_PIN)
-
-#define OLED_RST_PIN    GPIO_Pin_4      //OLED_RST
-#define OLED_RST_LOW    GPIO_ResetBits(OLED_PORT, OLED_RST_PIN)
-#define OLED_RST_HIGH   GPIO_SetBits(OLED_PORT, OLED_RST_PIN)
-
-#define MAX_COLUMN	128
-#define MAX_ROW	64
-#define SIZE 16 	//显示字体选择()
-
-#define OLED_DATA	1
-#define OLED_COMM	0
-
-/* 使用外部高速晶体振荡器, 配置为72MHz */
-void rcc_conf(void)
-{
-    RCC_DeInit();                                         /* 初始化为缺省值               */
-    RCC_HSEConfig(RCC_HSE_ON);                            /* 使能外部高速时钟             */			
-    while (RCC_GetFlagStatus(RCC_FLAG_HSERDY) == RESET);  /* 等待外部高速时钟稳定          */ 	
-    FLASH_PrefetchBufferCmd(FLASH_PrefetchBuffer_Enable); /* enable prefetch buffer     */
-    FLASH_SetLatency(FLASH_Latency_2);                    /* flash 2 wait state         */
-    RCC_HCLKConfig(RCC_SYSCLK_Div1);                      /* HCLK  ==  SYSCLK           */
-    RCC_PCLK2Config(RCC_HCLK_Div1);                       /* PCLK2 ==  HCLK             */
-    RCC_PCLK1Config(RCC_HCLK_Div2);                       /* PCLK1 ==  HCLK/2           */
-    RCC_PLLConfig(RCC_PLLSource_HSE_Div1, RCC_PLLMul_9);  /* PLLCLK == 8MHz*9 ==72MHz   */
-    RCC_PLLCmd(ENABLE);                                   /* enable PLLCLK              */
-    while (RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);  /* wait till  PLLCLK is ready */
-    RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);            /* select PPLL as system clock*/
-    while (RCC_GetSYSCLKSource() != 0x08);                /* wait till PLL is used as system clock source */
-
-    /* spi1_configuration */
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);
-}
+#include "oled.h"
 
 
-/* GPIOA端口配置 */
+
 void gpio_init(void)
 {
     GPIO_InitTypeDef gpio_conf;
+    
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE); //开启GPIOA时钟
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);  //开启GPIOA复用功能
+
     gpio_conf.GPIO_Pin      = SPI1_SCLK | SPIM_MOSI;
     gpio_conf.GPIO_Mode     = GPIO_Mode_AF_PP;  
     gpio_conf.GPIO_Speed    = GPIO_Speed_50MHz;
@@ -78,6 +27,9 @@ void gpio_init(void)
 void spi1_init(void)
 {
     SPI_InitTypeDef  spi_conf;
+    
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE); //开启SPI1时钟
+        
     spi_conf.SPI_Direction         = SPI_Direction_2Lines_FullDuplex;//SPI设置为双线双向全双工
     spi_conf.SPI_Mode              = SPI_Mode_Master;//设置为主SPI
     spi_conf.SPI_DataSize          = SPI_DataSize_8b;//SPI发送接收8位帧结构
@@ -215,18 +167,18 @@ void oled_dis_one_char(uint8_t x, uint8_t y, uint8_t str)
     uint8_t ret = 0;
 	
     //ret = str -32;
-    ret = str - ' ';//得到偏移后的值,对ASCLL码进行一个减法.即在二维数组里找它的位置  
+    ret = str - ' ';            //得到偏移后的值,对ASCLL码进行一个减法.即在二维数组里找它的位置  
 	
-    if (x > (MAX_COLUMN - 1))	//列超过最大,更换到下一行
+    if (x > (MAX_COLUMN - 1))   //列超过最大,更换到下一行
     {
         x = 0;
         if (SIZE == 8 )
         {
-            y = y + 1;//针对8号的字符
+            y = y + 1;          //针对8号的字符
         }
         if (SIZE == 16 )
         {
-            y = y + 2;//针对16号的字符
+            y = y + 2;          //针对16号的字符
         }
     }
     
@@ -284,7 +236,7 @@ void oled_dis_chinese(uint8_t x, uint8_t y, uint8_t no)
     uint8_t addr = 0;
 	
     oled_set_pos(x, y);
-    for (i = 0; i < 16; i++)//数组行列寻址
+    for (i = 0; i < 16; i++)    //数组行列寻址
     {
         oled_write_operate(OLED_DATA, TEST[2*no][i]);
         addr += 1;
@@ -315,7 +267,7 @@ void oled_dis_picture(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t *b
         y = y1 /8 + 1;
     }
 	
-    for (y = y0; y < y1; y++)	//每行(0 - 7 page)
+    for (y = y0; y < y1; y++)	    //每行(0 - 7 page)
     {
         oled_set_pos(x0, y);
 		
@@ -351,7 +303,7 @@ void oled_dis_num(uint8_t x, uint8_t y, uint32_t num, uint8_t len, uint8_t size_
 	
     for (i = 0; i < len; i++)
     {
-        temp = (num / (oled_pow(10,len-i-1))) % 10;//把显示的数字一位一位取出来
+        temp = (num / (oled_pow(10,len-i-1))) % 10; //把显示的数字一位一位取出来
         if((enshow == 0) && (i < (len-1)))
         {
             if(temp == 0)

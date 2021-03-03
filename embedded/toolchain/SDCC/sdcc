@@ -41,7 +41,7 @@ Bytes written: 71
 
 
 ###########################################################
-### % sdcc-mcs51
+### % sdcc-stc89c51
 ###########################################################
 % stcflash可以中github直接下载到本地，加入环境变量即可
 wget https://github.com/laborer/stcflash/archive/master.zip
