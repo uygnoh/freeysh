@@ -33,7 +33,6 @@ git push origin master
 ### 但是执行git rm --cached directory时，提示
 ### fatal: Unable to create 'xx/.git/index.lock': File exists.
 ### 执行rm -f xx/.git/index.lock后解决
-### 
 
 
 

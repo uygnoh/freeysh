@@ -1,0 +1,59 @@
+###########################################################
+### % PlatformIO创建工程
+###########################################################
+1 % 创建blink
+Name：      就根据自己的需要来取了
+Board：     可以直接输入MCU型号，然后根据自己实际选择后面带Generic就可以了
+Freamwork:  这里选择CMSIS，因为我们要做的是基于标准库来开发
+Location：  这个是工程存放的目录，根据自己需求来就可以了
+
+
+
+2 % 这几个文件复制到blink/src目录下
+/src
+main.c
+stm32f10x.h
+stm32f10x_conf.h
+stm32f10x_it.c
+stm32f10x_it.h
+/include
+system_stm32f10x.c
+system_stm32f10x.h
+
+
+###########################################################
+### % platformio.ini 位于工程的根目录
+###########################################################
+; PlatformIO Project Configuration File
+;
+;   Build options: build flags, source filter
+;   Upload options: custom upload port, speed and extra flags
+;   Library options: dependencies, extra library storages
+;   Advanced options: extra scripting
+;
+; Please visit documentation for the other options and examples
+; https://docs.platformio.org/page/projectconf.html
+
+[env:genericSTM32F103C8]
+platform = ststm32
+board = genericSTM32F103C8
+framework = cmsis
+
+upload_protocol = stlink 
+debug_tool  = stlink            
+build_flags =                   
+    -Isrc
+    -Isrc/stm32libs/inc
+    -Isrc/bsp/inc
+
+    -D STM32F10X_MD
+    -D USE_STDPERIPH_DRIVER
+    
+    
+    
+    
+    
+    
+    
+    
+    
