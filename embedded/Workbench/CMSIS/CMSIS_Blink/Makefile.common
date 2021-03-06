@@ -49,6 +49,7 @@ OBJCOPY         =$(TC)-objcopy
 AR              =$(TC)-ar
 GDB             =$(TC)-gdb
 
+INCLUDE	        =-I$(TOP)/include
 INCLUDE	        =-I$(TOP)/startup
 INCLUDE	        =-I$(TOP)/user
 

@@ -1,4 +1,4 @@
-# libraries Makefile
+# STM32libs Makefile
 # ==================
 
 include ../Makefile.common
@@ -11,11 +11,11 @@ all: stm32
 stm32: $(STM32_LIBS)
 libstm32.a:
 	@echo -n "Building $@ ..."
-	@cd $(STM32LIB)/src &&       \
-		$(CC) $(CFLAGSlib)     \
+	@cd $(STM32LIB)/src && \
+		$(CC) $(CFLAGSlib) \
 			*.c
 			
-	@$(AR) cr $(STM32DIR)/$@     \
+	@$(AR) cr $(STM32DIR)/$@ \
 		$(STM32LIB)/src/*.o
 	@echo "done."
 
