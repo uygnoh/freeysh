@@ -49,103 +49,28 @@ apt-get install sudo
 
 
 ###########################################################
-###  % 五笔输入法安装
+### Debian 安装搜狗输入法% http://pinyin.sogou.com/linux/
 ###########################################################
-1 sudo dpkg-reconfigure locales
-% 选择 *zh_CN.UTF-8 中文语言环境
-% 最后选择 en_US.UTF-8， 然后点击OK
+% Linux 下有两大输入法框架：ibus 和fcitx，其中fcitx 的体验要比ibus 好，
+% 因此选择fcitx 框架，并安装搜狗输入法。
+$sudo apt-get install fcitx
 
-2 执行如下命令进行系统环境软件更新和安装:
-% sudo apt-get update 
+% 我们可以上搜狗官网下载搜狗输入法linux 版：
+% http://pinyin.sogou.com/linux/
 
-3 安装fctix中文输入法
-% sudo apt install fcitx
+% 下载完搜狗输入法的安装包后，我们切换至下载此安装包的目录，进行安装
+$ sudo dpkg -i sogoupinyin_xxx_amd64.deb
 
-4 在终端输入 fcitx 然后退出
-
-5 在左下角会弹出 fcitx的图标， Setting->Configuration
-
-% 五笔输入法,sudo apt-get install fcitx-table-wubi
-apt-get install fcitx-table-wubi
- 
- 
- 
- 
- ###########################################################
-###  % systemd服务
-###########################################################
-% 列出系统的服务
-systemctl --type=service
-
-% 列出OpenSSH服务状态 
-systemctl status sshd.service
-%systemctl is-active sshd.service
+% 安装完后，需要重启系统，然后在终端中输入
+$ fcitx-config-gtk3
+% 在Input Method 栏中，点击+，然后选择搜狗输入法（Sogou Pinyin）。
+% 设置好后，采用快捷键Ctrl+Space 即可调出搜狗输入法。
 
 
-
-###########################################################
-###  % systemd目标
-###########################################################
-% 切换当前运行目标,该命令仅更改当前运行目标，对下次启动无影响 [系统运行级别]
-systemctl isolate graphical.target 
-
-% 用 systemctl 检查当前的默认启动目标
-systemctl get-default    
-systemctl list-dependencies | grep target           
-systemctl list-dependencies graphical.target | grep target
-
-% 用 systemctl 修改default.target以变更开机默认启动目标[runlevel]运行级别
-systemctl set-default multi-user.target
-
-
-
-###########################################################
-###  % 修改grub2启动顺序
-###########################################################
-% 表示要启动的第3个操作系统[0-N]
-grub-set-default 2  
-
-%  启动进入救援状态（单用户状态）
-sudo systemctl rescue
-
-
-
-###########################################################
-###  % 确认1号进程
-###########################################################
-% /sbin/init 只是到 /lib/systemd/systemd 的链接文件，
-% 系统的 1 号进程的确是systemd，只不过在debain系统中被起了个别名叫 /sbin/init
-ps u -p 1
-USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-root         1  0.0  0.1 204592  6928 ?        Ss   11:43   0:01 /sbin/init
-
-ls -al /sbin/init
-lrwxrwxrwx 1 root root 20 1月  15 17:59 /sbin/init -> /lib/systemd/systemd
-
-
-
-###########################################################
-### % ＳＹＳＴＥＭＣＴＬ
-###########################################################
-systemctl start <unit>              立即激活单元
-systemctl stop <unit>               立即停止单元
-systemctl restart <unit>            重启单元
-systemctl reload <unit>             重新加载配置
-systemctl status <unit>             输出单元运行状态
-systemctl is-enable <unit>          检查单元是否配置为自动启动
-systemctl enable <unit>             开机自动激活单元
-systemctl enable --now <unit>       设置单元为自动启动并立即启动这个单元
-systemctl disable <unit>            取消开机自动激活单元
-systemctl mask <unit>               禁用一个单元（禁用后，间接启动也是不可能的）
-systemctl unmask <unit>             取消禁用一个单元
-systemctl help <unit>               显示单元的手册页（必须由单元文件提供）
-systemctl daemon-reload             重新载入 systemd 系统配置，扫描单元文件的变动
-systemctl reboot                    重启
-systemctl poweroff                  退出系统并关闭电源
-systemctl suspend                   待机
-systemctl hibernate                 休眠
-systemctl hybrid-sleep              混合休眠模式（同时休眠到硬盘并待机）
-
+% fcitx安装失败解决
+% 自动修复安装出现broken的package
+% 但是，如果还是失败的话，就需要手动进行干预了。
+sudo apt --fix-broken install
 
 #################################################
 #                                               #
