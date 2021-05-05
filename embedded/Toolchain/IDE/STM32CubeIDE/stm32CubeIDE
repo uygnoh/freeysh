@@ -1,0 +1,99 @@
+###########################################################
+### % STM32CubeIDE
+###########################################################
+1 % 函数跳转
+按住键盘ctrl不放，然后用鼠标单击函数名，这们就能跳转到函数体中
+
+
+
+2 % 主题设置
+/* 选择populor即可看见所需插件,点击install按照提示安装 */
+help ->Eclipse Marketplace ->Popular
+% Darkest Dark Theme with DevStyle
+
+
+
+
+
+
+
+
+###########################################################
+### % STM32CubeMX
+###########################################################
+% System Core ->SYS Mode and Configuration
+/* 调式加入此选项 */
+Debug [Serial Wire]
+
+
+
+% Connectivity ->USART1
+/* USART1工作模式为异步式的 */
+Mode [Asynchrounous]
+
+
+/* USART1的基本参数设置 */
+Basic Parameters
+    Baud Rate       [115200 Bits/s]
+    Word Length     [8 Bits]
+    Parity          [None]
+    Stop Bits       [1]
+    
+
+/* USART1的高级参数设置 */    
+Advanced Parameters
+    Data Direction [Receive and Transmit]
+    Over Sampling  [16 Samples]
+    
+    
+    
+###########################################################
+### % STM32CubeIDE printf()函数实现
+###########################################################
+/* USER CODE BEGIN Includes */
+#include <string.h>
+#include <stdio.h>
+
+/* USER CODE END Includes */
+
+
+/* USER CODE BEGIN PV */
+#ifdef __GNUC__
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif
+PUTCHAR_PROTOTYPE
+{
+    HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
+    return ch;
+}
+/* USER CODE END PV */
+
+
+
+
+  char *strs = "Hello World\r\n";
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+    HAL_UART_Transmit(&huart1, strs, strlen(strs), 100);
+    HAL_Delay(500);
+    printf("Test1\r\n");
+    
+  }
+  /* USER CODE END 3 */
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -7,7 +7,7 @@
  * PA1          OLED_CS     OLED     片选信号, 0为选择
  * PA3	        OLED_DC     OLED     命令/数据标志(0写命令, 1写数据)
  * PA4	        OLED_RST    OLED     硬件复位 
- * PA5	        OLED_D0     D0(SCLK) 信号线作为串行时钟线 SPI_SCLK
+ * PA5	        OLED_D0     D0(SCLK) 信号线作为串行时钟线 SPI1_SCLK
  * PA7	        OLED_D1     D1(SDAT) 信号线作为串行数据线 SPI1_MOSI
  */
 #define SPI1_SCLK       (GPIO_Pin_5)    //SPI1时钟信号
