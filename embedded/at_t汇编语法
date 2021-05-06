@@ -1,0 +1,179 @@
+###########################################################
+### % AT&T汇编
+### % 立即数前面要加一个$, 寄存器前面要加一个%
+###########################################################
+.section .data  #声明一个数据段
+.section .text  #声明一个代码段
+.globl main     #声明一个全局标号main
+
+movl $1, %eax   #把立即数1，放入eax寄存器中
+
+
+
+
+###########################################################
+### % AT&T DATA TYPE(数据类型)
+###########################################################
+.ascii                  ASCII Text
+.asciz .strint          ASCII Text, end with '\0'
+.byte                   8-bits interer:Byte
+.short .word .hword     16-bits integer:Word
+.int .long              32-bits integer:Doubleword
+.quad                   64-bits integer:Quadword
+.octa                   128-bits integer
+.float .single          Single-precision floating-point number(32-bits)
+.double                 Double-precision floating-point number(64-bits)
+
+% AT&T 定义常量
+.equ LINUX_SYS_CALL, 0x80   # 定义LINUX_SYS_CALL为常量0x80
+int $LINUX_SYS_CALL         # 调用0x80中断
+
+
+
+
+###########################################################
+### % AT&T SECTION(段)
+###########################################################
+.section .data
+% contains initialized static variables,that is, global variables and static local variables
+% the sizes does not change at run time.
+
+section .bss        # Block Started by Symbol,also known as uninitialized data
+% contains statically-allocated variables that are not explicitly initlized to any value.
+% doesn't take up space in the executable
+
+.section .rodata    # read-only
+% contains static constants rather than variables
+
+.section .text
+% contains executable instructions is stored and is generally read-only and fixed size.
+
+
+
+###########################################################
+### % AT&T INDEXED MEMORY MODE
+###########################################################
+base_address(offset_address, index, size)
+===>base_address + offset_address + (index*size)
+% Base address
+% Offset address(must be register)
+% Index(must be register)
+% Size(can be number)
+
+# 定义一个数据段， 它里面有11个数据元素，每个数据元素的数据类型为int
+# 其中values为这个数据元素的基地址
+.section .data
+values:
+    .int 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60
+# 使用下面的代码，可以将这个数据段中的第3个数据元素放入eax寄存器中
+movl $2, %edi
+movl values(, %edi, 4), %eax
+
+# 把values基地址的内容放到寄存器eax中，此时eax=10
+movl values, %eax
+
+# 把values的地址放入寄存器edi中   
+movl $values, %edi 
+
+# 把寄存器ebx中的内容放入寄存器edi的地址中    
+movl %ebx, (%edi) 
+
+# 把立即数99放到（寄存器edi+4所在的地址中）
+movl $99, 4(%edi)
+
+
+.section .data
+values:
+    .int 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60
+.section .text
+.globl main
+main:
+    nop
+    movl values, %eax               # Eax=10
+    movl $values, %edi              # Edi=address of values
+    movl $100, 4(%edi)              # Replace 15 by 100
+    movl $1, %edi                   # Edi=1
+    movl values(, %edi, 4), %ebx    # Ebx=100
+    movl $1, %eax                   # Eax=1
+    int $0x80                       # Exit with code 100, Ebx里面存的是返回值
+    
+    
+    
+    
+###########################################################
+### % AT&T XCHG指令实现冒泡算法[32bits intel]
+########################################################### 
+% 冒泡算法C语言
+for (out = array_size-1; out > 0; out--) {
+    for (int = 0; in < out; in++) {
+        if (arry[in] > array[in+1]) {
+            swap(array[in], array[in+1]);
+        }
+    }
+}
+   
+   
+   
+# bubble.s - An example of the XCHG instruction
+.section .data
+values:
+    .int 105, 235, 61, 315, 134, 221, 53, 145, 117, 5
+
+.seciton .text
+.globl main
+main:
+    movl $values, %esi  # Esi用来作指针
+    movl $9, %ecx       # Ecx控制外层循环
+    movl $9, %ebx       # Ebx控制内层循环
+loop:
+    movl (%esi), %eax   # Eax=105
+    cmp %eax, 4(%esi)   # 比较Eax与4(%esi)大小  
+    jge skip            # [4(%esi) - Eax] jge如果大于或等于
+    xchg %eax, 4(%esi)
+    movl %eax, (%esi)
+skip:
+    add $4, %esi        # Esi+4
+    dec %ebx            # Ebx-1
+    jnz loop            # 判断(Ebx-1)为0吗，如果不为0，继续循环
+    dec %ecx
+    jz end              # 判断(Ecx)为0吗，如果不为0，继续执行下面的语句
+    movl $values, %esi
+    movl %ecx, %ebx
+    jmp loop
+end:
+    movl $1, %eax
+    movl $0, %ebx
+    int $0x80
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+    
+    
+    
+    
+    

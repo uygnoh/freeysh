@@ -1,14 +1,184 @@
 ###########################################################
-### RV32I指令
+### % RISC-V  RV32I
 ###########################################################
-% 例如，下图表示了这四个RV32I指令：slt，slti，sltu，sltiu
-set less than {immediate}{unsigned}
+1 % RV32I寄存器为 x0~x31
+    其中x0寄存器比较特殊，它的值恒为0
 
 
-% RV32I指令格式
-1 R     用于寄存器-寄存器操作的R类型指令
-2 I     用于短立即数和访存load操作的I型指令
-3 S     用于访存store操作的S型指令
-4 B     用于条件跳转操作的B类型指令
-5 U     用于长立即数的U型指令
-6 J     用于无条件跳转的J型指令
+2 % RV32I指令格式
+    R     用于寄存器-寄存器操作的R类型指令
+    I     用于短立即数和访存load操作的I型指令
+    S     用于访存store操作的S型指令
+    B     用于条件跳转操作的B类型指令
+    U     用于长立即数的U型指令
+    J     用于无条件跳转的J型指令
+
+
+3 % Big Endian & Little Endian
+    大端与小端是指字节在存储器中存储顺序的两种方式
+    大端是将一个字数据的最低位字节存储在最高字节地址上
+    小端是将一个字数据的最低位字节存储在最低字节地址上
+    
+    
+4 %     
+    
+    
+###########################################################
+### % RISC-V  加减指令
+###########################################################
+% Syntax of Instructions:
+% 加法指令语法构成{ add x1, x2, x3 }
+    -One    =operation by name
+    -two    =operand getting result("destination")
+    -three  =1st operand for operation("source1")
+    -four   =2st operand for operation("source2")
+
+
+% 加法 RISC-V与C语言对比
+    add x1, x2, x3  # (in RISC-V) =>x1=x2+x3
+    a = b + c       # (in C)
+    ---where C variables <==> RISC-V Registers are:
+    a<=>x1, b<=>x2, c<=>x3
+
+
+% 减法 RISC-V与C语言对比
+    sub x1, x2, x3  # (in RISC-V) =>x1=x2-x3
+    a = b - c       # (in C)
+    ---where C variables <==> RISC-V Registers are:
+    a<=>x1, b<=>x2, c<=>x3
+
+
+
+###########################################################
+### % RISC-V  加载存储指令
+###########################################################
+0 % Load from Memory to Register，将数据从存储器装载到寄存器
+C code, c语言代码
+    int A[100];
+    g = h + A[3];
+Using Load Word(lw) in RISC-V:
+    lw x10, 12(x15)     # Reg x10 gets A[3]
+    add x11, x12, x10   # g = h + A[3]
+% Note: 
+    x15 ->base register(pointer to A[0])
+    x12 ->offset in bytes
+    
+
+
+1 % Store form Register to Memory，将数据从寄存器存储到存储器中
+C code, c语言代码
+    int A[100];
+    A[10] = h + A[3]
+Using Store Word(sw) in RISC-V:
+    lw  x10, 12(x15)    # Temp reg x10 gets A[3]
+    add x10, x12, x10   # Temp reg x10 gets h + A[3]
+    sw  x10, 40(x15)    # A[10] = h + A[3]
+% Note:
+    x15    ->base register(pointer)
+    12, 40 ->offsets in bytes
+x15+2 and x15+40 must be multiples of 4
+
+
+
+
+###########################################################
+### % RISC-V  条件判断指令
+###########################################################
+0 % RISC-V: if-statment instruction is 条件判断指令
+% BEQ表示相等跳转到标号处执行处理，否则顺序执行下面的语句
+% New Instructions: beq, bne, blt, bltu, bge, j
+beq register1, register2, Lable
+f->x10, g->x11, h->x12, i->x13, j->x14
+# C语言
+    if (i == j)
+        f = g + h;
+    esle
+        f = g -h;
+# RISC-V语法
+    bne x13, x14, Else
+    add x10, x11, x12
+    j Exit
+    Else:
+        sub x10, x11, x12
+    Exit:
+        
+
+1 % C Loop Mapped to RISC-V Assembly
+    int a[20];
+    int i;
+    int sum = 0;
+    for (i = 0; i < 20; i++)
+        sum += A[i];
+
+add  x9, x8, x0             # x9=&A[0]，给寄存器x9赋数组A【0】的地址
+add  x10, x0, x0            # sum=0
+add  x11, x0, x0            # i=0
+addi x13, x0, 20            # x13=20，x13赋循环次数值为20
+Loop:
+    bge  x11, x13, Done     # bge大于等于指令
+    lw   x12, 0(x9)         # x12=A[i]，A[i]值从内存中装载到寄存器x12中
+    add  x10, x10, x12      # sum+=
+    addi x9, x9, 4          # &A[i+1]
+    addi x11, x11, 1        # i++
+    j Loop
+Done:
+
+
+
+###########################################################
+### % RISC-V  逻辑运算指令
+###########################################################
+% Language                  C          RISC-v
+% Logical operations    operators   instructions
+% Bit-by-bit AND            &           and
+% Bit-by-bit OR             |           or
+% Bit-by-bit XOR            ^           xor
+% Shift left logical        <<          sll
+% Shift right logical       >>          srl
+Register:
+    and x5, x6, x7      # x5 = x6 & x7
+Immediate:
+    andi x5, x6, 3      # x5 = x6 & 3
+% Note:
+在RISC-V指令集中没有专门的逻辑非指令，
+可以使用逻辑异或指令xor与0x1111_1111按位异或即可得到逻辑非的结果
+
+
+0 % 算术移位指令， sra, srai
+
+
+
+###########################################################
+### % RISC-V  程序段与类函数调用的方法
+###########################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
