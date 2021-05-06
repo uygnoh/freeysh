@@ -1,71 +1,46 @@
-### =======================================================
-1 Part Design
-2 Create a new empty document
-3 Create sketch ->Choose Orientation
-4 Create Polyline in teh sketch
+###########################################################
+### % freecad设置
+###########################################################
+1 % Edit ->Preferences个人偏好设置
+         ->Display ->3D Navigation [Blender] ;3d导航设置为Blender
 
-5 Create coincident constraint on the selectd item
+2 % 鼠标有左键，右键，中键
 
-
-
-### ========================================================
-
-1 Create a new sketch
-2 Edit the seleted sketch
-3 Close the editing of the sketch
-4 View sketch perpendicular to sketch plane
-5 Map a sketch to a face
+3 % 
 
 
-### ========================================================
+###########################################################
+### % FreeCAD草图绘制
+###########################################################
+1 % File ->New 创建一个新的空白文档(Ctrl+N)
 
-1 Pad a selected sketch
-2 Create a pocket with the selected sketch
-3 Revolve a selected sketch
-4 Groove a selected sketch
+2 % 切换到 Part Design工作台(WorkBench)
 
-5 Make a fillet on an edge, face or body
-6 Chamfer the selected edges of a shape
-7 Make a draft on a face
-8 Create a mirrored feature 
-9 Create a linear pattern feature
-10 Create a polar pattern feature
-11 Create a multitransform feature
+3 % Create new body and make it active 创建一个新的实体，并且使它激活
 
+4 % Create a new sketch 创建新的草图
 
+5 % Select feature ->XY_Plane(Base plane) 选择一个视角， 然后ok
+
+6 % 此时工作台选择 Sketcher(草图工作台)
+
+7 % 创建一个矩形草图
+
+8 % 作垂直与水平限制,长设置为100，宽设置为50
+
+9 % 点击左上角，右下角，中间对称点，再点对称约束(><)
+
+10 此时草图已绘制完成，可以进入下一个阶段
 
 
 
-
-Fits the whole content on the screen
-Fits the selected content on the screen
-Draw style
-
-Set to axonometric view
-Set to front view (1)
-Set to top view   (2)
-Set to right view (3)
-Set to rear view  (4)
-Set to bottom view(5)
-Set to left view  (6)
-
-Measure distance
-
-
-### ========================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+###########################################################
+### % FreeCAD 长厚度
+###########################################################
+1 % Pad a select sketch 填充草图厚度，设置为3
+2 % 点这个长方体的底部，再创建一个草图
+3 % 在这个长方体的底部，画一个5x5的正方形
+4 % Crean an edge Lineked to an external geometry(x)
+5 % Edit ->Preferences ->Part design ->Model settings 以下3个选项全部打勾
 
 
