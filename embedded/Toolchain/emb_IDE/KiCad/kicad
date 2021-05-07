@@ -1,6 +1,12 @@
 ###########################################################
-###  准备知识
+###  % FreeCAD 5
 ###########################################################
+% ngspice, 代码级免费的电路模拟程序
+% https://www.sparkfun.com
+
+
+
+### % 准备知识
 SMT surface mount technology                表面安装技术
 PCB printed circuit board                   印刷电路板
 FR4                                         FR-4是PCB使用的基板，是板料的一种类别
@@ -12,10 +18,8 @@ Solder Mask Keepout   暴露的铜的地方          Copper                1
 ==================    基板材料               Substrate(e.g. "FR4") 0
 
 
-          
-###########################################################                      
-###  KiCAD PCB设计流程
-###########################################################
+
+###  % KiCAD PCB设计流程
 1 Design Circuit                            电路设计
 2 Create Symbols    (library editor)        制作原理图库
 3 Schematic Capture (eeschema)              制作原理图
@@ -24,6 +28,10 @@ Solder Mask Keepout   暴露的铜的地方          Copper                1
 6 Board layout      (pcbnew)                制作PCB
 7 Production        (GerbView  )            生成Greb文件
 8 Generate BOM      (Digi-Key )             生成物料清单       
+
+
+
+
 
 
 
@@ -44,24 +52,22 @@ Project name:       /home/ysh/KiCAD/555_badge/555_badge.pro
 添加组件		鼠标放置原理图空白位置，并按下 A键                     A
 组件编辑		鼠标放置组件所在位置，并按下 E键                       E
 旋转组件     R
-
+翻转         X， Y
   
 
 ###########################################################            
-###  2 运行原理图库编辑器 
+###  2 % Symbol Editor(原理图符号编辑器)
 ###########################################################
 % https://en.wikipedia.org/wiki/Reference_designator
 
 1 Tools ->Edit Schematic Symbols 编辑原理图符号
 
 2 Create a new library 创建新的原理图库文件
-% Name: my_stm32
-
+% Name: 555_badge
 
 2 Create new symbol 创建新的原理图符号
-  ->选择库文件为 my_stm32 ->Symbol Properties
+  ->选择库文件为 555_badge ->Symbol Properties
 % Symbol name:   7555
-
 
 3 Add pins to componet 添加引脚,添加边框
   % ~TRIGGER
@@ -73,56 +79,61 @@ Project name:       /home/ysh/KiCAD/555_badge/555_badge.pro
 
 5 File ->Save library 保存库文件 
 
-
-
-###########################################################
-###  3 运行原理图编辑器
-###########################################################
-% ngspice, 代码级免费的电路模拟程序
-% https://www.sparkfun.com
+6 原理图库文件的添加 
 % https://github.com/digikey/digikey-kicad-library  下载digikey库文件
 % 把库文件复制到： /home/ysh/kicad/libraries/digikey-kicad-library-master
-% 回到 原理图 模式中，我们需要导入digi-keyk中的库文件
-% 单击 Preferences组件库 ->Component Libraries ->Add ->导航到KiCad 库的关键符号文件夹
+% 回到程序主界面，运行原理图库编辑器，在原理图库编辑器中可以添加已有的库文件
+Tool ->Edit Schematic Symbol {File ->Add Library} 添加已有的原理图库文件
 
-
-1 Tools ->Run Eeschema                      运行原理图编辑器	
-
-2 File ->Page Settings                      页面设置
-
-3 File ->Save Schematic Project             保存原理图工程文件
-
-4 Preferences ->HotKeys ->Editor HotKeys    快捷键设置
+7 原理图库文件的删除
+% 运行原理图库编辑器(Symbol library edit)
+Preferences ->Manage Symbol Libraries 此处可以移出不要的库文件
 
 
 
 ###########################################################
-###  4 运行PCB封装编辑器
+### 3 % Schematic Layout Editor(原理图编辑器)
 ###########################################################
-% https://www.ipc.com/                      负责制定标准
+1 Tools ->Edit Schematic 运行原理图编辑器	
 
-1 Tools ->Run Footprint Editor              运行封装编辑器
+2 File ->Page Settings 页面设置
 
-2 File ->New Footprint                      创建新的封装库
-  % Enter foootprint name: ICM7555-PDIP
+3 File ->Save Schematic Project 保存原理图工程文件
 
-3 File ->Save Footprint in New Library      保存 创建新的封装库->到新的库中
-  % Select Footprint Library Folder         选择新封装库所在的文件夹
-  % Path base:      /home/ysh/kicad/project_555_badge/  
-  % Library folder: 555_badge
-
-4 Preferences ->Footprints Libraries Manager  封装库管理器
-  ->Append with Wizard                        库添加向导
-  ->Files on my computer                      库文件从我的计算机上选择
-  ->To the current project only               仅在当前工程中使用
-
-5 File ->Set Active Library                   选择活动的库文件，并标记库
+4 Preferences ->HotKeys ->Editor HotKeys 快捷键设置
 
 
 
 ###########################################################
-###  5 运行PCB编辑器
+### 4 % Footprint Editor(PCB封装编辑器)
 ###########################################################
+% https://www.ipc.com/ 负责制定标准
+
+
+
+
+###########################################################
+### 5 % 生成网络表
+###########################################################
+
+
+
+
+
+###########################################################
+### 6 % PCB Layout Editor(PCB编辑器)
+###########################################################
+
+
+
+
+###########################################################
+### 7 % Gerber Viewer
+###########################################################
+
+
+
+
 
 
 
