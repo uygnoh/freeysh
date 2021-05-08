@@ -1,13 +1,10 @@
 ### ======================================================= 
 % 官网 http://ngspice.sourceforge.net/
-
 ngspice是一个mixed-level/mixed-signal的电路仿真器，
 他的代码基于三个开源软件库Spice3f5, Cider1b1 and Xspice.ngspice修复了很多bug和做了很多改进，
 使得ngspice成为一个稳定可靠的仿真器(simulator),因此，除了单独作为一个仿真器外，
 ngspice也被用到了其他项目中，ngspice是没有图形界面的，全部命令行输入，但是结果输出会有图形，
 其他开源免费的软件程序可以使用ngspice作为仿真器,这些软件在下面链接可以找到
-
-
 
 
 % http://ngspice.sourceforge.net/resources.html

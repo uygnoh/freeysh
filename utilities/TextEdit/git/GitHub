@@ -26,7 +26,7 @@ git config --list
 
 
 ###########################################################
-###  % 在现有目录中初始化仓库
+###  % git 在现有目录中初始化仓库
 ###########################################################
 git init                                    # 初始化仓库
 git add .	                                # 添加所有文件
@@ -35,39 +35,38 @@ git commit -m "First comment"               # 然后执行 git commit 提交
 
 
 ###########################################################
-###  % git-hub OpenSSH
+###  % git-hub  创建OpenSSH秘钥通讯系统
 ###########################################################
-1 创建github账号
+1 % 创建github账号
 
-2 创建一个仓库 Create a new repository
+2 % 创建一个仓库 Create a new repository
 
-3 生成 OpenSSH 公钥和私钥文件 ,文件位置： cd /home/ysh/.ssh
-  % ssh-keygen -t rsa
+3 % 生成 OpenSSH 公钥和私钥文件,文件位置： cd /home/ysh/.ssh
+    ssh-keygen -t rsa
   
-4 git-hub添加OpenSS私钥文件
-  ->settings ->SSH and GPG keys ->SSH Keys ->New SSH key
+4 % git-hub添加OpenSS公钥文件
+    ->settings ->SSH and GPG keys ->SSH Keys ->New SSH key
   
-5 验证OpenSSH是否成功	
-  % ssh -T git@github.com
+5 % 验证OpenSSH是否成功	
+    ssh -T git@github.com
 	
 	
 	
 ###########################################################
-###  % 关联远程git-hu仓库
+###  % 关联远程Git-Hub仓库
 ###########################################################
-% 查看关联的关联远程git仓库
-git remote -v                 # 查看远程关联GitHub仓库	
-git remote rm origin          # 移出旧的GitHub仓库
+% 查看关联的关联远程git仓库, 用于对旧的仓库移除操作
+    git remote -v        # 查看远程关联GitHub仓库	
+    git remote rm origin # 移出旧的GitHub仓库
 
-% 接下来就是把本地仓库传到github上去
-% 关联一个远程库命令, 这个是自己远程github仓库
-git remote add origin git@github.com:uygnoh/free_doc.git
+1 % 接下来就是把本地仓库传到github上去,关联一个远程库命令, 这个是自己远程Git-Hub仓库
+    git remote add origin git@github.com:uygnoh/free_doc.git
 	
-% 关联后,第一次推送master分支的所有内容命令。
-git push -u origin master
+2 % 关联后,第一次推送master分支的所有内容命令。
+    git push -u origin master
 
-% 此后，每次本地提交后，就可以使用下面的命令推送最新修改。
-git push origin master
+3 % 此后，每次本地提交后，就可以使用下面的命令推送最新修改。
+    git push origin master
 
 
 
