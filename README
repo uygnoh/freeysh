@@ -1,21 +1,20 @@
 ### 常用学习网站 
-+ https://github.com/uygnoh/FREEYSH
-+ https://www.runoob.com/           <菜鸟教程>
-+ https://stackoverflow.com/        <软件类问答网站>
-+ https://www.ostechnix.com/category/linux-basics/
-+ https://www.3cschool.com
+% https://github.com/uygnoh/FREEYSH
+% https://www.runoob.com/           <菜鸟教程>
+% https://stackoverflow.com/        <软件类问答网站>
+% https://www.ostechnix.com/category/linux-basics/
+% https://www.3cschool.com
 
 
 
-### 命令行终端字体大小调整
+% 命令行终端字体大小调整
 + Maximum     ->ctrl+shift++
 + Minimum     ->ctrl+-
 + F11         ->全屏
 
 
 
-### gnome3快捷键
-```
+% gnome3快捷键
 .................................................
 .                                               . 
 . F2            ;Grub2                          .
@@ -43,11 +42,10 @@
 . Ctrl+L        ;clear                          .
 . Ctrl+Tab      ;Window Switching               .
 .................................................
-```
 
 
 
-### tmux终端复用软件
+% tmux终端复用软件
 + <crtl  +a>            #激活控制台(系统默认Ctrl+b)
 + <shift +上下左右箭头>   #窗口(window)切换
 + <alt   +上下左右箭头>   #窗格(pane)切换
@@ -59,7 +57,7 @@
 + <ctrl  +b w>          #Choose the current window interactively.
 + <ctrl  +b z>          #Toggle zoom state of the current panel.
 
-tmux会话
+% tmux会话
 + tmux new-session -s <session_name>                #创建一个会话
 + tmux list-sessions                                #查看会话	
 + tmux detach                                       #分离会话 <d>Detach the current client.
@@ -71,7 +69,7 @@ tmux会话
 + <ctrl+a (>                                        #Switch the attached client to the previous session.
 + <ctrl+a )>                                        #Switch the attached client to the next session.
 
-tmux窗口
+% tmux窗口
 + tmux new-window                                   #创建一个新的 window
 + tmux list-windows                                 #列出当前窗口
 + <ctrl+a , >                                       #重命明当前窗口
@@ -81,20 +79,10 @@ tmux窗口
 
 
 
-### vim文本编辑器 
-+ vim左括号加自动换行   "inoremap { {}<ESC>i<CR><ESC>O  <第一种方案>
-+ 数组则不换行         "inoremap { {}<ESC>i            <第二种方案>
-+ 函数左括号加回车则换行 "inoremap {<CR> {<CR>}<ESC>O    <第二种方案>
-+ 补充说明：
-`这样改还是有点小问题，当定义一个函数时，先敲入左括号，`
-`如果约一秒钟内没有敲入回车键再敲入回车键就不会进行回车换行了。不过影响不大`
-
-
-
-### 编码风格
+% ### C语言编码风格
 + 宏或者常量所有用大写  #define MAXLENGTH 10;  const int MAXLENGTH = 10；
 + 函数名或者类名用     do_something
-+ 变量名用            do_something
++ 变量名用           do_something
 
 
 + swithc-case if-else
