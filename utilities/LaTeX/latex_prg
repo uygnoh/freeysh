@@ -1,0 +1,104 @@
+###########################################################
+### % PRG0_BASIC
+###########################################################
+\documentclass[UTF8]{article}
+\usepackage{ctex}
+\begin{document}
+	% 罗马字体，无衬线字体，打字机字体设置
+	\textrm{罗马字体 Roman Family}\\
+	\textsf{无衬线字体 Sans Serif Family}\\
+	\texttt{打字机字体 Typewriter Family}\\
+	%字体声明，需要大括号确定范围，否则后续不一致
+	{\rmfamily 罗马字体 Roman Family}\\
+	{\sffamily 无衬线字体 Sans Serif Family}\\
+	{\ttfamily 打字机字体 Typewriter Family}
+	
+	
+	%中文字体声明，ctex宏包下
+	{\songti 宋体}\\
+	{\heiti 黑体}\\
+	{\fangsong 仿宋}\\
+	{\kaishu 楷书}
+	
+	
+	%字体形状设置：直立，斜体，伪斜体，小型大写
+	\textup{Upright Shape 直立}\\
+	\textbf{Boldface Shape 粗体}\\
+	\textit{Italic Shape 斜体}\\
+	\textsl{Slanted Shape 伪斜体}\\
+	\textsc{Small Caps Shape 小型大写}
+	%字体设置声明
+	{\upshape Upright Shape 直立}\\
+	{\itshape Italic Shape 斜体}\\
+	{\slshape Slanted Shape 伪斜体}\\
+	{\scshape Small Caps Shape 小型大写}
+	
+	
+	%字体大小设置
+	{\tiny Word 字}\\
+	{\scriptsize Word 字}\\
+	{\footnotesize Word 字}\\
+	{\small Word 字}\\
+	{\normalsize Word 字}\\
+	{\large Word 字}\\
+	{\Large Word 字}\\
+	{\LARGE Word 字}\\
+	{\huge Word 字}\\
+	{\Huge Word 字}
+\end{document}
+
+
+
+
+###########################################################
+### % PRG1 LaTex文档结构构建
+###########################################################
+% 设置TeXstudio
+% 1 构建 ->默认编译器 [XeLaTex]
+% 2 编辑器 ->默认字体编码 [UTF-8]
+
+
+%查看Latex帮助文件 ->texdoc lshor-zh
+%查看Latex帮助文件 ->texdoc ctex
+%查看Latex帮助文件 ->texdoc exCJK
+
+
+%使用documentclass{article}类对英文的支持
+%使用documentclass{ctexart}类对中文的支持
+
+
+%使用usepackage{ctex}宏包对中文的支持
+% \documentclass{article}
+
+
+\documentclass{ctexbook}
+
+
+
+\newcommand{\myfont}{}
+
+\title{\heiti 中文}
+\author{\kaishu FREEYSH}
+\date{\today}
+
+\begin{document}
+	\chapter{OOOOOOOOOOOOOOOOOO}
+	\section{引言}       %构建小节
+	正文正文正文正文正文正文正文正文正文
+	正文正文正文正文正文正文正文正文正文
+	正文正文正文正文正文正文正文正文正文
+	\section{实验方法}    %构建小节
+	\section{实验结果}    %构建小节
+	\subsection{数据}    %构建子小节
+	\subsection{图表}     %构建子小节
+	\subsubsection{实验条件}
+	\subsubsection{实验过程}
+	\subsection{结果分析}  %构建子小节
+	
+	\chapter{AAAAAAAAAA}
+	\section{结论}
+	\section{致谢}    
+\end{document}
+
+
+
