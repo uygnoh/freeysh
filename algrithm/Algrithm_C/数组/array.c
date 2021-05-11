@@ -1,101 +1,88 @@
-/* 线性表(Linear List) 由同类数据元素构成有序序列的线性结构
- * 1 表中元素的个数称为线性表的长度 
- * 2 线性表没有元素时，称为空表
- * 3 表的起始位置称表头，表结束位置称为表尾
- *
- */
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#define MAXSIZE 16
+#define MAX_SIZE 16
 
-/* 创建一个结构体，它里面有2个成员 */
-struct node {
-	int data[MAXSIZE];
-	int last;
+struct array {
+    int data[MAX_SIZE];
+    int last;
 };
+typedef struct array * ptr_arr;
 
 
-/* 
- * 定义一个结构体指针函数，作为线性表数组的初始化
- * 再为结构体成员变量装载初始值
- * 并返回这个结构体指针
- */ 
-struct node * make_empty()
+//初始化，创建空的顺序表
+ptr_arr make_empty()
 {
-	struct node *head;
-	head = (struct node *)malloc(sizeof(struct node));
-	head->last = -1;
-	return head;
+    ptr_arr ptr;
+    ptr = (ptr_arr)malloc(sizeof(struct array));
+    ptr->last = -1;
+    return ptr;
 }
 
-/*
- * 给定一个结构体指针
- * 按给定值查找元素，返回下标
- * 
- */
-int find_pos(struct node *list, int val)
+
+//查找元素的值，返回元素的下标
+int find_value(ptr_arr ptr, int value)
 {
-	int i = 0;
-	while (i <= list->last && list->data[i] != val) {
-		i++;
-	}
-	if (i > list->last)
-		return -1;
-	else
-		return i;
+    int index = 0;
+
+    while (index <= ptr->last && ptr->data[index]!=value)
+        index++;
+
+    if (index > ptr->last)
+        return -1;
+    else
+        return index;
+    
 }
 
-/*
- * 给定一个结构体指针，再指定位置插入数值
- * 并返回是否插入成功
- * (pos(1<=pos<=n+1))位置上插入一个值为val的新元素。
- */
-bool insert(struct node *list, int pos, int val)
-{
-	int i;
-	if (list->last == MAXSIZE-1) { //表空间已满不能插入
-		printf("list full\n");
-		return false;
-	}
-	if (pos < 1 || pos > list->last+2) { //检查插入位置的合法性;
-		printf("iiiegal location\n");
-		return false;
-	}
-	for (i = list->last; i >= pos-1; i--)
-		list->data[i+1] = list->data[i]; //将Ai~An倒序向后移动
-	list->data[pos-1] = val;                //新元素插入
-	list->last++;                       //Last仍指向最后一个元素
-	return true;                        //
-}
-
-/*
- * 删除（删除表在第pos(1<=pos<=n)个位置上的元素）
- */
-bool delete(struct node *list, int pos) 
+//插入(第pos{1<= pos <=(n+1)}个位置上插入一个值为value的新元素)
+void insert_value(ptr_arr ptr, int pos, int value)
 {
     int i;
-    if (pos < 1 || pos > list->last+1) {
-        printf("不存在%d个元素", pos);
-        return false;
+
+    if (ptr->last == MAX_SIZE-1)
+        printf("这个数组已满");
+    if (pos < 1 || pos > ptr->last+2)
+    {
+        printf("插入的位置不合法");
+        return;
     }
 
-    for (i = pos; i <= list->last; i++)
-        list->data[i-1] = list->data[i]; //将Ai+1~An顺序向前移动
-    list->last--;                       //last仍指向最后一个元素
-    return true;
+    for (i = ptr->last; i >= pos-1; i--)
+        ptr->data[i+1] = ptr->data[i];
+    
+    ptr->data[pos-1] = value;
+    ptr->last++;
+
+    return;
 }
 
 
-int main(int argc, int *argv[])
+//删除表的第pos{1<= pos <=n}个位置上的元素)
+void delete_pos(ptr_arr ptr, int pos)
 {
-    struct node *head = make_empty();
-    printf("%d\n", head->last);
-    insert(head, 1, 123);
-    insert(head, 2, 456);
-    printf("%d\n", head->data[0]);
-    printf("%d\n", head->data[1]);
-    printf("%d\n", head->last);
-    return 0;
+    int i;
+    
+    if (pos < 1 || pos > ptr->last+1)
+    {
+        printf("不存在%d个元素", pos);
+        return;
+    }
+    
+    for (i = pos; pos <= ptr->last; i++)
+        ptr->data[i-1] = ptr->data[i];
+        
+     ptr->last--;
+     
+     return;
 }
 
+
+
+int main(int argc, char *argv[])
+{
+	ptr_arr ptr;
+	ptr = make_empty();
+	insert_value(ptr, 1, 123);
+	printf("%d   %d\n", ptr->data[0], ptr->last);
+	return 0;
+}

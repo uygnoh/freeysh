@@ -1,0 +1,107 @@
+###########################################################
+### % 线性表抽象数据类型描述
+###########################################################
+类型名称：  线性表(List）
+数据对象集：线性表是n(>=0)个元素构成的有序序列(a1, a2, ..., an)
+操作集：   线性表L， 整数i表示位置， x表示元素
+1 List MakeEmpty();                         % 初始化一个空线性表L
+2 ElementType FindKth(int k, List L);       % 根据位序K，返回相应元素
+3 int Find(ElementType X, List L);          % 在线性表L中查找X的第1次出现位置
+4 void Isert(ElementType X, int i, List L); % 在位序i前插入一个新元素X
+5 void Delete(int i, List L);               % 删除指定的i元素
+6 int Length(List L);                       % 返回线性表L的长度n
+
+
+
+###########################################################
+### % 线性表数组的存储方法
+###########################################################
+struct LNoce {
+    ElementType Data[MAXSIZE];
+    int Last;
+};
+typedef struct LNode *List;
+struct LNode L;
+List PtrL;
+
+
+1 % 初始化，建立空的顺序表
+List MakeEmpty()
+{
+    List PtrL;
+    PtrL = (List)malloc(sizeof(struct LNode));
+    PtrL->Last = -1;
+    return PtrL;
+}
+
+
+2 % 查找
+int Find(ElementType X, List PtrL)
+{
+    int i = 0;
+    while (i <= PtrL->Last && PtrL->Data[i]!=X)
+        i++;
+    if (i > PtrL->Last)
+        return -1;      //如果没有找到，返回-1
+    else
+        return i;      //找到了返回的是存储位置
+}
+
+
+
+3 % 插入(第i{1<= i <=(n+1)}个位置上插入一个值为X的新元素)
+  % 其中N的取值为（0~N）, i的取值为（1~N+1）
+void Insert(ElementType X, int i, List PtrL)
+{
+    int j;
+    if (PtrL->Last == MAXSIZE-1) //这个数组空间已满，不能插入
+    {
+        printf("这个数组已满");
+    }
+    
+    if (i < 1 || i>PtrL->Last+2)   //检查插入位置的合法性
+    {
+        printf("位置不合法");
+        return;
+    }
+    
+    for (j = PtrL->Last; j >= i-1; j--)
+    {
+        PtrL->Data[j+1] = PtrL->Data[j]; //将Ai~An倒序向后移动
+    }
+    
+    PtrL->Data[i-1] = X;   //新元素插入
+    PtrL->Last++;          //Last指向最后元素
+    return;
+}
+
+
+
+4 % 删除(删除表的第i{1<= i <=n}个位置上的元素)
+void Delete(int i, List PtrL)
+{
+    int j;
+    if (i<1 || i>PtrL-Last+1)       //检查空表和位置的合法性
+    {
+        printf("不存在%d个元素", i);
+        return;
+    }
+    
+    for (j = i; j <= PtrL->Last; j++)   
+        PtrL->Data[j-1] = PtrL->Data[j];//将Ai+1~An顺序向前移动
+    PtrL->Last--;
+    return;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
