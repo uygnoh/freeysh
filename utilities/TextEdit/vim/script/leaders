@@ -1,4 +1,25 @@
 ###########################################################
+### vim leader前缀 
+###########################################################
+定义<LEADER>为“,”，默认值为“\”
+let mapleader=','
+map <leader>w :w!<CR>
+
+" change the mapleader from \ to,
+" NOTE: This has to be set before <leader> is used.
+let mapleader=','
+
+" Quickly save your file.
+map <leader>w :w!<CR>
+
+" Easily create HTML unorded lists.
+map <F3> i<ul><CR><Space><Space><li></li><CR><Esc>0i</ul><Esc>kcit
+map <F4> <Esc>o<li></li><Esc>cit
+
+
+
+
+###########################################################
 ###  Vimscript Leaders
 VIM->LEADER 这就意味着你可以用一个你不常用的按键（如-）作为“前缀”
 ###########################################################

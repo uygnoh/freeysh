@@ -1,0 +1,12 @@
+#!/bin/bash
+### 安装vim-plug插件
+mkdir /home/ysh/.vim/autoload
+cp /home/ysh/Documents/freeyshGitHub/utilities/TextEdit/vim/\
+plug-in/vim-plug/autoload/plug.vim /home/ysh/.vim/autoload
+
+
+
+### 安装vim主题->molokai
+mkdir ~/.vim/colors/
+cp /home/ysh/Documents/freeyshGitHub/utilities/TextEdit/\
+vim/plug-in/molokai/molokai.vim ~/.vim/colors/

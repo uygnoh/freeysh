@@ -69,9 +69,9 @@ tmux会显示每个pane的序号，按这个序号就可以跳过去了
 
 
 
-################################################################################
+###########################################################
 # % tmux配置文件位置 ~/.tmux.conf
-
+###########################################################
 # Changing the default prefix key
 set-option -g prefix C-a
 unbind-key C-b
@@ -127,9 +127,9 @@ set -g status-right '#[fg=green][#[fg=cyan]%Y-%m-%d#[fg=green]]'
 
 
 
-
-################################################################################
-% touch tmuxlaunch.sh
+###########################################################
+### % touch tmuxlaunch.sh
+###########################################################
 SESSION=stm32
 tmux new-session -d -s $SESSION
 tmux new-window -t $SESSION:1 -n 'build'
@@ -137,7 +137,6 @@ tmux select-window -t $SESSION:1
 tmux split-window -h
 # tmux send-keys 'cd example/ysh; python -m SimplHTTPServer' C-m
 tmux attach -t $SESSION
-
 
 
 ### % tmux_script
@@ -150,5 +149,16 @@ tmux split-window -h
 # tmux send-keys 'cd example/ysh; python -m SimplHTTPServer' C-m
 tmux attach -t $SESSION
 
+
+### 
+#!/bin/bash
+SESSION=STM32
+tmux new-session -d -s $SESSION
+tmux new-window -t $SESSION:1 -n 'user'
+tmux new-window -t $SESSION:2 -n 'libs'
+tmux select-window -t $SESSION:1
+tmux split-window -h
+tmux send-keys 'cd user' C-m
+tmux attach -t $SESSION
 
 
