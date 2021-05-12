@@ -84,7 +84,7 @@ docunent环境之中为正文部分；环境之后的部分被忽略
 \input                  % 读入任意文件
 
 
-5 % 文档框架示例
+5 %%% 文档框架示例
 % language-main.tex
 \documentclass{book}
 \usepackage{makeidx}
@@ -131,26 +131,26 @@ docunent环境之中为正文部分；环境之后的部分被忽略
 
 
 ###########################################################
-### % LaTex文档结构
+### % LaTex文档常用设置
 ###########################################################
-% LaTex分布，断行
+1 % LaTex分布，断行
 \linebreak                  %断行命令
 \\                          %换行命令   
 \pagebreak                  %分页
 \newpage                    %另起一页
 
-% LaTex正文符号
+2 % LaTex正文符号
 \#  \$  \%  \&  \{  \}      # $ % & { }
 \textbackslash              \
 
-% LaTex空白间距
+3 % LaTex空白间距
 \hspace{2cm}    \vspace{3cm}
 
-% LaTex版面布局
+4 % LaTex版面布局
 \usepackage{geometry}       %设置纸张
 \usepackage{fancyhdr}       %设置版面，页眉，页脚
 
-% 对排版的格式进行更改
+5 % 对排版的格式进行更改
 \ctexset{
     section = {
         
@@ -161,84 +161,68 @@ docunent环境之中为正文部分；环境之后的部分被忽略
 
 
 
+###########################################################
+### % LaTex例程
+###########################################################
 % 导言部分
 \documentclass{ctexart}
 
 
 % 正文部分
 \begin{document}
-    \chapter{OOOOOOOOOOOOOOOOOO}
-    \section{引言}       %构建小节
+
+    \chapter{}
+    \section{引言}        %构建小节
     正文正文正文正文正文正文正文正文正文
     正文正文正文正文正文正文正文正文正文
     正文正文正文正文正文正文正文正文正文
-    \section{实验方法}    %构建小节
-    \section{实验结果}    %构建小节
-    \subsection{数据}    %构建子小节
+    \section{实验方法}     %构建小节
+    \section{实验结果}     %构建小节
+    \subsection{数据}     %构建子小节
     \subsection{图表}     %构建子小节
     \subsubsection{实验条件}
     \subsubsection{实验过程}
     \subsection{结果分析}  %构建子小节
-    
-    \chapter{AAAAAAAAAA}
+ 
+    \chapter{}
     \section{结论}
     \section{致谢}    
 \end{docment}
 
 
-
-###########################################################
-### % LaTex字体Fonts
-###########################################################
-% 1 字体编码
-正文字体编码  OT1, T1, EU1
-数学字体编码  OML, OMS, OMX
-% 2 字体族
-罗马字体，笔画起始处有装饰
-无衬线字体，笔画起始处无装饰
-打字机字体，每个字符宽度相同，又称等宽字体
-% 3 字体系列
-粗细
-宽度
-% 4 字体形状
-直立
-斜体
-伪斜体
-小型大写
-% 5 字体大小
-
-
+%%% LATEX 字体编码教程
 \documentclass[UTF8]{article}
 \usepackage{ctex}
+
 \begin{document}
-	% 罗马字体，无衬线字体，打字机字体设置
+	% 设置(罗马字体，无衬线字体，打字机字体)
 	\textrm{罗马字体 Roman Family}\\
 	\textsf{无衬线字体 Sans Serif Family}\\
 	\texttt{打字机字体 Typewriter Family}\\
-	%字体声明，需要大括号确定范围，否则后续不一致
+	% 声明字体(需要大括号确定范围，否则后续不一致)
 	{\rmfamily 罗马字体 Roman Family}\\
 	{\sffamily 无衬线字体 Sans Serif Family}\\
 	{\ttfamily 打字机字体 Typewriter Family}
 	
-	%中文字体声明，ctex宏包下
+	% 声明中文字体(ctex宏包下)
 	{\songti 宋体}\\
 	{\heiti 黑体}\\
 	{\fangsong 仿宋}\\
 	{\kaishu 楷书}
 	
-	%字体形状设置：直立，斜体，伪斜体，小型大写
+	%设置字体形状(直立，斜体，伪斜体，小型大写)
 	\textup{Upright Shape 直立}\\
 	\textbf{Boldface Shape 粗体}\\
 	\textit{Italic Shape 斜体}\\
 	\textsl{Slanted Shape 伪斜体}\\
 	\textsc{Small Caps Shape 小型大写}
-	%字体设置声明
+	% 声明字体(直立，斜体，伪斜体，小型大写)
 	{\upshape Upright Shape 直立}\\
 	{\itshape Italic Shape 斜体}\\
 	{\slshape Slanted Shape 伪斜体}\\
 	{\scshape Small Caps Shape 小型大写}
 	
-	%字体大小设置
+	% 声明中文字体大小
 	{\tiny Word 字}\\
 	{\scriptsize Word 字}\\
 	{\footnotesize Word 字}\\
@@ -250,6 +234,22 @@ docunent环境之中为正文部分；环境之后的部分被忽略
 	{\huge Word 字}\\
 	{\Huge Word 字}
 \end{document}
+
+
+
+###########################################################
+### % LaTex字体Fonts
+###########################################################
+1 % 字体编码
+    正文字体编码  OT1, T1, EU1
+    数学字体编码  OML, OMS, OMX
+2 % 字体族
+    罗马字体，笔画起始处有装饰
+    无衬线字体，笔画起始处无装饰
+    打字机字体，每个字符宽度相同，又称等宽字体
+3 % 字体系列(粗细 宽度)
+4 % 字体形状(直立 斜体 伪斜体 小型大写)
+5 % 字体大小
 
 
 
@@ -293,7 +293,6 @@ docunent环境之中为正文部分；环境之后的部分被忽略
 
 
 
-
 ###########################################################
 ### % LaTex浮动体
 ###########################################################
@@ -326,7 +325,6 @@ docunent环境之中为正文部分；环境之后的部分被忽略
         李四 & 89  &  78  & 89  & 上 \\
     \end{tabular}
 \end{table}
-
 
 
 
@@ -385,69 +383,72 @@ minipage是一个环境
     文字
   \begin{flushright}
 
-  
-% 使用 LaTex宏包，树的宏包：\usepackage{forest}
-% LaTex数字单位宏 siunitx
-\num{-1.235e96}     % -1.235乘以10的9次方
-\SI{299792458}{m/s} % 光速
-\SI{2x7x3.5}{m}     % 立方
-% LaTex算法结构宏包
-clrscode宏包， algorithm2e宏包
-algorithmicx宏包的algpscudocode格式
+% LaTex数学应用宏包  
+1 使用 LaTex宏包，树的宏包：\usepackage{forest}
+2 LaTex数字单位宏 siunitx
+    \num{-1.235e96}     % -1.235乘以10的9次方
+    \SI{299792458}{m/s} % 光速
+    \SI{2x7x3.5}{m}     % 立方
+3 LaTex算法结构宏包
+    clrscode宏包， algorithm2e宏包
+    algorithmicx宏包的algpscudocode格式
     
 
 % LaTex数学模式
-    1 数学模式下字体，符号，间距与正文都不同，
-      一切数学公式都要在数学模式下输入
-    2 行内公式：使用一对符号$ $来表示。如：$a+b=c$
-    3 显示公式
-      % 简单的不编号公式用命令 \[ \] 标示。
-      % 基本的编号公式有 equation环境。
-      % 更复杂的结构，使用 mathtools宏包, amsmath宏包 提供的专门的数学环境。
+1 数学模式下字体，符号，间距与正文都不同，
+  一切数学公式都要在数学模式下输入
+2 行内公式：使用一对符号$ $来表示。如：$a+b=c$
+3 显示公式
+% 简单的不编号公式用命令 \[ \] 标示。
+% 基本的编号公式有 equation环境。
+% 更复杂的结构，使用 mathtools宏包, amsmath宏包 提供的专门的数学环境。
+      
 % LaTex数学结构
-    1 上标与下标：用^ 和_表示
-    2 上下画线与花括号：\overline, \underline, \overbrace, \underbrace
-    3 分式：\frac{分子}{分母}
-    4 根号：\sqrt[次数]{根号下}
-    5 矩阵：使用 amsmate宏包 提供的专门的矩阵环境matrix,
-      pmatrix, bmatrix.
-      特别复杂的矩阵使用array环境作为表格画出。
+1 上标与下标：用^ 和_表示
+2 上下画线与花括号：\overline, \underline, \overbrace, \underbrace
+3 分式：\frac{分子}{分母}
+4 根号：\sqrt[次数]{根号下}
+5 矩阵：使用 amsmate宏包 提供的专门的矩阵环境matrix,
+  pmatrix, bmatrix.
+  特别复杂的矩阵使用array环境作为表格画出。
+      
 % LaTex数学符号
-    1 数学字母a,b,c, 数学字体\mathbb, \mathcal
-    2 普通符号： \infty  \angle
-    3 二元运算： a + b, a - b
-    4 二元关系： a = b, a > b
-    5 括号：<a, b>,使用\left, \right放大
-    6 标点：逗号，分号\colon
-
+1 数学字母a,b,c, 数学字体\mathbb, \mathcal
+2 普通符号： \infty  \angle
+3 二元运算： a + b, a - b
+4 二元关系： a = b, a > b
+5 括号：<a, b>,使用\left, \right放大
+6 标点：逗号，分号\colon
 
 % LaTex列表环境
-    1 enumerate,编号
-    2 itemize,不编号
-    3 description,有标题
+1 enumerate,编号
+2 itemize,不编号
+3 description,有标题
+
 % LaTex定理环境
-    \newtheorem定义定理类环境，如：\newtheorem{thm}{定理}[section]
-    使用定理类环境
-    \begin{thm}
-        一个定理
-    \end{thm}
+\newtheorem定义定理类环境，如：\newtheorem{thm}{定理}[section]
+使用定理类环境
+\begin{thm}
+    一个定理
+\end{thm}
+
 % LaTex抄录代码环境
-    1 % verb命令
+1 % verb命令
     \verb|#include <stdio.h>|
-    2 % verb环境
+2 % verb环境
     \begin{verbatim}
     #include <stdio.h>
     int main() {
         prinf("Hello world.\n");
     }
     \end{verbatim}
-    3 % 代码语法高亮,使用listings宏包，使用minted宏包
+3 % 代码语法高亮,使用listings宏包，使用minted宏包
     \begin{lstlisting}[lanuage=C,basicstyle=\ttfamily,stringstyle=\color{blue}]
     int main() {
         prinf("Hello world.\n");
     }
     \end{lstlisting}   
-    
+        
 
 
 
