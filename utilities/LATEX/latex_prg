@@ -343,15 +343,146 @@
 
 
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% 设置水印
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \usepackage{draftwatermark}               % 所有页加水印
-% \usepackage[firstpage]{draftwatermark}    % 只有第一页加水印
-% \SetWatermarkText{Water-Mark}             % 设置水印内容
-% \SetWatermarkText{\includegraphics{fig/ZJDX-WaterMark.eps}} % 设置水印logo
-% \SetWatermarkLightness{0.9}               % 设置水印透明度 0-1
-% \SetWatermarkScale{1}                     % 设置水印大小 0-1
+\usepackage{draftwatermark}               % 所有页加水印
+\usepackage[firstpage]{draftwatermark}    % 只有第一页加水印
+\SetWatermarkText{Water-Mark}             % 设置水印内容
+\SetWatermarkText{\includegraphics{fig/ZJDX-WaterMark.eps}} % 设置水印logo
+\SetWatermarkLightness{0.9}               % 设置水印透明度 0-1
+\SetWatermarkScale{1}                     % 设置水印大小 0-1
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Latex中页眉页脚的设置
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+1  % 我通常用(fancyhdr宏包)来设置页眉和页脚
+\usepackage{fancyhdr}
+
+
+我们在 LaTeX 中先把 page style 设为fancy，再设置这个style中的页眉和页脚。
+但是它默认每章的第一页的page style是plain，需要单独处理。
+% 设置 plain style 的属性
+
+\fancypagestyle{plain}{%
+
+\fancyhf{} % 清空当前设置
+
+% 设置页眉 (head)
+
+\fancyhead[RE]{\leftmark} % 在偶数页的右侧显示章名
+
+\fancyhead[LO]{\rightmark} % 在奇数页的左侧显示小节名
+
+\fancyhead[LE,RO]{~\thepage~} % 在偶数页的左侧，奇数页的右侧显示页码
+
+% 设置页脚：在每页的右下脚以斜体显示书名
+
+\fancyfoot[RO,RE]{\it Typesetting with \LaTeX}
+
+\renewcommand{\headrulewidth}{0.7pt} % 页眉与正文之间的水平线粗细
+
+\renewcommand{\footrulewidth}{0pt}
+
+\pagestyle{fancy} % 选用 fancy style
+
+% 其余同 plain style
+
+\fancyhf{}
+
+\fancyhead[RE]{\leftmark}
+
+\fancyhead[LO]{\rightmark}
+
+\fancyhead[LE,RO]{~\thepage~}
+
+\fancyfoot[RO,RE]{\it Typesetting with \LaTeX}
+
+\renewcommand{\headrulewidth}{0.7pt}
+
+\renewcommand{\footrulewidth}{0pt}
+
+2、要在首页加脚注，比如作者希望把基金资助和作者信息加在首页。
+
+我的做法是：（1）利用\title和\thanks{}语句完成
+
+\title{\xxxxxxxxx%
+       \thanks{\zihao{-5}{~xxxxxxx}}
+       }
+
+（2）利用脚注命令：\footnote
+
+\footenote[number]{脚注文本}
+
+可选参数number用来改变缺省的脚注的编号。这个命令只能
+
+有一般的文本段落中使用，而不能在诸如LR盒子、图形、报
+
+表环境中使用。
+
+如果想在article类文档中每当开始新的一节时，脚注编号重置
+
+为1，则需用在\section命令的前面或后面加入如下的命令
+
+\setcounter{footnote}{0}
+
+\footnote命令的缺省脚注标记为阿拉伯数字。若想改变其它
+
+样式的标记则可采用如下的命令
+
+\renewcommand{\thefootnote}{\数 字 式
+
+样{footnote}
+
+这里的数字式样可为\arabic,\roman,\Roman,\alph,\ALph.
+
+另外，使用\fnsymbol作为数字式样，则可\footnote的9个记
+
+数器值显示为9个符号:
+
+ 
+
+*, +、#、§ , ¶, k, ? ?,** #
+
+在使用第十个\footnote命令之前需要将脚注记数器重置为零.
+
+例如由下面三行命令得到第二个标记符号样式的脚注?
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+例如\footnote[2]{第二个标记符号}
+
+\renewcommand{\thefootnote}{\arabic{footnote}}
+
+这里最后一行是为了把脚注标记式样恢复成标准形式.
+
+ §2.1 \footnotemark命令
+
+\footenotemark[number]
+
+这条命令在文本中输出脚注的编号，可以在\footnote命令不
+
+能使用的地方使用,例如LR盒子，表格、数学模式。脚注文本
+
+由\footnotetext命令给出.
+
+§2.2 \footnotetext命令
+
+\footenotetext[number]{文本} 这条命令指定当前
+
+页底部放置的脚注内容，可以在\footnotemark命令之后的任
+
+何时候使用，但是\footnote语句不能使用的地方它也不能使
+
+用.
+
+
+
+
+
+
+
+
 

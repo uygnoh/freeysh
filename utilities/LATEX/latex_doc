@@ -46,6 +46,61 @@ Options ->Configure TeXstudio ->Build \
 
 
 
+
+
+
+
+
+###########################################################
+### % LaTex中内置的字体 || Linux本地系统字体
+###########################################################
+大家知道在LaTex中可以使用 {\ 字体名称正文内容} 这样的格式来实现
+类似的效果,但这一指令本质上是使用LaTex中内置的字体,不是本地系统的
+字体,因此可选的也只有 heiti、SimSun 等五六种少得可怜的中文字体,tex 系
+统内置的六大字体: 、仿宋、楷书、隶书、黑体、幼圆
+XƎLTEX 在这方面要比LaTex强大得多,毕竟它使用的是 Unicode 编码;
+但是在 XƎLTEX 中直接使用 {\ 字体名称正文内容} 这样的指令,想简单地把
+字体名称替换成本地字体名称是不行
+% 必须首先在导言区使用以下指令设定相关命令:
+% 设定中文字体指令:
+\setCJKfamilyfont {自定义的 CJKfamily 名称} 系统字体名称
+\newcommand {自定义指令名} {自定义的 CJKfamily 名称}
+
+
+1 % 举例说明,如何使用上述两条命令实现对本地系统内字体的使用:
+\setCJKfamilyfont{hwxk}{STXingkai}
+\newcommand {\stxk} {\CJKfamily{hwxk}}
+按照上面的步骤设定好之后,就可以像 LTEX 那样使用 字体名称正文内容
+命令来设定字体,你可以用这样的大括号对把整个一个章节都括起来,也可以
+只括住某个词或字母,如此就可以非常灵活方便地控制字体,可以实现在全文
+使用某一字体的前提下,在某一特定段落使用另一字体。
+
+
+
+
+2 % 英文字体，使用(fontspec宏包)设置字体
+  % 字体(Monaco.ttf)在当前要编译的.tex目录下
+\documentclass{article}
+\usepackage{ctex}			% 使用{ctex}宏包支持中文
+\usepackage{fontspec}		% 使用{fontspec}宏包设置英文字体
+\setmainfont{Monaco}
+\setsansfont{Monaco}
+\setmonofont{Monaco}
+\setsansfont{[Monaco.ttf]}	% 直接使用当前目录下的字体文件
+\begin{document}
+	0123456789\\
+	abcdefghij\\
+	klmnopqrst\\
+	uvwxyz\\
+	一地在要工\\
+	上是中国同\\
+	同了发以经\\
+	和的有人我\\
+	主产不为这\\
+\end{document}
+
+
+
 ###########################################################
 ### % LaTex组织文档结构
 ###########################################################
@@ -449,7 +504,6 @@ minipage是一个环境
     }
     \end{lstlisting}   
         
-
 
 
 
