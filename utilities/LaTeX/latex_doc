@@ -1,10 +1,8 @@
 ###########################################################
-### % LaTex安装   https://tug.org/texlive/
+### % LaTex https://tug.org/texlive/
 ###########################################################
+% LaTex设计思想： 格式与内容分离的思想
 ~~~~    在LaTex中相当于4个空格
-
-
-% LaTex设计使用： 格式与内容分离的思想
 
 
 1 % 安装texlive
@@ -20,26 +18,22 @@
 Options ->Configure TeXstudio ->Build \
     ->Default Compiler [XeLaTex]
     
-
-% 4 http://liam.page/2014/09/08/latex-introduction/   
-
-
-% 5 TeXstudio支持中文,修改一个它的默认编译器
-% Options ->Configure TeXstudio ->Build ->Default Compiler [XeLaTex]
+  % TeXstudio支持中文,修改一个它的默认编译器
+  % Options ->Configure TeXstudio ->Build ->Default Compiler [XeLaTex]
 \documentclass{article}
 \begin{document}
     Hello world.
 \end{document}
 
 
-% 6 文档类从 article 变为 ctexart
+6 % 文档类从 article 变为 ctexart
 \documentclass{ctexart}
 \begin{document}
 	你好，world!
 \end{document}
 
 
-% 7 定理类文档
+7 %  定理类文档
 \documentclass{ctexart}
 \newtheorem{thm}{定理}[section]
 
@@ -53,19 +47,86 @@ Options ->Configure TeXstudio ->Build \
 
 
 ###########################################################
-### % LaTex组织文档语言 
+### % LaTex组织文档结构
 ###########################################################
-\title              标题
-\abstract           摘要    
-\tableofcontents    目录        
-\chapter, \section  章节        
-\appendix           附录  
-\bibliography       文献   
-\printindex         索引
-\documentclass      读入文档类文件(.cls)
-\usepackage         读入一个格式文件(.sty)
-\include            分页，并读入章节文件(.tex)
-\input              读入任意文件
+1 % LATEX文档基本结构
+以document环境为界，document环境前是导言部分(preamble);
+docunent环境之中为正文部分；环境之后的部分被忽略
+    
+    
+2 % LATEX文档部件 
+\title, \author, \data  % 这3个为标题，使用标题用(maketitle)
+\abstract               % 摘要, \abstract环境    
+\tableofcontents        % 目录        
+\chapter, \section      % 章, 节        
+\appendix               % 附录  
+\bibliography           % 文献   
+\printindex             % 索引
+
+
+3 % 文档分类
+大型文档    \frontmatter, \mainmatter, \backmatter
+一般文档    \apendix
+%  层次   名称             命令                说明
+   -1    part            \part              % 可选的最高层
+    0    chapter         \chapter           % report, book类最高层
+    1    section         \section           % article类最高层
+    2    subsection      \subsection        %
+    3    subsubsection   \subsubsection     % report, book类，默认不编号，不编目录
+    4    paragraph       \paragraph         % 默认不编号，不编目录
+    5    subparragraph   \subparagraph      % 默认不编号，不编目录
+
+
+4 % 磁盘文件组织
+\documentclass          % 读入文档类文件(.cls)
+\usepackage             % 读入一个格式文件(.sty)
+\include                % 分页，并读入章节文件(.tex)
+\input                  % 读入任意文件
+
+
+5 % 文档框架示例
+% language-main.tex
+\documentclass{book}
+\usepackage{makeidx}
+\makeindex
+\title{languages} \author{FreeYSH}
+\begin{document}
+    \frontmatter
+    \maketitle
+    \tableofcontents
+    \mainmatter
+    \include{intro}
+    \include{class}
+    \backmatter
+    \include{appendix}
+    \bibliography{foo}
+    \printindex
+\end{document}
+
+
+% class.tex
+\part{Introduction}
+    \chapter{Background}
+    \chapter{Commputer Languages}
+        \section{Machine Languages}
+        \section{High Level Languages}
+            \subsection(Compiled Language}
+            \subsection{Interpretative Languages}
+                subsubsection{Lisp}
+                    \paragaph{Common Lisp}
+                    \paragraph{Scheme}
+                subsubsection(Perl}
+                
+    
+% intro.tex
+\part{Classification}
+    \chapter(Natural Language)
+
+
+% appendix.tex
+\chapter{Appendix}
+
+
 
 
 
