@@ -8,7 +8,64 @@
 #
 # My personal fvwm2rc file
 #
-#######################
+
+
+
+###########################################################
+### % FVWM 常用命令
+###########################################################
+# 1 % Read file. 插入另外一个文件file的内容。
+# 如果你会C语言，你就知道这个语句相当于 #include . 
+# 当你的配置文件在某一方面有很长内容时，比如我的配置文件里有大量stroke，
+# 你就可以把这些都写到另一个文件里，这样使主配置文件容易修改。
+
+# 2 % Exec app. 启动一个shell，并且在里面执行"app"命令。
+# 这时用菜单和按钮来启动程序时经常用到的命令。
+# 如果你要启动一个X程序最好同时使用 exec, 比如
+# % Exec exec rxvt
+# 这样shell会执行"exec rxvt", 用rxvt替代自己的正文段，
+# 这样才不会出现很多shell在那里等待X程序返回。
+
+# 3 % Module FvwmXxx. 启动一个叫做 FvwmXxx 的模块。
+# 一个模块是一个程序，它直接通过管道与Fvwm通信，所以必须从Fvwm fork() 出来，
+# 而不能从一个 xterm 独立启动。模块可以无限制的扩展Fvwm的功能，只要 Xlib 允许。
+
+# 4 % ImagePath path. 指定一个路径，
+# 在配置文件里要用到的图标等文件就会到这个路径里去寻找。
+
+# 5 % Move, Raise, Lower, Resize, ... 这些都是常用的操纵窗口的命令。
+
+# 6 % Close, Delete, Destroy, Iconify, Maximize, WindowShade. 
+# 关闭窗口，图标化窗口，最大化窗口，shade 化窗口. 你会发现Xwindow关闭窗口的
+# 方式有很多种，其中 Close 是最文明的一种，这会发给窗口一个消息让它收拾干净然后退出。
+# Destroy 是立即杀死这个窗口，跟 xkill 的功能一样。Delete介于两者之间，先礼后兵，
+# 如果窗口不知道怎么收拾干净，那么就强行杀死它。
+
+# 7 % OpaqueMoveSize x. 如果一个窗口移动时显示内容，那么它必需占屏幕面积的 x%.
+
+# 8 % MoveToDesk, MoveToPage. 可以把任何窗口移动到指定的桌面和页面。
+
+# 9 % SnapAttraction. 设定在什么距离以内，满足什么条件的窗口就被吸附在一起
+
+
+# 10 % WarpToWindow x[p] y[p]. 让鼠标移动到窗口范围以内。x,y是在窗口内的坐标，
+# 用百分比表示。后面如果有后缀"p", 就用像素来表示。
+
+# 11 % IgnoreModifiers. 你可以忽略某些键盘控制键。这将影响到你的鼠标和键盘热键定义。
+# 详细情况见鼠标和键盘一节。
+
+# 12 % DesktopName desk name. 定义第desk号桌面的名字叫 name.
+
+# 13 % Scroll. 移动你在桌面上的viewport,这样你可以把桌面当成一个整体来浏览，看到很大的范围
+
+# 14 % Nop. 不操作，在有些时候需要用它来占位，下面我们会遇到这样的例子。
+
+# 15 % PipeRead. 从一个外部命令得到输入。这可以用来根据你的系统构造许多非常高级的控制方式。
+# 其中一种叫做“菜单式文件管理器”。我们在菜单一节会遇到这个用法。
+
+# 16 % SetEnv. 设置FVWM的环境变量
+
+
 
 #####
 # Set Environment variables
@@ -19,32 +76,73 @@ SetEnv fvwm_icon $[fvwm_home]/icons
 SetEnv fvwm_scrpt $[fvwm_home]/scripts
 SetEnv fvwm_wallpapers $[fvwm_img]/wallpaper
 
+
+
 #####
 # Set the image path
 ###########
 ImagePath $[fvwm_icon]:$[fvwm_icon];.png:+
+# % $[fvwm_icon];.png表示查找$[fvwm_icon]路径中的png格式的图片，而不是默认的图片格式。
+# % +表示前面添加过的ImagePath路径
+# % magePath path. 指定一个路径，在配置文件里要用到的图标等文件就会到这个路径里去寻找。比如：
+# % ImagePath +:/usr/share/icons:/usr/share/pixmaps:$HOME/.fvwm/icons
+# % 加号是表示以前定义过的那个ImagePath。  FVWM 可以使用 .xbm, .xpm 和 .png 格式的图标
+
+
 
 #####
 # Virtual Desktops
 ###########
-DesktopSize 3x3
+DesktopSize 3x3         # % 定义了每一个虚拟桌面(3x3的9个格子)
 DesktopName 0 Main
 DesktopName 1 Work
 DesktopName 2 Games
-EdgeScroll 100 100
-EdgeResistance 150  150
-EdgeThickness 1
+
+EdgeScroll 100 100      # % 定义了当你的鼠标移动到屏幕边缘的时候，屏幕滚动的百分率。
+                        # % 这里表示鼠标移动到屏幕边缘屏幕100％的滚动到下一个屏幕。
+                        
+EdgeResistance 150  150 # % EdgeResistance (scrolling moving)
+                        # % 这是用来设定当滑鼠游标碰触到萤幕的边界的时候，FVWM应该要如
+                        # % 何动作。scrolling 是告诉FVWM当滑鼠游标碰触到萤幕边界多少
+                        # % milliseconds之後，才会移动目前的工作桌面。moving则是设定当
+                        # % 视窗超出画面多少像点之後，才要切换目前的工作桌面到别的桌面上。
+                        
+EdgeThickness 1         # % 设定鼠标靠近屏幕边缘的距离小于某个值。
+
+
 
 #####
 # Mouse and Focus Behavior
 ###########
-ClickTime 350
-DoubleClickTime 500
-MoveThreshold 3
-Style * SloppyFocus, MouseFocusClickRaises
+ClickTime 350           # % fvwm考虑鼠标click的时间，按下于弹出之间大于350ms，认为是
+                        # % hold.小于350ms就是click.
+                        
+DoubleClickTime 500     # % 
 
+MoveThreshold 3         # % 控制移动窗口和图标的拖动操作的灵敏度。 该资源值是移动操作触发
+                        # % 前定位器按下按钮移动的像素量,这用于防止单击或双击时的窗口和图标
+                        # % 的移动，这里的移动是指按钮按下时无意识的指针移动。
+
+# % Style stylename options                        
+Style * SloppyFocus, MouseFocusClickRaises
+# % 其中stylename是你的窗口的名字，窗口的class名字，或者窗口的resource名字。
+# % stylename 里可以有 "*" 作为通配符。比如你可以说 Style *term TitleAtLeft
+# % 让所有以 "term" 结尾的那些窗口的标题拦都在左边。
+# % 比如 "xterm", "cxterm", "qterm", ...都会采用这种样式。options 是你想让满足条件的窗
+# % 口以什么样的方式存在。options 的种类非常之多。比如：BorderWidth, HandleWidth, 
+# % FocusFollowsMouse, TileCascadePlacement,...它们有的需要参数，比如 BorderWidth 7, 
+# % 指定边框宽度为7个像素。有些不需要参数，比如 FocusFollowsMouse/ SloppyFocus/ 
+# % NeverFocus/ ClickToFocus 指明了几种互相排斥的键盘聚焦方式。
+# % 这里SloppyFocus指，当鼠标移动到那个窗口时，窗口被激活（不包括root window)。
+# % 这里MouseFocusClickRaises表示，当鼠标点击一个激活的窗口时，这个窗口会上升到最高层。
+
+# % EwmhBaseStructs left right top bottom
 EwmhBaseStruts 62 162 0 48
-IgnoreModifiers L25
+# % 这里的值来指定窗口的最大化时的放置的位置值。
+
+IgnoreModifiers L25     # % 你可以忽略某些键盘控制键,这将影响到你的鼠标和键盘热键定义。
+
+
 
 #####
 # Global Styles and options
