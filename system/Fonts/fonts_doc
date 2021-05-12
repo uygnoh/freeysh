@@ -1,0 +1,54 @@
+###########################################################
+### % Linux 如何安装Mac的默认字体Monaco字体
+###########################################################
+
+1 % 复制MacOS字体到Linux下
+cp MacOS/Fonts /usr/share/fonts/Monaco.ttf
+
+
+2 % 更改Monaco字体文件权限
+sudo chmode 755 /usr/share/fonts/Monaco.ttf
+
+
+3 % 更新字体缓存,强制刷新
+sudo fc-cache
+sudo fc-cache -f -v
+
+
+
+###########################################################
+### % debian字体显示不正确解决办法
+###########################################################
+1 % 移出本机的系统字体(/usr/share/fonts)到$HOME目录下
+suod mv /usr/share/fonts ~/fonts.bak
+
+2 % 复制另一台Debian系统的字体到/usr/share/
+sudo cp -r /usr/share/fonts /usr/share/
+
+3 % 更新字体缓存,强制刷新
+sudo fc-cache -f -v
+
+
+
+### 西方国家字母体系分为两类：serif 以及 sans serif。
+% serif 是有衬线字体，意思是在字的笔画开始、结束的地方有额外的装饰，
+        而且笔画的粗细会有所不同。serif 字体容易识别，它强调了每个
+        字母笔画的开始和结束，因此易读性比较高
+        在中文阅读的情况下，适合使用 serif 字体（如宋体）进行排版
+% sans serif 就没有这些额外的装饰，而且笔画的粗细差不多。
+        sans serif 则比较醒目。
+        ，易于换行阅读的识别性，避免发生行间的阅读错误。
+            
+% ### dejavu （DejaVu字体）
+DejaVu是一套改造自Bitstream Vera的电脑字体，大幅扩充了Unicode所含盖的字符。
+DejaVu以自由版权发布，因此亦为许多自由软件采用为显示字体。
+
+
+
+
+
+
+
+
+
+

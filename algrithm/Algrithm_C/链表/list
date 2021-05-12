@@ -1,69 +1,87 @@
-### 主要操作的实现
-1.求表长
-```c
-int Length ( List PtrL )
-{ 
-    List p = PtrL; /* p指向表的第一个结点*/
+###########################################################
+### % 线性表的链式存储实现
+###########################################################
+% 不要求逻辑上相邻的两个元素物理上也相信
+% 通过“链”建立数据元素之间的逻辑关系
+插入，删除不需要移动数据元素，只需要修改“链”
+
+
+
+
+###########################################################
+### % 例程 0
+###########################################################
+typedef struct LNode *List;
+struct LNode {
+    ElementType Data;
+    List Next;
+};
+struct LNode L;
+List PtrL;
+
+
+1 % 求链表的长度
+  % 时间性能为 O(n)
+int Length(List PtrL)
+{
+    List p = PtrL;
     int j = 0;
-        while ( p ) {
+    
+    while (p)
+    {
         p = p->Next;
-        j++;     /* 当前p指向的是第 j 个结点*/
-        }
+        j++;
+    }
+    
     return j;
 }
-//时间性能为 O(n)
-```
 
 
-(1)按序号查找: FindKth;
-```c
-List FindKth(int K, List Ptr)
+
+2 % 按序号查找
+List FindKth(int k, List PtrL)
 {
-    List p = Ptr;
+    List p = PtrL;
     int i = 1;
-    while (p!=NULL && i<K) {
+    
+    while ((p != NULL) && (i < k))
+    {
         p = p->Next;
         i++;
     }
-    if (i == k) return p; /* 找到第K个,返回指针 */
-    esle return NULL;     /* 否则返回空
+    
+    if (i == k)
+        return p;
+    else
+        return NULL;
 }
-//平均时间性能为 O(n)
-```
-
-(2)按值查找: Find
-```c
-List Find(ElementType X, List Ptr)
-{
-    List p = Ptr;
-    while (p!=NULL && p->Data!=X)
-        p = p->Next;
-    return p;
-}
-平均时间性能为 O(n)
-```
 
 
-插入(在第 i-1(1≤i≤n+1)个结点后插入一个值为X的新结点)
+
+% 插入(在第 i-1(1≤i≤n+1)个结点后插入一个值为X的新结点)
 + (1)先构造一个新结点,用s指向;
 + (2)再找到链表的第 i-1个结点,用p指向;
 + (3)然后修改指针,插入结点 ( p之后插入新结点是 s)
-### 插入操作实现
-```c
+% ### 插入操作实现
 List Insert(ElementType X, int i, List PtrL)
 {
     List p, s;
-    if (i == 1) {   /* 新结点插入在表头 */
-        s = (List)malloc(sizeof(struct LNode)); /*申请、填装结点*/
+    if (i == 1)                                 % 新结点插入在表头
+    {                  
+        s = (List)malloc(sizeof(struct LNode)); % 申请、填装结点
         s->Data = X;
         s->Next = PtrL;
         return s;
     }
-    p = FindfKth(i-1, PtrL); /* 查找第i-1个结点 */
-    if (p == NULL) {         /* 第i-1个不存在,不能插入 */
+    
+    p = FindfKth(i-1, PtrL);         % 查找第i-1个结点 
+    if (p == NULL)                   % 第i-1个不存在,不能插入
+    {                                       
         printf("参数i错");
         return NULL;
-    } else {
+    } 
+    else 
+    {
         s = (List)malloc(sizeof(struct LNode)); /*申请、填装结点*/
         s->Data = X;
         s->Next = p->Next; /*新结点插入在第i-1个结点的后面*/
@@ -71,7 +89,7 @@ List Insert(ElementType X, int i, List PtrL)
         return PtrL;
     }
 }
-```
+
 
 
 ### 删除(删除链表的第 i (1≤i≤n)个位置上的结点)
@@ -110,7 +128,9 @@ List Delete(int i, List PtrL0
 
 
 
-999999999999999999999999999999999999999999999
+###########################################################
+### % 例程 1
+###########################################################
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -211,14 +231,6 @@ List Delete(int i, List PtrL)
         return PtrL;
     }
 }
-
-
-
-
-
-
-
-
 
 
 
