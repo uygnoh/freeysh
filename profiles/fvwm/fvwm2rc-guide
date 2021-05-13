@@ -9,8 +9,6 @@
 # My personal fvwm2rc file
 #
 
-
-
 ###########################################################
 ### % FVWM 常用命令
 ###########################################################
@@ -86,12 +84,12 @@
 ###########################################################
 # FVWM几乎可以以无穷的方式组合，来进行鼠标和键盘的操作。你还可以加入窗口
 # 上下文来进行更方便的动作。键盘操作的定义：
-# % Key Keyname Context Modifiers Function
+# 0 % Key Keyname Context Modifiers Function
 # 它表示：在名叫 Keyname 的键在 Context 上下文按下时，
 # 如果控制键 Modifiers 组合按下，那么执行 Function. 
 # 键盘操作后面的部分跟鼠标一样的含义，我们下面只用鼠标操作来一起说明这些命令的用途。
 
-# 鼠标操作的定义：
+# 1 % 鼠标操作的定义：
 # % Mouse Button Context Modifiers Function
 # 它表示：在鼠标编号为 Button 的键在 Context 上下文按下时，
 # 如果键盘控制键 Modifiers 组合按下，那么执行 Function.
@@ -99,7 +97,7 @@
 # 如果你的鼠标有轮子，那么一般 4 表示往上滚动， 5 表示往下滚动。
 
 
-# % Context是鼠标按下的位置，它可以是：
+# 2 % Context是鼠标按下的位置，它可以是：
 # % R(Root Window) 根窗口n (n 是0...9 之间的一个数)。
 # 第 n 号窗口按钮。按钮是这样编号的：1 3 5 7 9     0 8 6 4 2 
 # 左边是奇数右边是偶数, 外面的大中间的小。
@@ -110,13 +108,13 @@
 # % W(Working Area) 应用程序窗口工作区域
 # % I(Icon window) 图标化的窗口。
 
-# % 这些上下文可以组合。比如 "FST" 表示在frame, sidebar, 或者 title.
+# 3 % 这些上下文可以组合。比如 "FST" 表示在frame, sidebar, 或者 title.
 
-# % Modifiers 是鼠标操作时同时的键盘控制键。M 表示 "Meta"，
+# 4 % Modifiers 是鼠标操作时同时的键盘控制键。M 表示 "Meta"，
 # 在PC上就是Alt，S: shift, C: ctrl. 还有 A: any, N: none. 
 # 也可以组合，比如"MS" 表示同时按下Alt-Shift.
 
-# % Mouse 3 W       SC      CloseOrNot
+# 5 % Mouse 3 W       SC      CloseOrNot
 # 这个定义是说，在窗口上点击鼠标右键，并且先按下 Shift-Ctrl，
 # 那么调用 CloseOrNot 这个FVWM函数。这个函数会作用与当前鼠标所在的上下文，也就是一个窗口
 
@@ -166,7 +164,7 @@
 # + I All (xscreensaver) Close
 # + I All (xsim) Close
 
-# % 每个命令前的 "I" 表示 Imediately, 立即执行
+# 4 % 每个命令前的 "I" 表示 Imediately, 立即执行
 # 可见，我在第一次启动时会启动 xscreensaver 屏幕保护程序。
 # -no-splash 是 xscreensaver 的参数。在每次重新启动和第
 # 一次启动时都要运行 FvwmButtons, FvwmAuto, FvwmAnimate, 
@@ -181,19 +179,19 @@
 ### % FVWM 窗口样式
 ###########################################################
 # Style 语句用于设定窗口的样式。你可以随心所欲的让不同的窗口有不同的样式。语法为:
-# % Style stylename options
+# 0 % Style stylename options
 # 其中stylename是你的窗口的名字，窗口的class名字，或者窗口的resource名字。
 # 如果你不知道这些 X window 的术语，那现在就姑且当作窗口的名字好了，以后多看
 # 看 Xlib 的说明书你就会明白这些东西。窗口的名字有可能不同于程序的名字，你不知
 # 道它叫什么名字可以用 xwininfo 程序或者 FvwmIdent 模块来查询。再次说明，
 # FvwmIdent 是模块，不能从 xterm 的命令行运行。
 
-# % stylename 里可以有 "*" 作为通配符。比如你可以说
+# 1 % stylename 里可以有 "*" 作为通配符。比如你可以说
 # Style *term TitleAtLeft
 # 让所有以 "term" 结尾的那些窗口的标题拦都在左边。
 # 比如 "xterm", "cxterm", "qterm", ... 都会采用这种样式。 
 
-# options 是你想让满足条件的窗口以什么样的方式存在。
+# 2 % options 是你想让满足条件的窗口以什么样的方式存在。
 # options 的种类非常之多。比如：BorderWidth, HandleWidth, 
 # FocusFollowsMouse, TileCascadePlacement, ... 它们有的需要参数，
 # 比如 BorderWidth 7, 指定边框宽度为7个像素。有些不需要参数，
@@ -206,33 +204,33 @@
 # % Style "FvwmPager"   StaysOnTop
 # % Style "FvwmBanner"  StaysOnTop
 # % Style "FvwmButtons" Icon toolbox.xpm, ClickToFocus
-# 1 开头的两行说明所有窗口，都是鼠标移进去的时候得到键盘聚焦，
+# 11 % 开头的两行说明所有窗口，都是鼠标移进去的时候得到键盘聚焦，
 # 鼠标移出来就失去聚焦(FocusFollowsMouse)，窗口出现的时候，
 # 先试图找一个可以放下它而不挡住其它窗口的地方，如果不行再采用
 # 层叠放置的方式(TileCascadePlacement)。
-# 2 下面是说明所有名字以 "Fvwm" 开头的窗口(在这里一般都是 FVWM 内部的模块)，
+# 22 % 下面是说明所有名字以 "Fvwm" 开头的窗口(在这里一般都是 FVWM 内部的模块)，
 # 它们都没有标题栏(NoTitle)，而且是sticky，也就是说即使桌面切换，它们也一直显示
 # 在屏幕上，边框宽度为 2， CirculateSkip 说明当FVWM要求轮询窗口进行批量操作时，
 # 这些窗口不被计算在内。第3,4行说明 FvwmPager, FvwmBanner 这两个模块一直显示在
 # 最上面。最后一行说明 FvwmButtons 模块使用 toolbox.xpm 的图标，需要鼠标点击
 # 才能得到键盘聚焦(ClickToFocus)。总的说来，options指出了控制窗口的基本样式和
 # 政策，而不包括窗口各个部件具体的样式，它包括以下几个方面内容：
-# % 窗口聚焦方式。是跟随鼠标(FocusFollowsMouse)，还是需要点击才聚焦(ClickToFocus)...
-# % 窗口标题栏。是否给窗口加上标题拦？如果加上，是放在左边，上边，还是下边？注意这里也不是设定
+# -1 % 窗口聚焦方式。是跟随鼠标(FocusFollowsMouse)，还是需要点击才聚焦(ClickToFocus)...
+# -2 % 窗口标题栏。是否给窗口加上标题拦？如果加上，是放在左边，上边，还是下边？注意这里也不是设定
 # 具体标题样式的地方，参看 TitleStyle.
-# % 窗口应该显示哪些按钮。FVWM可以为每个窗口设定最多10个按钮，但是你通常用不到10个，这样你
+# -3 % 窗口应该显示哪些按钮。FVWM可以为每个窗口设定最多10个按钮，但是你通常用不到10个，这样你
 # 可以设定对于某一个程序那些按钮应该出现。注意这里也不是设定按钮样式的地方，参看 ButtonStyle.
-# % 窗口边框样式。边框宽度，handle(就是边框角上那个用来resize的东东)的宽度，边框被鼠标按住
+# -4 % 窗口边框样式。边框宽度，handle(就是边框角上那个用来resize的东东)的宽度，边框被鼠标按住
 # 的时候是否陷下去？...
-# % 窗口图标。用那个图标作为窗口iconify时候的图标？
-# % 窗口最大化，移动，改变大小操作时的样式。是显示窗口内容还是只显示一个“橡皮框”？
+# -5 % 窗口图标。用那个图标作为窗口iconify时候的图标？
+# -6 % 窗口最大化，移动，改变大小操作时的样式。是显示窗口内容还是只显示一个“橡皮框”？
 # 还是让尺寸小于某个值的窗口才在拖动时显示内容？...
-# % 窗口放置策略。窗口出现的时候，是层叠放置，最小遮挡放置，还是……？
-# % 是否允许程序自己放置自己？这是一个政策问题，有些窗口程序启动时会自己选择一个位置出现，
+# -7 % 窗口放置策略。窗口出现的时候，是层叠放置，最小遮挡放置，还是……？
+# -8 % 是否允许程序自己放置自己？这是一个政策问题，有些窗口程序启动时会自己选择一个位置出现，
 # 但是你可能会发现你不喜欢它那样做，你可以设定NoPPosition, 不允许那个程序自作聪明。
-# % 对瞬时窗口(transient window)的策略。transient window 是指类似弹出菜单，
+# -9 % 对瞬时窗口(transient window)的策略。transient window 是指类似弹出菜单，
 # 对话框之类的窗口。当它们出现的时候，你是否想给它们也加上标准的边框？
-# % 高级特性。还有很多很多选项比如是否允许窗口 backing store，这些如果你还不理解现在暂时不用管它。
+# -10 % 高级特性。还有很多很多选项比如是否允许窗口 backing store，这些如果你还不理解现在暂时不用管它。
 # 以上每项都包含许许多多可以设定的东西。具体还是请参考 fvwm 的manpage。
 
 
@@ -245,7 +243,7 @@
 # 然后有一个激发这个菜单的条件，菜单的样式也可以随意定制。如果使用 
 # PipeRead 命令和一些 shell 命令组合，你就可以用菜单的方式遍历
 # 你的文件目录树，成为一个“菜单式file manager”。
-# % 菜单是由AddToMenu命令定义的，比如这样一个菜单
+# 0 % 菜单是由AddToMenu命令定义的，比如这样一个菜单
 # DestroyMenu RootMenu
 # AddToMenu RootMenu	"Root Menu"	Title
 # +			"&xterm%mini.display.xpm%"	Exec exec xterm
@@ -268,14 +266,14 @@
 # % 指向图标文件所在的目录。你还可以在菜单里加入侧面图标，等等等等。
 
 
-# % 菜单的消灭
+# 1 % 菜单的消灭
 # 随后的AddToMenu命令会把内容附加到菜单的末尾。
 # 所以如果你想重新定义一个菜单，就需要先把它销毁掉。用
 # % DestroyMenu RootMenu
 # 就可以把刚才那个 "RootMenu" 菜单消灭掉。
 
 
-# % 菜单的激活
+# 2 % 菜单的激活
 # 光是定义了一个菜单你是不能马上使用它的。这个菜单在什么情况下出现？
 # 这个问题是需要你自己来决定，这也是显示FVWM的完全可定制性的地方。
 # 比如，我们可以这样定义一个激活菜单的方式：
@@ -291,7 +289,7 @@
 # 另外 Menu 还可以随意定义菜单出现的位置，详细请看 fvwm manpage。
 
 
-# % 菜单的样式
+# 3 % 菜单的样式
 # 菜单的样式是由 MenuStyle 定义的：
 # % MenuStyle * MWM
 # % MenuStyle * PopupDelayed, PopupDelay 160, Animation, TitleWarp
@@ -306,7 +304,7 @@
 # 一共64阶，从 darkgray 变化到 MidnightBlue.
 
 
-# % 动态菜单定义
+# 4 % 动态菜单定义
 # 前面我们说过了，可以用 PipeRead 来构造一个动态菜单。现在举一个简单的例子：
 # % AddToMenu HomeDirMenu
 # % 	PipeRead 'for i in $HOME/prog/*.c; \
@@ -324,11 +322,11 @@
 # FVWM 可以给窗口加上最多10个按钮，它们不光可以实现基本的最大化，最小化，
 # 关闭，等功能。FVWM的灵活性允许你赋予按钮几乎任意的功能！
 
-# % 按钮是这样编号的：左边是奇数右边是偶数, 外面的大中间的小。
+# 0 % 按钮是这样编号的：左边是奇数右边是偶数, 外面的大中间的小。
 #       1   3   5   7   9       0   8   6   4   2
 
 
-# % 按钮功能定义
+# 1 % 按钮功能定义
 #下面看看按钮的功能是怎么定义的，在鼠标和键盘一节我们已经知道怎么定义鼠标了，
 #按钮的功能只不过是把鼠标与按钮号码组合在一起。
 #比如我的窗口上一般有三个按钮, 都在右上角，注意它们的编号
@@ -348,7 +346,7 @@
 # 为什么是右键？因为我为左键在这个按钮上定义了更高级的 stroke 来改变窗口大小。我们稍后介绍。
 
 
-# % 按钮样式
+# 2 % 按钮样式
 # 按钮的样式是用ButtonStyle定义的。比如我的那三个按钮实际上是如下几句话定义的。
 # % ButtonStyle All -- UseTitleStyle
 # % ButtonStyle All ActiveDown VGradient 8 palevioletred black
@@ -365,7 +363,7 @@
 # 还没有松开鼠标时候的样式，是一个颜色梯度。
 
 
-# % 其它样式
+# 3 % 其它样式
 # 我们已经知道 Style 可以决定窗口的样式，MenuStyle 可以决定菜单的样式，
 # ButtonStyle 按钮的样式。其实还有 CursorStyle, TitleStyle, BorderStyle. 
 # 他们决定了光标，标题栏，边框的样式。他们都有多样的语法，详细的就看 magpage 吧。这里就不照抄了。
