@@ -15,7 +15,7 @@ if [ ! -d ~/.config/rox.sourceforge.net/MIME-types ]; then
 fi
 cat > ~/.config/rox.sourceforge.net/MIME-types/application_x-shellscript <<\EOF
 #!/bin/bash
-gedit "$@"
+exec vim "$@"
 EOF
 
 
@@ -24,7 +24,7 @@ if [ ! -d ~/.config/rox.sourceforge.net/MIME-types ]; then
 fi
 cat > ~/.config/rox.sourceforge.net/MIME-types/text <<\EOF
 #!/bin/bash
-gedit "$@"
+exec gedit "$@"
 EOF
 
 
@@ -33,7 +33,7 @@ if [ ! -d ~/.config/rox.sourceforge.net/MIME-types ]; then
 fi
 cat > ~/.config/rox.sourceforge.net/MIME-types/smplayer <<\EOF
 #!/bin/bash
-smplayer "$@"
+exec smplayer "$@"
 EOF
 
 
