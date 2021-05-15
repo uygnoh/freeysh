@@ -13,7 +13,7 @@ set -e
 if [ ! -d ~/.config/rox.sourceforge.net/MIME-types ]; then
     mkdir ~/.config/rox.sourceforge.net/MIME-types
 fi
-cat > ~/.config/rox.sourceforge.net/MIME-types/application_x-shellscript <<\EOF
+cat > ~/.config/rox.sourceforge.net/MIME-types/shellscript <<\EOF
 #!/bin/bash
 exec vim "$@"
 EOF
