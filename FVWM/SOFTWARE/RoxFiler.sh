@@ -1,13 +1,13 @@
 #!/bin/bash
 set -e
 
-if [ ! -d ~/.config/rox.sourceforge.net/MIME-types ]; then
-    mkdir ~/.config/rox.sourceforge.net/MIME-types
-fi
-cat > ~/.config/rox.sourceforge.net/MIME-types/application_x-shellscript <<\EOF
+# if [ ! -d ~/.config/rox.sourceforge.net/MIME-types ]; then
+#     mkdir ~/.config/rox.sourceforge.net/MIME-types
+# fi
+# cat > ~/.config/rox.sourceforge.net/MIME-types/application_x-shellscript <<\EOF
 #!/bin/bash
-exec "$@"
-EOF
+# exec "$@"
+# EOF
 
 
 if [ ! -d ~/.config/rox.sourceforge.net/MIME-types ]; then
