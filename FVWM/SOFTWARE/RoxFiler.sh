@@ -6,7 +6,7 @@ if [ ! -d ~/.config/rox.sourceforge.net/MIME-types ]; then
 fi
 cat > ~/.config/rox.sourceforge.net/MIME-types/application_x-shellscript <<\EOF
 #!/bin/bash
-exec "$@"
+gedit "$@"
 EOF
 
 
