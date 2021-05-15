@@ -10,6 +10,87 @@ ctrl+h      % 隐藏文件打开|关闭
 
 
 
+###########################################################
+### % ROX-Filer文件关联
+###########################################################
+0 % cd ~/.config/rox.sourceforge.net/MIME-types/
+
+
+1 % SHELL脚本, vim application_x-shellscript
+cat > ~/.config/rox.sourceforge.net/MIME-types/application_x-shellscript <<-EOF
+#!/bin/bash
+exec "$@"
+EOF
+
+2 % 文本文件, vim text
+#!/bin/bash
+gedit "$@"
+
+
+3 % 网页, vim text_html
+#!/bin/bash
+firefox "$@"
+
+
+4 % 图片, vim image
+#!/bin/bash
+gimp "$@"
+
+
+5 % 视频, vim video
+#!/bin/bash
+smplayer "$@"
+
+
+6 % 音乐, vim audio
+#!/bin/bash
+cmus "#@"
+
+
+
+7 % 然后在~/.config/rox.sourceforge.net/MIME-types/目录下执行chmod 0755 *即可
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
