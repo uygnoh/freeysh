@@ -719,7 +719,7 @@ Colorset 8 fg DarkRed, bg #e6e7d7, sh Black, hi #202070
 ### % ##########################################################################
 
 
-#####
+##### % 设置系统环境变量
 # Set Environment variables 
 ########### 
 SetEnv fvwm_home $[HOME]/.fvwm
@@ -742,208 +742,75 @@ ImagePath $[fvwm_icon]:$[fvwm_icon];.png:+
 
 
 
-#####
-# Virtual Desktops
-###########
-DesktopSize 3x3         # % 定义了每一个虚拟桌面(3x3的9个格子)
+################################################################################
+# % Virtual Desktops
+################################################################################
+# % 建立虚拟桌面。FVWM 允许你想要多少虚拟桌面就有多少，
+# % 同时允许每个桌面拥有多个 Pages（页）。假定你想要3个虚拟桌面，
+# % 然后建立3个虚拟桌面，分别命名为 Main，Work，Games（标号为0,1,2）。
+# % 每个又拥有3x3格9个 pages，你能用如下方法建立
+DesktopSize 3x3
 DesktopName 0 Main
 DesktopName 1 Work
 DesktopName 2 Games
 
-EdgeScroll 100 100      # % 定义了当你的鼠标移动到屏幕边缘的时候，屏幕滚动的百分率。
-                        # % 这里表示鼠标移动到屏幕边缘屏幕100％的滚动到下一个屏幕。
-                        
-EdgeResistance 150  150 # % EdgeResistance (scrolling moving)
-                        # % 这是用来设定当滑鼠游标碰触到萤幕的边界的时候，FVWM应该要如
-                        # % 何动作。scrolling 是告诉FVWM当滑鼠游标碰触到萤幕边界多少
-                        # % milliseconds之後，才会移动目前的工作桌面。moving则是设定当
-                        # % 视窗超出画面多少像点之後，才要切换目前的工作桌面到别的桌面上。
-                        
-EdgeThickness 1         # % 设定鼠标靠近屏幕边缘的距离小于某个值。
+
+# % (EdgeScroll, EdgeResistance, EdgeThickness) 3个命令是对鼠标光标的控制
+# 0 % EdgeScroll 定义了当你的鼠标移动到屏幕边缘的时候，屏幕滚动的百分率。
+# 0 % “100 100”代表，如果把鼠标移动到屏幕边缘，整个屏幕都会滚动至下一个屏幕。
+# 1 % EdgeResistance (scrolling, moving)
+scrolling 是告诉FVWM当滑鼠游标碰触到萤幕边界多少milliseconds之後，才会移动目前的工作桌面
+moving    则是设定当视窗超出画面多少像点之後，才要切换目前的工作桌面到别的桌面上。
+设定滚动发生前需要多少'阻力'（时间延迟），而 EdgeThickness 则会设定
+# 2 % 设定鼠标靠近屏幕边缘的距离小于某个值
+EdgeScroll 100 100
+EdgeResistance 150  150
+EdgeThickness 1           
+# % 可以把这几个参数都设置为 0，窗口就不会随光标移动了
+EdgeScroll 0 0
+EdgeResistance 0 0
+EdgeThickness 0             
 
 
 
-#####
-# Mouse and Focus Behavior
-###########
-ClickTime 350           # % fvwm考虑鼠标click的时间，按下于弹出之间大于350ms，认为是
-                        # % hold.小于350ms就是click.
-                        
-DoubleClickTime 500     # % 
+################################################################################
+# % Mouse and Focus Behavior
+################################################################################
+# % 下一步是设定默认的鼠标和聚焦动作。如下
+# % ClickTime 是在按下和松开鼠标间以毫秒计算的时间，FVWM 把这个动作看作是一次 'click'。
+# % 如果超过时间，FVWM 会认为这是一个 'hold'行为。MoveThreshold 指要让 FVWM 认为这是
+# % 一次 'move' 动作，鼠标所必须移动的像素。注意，所有这些东西设定你的窗口管理器的外观感受，
+# % 而且在编写函数时很重要！
+ClickTime 350
+DoubleClickTime 500
+MoveThreshold 3
 
-MoveThreshold 3         # % 控制移动窗口和图标的拖动操作的灵敏度。 该资源值是移动操作触发
-                        # % 前定位器按下按钮移动的像素量,这用于防止单击或双击时的窗口和图标
-                        # % 的移动，这里的移动是指按钮按下时无意识的指针移动。
 
-# % Style stylename options                        
+# % 鼠标经过时获得焦点，鼠标单击焦点窗体时窗体升至最前面。
 Style * SloppyFocus, MouseFocusClickRaises
-# % 其中stylename是你的窗口的名字，窗口的class名字，或者窗口的resource名字。
-# % stylename 里可以有 "*" 作为通配符。比如你可以说 Style *term TitleAtLeft
-# % 让所有以 "term" 结尾的那些窗口的标题拦都在左边。
-# % 比如 "xterm", "cxterm", "qterm", ...都会采用这种样式。options 是你想让满足条件的窗
-# % 口以什么样的方式存在。options 的种类非常之多。比如：BorderWidth, HandleWidth, 
-# % FocusFollowsMouse, TileCascadePlacement,...它们有的需要参数，比如 BorderWidth 7, 
-# % 指定边框宽度为7个像素。有些不需要参数，比如 FocusFollowsMouse/ SloppyFocus/ 
-# % NeverFocus/ ClickToFocus 指明了几种互相排斥的键盘聚焦方式。
-# % 这里SloppyFocus指，当鼠标移动到那个窗口时，窗口被激活（不包括root window)。
-# % 这里MouseFocusClickRaises表示，当鼠标点击一个激活的窗口时，这个窗口会上升到最高层。
 
-# % EwmhBaseStructs left right top bottom
+
+# % EwmhBaseStruts 设定不可用的屏幕区域，用法是'EwmhBaseStruts 左 右 上 下'。
 EwmhBaseStruts 62 162 0 48
-# % 这里的值来指定窗口的最大化时的放置的位置值。
 
-IgnoreModifiers L25     # % 你可以忽略某些键盘控制键,这将影响到你的鼠标和键盘热键定义。
+# % FVWM 忽略某些特定的修改按键，在这里它会忽略 'Num Lock' 按键
+IgnoreModifiers L25
 
 
 
-#####
-# Global Styles and options
-###########
-Style * TileCascadePlacement, GrabFocusOff
-Style * NoPPosition, ResizeOpaque
-OpaqueMoveSize -1
-Emulate MWM
-HideGeometryWindow Never
-SnapAttraction 5 SameType Screen
-SnapGrid 3 3
-XorValue 55555
-Style * DecorateTransient, DontRaiseTransient
-Style * DontLowerTransient, StackTransientParent
-Style * GrabFocusTransientOff
-Style * WindowShadeSteps 20, WindowShadeScrolls
-SetAnimation  10  -.01 0 .01 .03 .08 .18 .3 .45 .6 .75 .85 .90 .94 .97 .99 1.0
-Style * MwmDecor, SlipperyIcon
-Style * IconBox screen w 15 15 -165 -15, IconGrid 3 3, IconFill right top
-
-#####
-# Program Styles
-###########
-Style "*" Icon 48x48/x.png, MiniIcon mini/x.png
-Style "XTerm" Icon 48x48/terminal.png, NoActiveIconOverride, MiniIcon mini/terminal.png
-Style "gvim" Icon 48x48/vim.png, IconOverride, MiniIcon mini/vim.png, EWMHMiniIconOverride
-Style "Firefox-bin" Icon 48x48/firefox.png, MiniIcon mini/firefox.png, EWMHMiniIconOverride
-Style "irssi" Icon 48x48/irc.png, MiniIcon mini/irc.png *******************************
-Style "xmms" WindowListSkip, CirculateSkip          *******************************
-
-#####
-# Basic Functions
-###########
-DestroyFunc FvwmDeleteOrDestroy
-AddToFunc   FvwmDeleteOrDestroy
-+ H Nop
-+ M Nop
-+ C Delete
-+ D Destroy
-
-DestroyFunc FvwmIconifyOrShade
-AddToFunc   FvwmIconifyOrShade
-+ C Iconify
-+ D WindowShade
-
-DestroyFunc FvwmMaximize
-AddToFunc   FvwmMaximize
-+ H Nop
-+ M Nop
-+ C Maximize $0 $1
-
-DestroyFunc FvwmMoveOrIconify
-AddToFunc   FvwmMoveOrIconify
-+ M Move
-+ D Iconify
-
-DestroyFunc FvwmWindowShade
-AddToFunc   FvwmWindowShade
-+ D WindowShade $0
-
-#####
-# Program Launching Functions
-###########
-DestroyFunc FvwmXTerm
-AddToFunc   FvwmXTerm
-+ I Exec exec xterm
-
-DestroyFunc FvwmATerm
-AddToFunc   FvwmATerm
-+ I Exec exec aterm
-
-DestroyFunc FvwmGVim
-AddToFunc   FvwmGVim
-+ I Exec exec gvim
-
-DestroyFunc FvwmGimp
-AddToFunc   FvwmGimp
-+ I Exec exec gimp-2.0
-
-DestroyFunc FvwmFireFox
-AddToFunc   FvwmFireFox
-+ I Exec exec firefox
-
-DestroyFunc FvwmIrssi       **************************************************
-AddToFunc   FvwmIrssi
-+ I Exec exec aterm -e irssi
-
-DestroyFunc FvwmXmms        **************************************************
-AddToFunc   FvwmXmms
-+ I Exec exec xmms
-
-DestroyFunc FvwmViewManPage
-AddToFunc   FvwmViewManPage
-+ I Exec exec xterm -fg White -bg DarkBlue -g 80x40 -fn 7x14 -fb 7x14bold \
- -n "Manual Page - $0" -T "Manual Page - $0" -e man "$0"
-
-#####
-# Startup Functions
-###########
-DestroyFunc StartFunction
-AddToFunc   StartFunction
-+ I Module FvwmTaskBar
-+ I Module FvwmPager 0 2
-+ I Module FvwmButtons MyButtons
-
-DestroyFunc InitFunction
-AddToFunc   InitFunction
-+ I Exec exec xscreensaver
-+ I Exec exec fvwm-root -r $[fvwm_wallpapers]/background.png
-+ I FvwmXmms  ********************************************************************
-+ I FvwmATerm
-
-DestroyFunc RestartFunction
-AddToFunc   RestartFunction
-+ I Nop
-
-#####
-# Screenshot Functions (uses ImageMagick)
-###########
-DestroyFunc FvwmWindowScreenshot
-AddToFunc   FvwmWindowScreenshot
-+ I ThisWindow (!Shaded !Iconic Iconifiable) \
-  Exec import -window $[w.id] -quality 100 -silent \
-  "$[fvwm_home]/screenshot/screenshot-`date +%F[%R]`.$[w.id].jpg"
-
-DestroyFunc FvwmDesktopScreenshot
-AddToFunc   FvwmDesktopScreenshot
-+ I Exec sleep $0; import -window root -quality 100 -silent \
-  "$[fvwm_home]/screenshot/screenshot-`date +%F[%R]`.jpg"
-
-##### ******************************************************************
-# XRoach Invasion
-###########
-DestroyFunc XRoachInvasion
-AddToFunc   XRoachInvasion
-+ I Exec exec xroach -roaches 5 -rc Cyan -speed 17
-+ I Exec exec xroach -roaches 3 -rc Red -speed 15
-+ I Exec exec xroach -roaches 7 -rc Green -speed 10
-+ I Exec exec xroach -roaches 3 -rc Blue -speed 20
-+ I Exec exec xroach -roaches 1 -rc Black -speed 30
-+ I Exec exec xroach -roaches 1 -rc White -speed 40
-
-DestroyFunc XRoachExterminate
-AddToFunc   XRoachExterminate
-+ I Exec killall xroach
-
-#####
-# Basic Bindings
-###########
+################################################################################
+# % Basic Bindings (按键绑定)
+################################################################################
+# % 有两种类型的绑定，绑定至鼠标，或绑定到键盘
+# % 注意屏幕是如 何被分割成以下几部分的
+# % R - 根窗口，I - 图标，F - 窗口边角，S - 窗口边缘，
+# % T - 标题栏，W - 程序窗口，还有0-9 这些是按钮。
+# % 注意：A代表任意地方，即不管鼠标在哪里
+# 绑定到键盘，用'Key X Context Modifier Action'
+# 绑定到鼠标，用'Mouse X Context Modifier Action' 
+# Context 是指如上所示的当前鼠标位置
+# Modifier 是如下任意组合：(A)ny, (C)ontrol, (S)hift, (M)eta, (N)othing, 
+# 或1-5, 代表X Modifiers mod1-mod5 (man xmodmap)
 Key F1 A M Menu MenuFvwmRoot
 Key Tab A M WindowList Root c c NoDeskSort, SelectOnRelease Meta_L
 Key Super_L A A FvwmATerm
@@ -958,303 +825,25 @@ Mouse 1 W M FvwmMoveOrIconify
 Mouse 1 I A FvwmMoveOrIconify
 Mouse 4 T A FvwmWindowShade True
 Mouse 5 T A FvwmWindowShade False
+%  从上到下的绑定分别做以下这些事：
+1  任何地方按下 alt-f1 时显示根菜单
+2  按下 alt-tab 时显示 WindowList                                                                    
+3  按下左边的 win 键时启动 aterm
+4  当鼠标左键在根窗口上点击时，打开根菜单
+5  当鼠标右键在根窗口上点击时，打开窗口选项菜单
+6  当按钮 1 被单击或双击时删除或销毁窗口
+7  当按钮 3 被单击或双击时图标化或卷起窗口
+8  当鼠标按键一（左键）点击按钮 5 时，最大化窗口至充满整个屏幕
+9  当鼠标按键二（中键）点击按钮 5 时，垂直最大化窗口
+10 当鼠标按键三（右键）点击按钮 5 时，水平最大化窗口（译者注：鼠标按键可人为定义，因此可能不同的机器上不一样，如果你不是左撇子的话就没必要自定义默认的鼠标按键。像我有时用左手就要自定义了！;-）
+11 alt+按着左键并移动鼠标可拖动窗口，而 alt+双击会图标化窗口
+12 将 FvwmMoveOrIconify 函数绑定至 'Icons'，以便能进行移动和图标化
+13 向上滚动两次滚轮卷起活动窗口（这个函数要求双击，因此要滚两下）
+14 向下滚动两次滚轮放下活动窗口
 
-#####
-# Window Colorsets
-###########
-Colorset 3 fg #101060, bg #e6e7d7
-Colorset 4 fg Black, bg #a6a797
-Colorset 5 fg White, bg Black
 
-#####
-# Window Decor
-###########
-DestroyDecor MyDecor
-AddToDecor   MyDecor
-+ TitleStyle LeftJustified Height 18
-+ ButtonStyle 1 ActiveUp Vector 4 30x30@3 60x60@3 60x30@4 30x60@3 -- Flat
-+ ButtonStyle 1 ActiveDown Vector 4 30x30@3 60x60@3 60x30@4 30x60@3 -- Flat
-+ ButtonStyle 1 Inactive Vector 4 30x30@3 60x60@3 60x30@4 30x60@3 -- Flat
-+ ButtonStyle 3 ActiveUp Vector 5 30x60@3 60x60@3 60x50@3 30x50@3 30x60@3 -- Flat
-+ ButtonStyle 3 ActiveDown Vector 5 30x60@3 60x60@3 60x50@3 30x50@3 30x60@3 -- Flat
-+ ButtonStyle 3 Inactive Vector 5 30x60@3 60x60@3 60x50@3 30x50@3 30x60@3 -- Flat
-+ ButtonStyle 5 ActiveUp Vector 7 30x30@3 30x60@3 60x60@3 60x30@3 30x30@3 30x35@3 60x35@3 -- Flat
-+ ButtonStyle 5 ActiveDown Vector 7 30x30@3 30x60@3 60x60@3 60x30@3 30x30@3 30x35@3 60x35@3 -- Flat
-+ ButtonStyle 5 Inactive Vector 7 30x30@3 30x60@3 60x60@3 60x30@3 30x30@3 30x35@3 60x35@3 -- Flat
-+ TitleStyle -- Flat
-+ BorderStyle Simple -- NoInset Flat
-+ ButtonStyle All -- UseTitleStyle
 
-#####
-# Ukkosta Decor
-###########
-DestroyDecor UkkostaDecor
-AddToDecor   UkkostaDecor
-+ TitleStyle LeftJustified Height 24
-+ ButtonStyle 1 \
-        ActiveUp     (Pixmap $[fvwm_img]/button/close-activeup.png -- Flat) \
-        ActiveDown   (Pixmap $[fvwm_img]/button/close-activedown.png -- Flat) \
-        Inactive     (Pixmap $[fvwm_img]/button/inactive.png -- Flat)
-+ ButtonStyle 3 \
-        ActiveUp     (Pixmap $[fvwm_img]/button/iconify-activeup.png -- Flat) \
-        ActiveDown   (Pixmap $[fvwm_img]/button/iconify-activedown.png -- Flat) \
-        Inactive     (Pixmap $[fvwm_img]/button/inactive.png -- Flat)
-+ ButtonStyle 5 \
-        ActiveUp     (Pixmap $[fvwm_img]/button/maximize-activeup.png -- Flat) \
-        ActiveDown   (Pixmap $[fvwm_img]/button/maximize-activedown.png -- Flat) \
-        Inactive     (Pixmap $[fvwm_img]/button/inactive.png -- Flat)
-+ ButtonStyle 1 - Clear
-+ ButtonStyle 3 - Clear MwmDecorMin
-+ ButtonStyle 5 - Clear MwmDecorMax
-+ TitleStyle AllActive MultiPixmap \
-        Main AdjustedPixmap $[fvwm_img]/decor/title-main-active.xpm, \
-        LeftEnd AdjustedPixmap $[fvwm_img]/decor/title-leftend-active.xpm, \
-        RightEnd AdjustedPixmap $[fvwm_img]/decor/title-rightend-active.xpm, \
-        UnderText AdjustedPixmap $[fvwm_img]/decor/title-undertext-active.xpm, \
-        LeftOfText AdjustedPixmap $[fvwm_img]/decor/title-leftoftext-active.xpm, \
-        RightOfext AdjustedPixmap $[fvwm_img]/decor/title-rightoftext-active.xpm
-+ TitleStyle AllInactive MultiPixmap \
-        Main AdjustedPixmap $[fvwm_img]/decor/title-main-inactive.xpm, \
-        LeftEnd AdjustedPixmap $[fvwm_img]/decor/title-leftend-inactive.xpm, \
-        RightEnd AdjustedPixmap $[fvwm_img]/decor/title-rightend-inactive.xpm, \
-        UnderText AdjustedPixmap $[fvwm_img]/decor/title-undertext-inactive.xpm, \
-        LeftOfText AdjustedPixmap $[fvwm_img]/decor/title-leftoftext-inactive.xpm, \
-        RightOfext AdjustedPixmap $[fvwm_img]/decor/title-rightoftext-inactive.xpm
-+ TitleStyle -- Flat
-+ BorderStyle Simple -- NoInset Flat
-+ ButtonStyle All -- UseTitleStyle
 
-#####
-# Window Styles
-###########
-Style "*" UseDecor MyDecor
-Style "*" Font "xft:Sans:Bold:size=8:minspace=False:antialias=True"
-Style "*" BorderWidth 1, HandleWidth 1
-Style "*" MWMBorder, FirmBorder
-Style "*" Colorset 4
-Style "*" HilightColorset 3
-Style "*" BorderColorset 5
-Style "*" HilightBorderColorset 4
 
-#####
-# Menu Colorsets
-###########
-#Colorset 7 fg Black, bg #e6e7d7, sh Black, hi #202070
-Colorset 8 fg DarkRed, bg #e6e7d7, sh Black, hi #202070
-
-#Colorset 7 RootTransparent, fg Black, bg average, sh Black, \
-  hi #202070, Tint White 60, bgTint White 60
-
-Colorset 7 fg Black, Translucent White 75, \
-  hi Black, sh Black
-
-#####
-# MenuStyles
-###########
-MenuStyle * PopupDelayed, PopupDelay 300, PopdownImmediately
-MenuStyle * PopupOffset -5 100, TitleWarpOff
-MenuStyle * TitleUnderlines2, SeparatorsLong, TrianglesSolid
-MenuStyle * AnimationOff, AutomaticHotkeysOff
-MenuStyle * BorderWidth 2
-MenuStyle * PopupAsSubmenu, HoldSubmenus, SubmenusRight
-MenuStyle * ItemFormat "%|%5.5i%1.3l%2.3>%|"
-MenuStyle * VerticalItemSpacing 1 1, VerticalTitleSpacing 2 2
-MenuStyle * MenuColorset 7
-MenuStyle * ActiveFore, Hilight3DOff
-MenuStyle * ActiveColorset 8
-MenuStyle * Font "Shadow=2:xft:Sans:Bold:size=11:antialias=True"
-
-#####
-# FvwmRootMenu
-###########
-DestroyMenu FvwmRootMenu
-AddToMenu   FvwmRootMenu "Root Menu" Title
-+ "Programs%menu/programs.png%"  Popup FvwmProgramsMenu
-+ "Console%menu/terminal.png%"  FvwmATerm
-+ "FVWM Console%menu/terminal.png%"  Module FvwmConsole
-+ "" Nop
-+ "Help%menu/help.png%"  Popup FvwmManPagesMenu
-+ "Restart FVWM%menu/restart.png%"  Restart
-+ "Quit FVWM%menu/quit.png%"  Quit
-
-#####
-# Programs Menu
-###########
-DestroyMenu FvwmProgramsMenu
-AddToMenu   FvwmProgramsMenu "Programs" Title
-+ "GVim%menu/vim.png%"  FvwmGVim
-+ "Gimp%menu/gimp.png%"  FvwmGimp
-+ "FireFox%menu/firefox.png%"  FvwmFireFox
-+ "Irssi%menu/irc.png%"  FvwmIrssi
-+ "Xmms%menu/xmms.png%"  FvwmXmms
-+ "XRoach-Invasion%menu/xroach.png%"  XRoachInvasion
-+ "XRoach-Exterminate%menu/xroach.png%"  XRoachExterminate
-
-#####
-# FVWM Help Menu
-###########
-DestroyMenu FvwmManPagesMenu
-AddToMenu   FvwmManPagesMenu "FVWM Man Pages" Title
-+ "%menu/help.png%fvwm"                FvwmViewManPage fvwm
-+ "%menu/help.png%FvwmAnimate"         FvwmViewManPage FvwmAnimate
-+ "%menu/help.png%FvwmAuto"            FvwmViewManPage FvwmAuto
-+ "%menu/help.png%FvwmBacker"          FvwmViewManPage FvwmBacker
-+ "%menu/help.png%FvwmBanner"          FvwmViewManPage FvwmBanner
-+ "%menu/help.png%FvwmButtons"         FvwmViewManPage FvwmButtons
-+ "%menu/help.png%FvwmCommand"         FvwmViewManPage FvwmCommand
-+ "%menu/help.png%FvwmConsole"         FvwmViewManPage FvwmConsole
-+ "%menu/help.png%FvwmConsoleC.pl"     FvwmViewManPage FvwmConsoleC.pl
-+ "%menu/help.png%FvwmCpp"             FvwmViewManPage FvwmCpp
-+ "%menu/help.png%FvwmDebug"           FvwmViewManPage FvwmDebug
-+ "%menu/help.png%FvwmDragWell"        FvwmViewManPage FvwmDragWell
-+ "%menu/help.png%FvwmEvent"           FvwmViewManPage FvwmEvent
-+ "%menu/help.png%FvwmForm"            FvwmViewManPage FvwmForm
-+ "%menu/help.png%FvwmGtk"             FvwmViewManPage FvwmGtk
-+ "%menu/help.png%FvwmGtkDebug"        FvwmViewManPage FvwmGtkDebug
-+ "%menu/help.png%FvwmIconBox"         FvwmViewManPage FvwmIconBox
-+ "%menu/help.png%FvwmIconMan"         FvwmViewManPage FvwmIconMan
-+ "%menu/help.png%FvwmIdent"           FvwmViewManPage FvwmIdent
-+ "%menu/help.png%FvwmM4"              FvwmViewManPage FvwmM4
-+ "%menu/help.png%FvwmPager"           FvwmViewManPage FvwmPager
-+ "%menu/help.png%FvwmPerl"            FvwmViewManPage FvwmPerl
-+ "%menu/help.png%FvwmProxy"           FvwmViewManPage FvwmProxy
-+ "%menu/help.png%FvwmRearrange"       FvwmViewManPage FvwmRearrange
-+ "%menu/help.png%FvwmSave"            FvwmViewManPage FvwmSave
-+ "%menu/help.png%FvwmSaveDesk"        FvwmViewManPage FvwmSaveDesk
-+ "%menu/help.png%FvwmScript"          FvwmViewManPage FvwmScript
-+ "%menu/help.png%FvwmScroll"          FvwmViewManPage FvwmScroll
-+ "%menu/help.png%FvwmTaskBar"         FvwmViewManPage FvwmTaskBar
-+ "%menu/help.png%FvwmTheme"           FvwmViewManPage FvwmTheme
-+ "%menu/help.png%FvwmWharf"           FvwmViewManPage FvwmWharf
-+ "%menu/help.png%FvwmWinList"         FvwmViewManPage FvwmWinList
-+ "%menu/help.png%FvwmWindowMenu"      FvwmViewManPage FvwmWindowMenu
-+ "" Nop
-+ "%menu/help.png%fvwm-config"         FvwmViewManPage fvwm-config
-+ "%menu/help.png%fvwm-perllib"        FvwmViewManPage fvwm-perllib
-+ "%menu/help.png%fvwm-root"           FvwmViewManPage fvwm-root
-+ "%menu/help.png%fvwm-bug"            FvwmViewManPage fvwm-bug
-+ "%menu/help.png%fvwm-convert-2.2"    FvwmViewManPage fvwm-convert-2.2
-+ "%menu/help.png%fvwm-convert-2.4"    FvwmViewManPage fvwm-convert-2.4
-+ "" Nop
-+ "%menu/help.png%fvwm-menu-desktop"   FvwmViewManPage fvwm-menu-desktop
-+ "%menu/help.png%fvwm-menu-directory" FvwmViewManPage fvwm-menu-directory
-+ "%menu/help.png%fvwm-menu-headlines" FvwmViewManPage fvwm-menu-headlines
-+ "%menu/help.png%fvwm-menu-xlock"     FvwmViewManPage fvwm-menu-xlock
-
-#####
-# fvwm Window Operation Menu
-###########
-DestroyMenu FvwmWindowOpsMenu
-AddToMenu   FvwmWindowOpsMenu "Window Operations" Title
-+ "Move%menu/window-move.xpm%"  Move
-+ "Resize%menu/window-resize.xpm%"  Resize
-+ "(De)Iconify%menu/window-iconify.xpm%"  Iconify
-+ "(Un)Maximize%menu/window-maximize.xpm%"  Maximize
-+ "(Un)Shade%menu/window-shade.xpm%"  WindowShade
-+ "(Un)Stick%menu/window-stick.xpm%"  Stick
-+ "" Nop
-+ "Close%menu/window-close.xpm%"  Close
-+ "Delete%menu/window-delete.xpm%"  Delete
-+ "Destroy%menu/window-destroy.xpm%"  Destroy
-+ "" Nop
-+ "StaysOnTop%menu/window-raise.xpm%"  Pick (CirculateHit) Layer 0 6
-+ "Layer +1%menu/window-raise.xpm%"  Pick (CirculateHit) Layer +1
-+ "StaysPut%menu/window.xpm%"  Pick (CirculateHit) Layer 0 4
-+ "Layer -1%menu/window-lower.xpm%"  Pick (CirculateHit) Layer -1
-+ "StaysOnBottom%menu/window-lower.xpm%"  Pick (CirculateHit) Layer 0 2
-+ "" Nop
-+ "%menu/window.xpm%Window Screenshot"  Pick (CirculateHit) FvwmWindowScreenshot
-+ "%menu/display.xpm%Screenshot" FvwmDesktopScreenshot 5
-+ "" Nop
-+ "Identify%menu/window-identify.xpm%"  Module FvwmIdent
-
-#####
-# Module Colorsets
-###########
-Colorset 9 fg rgb:00/00/00, hi rgb:00/00/00, sh rgb:00/00/00, bg rgb:e9/e9/d9
-Colorset 10 fg rgb:00/00/00, hi rgb:dd/00/00, sh rgb:dd/00/00, bg rgb:fb/fc/ec
-
-#####
-# FvwmIdent
-###########
-DestroyModuleConfig FvwmIdent: *
-*FvwmIdent: Colorset 9
-*FvwmIdent: Font "xft:Sans:Bold:size=12:antialias=True"
-
-#####
-# FvwmTaskBar
-###########
-Style "FvwmTaskBar" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \
-  CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
-
-DestroyModuleConfig FvwmTaskBar: *
-*FvwmTaskBar: Geometry +0-0
-*FvwmTaskBar: Rows 3
-*FvwmTaskBar: Font "xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"
-*FvwmTaskBar: SelFont "xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"
-*FvwmTaskBar: StatusFont "xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"
-*FvwmTaskBar: Colorset 9
-*FvwmTaskBar: IconColorset 9
-*FvwmTaskBar: FocusColorset 9
-*FvwmTaskBar: TipsColorset 9
-*FvwmTaskBar: UseSkipList
-*FvwmTaskBar: UseIconNames
-*FvwmTaskBar: ShowTips
-*FvwmTaskBar: StartName FVWM
-*FvwmTaskBar: StartMenu FvwmRootMenu
-*FvwmTaskBar: Button Title ATerm, Icon mini/xterm.png, Action (Mouse 1) FvwmATerm
-*FvwmTaskBar: Action Click3 Menu FvwmWindowOpsMenu
-*FvwmTaskBar: StartIcon mini/fvwm.png
-
-#####
-# FvwmPager
-###########
-Style "FvwmPager" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \
-  CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
-
-DestroyModuleConfig FvwmPager: *
-*FvwmPager: Geometry 150x480-0+0
-*FvwmPager: Colorset * 9
-*FvwmPager: HilightColorset * 10
-*FvwmPager: BalloonColorset * 9
-*FvwmPager: WindowColorsets 9 10
-*FvwmPager: Font "xft:Sans:Bold:pixelsize=12:minspace=True:antialias=True"
-*FvwmPager: Balloons All
-*FvwmPager: BalloonFont "xft:Sans:Bold:pixelsize=12:minspace=True:antialias=True"
-*FvwmPager: BallonYOffset +2
-*FvwmPager: Window3dBorders
-*FvwmPager: MiniIcons
-*FvwmPager: UseSkipList
-*FvwmPager: Rows 3
-
-#####
-# MyButtons
-###########
-Style "MyButtons" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \
-  CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
-
-DestroyModuleConfig MyButtons: *
-*MyButtons: Geometry 60x420+0+0
-*MyButtons: Colorset 9
-*MyButtons: Rows 38
-*MyButtons: Columns 1
-*MyButtons: Frame 0
-*MyButtons: Font "Shadow=3:xft:Sans:Bold:pixelsize=14:minspace=True:antialias=True"
-*MyButtons: (1x2, Frame 0, Title(Center) "FVWM")
-*MyButtons: (1x5, Frame 0, Icon 48x48/terminal.png, \
-  Action(Mouse 1) "FvwmATerm", \
-  Action(Mouse 3) "FvwmXTerm")
-*MyButtons: (1x5, Frame 0, Icon 48x48/xmms.png, \
-  Action(Mouse 1) "FvwmXmms")
-*MyButtons: (1x5, Frame 0, Icon 48x48/vim.png, \
-  Action(Mouse 1) "FvwmGvim")
-*MyButtons: (1x5, Frame 0, Icon 48x48/gimp.png, \
-  Action(Mouse 1) "FvwmGimp")
-*MyButtons: (1x5, Frame 0, Icon 48x48/firefox.png, \
-  Action(Mosue 1) "FvwmFireFox")
-*MyButtons: (1x5, Frame 0, Icon 48x48/irc.png, \
-  Action(Mouse 1) "FvwmIrssi")
-*MyButtons: (1x5, Frame 0, Icon 48x48/tux.png )
-*MyButtons: (1x1, Frame 0)
 
 
