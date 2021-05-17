@@ -24,13 +24,13 @@ List PtrL;
   % 时间性能为 O(n)
 int Length(List PtrL)
 {
-    List p = PtrL;
+    List p = PtrL;      //p指向链表的第一个结点
     int j = 0;
     
     while (p)
     {
         p = p->Next;
-        j++;
+        j++;            //当前p指向的是第j个结点
     }
     
     return j;
@@ -55,6 +55,19 @@ List FindKth(int k, List PtrL)
     else
         return NULL;
 }
+
+
+2 % 按值查找
+List Find(ElementType X, List PtrL)
+{
+    List p = PtrL;
+    
+    while (P != NULL && p->Data != X)
+        p = p->Next;
+    
+    return p;
+}
+
 
 
 
