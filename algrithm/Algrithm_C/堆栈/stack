@@ -110,7 +110,7 @@ struct SNode {
     struct SNode *Next;
 };
 1. 堆栈初始化（建立空栈）
-2. 判断堆栈S是否为空
+
 Stack CreateStack()
 {
     Stack S;
@@ -119,6 +119,7 @@ Stack CreateStack()
     return S;
 }
 
+2. 判断堆栈S是否为空
 int IsEmpty(Stack S)
 {   /* 判断堆栈S是否为空,若为空函数返回整数1,否则返回0 */
     return (S->Next == NULL);

@@ -76,7 +76,7 @@ void del_pos(struct list *head_list, int pos_dat)
         while (pos_node->data != pos_dat)
         {
             pos_node_front = pos_node;
-            pos_node = pos_node_front->next;
+            pos_node = pos_node->next; //也可以这么写pos_node = pos_node_front->next
             if (pos_node == NULL)
             {
                 printf("未找到指定位置，无法删除\n");
@@ -96,10 +96,13 @@ int main()
     struct list *head_list = create_list();
     insert_list_head(head_list, 1);
     insert_list_head(head_list, 2);
+    insert_list_head(head_list, 777);
+    insert_list_head(head_list, 3);
+    insert_list_head(head_list, 3);
     insert_list_head(head_list, 3);
     print_list(head_list);
     
-    del_pos(head_list, 2);
+    del_pos(head_list, 3);
     print_list(head_list);
 
 }
