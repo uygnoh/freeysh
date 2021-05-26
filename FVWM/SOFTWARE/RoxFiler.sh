@@ -3,7 +3,6 @@ set -e
 
 
 
-
 if [ ! -d ~/.config/rox.sourceforge.net/MIME-types ]; then
     mkdir -p ~/.config/rox.sourceforge.net/MIME-types
 fi
