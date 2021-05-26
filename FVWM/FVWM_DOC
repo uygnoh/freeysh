@@ -1,53 +1,11 @@
 ###########################################################
-### % 字体名称和字体加载（FONT NAMES AND FONT LOADING）
-###########################################################
-# % 可以使用Font和IconFont Style，Font MenuSytle和DefaultFont命令来
-# % 指定窗口标题（window title）、图标标题（icon title）、菜单（menu）
-# % 和geometry窗口（geometry window）使用的字体。同样，所有使用文本的模
-# % 块都有指定字体的配置命令。所有这些styles和commands使用字体名作为参数。
-# % 这个部分解释了什么是字体名以及fvwm加载哪些字体。
-
-
-# 0 % 首先，你可以使用所谓的常用字体名称（usual font name），例如：
-    -adobe-courier-bold-r-normal--10-100-75-75-m-60-ISO8859-1
-    -adobe-courier-bold-r-normal--10-*
-    -*-fixed-medium-o-normal--14-*-ISO8859-15
-# 就是说，你能够使用一个X Logical Font Description（缩写为XLFD）。
-# 第一个匹配这个描述（description）的字体将被加载和使用。
-# 这依赖于你的字体路径和locale，匹配loclae字符集（charset）的字体优先级要更高。
-
-# 1 % 例如：
-    -adobe-courier-bold-r-normal--10-*
-# 如果locale字符集为ISO8859-1，fvwm会加载下面的字体：
-    -adobe-courier-bold-r-normal--10-*-ISO8859-1
-# locale字符集为ISO8859-15时，会加载：
-    -adobe-courier-bold-r-normal--10-*-ISO8859-15
-# 字体名可以作为扩展的XLFD给出，XLFD字体名称列表使用逗号隔开，例如：
-    -adobe-courier-bold-r-normal--14-*,-*-courier-medium-r-normal--14-*
-# fvwm会尝试去匹配每个字体名，直到发现匹配locale字符集的字体，如果匹配不成功，
-# 则将不考虑字符集的约束去尝试每个字体名    
-# % 关于XLFD更多的细节可以参看X手册，X Logical Font Description Conventions文档、
-# % XLoadFont以及XcreateFontSet的手册。有一些有用的工具：xlsfonts，fontsel，xfd和xset。
-    
-    
-    
-## Fonts
-Style * *Font "-*-*-medium-r-*-*-12-*-*-*-*-*-iso10646-*"   
-    
-    
-    
-    
-    
-    
-    
-
-###########################################################
-### % 常用命令
+### % FVWM常用命令
 ###########################################################
 # 1 % Read file. 插入另外一个文件file的内容。
 # 如果你会C语言，你就知道这个语句相当于 #include . 
 # 当你的配置文件在某一方面有很长内容时，比如我的配置文件里有大量stroke，
 # 你就可以把这些都写到另一个文件里，这样使主配置文件容易修改。
+
 
 # 2 % Exec app. 启动一个shell，并且在里面执行"app"命令。
 # 这时用菜单和按钮来启动程序时经常用到的命令。
@@ -56,14 +14,18 @@ Style * *Font "-*-*-medium-r-*-*-12-*-*-*-*-*-iso10646-*"
 # 这样shell会执行"exec rxvt", 用rxvt替代自己的正文段，
 # 这样才不会出现很多shell在那里等待X程序返回。
 
+
 # 3 % Module FvwmXxx. 启动一个叫做 FvwmXxx 的模块。
 # 一个模块是一个程序，它直接通过管道与Fvwm通信，所以必须从Fvwm fork() 出来，
 # 而不能从一个 xterm 独立启动。模块可以无限制的扩展Fvwm的功能，只要 Xlib 允许。
 
+
 # 4 % ImagePath path. 指定一个路径，
 # 在配置文件里要用到的图标等文件就会到这个路径里去寻找。
 
+
 # 5 % Move, Raise, Lower, Resize, ... 这些都是常用的操纵窗口的命令。
+
 
 # 6 % Close, Delete, Destroy, Iconify, Maximize, WindowShade. 
 # 关闭窗口，图标化窗口，最大化窗口，shade 化窗口. 你会发现Xwindow关闭窗口的
@@ -71,9 +33,12 @@ Style * *Font "-*-*-medium-r-*-*-12-*-*-*-*-*-iso10646-*"
 # Destroy 是立即杀死这个窗口，跟 xkill 的功能一样。Delete介于两者之间，先礼后兵，
 # 如果窗口不知道怎么收拾干净，那么就强行杀死它。
 
+
 # 7 % OpaqueMoveSize x. 如果一个窗口移动时显示内容，那么它必需占屏幕面积的 x%.
 
+
 # 8 % MoveToDesk, MoveToPage. 可以把任何窗口移动到指定的桌面和页面。
+
 
 # 9 % SnapAttraction. 设定在什么距离以内，满足什么条件的窗口就被吸附在一起
 
@@ -81,17 +46,23 @@ Style * *Font "-*-*-medium-r-*-*-12-*-*-*-*-*-iso10646-*"
 # 10 % WarpToWindow x[p] y[p]. 让鼠标移动到窗口范围以内。x,y是在窗口内的坐标，
 # 用百分比表示。后面如果有后缀"p", 就用像素来表示。
 
+
 # 11 % IgnoreModifiers. 你可以忽略某些键盘控制键。这将影响到你的鼠标和键盘热键定义。
 # 详细情况见鼠标和键盘一节。
 
+
 # 12 % DesktopName desk name. 定义第desk号桌面的名字叫 name.
+
 
 # 13 % Scroll. 移动你在桌面上的viewport,这样你可以把桌面当成一个整体来浏览，看到很大的范围
 
+
 # 14 % Nop. 不操作，在有些时候需要用它来占位，下面我们会遇到这样的例子。
+
 
 # 15 % PipeRead. 从一个外部命令得到输入。这可以用来根据你的系统构造许多非常高级的控制方式。
 # 其中一种叫做“菜单式文件管理器”。我们在菜单一节会遇到这个用法。
+
 
 # 16 % SetEnv. 设置FVWM的环境变量
 
@@ -134,10 +105,12 @@ Style * *Font "-*-*-medium-r-*-*-12-*-*-*-*-*-iso10646-*"
 # 道它叫什么名字可以用 xwininfo 程序或者 FvwmIdent 模块来查询。再次说明，
 # FvwmIdent 是模块，不能从 xterm 的命令行运行。
 
+
 # 1 % stylename 里可以有 "*" 作为通配符。比如你可以说
 # Style *term TitleAtLeft
 # 让所有以 "term" 结尾的那些窗口的标题拦都在左边。
 # 比如 "xterm", "cxterm", "qterm", ... 都会采用这种样式。 
+
 
 # 2 % options 是你想让满足条件的窗口以什么样的方式存在。
 # options 的种类非常之多。比如：BorderWidth, HandleWidth, 
@@ -715,7 +688,8 @@ Colorset 8 fg DarkRed, bg #e6e7d7, sh Black, hi #202070
 
 
 ### % ##########################################################################
-### % fvwm2配置文件(~/.fvwm/.fvwm2rc)
+### % fvwm2用户配置文件(~/.fvwm/.fvwm2rc)
+### % fvwm2默认配置文件(/usr/share/fvwm)
 ### % ##########################################################################
 
 
@@ -727,9 +701,6 @@ SetEnv fvwm_img $[fvwm_home]/images
 SetEnv fvwm_icon $[fvwm_home]/icons
 SetEnv fvwm_scrpt $[fvwm_home]/scripts
 SetEnv fvwm_wallpapers $[fvwm_img]/wallpaper
-
-
-
 #####
 # Set the image path
 ###########
@@ -862,7 +833,7 @@ Style * Font  "-cjacker-magicsong-medium-r-*-*-14-*-*-*-*-*-gb2312.1980-0,*-r-*"
 
 
 
-FVWM 能不能像 Windows 那样用 Alt-Tab 切换窗口？
+# % FVWM 能不能像 Windows 那样用 Alt-Tab 切换窗口？
 可以的，把这行加入 .fvwm2rc:
 Key Tab A M WindowList Root c c NoDeskSort
 这个绑定不知道什么时候好像成了 FVWM 缺省的。如果要取消它，那么加入：

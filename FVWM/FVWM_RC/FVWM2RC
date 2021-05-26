@@ -6,11 +6,14 @@
 #  ) (    \  /  \    //    \
 # (___)    \/    \/\/(_/\/\_) 2.5.10
 #
+# My personal fvwm2rc file
+#
 # 道可道
 # 非常道
 # 名可名
 # 非常名
-#
+#######################
+
 #####
 # % Set Environment variables
 ###########
@@ -29,6 +32,29 @@ ImagePath $[fvwm_icon]:$[fvwm_icon];.png:+
 
 
 
+#####
+# % Virtual Desktops
+###########
+DesktopSize 3x3
+DesktopName 0 Main
+DesktopName 1 Work
+DesktopName 2 Games
+EdgeScroll 100 100
+EdgeResistance 150  150
+EdgeThickness 1
+
+
+
+#####
+# % Mouse and Focus Behavior
+###########
+ClickTime 350
+DoubleClickTime 500
+MoveThreshold 3
+Style * SloppyFocus, MouseFocusClickRaises
+
+EwmhBaseStruts 62 162 0 48
+IgnoreModifiers L25
 
 
 
@@ -98,7 +124,7 @@ AddToFunc   FvwmWindowShade
 
 
 #####
-# Program Launching Functions
+# % Program Launching Functions
 ###########
 #  % 自定义函数 ->aterm
 DestroyFunc ATerm
@@ -145,7 +171,6 @@ DestroyFunc VSCode
 AddToFunc   VSCode
 + I Exec exec code
 
-
 DestroyFunc FvwmViewManPage
 AddToFunc   FvwmViewManPage
 + I Exec exec xterm -fg White -bg DarkBlue -g 80x40 -fn 7x14 -fb 7x14bold \
@@ -166,7 +191,8 @@ DestroyFunc InitFunction
 AddToFunc   InitFunction
 + I Exec exec xscreensaver
 + I Exec exec fvwm-root -r $[fvwm_wallpapers]/background.png
-+ I XTerm
++ I FvwmXmms
++ I FvwmATerm
 
 DestroyFunc RestartFunction
 AddToFunc   RestartFunction
@@ -175,7 +201,7 @@ AddToFunc   RestartFunction
 
 
 #####
-# % Screenshot Functions (uses ImageMagick)
+# Screenshot Functions (uses ImageMagick)
 ###########
 DestroyFunc FvwmWindowScreenshot
 AddToFunc   FvwmWindowScreenshot
@@ -189,6 +215,24 @@ AddToFunc   FvwmDesktopScreenshot
   "$[fvwm_home]/screenshot/screenshot-`date +%F[%R]`.jpg"
 
 
+
+#####
+# % Basic Bindings
+###########
+Key F1 A M Menu MenuFvwmRoot
+Key Tab A M WindowList Root c c NoDeskSort, SelectOnRelease Meta_L
+Key Super_L A A FvwmATerm
+Mouse 1 R A Menu FvwmRootMenu
+Mouse 3 R A Menu FvwmWindowOpsMenu
+Mouse 1 1 A FvwmDeleteOrDestroy
+Mouse 1 3 A FvwmIconifyOrShade
+Mouse 1 5 A FvwmMaximize 100 100
+Mouse 2 5 A FvwmMaximize 0 100
+Mouse 3 5 A FvwmMaximize 100 0
+Mouse 1 W M FvwmMoveOrIconify
+Mouse 1 I A FvwmMoveOrIconify
+Mouse 4 T A FvwmWindowShade True
+Mouse 5 T A FvwmWindowShade False
 
 
 
@@ -264,10 +308,10 @@ AddToDecor   UkkostaDecor
 
 
 #####
-# % Window Styles 
+# % Window Styles
 ###########
 Style "*" UseDecor MyDecor
-Style "*" Font "xft:Sans:Bold:size=12:minspace=False:antialias=True"
+Style "*" Font "xft:Sans:Bold:size=8:minspace=False:antialias=True"
 Style "*" BorderWidth 1, HandleWidth 1
 Style "*" MWMBorder, FirmBorder
 Style "*" Colorset 4
@@ -278,7 +322,7 @@ Style "*" HilightBorderColorset 4
 
 
 #####
-# % Menu Colorsets 
+# % Menu Colorsets
 ###########
 #Colorset 7 fg Black, bg #e6e7d7, sh Black, hi #202070
 Colorset 8 fg DarkRed, bg #e6e7d7, sh Black, hi #202070
@@ -292,7 +336,7 @@ Colorset 7 fg Black, Translucent White 75, \
 
 
 #####
-# % MenuStyles 
+# % MenuStyles
 ###########
 MenuStyle * PopupDelayed, PopupDelay 300, PopdownImmediately
 MenuStyle * PopupOffset -5 100, TitleWarpOff
@@ -305,12 +349,12 @@ MenuStyle * VerticalItemSpacing 1 1, VerticalTitleSpacing 2 2
 MenuStyle * MenuColorset 7
 MenuStyle * ActiveFore, Hilight3DOff
 MenuStyle * ActiveColorset 8
-MenuStyle * Font "xft:Sans:Bold:size=14:antialias=True"
+MenuStyle * Font "Shadow=2:xft:Sans:Bold:size=11:antialias=True"
 
 
 
 #####
-# % FvwmRootMenu 
+# % FvwmRootMenu
 ###########
 DestroyMenu FvwmRootMenu
 AddToMenu   FvwmRootMenu "Root Menu" Title
@@ -325,7 +369,7 @@ AddToMenu   FvwmRootMenu "Root Menu" Title
 
 
 #####
-# % Programs Menu 
+# % Programs Menu
 ###########
 DestroyMenu FvwmProgramsMenu
 AddToMenu   FvwmProgramsMenu "Programs" Title
@@ -334,40 +378,13 @@ AddToMenu   FvwmProgramsMenu "Programs" Title
 + "FireFox%menu/firefox.png%"  FvwmFireFox
 + "Irssi%menu/irc.png%"  FvwmIrssi
 + "Xmms%menu/xmms.png%"  FvwmXmms
++ "XRoach-Invasion%menu/xroach.png%"  XRoachInvasion
++ "XRoach-Exterminate%menu/xroach.png%"  XRoachExterminate
 
 
 
 #####
-# % fvwm Window Operation Menu 
-###########
-DestroyMenu FvwmWindowOpsMenu
-AddToMenu   FvwmWindowOpsMenu "Window Operations" Title
-+ "Move%menu/window-move.xpm%"  Move
-+ "Resize%menu/window-resize.xpm%"  Resize
-+ "(De)Iconify%menu/window-iconify.xpm%"  Iconify
-+ "(Un)Maximize%menu/window-maximize.xpm%"  Maximize
-+ "(Un)Shade%menu/window-shade.xpm%"  WindowShade
-+ "(Un)Stick%menu/window-stick.xpm%"  Stick
-+ "" Nop
-+ "Close%menu/window-close.xpm%"  Close
-+ "Delete%menu/window-delete.xpm%"  Delete
-+ "Destroy%menu/window-destroy.xpm%"  Destroy
-+ "" Nop
-+ "StaysOnTop%menu/window-raise.xpm%"  Pick (CirculateHit) Layer 0 6
-+ "Layer +1%menu/window-raise.xpm%"  Pick (CirculateHit) Layer +1
-+ "StaysPut%menu/window.xpm%"  Pick (CirculateHit) Layer 0 4
-+ "Layer -1%menu/window-lower.xpm%"  Pick (CirculateHit) Layer -1
-+ "StaysOnBottom%menu/window-lower.xpm%"  Pick (CirculateHit) Layer 0 2
-+ "" Nop
-+ "%menu/window.xpm%Window Screenshot"  Pick (CirculateHit) FvwmWindowScreenshot
-+ "%menu/display.xpm%Screenshot" FvwmDesktopScreenshot 5
-+ "" Nop
-+ "Identify%menu/window-identify.xpm%"  Module FvwmIdent
-
-
-
-#####
-# % FVWM Help Menu 
+# % FVWM Help Menu
 ###########
 DestroyMenu FvwmManPagesMenu
 AddToMenu   FvwmManPagesMenu "FVWM Man Pages" Title
@@ -420,6 +437,35 @@ AddToMenu   FvwmManPagesMenu "FVWM Man Pages" Title
 
 
 #####
+# % fvwm Window Operation Menu
+###########
+DestroyMenu FvwmWindowOpsMenu
+AddToMenu   FvwmWindowOpsMenu "Window Operations" Title
++ "Move%menu/window-move.xpm%"  Move
++ "Resize%menu/window-resize.xpm%"  Resize
++ "(De)Iconify%menu/window-iconify.xpm%"  Iconify
++ "(Un)Maximize%menu/window-maximize.xpm%"  Maximize
++ "(Un)Shade%menu/window-shade.xpm%"  WindowShade
++ "(Un)Stick%menu/window-stick.xpm%"  Stick
++ "" Nop
++ "Close%menu/window-close.xpm%"  Close
++ "Delete%menu/window-delete.xpm%"  Delete
++ "Destroy%menu/window-destroy.xpm%"  Destroy
++ "" Nop
++ "StaysOnTop%menu/window-raise.xpm%"  Pick (CirculateHit) Layer 0 6
++ "Layer +1%menu/window-raise.xpm%"  Pick (CirculateHit) Layer +1
++ "StaysPut%menu/window.xpm%"  Pick (CirculateHit) Layer 0 4
++ "Layer -1%menu/window-lower.xpm%"  Pick (CirculateHit) Layer -1
++ "StaysOnBottom%menu/window-lower.xpm%"  Pick (CirculateHit) Layer 0 2
++ "" Nop
++ "%menu/window.xpm%Window Screenshot"  Pick (CirculateHit) FvwmWindowScreenshot
++ "%menu/display.xpm%Screenshot" FvwmDesktopScreenshot 5
++ "" Nop
++ "Identify%menu/window-identify.xpm%"  Module FvwmIdent
+
+
+
+#####
 # % Module Colorsets
 ###########
 Colorset 9 fg rgb:00/00/00, hi rgb:00/00/00, sh rgb:00/00/00, bg rgb:e9/e9/d9
@@ -432,7 +478,7 @@ Colorset 10 fg rgb:00/00/00, hi rgb:dd/00/00, sh rgb:dd/00/00, bg rgb:fb/fc/ec
 ###########
 DestroyModuleConfig FvwmIdent: *
 *FvwmIdent: Colorset 9
-*FvwmIdent: Font "xft:Sans:Bold:size=14:antialias=True"
+*FvwmIdent: Font "xft:Sans:Bold:size=12:antialias=True"
 
 
 
@@ -445,9 +491,9 @@ Style "FvwmTaskBar" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \
 DestroyModuleConfig FvwmTaskBar: *
 *FvwmTaskBar: Geometry +0-0
 *FvwmTaskBar: Rows 3
-*FvwmTaskBar: Font "xft:Sans:Bold:pixelsize=14:minispace=True:antialias=True"
-*FvwmTaskBar: SelFont "xft:Sans:Bold:pixelsize=14:minispace=True:antialias=True"
-*FvwmTaskBar: StatusFont "xft:Sans:Bold:pixelsize=14:minispace=True:antialias=True"
+*FvwmTaskBar: Font "xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"
+*FvwmTaskBar: SelFont "xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"
+*FvwmTaskBar: StatusFont "xft:Sans:Bold:pixelsize=12:minispace=True:antialias=True"
 *FvwmTaskBar: Colorset 9
 *FvwmTaskBar: IconColorset 9
 *FvwmTaskBar: FocusColorset 9
@@ -464,7 +510,7 @@ DestroyModuleConfig FvwmTaskBar: *
 
 
 #####
-# % FvwmPager 
+# % FvwmPager
 ###########
 Style "FvwmPager" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \
   CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
@@ -475,9 +521,9 @@ DestroyModuleConfig FvwmPager: *
 *FvwmPager: HilightColorset * 10
 *FvwmPager: BalloonColorset * 9
 *FvwmPager: WindowColorsets 9 10
-*FvwmPager: Font "xft:Sans:Bold:pixelsize=14:minspace=True:antialias=True"
+*FvwmPager: Font "xft:Sans:Bold:pixelsize=12:minspace=True:antialias=True"
 *FvwmPager: Balloons All
-*FvwmPager: BalloonFont "xft:Sans:Bold:pixelsize=14:minspace=True:antialias=True"
+*FvwmPager: BalloonFont "xft:Sans:Bold:pixelsize=12:minspace=True:antialias=True"
 *FvwmPager: BallonYOffset +2
 *FvwmPager: Window3dBorders
 *FvwmPager: MiniIcons
@@ -487,7 +533,7 @@ DestroyModuleConfig FvwmPager: *
 
 
 #####
-# % MyButtons 
+# % MyButtons
 ###########
 Style "MyButtons" NoTitle, !Handles, !Borders, Sticky, WindowListSkip, \
   CirculateSkip, StaysOnBottom, FixedPosition, FixedSize, !Iconifiable
@@ -518,20 +564,4 @@ DestroyModuleConfig MyButtons: *
   Action(Mosue 1) "FireFox")
 *MyButtons: (1x1, Frame 0)
 
-
-
-
-
-### % 菜单( FvwmRootMenu {Programs Menu, FVWM Help Menu} ) 鼠标左键
-### % 菜单( fvwm Window Operation Menu ) 鼠标右键        
-### % 按键()          
-### % 页面( main, work, game)            
-           
-           
-           
-           
-           
-           
-           
-           
 
