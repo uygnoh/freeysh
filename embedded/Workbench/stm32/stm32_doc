@@ -7,13 +7,9 @@
 4 xxx_configuration();
 
 
-typedef 的真正意思是给一个已经存在的数据类型(注意:是类型不是变量)取一个别
-名,而非定义一个新的数据类型
-
-
 
 ###########################################################
-### % STM32通用功能和复用功能I/O
+### % gpio
 ###########################################################
 % General-purpose and alternate-function I/O
 % /* GPIOx_CRL和GPIOx_CRH 配置表 */
@@ -129,18 +125,12 @@ while(RCC_GetSYSCLKSource() != 0x08);                /* 11 判断是否 PLL 是�
 RCC_APB2PerphClockCmd();                             /* 12 打开要使用的外设时钟 */        
 RCC_APB1PerphClockCmd();
 					
-					
-					
-					
-					
-					
+									
 	
 ###########################################################
 ### % STM32中断系统
 ###########################################################					
 % NVIC嵌套向量中断控制器
-
-
 
 % 外部中断/事件控制器(EXTI)
 % External interrupt/event controller (EXTI)
@@ -218,9 +208,6 @@ RCC_APB1PerphClockCmd();
 
 
 
-
-
-
 ###########################################################
 ### % STM32定时器
 ###########################################################
@@ -287,11 +274,6 @@ TIM_Cmd(TIM2, ENABLE);
 TIM_PrescalerConfig(TIM2, 35999, TIM_PSCReloadMode_Immediate); //让定时器预分频值立即装入
 TIM_ClearFlag(TIM2, TIM_FLAG_Update); //清除中断标志
 TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE); //使能定时器中断
-
-
-
-
-
 
 
 
@@ -382,9 +364,6 @@ USART_CR3	控制寄存器 3
 
 
 
-
-
-
 ###########################################################
 ### % ADC模拟数字转换器
 ###########################################################
@@ -465,8 +444,6 @@ while (1)
     ConversionValue = ConversionValue * 1000;
     NumbTube_Display(conversionValue, 4);
 }
-
-
 
 
 
