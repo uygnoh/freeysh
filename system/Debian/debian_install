@@ -10,8 +10,7 @@
 
 
 % dd命令
-# time dd if=xxx.iso of=/dev/sdb bs=4M status=progress oflag=sync
-# time dd if=ubuntu-20.04.1-desktop-amd64.iso of=/dev/sdd bs=4M status=progress oflag=sync
+% ~# time dd if=ubuntu-20.04.1-desktop-amd64.iso of=/dev/sdd bs=4M status=progress oflag=sync
 
 
 
@@ -41,6 +40,7 @@ apt-get update
 apt-get update
 apt-get install sudo
 
+
 % 2.编辑sudoers文件, gedit /etc/sudoers在 
 % 其中 ysh 为自己的用户名
     %sudo ALL=(ALL:ALL) ALL 下面添加如下内容
@@ -49,28 +49,35 @@ apt-get install sudo
 
 
 ###########################################################
-### Debian 安装搜狗输入法% http://pinyin.sogou.com/linux/
+### debian auto_install_software
 ###########################################################
-% Linux 下有两大输入法框架：ibus 和fcitx，其中fcitx 的体验要比ibus 好，
-% 因此选择fcitx 框架，并安装搜狗输入法。
-$sudo apt-get install fcitx
+#!/bin/bash
 
-% 我们可以上搜狗官网下载搜狗输入法linux 版：
-% http://pinyin.sogou.com/linux/
+echo -e "\033[41;37m--->>>BEGING INSTALL UTILITIES\033[37;0m"
+sudo apt-get -y install gcc
+sudo apt-get -y install gdb
+sudo apt-get -y install git
+sudo apt-get -y install vim
+sudo apt-get -y install curl
 
-% 下载完搜狗输入法的安装包后，我们切换至下载此安装包的目录，进行安装
-$ sudo dpkg -i sogoupinyin_xxx_amd64.deb
+# sudo apt-get -y install make
+# sudo apt-get -y install cmake
+# sudo apt-get -y install openocd
+# sudo apt-get -y install automake
+# sudo apt-get -y install autoconf
+# sudo apt-get -y install libtool 
+# sudo apt-get -y install tmux
+# sudo apt-get -y install ranger 
+# sudo apt-get -y install xchm
+# sudo apt-get -y install kicad
+# sudo apt-get -y install dia
+# sudo apt-get -y install cmus 
+# sudo apt-get -y install smplayer
+# sudo apt-get -y install cryptsetup
+echo -e "\033[41;37mINSTALLATION IS COMPLETE--->>>\033[37;0m"
+echo "return $?"
 
-% 安装完后，需要重启系统，然后在终端中输入
-$ fcitx-config-gtk3
-% 在Input Method 栏中，点击+，然后选择搜狗输入法（Sogou Pinyin）。
-% 设置好后，采用快捷键Ctrl+Space 即可调出搜狗输入法。
 
-
-% fcitx安装失败解决
-% 自动修复安装出现broken的package
-% 但是，如果还是失败的话，就需要手动进行干预了。
-sudo apt --fix-broken install
 
 #################################################
 #                                               #

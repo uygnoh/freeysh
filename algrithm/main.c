@@ -3,8 +3,8 @@
 struct book {
     int a[2];
 };
-
 typedef struct book * ptrs;
+
 int main()
 {
     ptrs ptr;

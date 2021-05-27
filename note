@@ -66,3 +66,64 @@
 . Ctrl+Tab      ;Window Switching               .
 .................................................
 
+
+ysh@debian:~/Documents/freeyshGitHub$ tree -L 2
+
+├── algrithm
+│   ├── Algrithm_C
+│   ├── Framework
+│   ├── main.c
+│   ├── 内燃机
+│   ├── 电工技术
+│   └── 电机
+├── command
+│   ├── cmd
+│   ├── disk
+│   ├── file
+│   ├── general
+│   ├── kernel
+│   ├── network
+│   ├── process
+│   ├── security
+│   └── user
+├── compiler
+│   ├── bash
+│   ├── gcc
+│   ├── makefile
+│   ├── perl
+│   └── python
+├── embedded
+│   ├── embedded_IDE
+│   ├── Toolchain
+│   └── Workbench
+├── fork.sh
+├── note
+├── profiles
+│   ├── cmus
+│   ├── fvwm
+│   ├── gnome3
+│   ├── ranger
+│   ├── tmux
+│   └── vim
+├── system
+│   ├── aptitude
+│   ├── Debian
+│   ├── Fonts
+│   ├── FVWM2
+│   ├── GRUB2Boot
+│   ├── Raspberry
+│   ├── Terminal
+│   └── Ubuntu
+├── utilities
+│   ├── cmus
+│   ├── GTK
+│   ├── LATEX
+│   ├── Office
+│   └── TextEdit
+└── wubi
+    ├── embedded
+    ├── gnome3
+    ├── Word
+    ├── wubi_code
+    └── wubi_install
+
