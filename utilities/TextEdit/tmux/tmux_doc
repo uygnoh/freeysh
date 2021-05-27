@@ -1,34 +1,6 @@
-### RISC-V中文社区
-% https://www.riscv-mcu.com/
-
-### LaTex下载地址
-% http://tug.org/texlive/
-
-### 软件类问答网站
-% https://stackoverflow.com/ 
-
-### GNU_Linux命令行软件
-% http://www.afterstep.org/aterm.php
-
-
-### evince Gnome3下的PDF查看器
-
-
-### goldendict 翻译软件
-
-
-### Rhythmbox
-
-
-
-### 命令行终端字体大小调整
-% Maximum     ->ctrl+shift++
-% Minimum     ->ctrl+-
-% F11         ->全屏
-
-
-
-### Tmux终端复用软件
+###########################################################
+### % tmux终端复用软件
+###########################################################
 % <crtl+a>                                          #激活控制台(系统默认Ctrl+b)
 % tmux new-session -s <session_name>                #创建一个会话
 % tmux list-sessions                                #查看会话	
@@ -65,65 +37,4 @@
 . Ctrl+L        ;clear                          .
 . Ctrl+Tab      ;Window Switching               .
 .................................................
-
-
-ysh@debian:~/Documents/freeyshGitHub$ tree -L 2
-
-├── algrithm
-│   ├── Algrithm_C
-│   ├── Framework
-│   ├── main.c
-│   ├── 内燃机
-│   ├── 电工技术
-│   └── 电机
-├── command
-│   ├── cmd
-│   ├── disk
-│   ├── file
-│   ├── general
-│   ├── kernel
-│   ├── network
-│   ├── process
-│   ├── security
-│   └── user
-├── compiler
-│   ├── bash
-│   ├── gcc
-│   ├── makefile
-│   ├── perl
-│   └── python
-├── embedded
-│   ├── embedded_IDE
-│   ├── Toolchain
-│   └── Workbench
-├── fork.sh
-├── note
-├── profiles
-│   ├── cmus
-│   ├── fvwm
-│   ├── gnome3
-│   ├── ranger
-│   ├── tmux
-│   └── vim
-├── system
-│   ├── aptitude
-│   ├── Debian
-│   ├── Fonts
-│   ├── FVWM2
-│   ├── GRUB2Boot
-│   ├── Raspberry
-│   ├── Terminal
-│   └── Ubuntu
-├── utilities
-│   ├── cmus
-│   ├── GTK
-│   ├── LATEX
-│   ├── Office
-│   └── TextEdit
-└── wubi
-    ├── embedded
-    ├── gnome3
-    ├── Word
-    ├── wubi_code
-    └── wubi_install
 
