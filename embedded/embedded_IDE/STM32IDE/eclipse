@@ -1,0 +1,53 @@
+###########################################################
+###  % eclipse安装stm32插件
+###########################################################
+https://www.eclipse.org/downloads/download.php?file\
+=/technology/epp/downloads/release/2020-09/R/eclipse\
+-cpp-2020-09-R-linux-gtk-x86_64.tar.gz&mirror_id=1282
+% eclipse需要java的JDK环境
+% Help-> Install New Software
+% http://gnuarmeclipse.sourceforge.net/updates
+
+% Help-> Install New Software
+https://download.eclipse.org/embed-cdt/releases/5.1.1/p2/
+
+
+
+###########################################################
+###  % stlink-v2 插件配置
+###########################################################
+% eclipse
+% Run->External tools->External tools Configurations
+Main
+	New_name: st-linkv2
+	Location: /usr/bin/st-flash
+	Working Directory: ${project_loc}/Release
+	Arguments: write ${project_name}.bin 0x8000000
+	
+	
+
+###########################################################	
+###  % eclipse settings
+###########################################################
+% Project->Properties->C/C++ Build->Settings
+% 1.	Cross ARM C Compiler
+	Preprocessor:		
+	STM32F10X_HD
+	USE_STDPERIPH_DRIVER
+% 3. Cross ARM C Compiler
+	includes		    添加头文件
+% 4. Cross ARM C Linker	添加链接文件
+% 5. 启动文件后缀名改为大写[.S]
+% 6.修改 core_cm3.c文件，针对STM32F10x_StdPeriph_Lib_V3.5.0库函数
+打开工程文件\STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\CoreSupport下的core_cm3.c
+ __ASM volatile ("strexb %0, %2, [%1]" : "=r" (result) : "r" (addr), "r" (value) );
+ __ASM volatile ("strexh %0, %2, [%1]" : "=r" (result) : "r" (addr), "r" (value) ); 
+%  两行，更改如下
+ __ASM volatile ("strexb %0, %2, [%1]" : "=&r" (result) : "r" (addr), "r" (value) );
+ __ASM volatile ("strexh %0, %2, [%1]" : "=&r" (result) : "r" (addr), "r" (value) );
+% 修改完成后，保存！注意，请再选中工程项目，刷新F5，再一次编译。刷新是很重要的。
+
+
+
+
+

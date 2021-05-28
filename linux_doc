@@ -35,7 +35,8 @@
 
 
 ###########################################################
-### % ysh@debian:~/Documents/freeyshGitHub$ tree -L 2
+### % cd ~/Documents/freeyshGitHub tree -L 2
+### % tree -L 2
 ###########################################################
 ├── algrithm
 │   ├── Algrithm_C

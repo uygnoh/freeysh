@@ -1,0 +1,75 @@
+###########################################################
+### % 使用串口调式STM32
+###########################################################
+/* USER CODE BEGIN Includes */
+#include <string.h>
+#include <stdio.h>
+
+/* USER CODE END Includes */
+
+
+/* USER CODE BEGIN PV */
+#ifdef __GNUC__
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif
+PUTCHAR_PROTOTYPE
+{
+    HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
+    return ch;
+}
+/* USER CODE END PV */
+
+
+
+
+  char *strs = "Hello World\r\n";
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+    HAL_UART_Transmit(&huart1, strs, strlen(strs), 100);
+    HAL_Delay(500);
+    printf("Test1\r\n");
+    
+  }
+  /* USER CODE END 3 */
+}
+
+
+
+###########################################################
+### % 使用ITM调式STM32
+###########################################################
+/* USER CODE BEGIN Include */
+#include "stdio.h"
+/* USER CODE END Include */
+
+
+/* USER CODE BEGIN 0 */
+int _write(int file, char *ptr, int len)
+{
+    int i = 0;
+    for (i = 0; i < len; i++)
+        ITM_SendChar((*ptr++));
+    return len;
+}
+
+uint8_t count = 0;
+
+/* USER CODE END 0 */
+
+
+while (1)
+{
+    /* USER CODE BEGIN 3 */
+    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+    count++;
+    printf("hello world conut = %d \n", count);
+    HAL_Delay(250);
+}
+    /* USER CODE BEGIN 3 */
+    
+    

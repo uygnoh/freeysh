@@ -1,5 +1,5 @@
 ###########################################################
-### % VSCode插件安装
+### % vscode-platformio
 ###########################################################
 1 C/C++ IntelliSense, debugging, and code browsing.
 2 Cortex-Debug
@@ -8,7 +8,7 @@
 5 platformio
 
 
-### % paltformIO安装
+### % paltformIO安装pyton3环境
 ysh@debian:~$ sudo apt-get install python3-venv
 
 
