@@ -80,56 +80,58 @@ void main(void)
 
 
 
-/** DS18B20芯片复位
-  *
-  */
+/* 
+ * DS18B20芯片复位
+ */
 void ds18b20_reset()
 {
-	DQ = 1;
-	delayms(5);     /* 增加抗干扰 */
-	DQ = 0;         /* 拉低总线 */
-	delay_us(400);  /* 延时400us */
-	DQ = 1;         /* 释放总线 */
-	delay_us(50);   /* 延时50us */
+    DQ = 1;
+    delayms(5);     /* 增加抗干扰 */
+    DQ = 0;         /* 拉低总线 */
+    delay_us(400);  /* 延时400us */
+    DQ = 1;         /* 释放总线 */
+    delay_us(50);   /* 延时50us */
 }
 
-/** DS18B20读一个字节
-  * 串行通信，一次传一位
-  * 低位在前，高位在后
-  */
+
+/* DS18B20读一个字节
+ * 串行通信，一次传一位
+ * 低位在前，高位在后
+ */
 uchar ds18b20_read()
 {
-	uchar number = 0;
-	uchar dat = 0;		/* 用dat把读出的数据存储起来 */
-	for (number = 0; number < 8; number++)
-	{
-		DQ = 0;		/* 主机拉低总线 */
-		dat >>= 1;	/* dat不但右移，还起到延时1US */
-		DQ = 1;		/* 释放总线 */
-		if (DQ == 1)	/* 判断 DQ */
-		{
-			dat |= 0x80;
-		}
-		delay_us(15);  /* 在15us内判断数据线上是0还是1 */
-	}
-	return(dat);
+    uchar number = 0;
+    uchar dat = 0;      /* 用dat把读出的数据存储起来 */
+    for (number = 0; number < 8; number++)
+    {
+        DQ = 0;         /* 主机拉低总线 */
+        dat >>= 1;      /* dat不但右移，还起到延时1US */
+        DQ = 1;         /* 释放总线 */
+        if (DQ == 1)    /* 判断 DQ */
+        {
+            dat |= 0x80;
+        }
+        delay_us(15);   /* 在15us内判断数据线上是0还是1 */
+    }
+    return(dat);
 }
 
-/** DS18B20写一个字节
-  * 低位在前，高位在后
-  */
+/* DS18B20写一个字节
+ * 低位在前，高位在后
+ */
 void ds18b20_write_com(uchar com)
 {
-	uchar number;
-	for(number = 0; number < 8; number++)
-	{
-		DQ = 0;			//主机拉低总线
-		DQ = com & 0x01;
-		delay_us(15);		//保持15us并采样
-		DQ = 1;			//释放总线
-		com >>= 1;
-	}
+    uchar number;
+    for(number = 0; number < 8; number++)
+    {
+        DQ = 0;         /* 主机拉低总线 */
+        DQ = com & 0x01;
+        delay_us(15);   /* 保持15us并采样 */
+        DQ = 1;         /* 释放总线 */
+        com >>= 1;
+    }
 }
+
 
 /** DS18B20读取温度数据
   * 

@@ -148,6 +148,8 @@ void ds1302_init()
     }
     ds1302_write(0x8E,0x80); //打开写保护功能
 }
+
+
 void ds1302_read_ds1302_time()
 {
     uchar number;
@@ -172,6 +174,8 @@ void write_com(uchar com)//lcd1602写命令
      
  
 }
+
+
 void write_dat(uchar dat)//lcd1602写数据
 {   
     RS=1;
@@ -184,6 +188,8 @@ void write_dat(uchar dat)//lcd1602写数据
     EN=0;
     delayms(1);
 }
+
+
 void lcd1602_init()
 {
     write_com(0x38);
@@ -191,10 +197,9 @@ void lcd1602_init()
     write_com(0x06);
     write_com(0x01);
     write_com(0x80+40);
- 
- 
- 
 }
+
+
 void lcd1602_display()
 {
     write_com(0x80+0X40);
@@ -221,6 +226,8 @@ void lcd1602_display()
     write_com(0x8D);
     write_dat('0'+(ds1302_time[5]&0x07));   //星期             
 }
+
+
 int main(void)
 {
     P1 = 0xF0;

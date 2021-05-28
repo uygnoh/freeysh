@@ -1,5 +1,5 @@
 ###########################################################
-### % 使用串口调式STM32
+### % 使用串口调式STM32_MDK
 ###########################################################
 /* USER CODE BEGIN Includes */
 #include <string.h>
@@ -10,19 +10,17 @@
 
 /* USER CODE BEGIN PV */
 #ifdef __GNUC__
-#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+    #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 #else
-#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+    #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
 #endif
+
 PUTCHAR_PROTOTYPE
 {
-    HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);
+    HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);//使用串口发送出去
     return ch;
 }
 /* USER CODE END PV */
-
-
-
 
   char *strs = "Hello World\r\n";
   while (1)
@@ -41,7 +39,48 @@ PUTCHAR_PROTOTYPE
 
 
 ###########################################################
-### % 使用ITM调式STM32
+### % 重定向printf_gnu
+###########################################################
+#include "stdio.h"
+
+#ifdef __GNUC__
+    /* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf */
+    /* set to 'Yes') calls __io_putchar() */
+    #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#else
+    #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif /* __GNUC__ */
+
+
+/**
+  * @brief  Retargets the C library printf function to the USART.
+  * @param  None
+  * @retval None
+  */
+PUTCHAR_PROTOTYPE
+{
+    /* 注意下面第一个参数是&huart1，因为cubemx配置了串口1自动生成的 */
+    HAL_UART_Transmit(&huart1, (uint8_t*)&ch, 1, HAL_MAX_DELAY);
+    return ch;
+}
+
+
+int _write(int file, char *ptr, int len)
+{
+    int DataIdx;
+
+    for (DataIdx = 0; DataIdx < len; DataIdx++)
+    {
+        __io_putchar(*ptr++);
+    }
+
+    return len;
+}
+
+
+
+###########################################################
+### % 使用ITM调式STM32_gnu
 ###########################################################
 /* USER CODE BEGIN Include */
 #include "stdio.h"
@@ -60,8 +99,6 @@ int _write(int file, char *ptr, int len)
 uint8_t count = 0;
 
 /* USER CODE END 0 */
-
-
 while (1)
 {
     /* USER CODE BEGIN 3 */
@@ -71,5 +108,6 @@ while (1)
     HAL_Delay(250);
 }
     /* USER CODE BEGIN 3 */
+    
     
     
