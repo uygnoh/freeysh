@@ -1,0 +1,80 @@
+###########################################################
+### % QEMU(qemu-system-riscv32)(QEMU系统级模拟器)
+###########################################################
+QEMU有两种主要的运行模式(qemu-system-riscv32)
+% User mode   (用户模式,直接运行应用程序)
+% System mode (模拟整个计算机系统)
+
+0 % QEMU运行时退出方式
+Press Ctrl-A and then X to exit QEMU
+
+1 % (make debug)GDB运行时退出方式
+Pree Ctrl-C and then input 'quit' to exit GDB and QEMU
+
+2 % 安装QEMU
+% https://www.qemu.org/
+% 下载qemu-5.2，解压后进入qemu-5.2
+$ ./configure --target-list=riscv32-softmmu
+$ make
+$ sudo make install
+% 验证QEMU是否成功
+$ qemu-system-riscv32 --version
+
+
+
+###########################################################
+### % riscv64-unkown-elf-gcc(编译器)
+###########################################################
+instruction         (指令)
+pseudo-instruction  (伪指令)
+directive           (指示/伪操作，必须以“.”开头)
+macro               (采用.macro/.endm自定义宏)
+_______________________________________________________
+Riscv的gcc交叉编译器，以开源的方式托管在github上。链接如下：
+% https://github.com/riscv/riscv-gnu-toolchain
+该仓库，里面包含了一些子仓库。
+使用以下这个命令，将所有仓库，都clone下来。
+git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
+% 下载完毕后，就要开始编译。首先在riscv-gnu-toolchain根目录下，
+% 创建build目录。用于编译riscv gcc。
+% riscv gcc可以编译成以下几个版本
+    riscv32-unknown-elf-gcc
+    riscv64-unknown-elf-gcc
+    riscv32-unknown-linux-gnu-gcc
+    riscv64-unknown-linux-gnu-gcc
+    riscv64-multilib-elf-gcc
+    riscv64-liunx-multilib-gcc
+_______________________________________________________
+0 % % 编译riscv gcc(riscv64-unknown-elf-gcc)编译配置
+% 该工具，针对于riscv64架构的编译器，使用的C运行库为newlib。
+% 执行以下命令：
+    ../configure --prefix=/opt/riscv64 --with-arch=rv64imc --with-abi=xxx
+    make
+% --with-abi可以选择如下：
+    lp64
+    lp64f
+    lp64d
+% 使用 riscv64-unknown-elf-gcc -v 命令，可以得到该工具链的配置信息。
+--target=riscv64-unknown-elf：   指定工具为riscv64-unknow-elf
+--prefix=/opt/riscv64:          指定工具生成的目录
+--enable-languages=c,c++：       支持c，c++语言
+--with-newlib:                  c运行库使用newlib
+--with-abi=lp64：                工具链支持的abi方式是lp64
+--with-arch=rv64imc:            工具链支持的riscv架构是 rv64imc
+
+1 % 在build目录下，有如下的文件夹和文件生成
+其中有newlib和newlib-nano，就表示c运行库，就是用的newlib以及newlib-nano。
+
+
+
+
+2 % 编译和下载过程很慢，可以直接下载直接编译好的
+% https://www.sifive.com/software
+然后导入环境变量
+export PATH=/xxxx/riscv64-unknown-elf-gcc-8.3.0-2020.04.0-x86_64-linux-ubuntu14/bin/:$PATH
+
+
+
+
+
+
