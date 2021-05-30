@@ -34,19 +34,18 @@ int $LINUX_SYS_CALL         # 调用0x80中断
 ###########################################################
 ### % AT&T SECTION(段)
 ###########################################################
+% 包含初始化的静态变量，即全局变量和静态局部变量，其大小在运行时不会改变。
 .section .data
-% contains initialized static variables,that is, global variables and static local variables
-% the sizes does not change at run time.
 
+% 包含未显式初始化为任何值的静态分配变量。不会占用可执行文件中的空间
 section .bss        # Block Started by Symbol,also known as uninitialized data
-% contains statically-allocated variables that are not explicitly initlized to any value.
-% doesn't take up space in the executable
 
+% 包含静态常量而不是变量 
 .section .rodata    # read-only
-% contains static constants rather than variables
 
+% 包含存储的可执行指令，通常为只读和固定大小。
 .section .text
-% contains executable instructions is stored and is generally read-only and fixed size.
+
 
 
 
@@ -60,25 +59,25 @@ base_address(offset_address, index, size)
 % Index(must be register)
 % Size(can be number)
 
-# 定义一个数据段， 它里面有11个数据元素，每个数据元素的数据类型为int
-# 其中values为这个数据元素的基地址
+# % 定义一个数据段， 它里面有11个数据元素，每个数据元素的数据类型为int
+# % 其中values为这个数据元素的基地址
 .section .data
 values:
     .int 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60
-# 使用下面的代码，可以将这个数据段中的第3个数据元素放入eax寄存器中
+# % 使用下面的代码，可以将这个数据段中的第3个数据元素放入eax寄存器中
 movl $2, %edi
 movl values(, %edi, 4), %eax
 
-# 把values基地址的内容放到寄存器eax中，此时eax=10
+# % 把values基地址的内容放到寄存器eax中，此时eax=10
 movl values, %eax
 
-# 把values的地址放入寄存器edi中   
+# % 把values的地址放入寄存器edi中   
 movl $values, %edi 
 
-# 把寄存器ebx中的内容放入寄存器edi的地址中    
+# % 把寄存器ebx中的内容放入寄存器edi的地址中    
 movl %ebx, (%edi) 
 
-# 把立即数99放到（寄存器edi+4所在的地址中）
+# % 把立即数99放到（寄存器edi+4所在的地址中）
 movl $99, 4(%edi)
 
 
@@ -150,30 +149,3 @@ end:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-    
-    
-    
-    
-    
