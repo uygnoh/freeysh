@@ -1,20 +1,25 @@
 ###########################################################
-###  % eclipse安装stm32插件
+### % eclipse for C/C++
 ###########################################################
-https://www.eclipse.org/downloads/download.php?file\
-=/technology/epp/downloads/release/2020-09/R/eclipse\
--cpp-2020-09-R-linux-gtk-x86_64.tar.gz&mirror_id=1282
-% eclipse需要java的JDK环境
-% Help-> Install New Software
-% http://gnuarmeclipse.sourceforge.net/updates
+0 % JAVA_JDK(eclipse需要java的JDK环境)
 
-% Help-> Install New Software
+1 % eclipse安装stm32插件
+  % Help-> Install New Software
+  % http://gnuarmeclipse.sourceforge.net/updates
+  % Help-> Install New Software
 https://download.eclipse.org/embed-cdt/releases/5.1.1/p2/
 
+2 % eclipse设置tab为4个空格
+  % 打开设置eclipse ->windows ->preferences
+  % ->General ->Editors ->Text Editors
+Undo history size:      [200]
+Displayed tab width:    [4]
+Inser spaces for tabs   [ok]
+
 
 
 ###########################################################
-###  % stlink-v2 插件配置
+### % eclipse for stlink-v2(插件配置)
 ###########################################################
 % eclipse
 % Run->External tools->External tools Configurations
@@ -27,18 +32,22 @@ Main
 	
 
 ###########################################################	
-###  % eclipse settings
+###  % eclipse (STM32F10x_StdPeriph_Lib_V3.5.0库函数)
 ###########################################################
 % Project->Properties->C/C++ Build->Settings
-% 1.	Cross ARM C Compiler
-	Preprocessor:		
+1 % Cross ARM C Compiler
+	Preprocessor:(添加宏)		
 	STM32F10X_HD
 	USE_STDPERIPH_DRIVER
-% 3. Cross ARM C Compiler
-	includes		    添加头文件
-% 4. Cross ARM C Linker	添加链接文件
-% 5. 启动文件后缀名改为大写[.S]
-% 6.修改 core_cm3.c文件，针对STM32F10x_StdPeriph_Lib_V3.5.0库函数
+	
+2 % Cross ARM C Compiler
+	includes(添加头文件)
+	
+3 % Cross ARM C Linker(添加链接文件)
+
+4 % 启动文件后缀名改为大写[.S]
+
+5 % 修改 core_cm3.c文件，针对STM32F10x_StdPeriph_Lib_V3.5.0库函数
 打开工程文件\STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\CoreSupport下的core_cm3.c
  __ASM volatile ("strexb %0, %2, [%1]" : "=r" (result) : "r" (addr), "r" (value) );
  __ASM volatile ("strexh %0, %2, [%1]" : "=r" (result) : "r" (addr), "r" (value) ); 

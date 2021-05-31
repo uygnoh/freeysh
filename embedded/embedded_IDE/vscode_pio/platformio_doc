@@ -1,6 +1,7 @@
 ###########################################################
 ### % vscode-platformio
 ###########################################################
+### % paltformIO插件安装
 1 C/C++ IntelliSense, debugging, and code browsing.
 2 Cortex-Debug
 3 vscode-icons
@@ -23,11 +24,9 @@ Freamwork:  这里选择CMSIS，因为我们要做的是基于标准库来开发
 Location：  这个是工程存放的目录，根据自己需求来就可以了
 
 
-
 2 % 把/home/ysh/Documents/FREEYSH/embedded/Toolchain/emb_IDE/VSC_platformIO
 [目录下的src目录和platformio.ini] 替换 [PlatforIO根文件夹下src目录和platformio.ini文件]
     
-
 
 3 % VSCode设置tab为四个空格
 VScode ->Settings ->User ->Commonly used ->Editor:Tab Size [4] 
@@ -37,7 +36,6 @@ VScode ->Settings ->User ->Commonly used ->Editor:Tab Size [4]
 先点击右下角【空格】，然后在下拉框中点击使用tab缩进。
 然后选择4，即制表符为4个空格。
 最后，在代码编辑界面任意一处右击，在弹出菜单中选择格式化文档。
-
 
 
 4 % eclipse设置tab为4个空格
@@ -76,5 +74,7 @@ collect2: error: ld returned 1 exit status
 ###########################################################    
 1 Short the BOOT0 pin with VDD
 2 Reset the board
-3 st-flash erase    
+3 st-flash erase 
+
+   
     

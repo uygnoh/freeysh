@@ -1,37 +1,18 @@
 ###########################################################
-### % RISC-V(RV32I)
-###########################################################
-1 % RV32I寄存器为 x0~x31
-    其中x0寄存器比较特殊，它的值恒为0
-2 % RV32I指令格式
-    R     用于寄存器-寄存器操作的R类型指令
-    I     用于短立即数和访存load操作的I型指令
-    S     用于访存store操作的S型指令
-    B     用于条件跳转操作的B类型指令
-    U     用于长立即数的U型指令
-    J     用于无条件跳转的J型指令
-
-    
-    
-###########################################################
-### % RISC-V  加减指令
+### % RISC-V(Arithmetic Instructions) 算术运算指令
 ###########################################################
 % Syntax of Instructions:
-% 加法指令语法构成{ add x1, x2, x3 }
+% 加法指令语法构成(  add x1, x2, x3  )
     -One    =operation by name
     -two    =operand getting result("destination")
     -three  =1st operand for operation("source1")
     -four   =2st operand for operation("source2")
-
-
-% 加法 RISC-V与C语言对比
+% 加法 RISC-V 与 C语言对比
     add x1, x2, x3  # (in RISC-V) =>x1=x2+x3
     a = b + c       # (in C)
     ---where C variables <==> RISC-V Registers are:
     a<=>x1, b<=>x2, c<=>x3
-
-
-% 减法 RISC-V与C语言对比
+% 减法 RISC-V 与 C语言对比
     sub x1, x2, x3  # (in RISC-V) =>x1=x2-x3
     a = b - c       # (in C)
     ---where C variables <==> RISC-V Registers are:

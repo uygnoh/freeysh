@@ -1,12 +1,43 @@
 ###########################################################
-### % RISC-V(RV32I)小端格式
+### % RISC-V(RV32I)教程
 ###########################################################
-% Big Endian & Little Endian
+0 % 进入RISC-V(RV32I)工作目录
+cd /home/ysh/ws/riscv-operating-system-mooc-main/code/asm
+
+
+0 % 编译程序
+cd add
+make
+
+
+1 % 调式程序，启动( QUEM系统级模拟器 )，启动( GDB )
+  % (QEMU, -nographic不启动图形界面, -smp 1只启动一个核心CPU)
+  % (QEMU, -s远程调式)(QEMU目标机与本地机的连接为本地的回环)
+  % QEMU为目标机(在qemu中自动启动一个gdbserver)(默认端口号为1234)
+  % 本地机为调式机器(gdb)
+make debug
+
+
+
+
+
+###########################################################
+### % RISC-V(RV32I)
+###########################################################
+% Big Endian & Little Endian(大端格式 & 小端格式)
+% RV32I采用小端格式
     大端与小端是指字节在存储器中存储顺序的两种方式
     大端是将一个字数据的最低位字节存储在最高字节地址上
     小端是将一个字数据的最低位字节存储在最低字节地址上
 
-
+  
+% RV32I汇编    
+instruction         % (指令)
+pseudo-instruction  % (伪指令)
+directive           % (指示/伪操作，必须以“.”开头)
+macro               % (采用.macro/.endm自定义宏)
+    
+    
     
 ###########################################################
 ### % RISC-V  Error
@@ -43,18 +74,13 @@ $ qemu-system-riscv32 --version
 
 
 ###########################################################
-### % riscv64-unkown-elf-gcc(编译器)
+### % riscv64-unkown-elf-gcc(riscv64-gcc交叉编译器)
 ###########################################################
-instruction         (指令)
-pseudo-instruction  (伪指令)
-directive           (指示/伪操作，必须以“.”开头)
-macro               (采用.macro/.endm自定义宏)
-_______________________________________________________
-Riscv的gcc交叉编译器，以开源的方式托管在github上。链接如下：
-% https://github.com/riscv/riscv-gnu-toolchain
-该仓库，里面包含了一些子仓库。
-使用以下这个命令，将所有仓库，都clone下来。
+Riscv的gcc交叉编译器 % https://github.com/riscv/riscv-gnu-toolchain
+0 % 使用以下这个命令，将所有仓库，都clone下来
+  % 该仓库，里面包含了一些子仓库。
 git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
+_______________________________________________________
 % 下载完毕后，就要开始编译。首先在riscv-gnu-toolchain根目录下，
 % 创建build目录。用于编译riscv gcc。
 % riscv gcc可以编译成以下几个版本
@@ -65,15 +91,18 @@ git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
     riscv64-multilib-elf-gcc
     riscv64-liunx-multilib-gcc
 _______________________________________________________
-0 % % 编译riscv gcc(riscv64-unknown-elf-gcc)编译配置
-% 该工具，针对于riscv64架构的编译器，使用的C运行库为newlib。
-% 执行以下命令：
-    ../configure --prefix=/opt/riscv64 --with-arch=rv64imc --with-abi=xxx
-    make
+
+
+1 % % 编译riscv gcc(riscv64-unknown-elf-gcc)编译配置
+  % 该工具，针对于riscv64架构的编译器，使用的C运行库为newlib。
+  % 执行以下命令：
+../configure --prefix=/opt/riscv64 --with-arch=rv64imc --with-abi=xxx
+make
 % --with-abi可以选择如下：
     lp64
     lp64f
     lp64d
+_______________________________________________________
 % 使用 riscv64-unknown-elf-gcc -v 命令，可以得到该工具链的配置信息。
 --target=riscv64-unknown-elf：   指定工具为riscv64-unknow-elf
 --prefix=/opt/riscv64:          指定工具生成的目录
@@ -81,9 +110,13 @@ _______________________________________________________
 --with-newlib:                  c运行库使用newlib
 --with-abi=lp64：                工具链支持的abi方式是lp64
 --with-arch=rv64imc:            工具链支持的riscv架构是 rv64imc
-
+_______________________________________________________
 1 % 在build目录下，有如下的文件夹和文件生成
 其中有newlib和newlib-nano，就表示c运行库，就是用的newlib以及newlib-nano。
+
+
+2 % 查看riscv64-unknown-elf-gcc是否安装成功
+./riscv64-unknown-elf-gcc -v
 
 
 
