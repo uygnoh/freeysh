@@ -10,7 +10,7 @@ export PATH=$PATH:$GCC_HOME/bin
 
 
 ###########################################################
-### % OpenOCD gdb_debug
+### % OpenOCD gdb_debug(调式STM32)
 ###########################################################
 % openocd -f interface/stlink-v2.cfg -f target/stm32f1x.cfg
 
@@ -19,15 +19,6 @@ export PATH=$PATH:$GCC_HOME/bin
 	(gdb)	monitor reset
 	(gdb)	monitor halt
 	(gdb)	load
-
-
-
-###########################################################
-### % 串口调试软件安装
-###########################################################
-sudo apt-get install minicom 
-sudo minicom -s
-Serial Device: /dev/ttyUSB0
 
 
 
@@ -61,8 +52,6 @@ q/Ctrl+d        使用q即quit指令或快捷键Ctrl+d来正常退出GDB
 ### % GDB-TUI
 ###########################################################
 % GDB: may not be intuitive but it is very powerful
-
-
 % TUI: Text User Interface
 % [ctrl-x 2]~[ctrl-x 1]可以在2个窗口间切换
 ctrl-x a            toggle to/from TUI mode(%先按ctrl-x，再按a)

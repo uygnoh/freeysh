@@ -1,27 +1,111 @@
 ###########################################################
-### % RISC-V(Arithmetic Instructions) 算术运算指令
+### % RISC-V(Arithmetic Instruction) 算术运算指令
 ###########################################################
-% Syntax of Instructions:
-% 加法指令语法构成(  add x1, x2, x3  )
+% (ADD)加法指令语法构成 (  add x1, x2, x3  )
     -One    =operation by name
     -two    =operand getting result("destination")
     -three  =1st operand for operation("source1")
     -four   =2st operand for operation("source2")
-% 加法 RISC-V 与 C语言对比
+0 % (ADD)加法 RISC-V 与 C语言对比
     add x1, x2, x3  # (in RISC-V) =>x1=x2+x3
     a = b + c       # (in C)
     ---where C variables <==> RISC-V Registers are:
     a<=>x1, b<=>x2, c<=>x3
-% 减法 RISC-V 与 C语言对比
+1 % (SUB)减法 RISC-V 与 C语言对比
     sub x1, x2, x3  # (in RISC-V) =>x1=x2-x3
     a = b - c       # (in C)
     ---where C variables <==> RISC-V Registers are:
     a<=>x1, b<=>x2, c<=>x3
 
 
+2 % "LUI(Load Upper Immediate)"指令采用U-type,用于构造20立即数
+lui x5, 0x12345     % x5 = (0x12345<<12)
+imm[31:12]      rd[11:7]        opcode[6:0]
+20bit           5bit            7bit
+LUI指令会构造一个32bits的立即数，这个立即数的高20位对应指令中的imm，
+低12位清零。这个立即数作为结果存放在“RD”中。
+% 利用LUI+ADDI来为寄存器加载一个大数(0x12345678)
+lui x1, 0x12345         % x1 = 0x12345000
+addi x1, x1, 0x678      % x1 = 0x12345678
+% 利用LUI+ADDI来为寄存器加载一个大数(0x12345FFF)
+lui x1, 0x12346         % x1 = 0x12346000
+addi x1, x1, -1         % x1 = 0x12345FFF
+
+
+3 % LI(Load Immediate)是一个伪指令
+汇编器会根据IMM的实际情况自动生成正确的真实指令(instruction)
+li x5, 0x12345678       % x5 = 0x2345678
+
+
+4 % AUIPC(构造程序的相对地址), AUIPC指令采用“U-type”
+auipc x5, 0x12345       % x5 = (0x12345<<12) + PC
+imm[31:12]      rd[11:7]        opcode[6:0]
+20bit           5bit            7bit
+和LUI指令类似，AUIPC指令也会构造一个32bits的立即数，
+这个立即数的高20位对应指令中的imm，低12位清零。
+但是和LUI不同的是，AUIPC会先将这个立即数和PC值相加，
+将相加的结果存放在“RD”中。
+
+
+5 % LA(Load Address)是一个伪指令
+具体编程时给出需要加载的label，编译器会根据实际情况选用
+AUIPC和其它指令自动生成正确的指令序列。
+常用于加载一个函数或者变量的地址。
+
+
 
 ###########################################################
-### % RISC-V  加载存储指令
+### % RISC-V(Logic operation instruction) 逻辑运算指令
+###########################################################
+Language                  C          RISC-V
+Logical operations    operators   instructions
+Bit-by-bit AND            &           and
+Bit-by-bit OR             |           or
+Bit-by-bit XOR            ^           xor
+% Register:
+    and x5, x6, x7      # x5 = x6 & x7
+% Immediate:
+    andi x5, x6, 3      # x5 = x6 & 3
+
+
+0 % XOR(eXclusive OR “异或”)
+两个bit值不同(异)则取值为“1”, 两个bit值相同则取值为“0”
+
+
+1 % NOT伪指令(按位取反~) % not x5, x6
+  % 对RS的值按位取反，结果存入在RD中。
+NOT RD, RS      <=>     XORI RD, RS, -1     
+  % 对下面两组二进制数进行异或操作
+1 0 1 0 1 0 1 0
+1 1 1 1 1 1 1 1     (-1)
+_______________
+0 1 0 1 0 1 0 1
+
+
+
+###########################################################
+### % RISC-V(Shift operation instruction) 移位运算指令
+###########################################################
+0 % 逻辑移位运算
+无论是逻辑左移还是逻辑右移，补足的都是“0”
+Language                  C          RISC-V
+Shift left logical       <<          sll
+Shift right logical      >>          srl
+
+
+1 % 算术移位运算(算术右移按照符号位补足)
+算术右移(Shift Right Arithmetic) (RD = RS1>>RS2)   
+sra x5, x6, x7
+1 0 0 1 0 0 0 0     % 算术右移1位
+1 1 0 0 1 0 0 0     % 算术右移1位结果(算术右移按照符号位补足)
+_______________
+0 0 0 1 0 0 0 0     % 算术右移1位
+0 0 0 0 1 0 0 0     % 算术右移1位结果(算术右移按照符号位补足)
+
+
+
+###########################################################
+### % RISC-V(Load storage instruction) 加载存储指令
 ###########################################################
 0 % Load from Memory to Register，将数据从存储器装载到寄存器
 C code, c语言代码
@@ -35,7 +119,6 @@ Using Load Word(lw) in RISC-V:
     x12 ->offset in bytes
     
 
-
 1 % Store form Register to Memory，将数据从寄存器存储到存储器中
 C code, c语言代码
     int A[100];
@@ -48,6 +131,18 @@ Using Store Word(sw) in RISC-V:
     x15    ->base register(pointer)
     12, 40 ->offsets in bytes
 x15+2 and x15+40 must be multiples of 4
+
+
+
+###########################################################
+### % RISC-V(Conditional branch instruction) 条件分支指令
+###########################################################
+
+
+
+###########################################################
+### % RISC-V(Unconditional jump instruction) 无条件跳转指令
+###########################################################
 
 
 
@@ -75,12 +170,13 @@ f->x10, g->x11, h->x12, i->x13, j->x14
         
 
 1 % C Loop Mapped to RISC-V Assembly
+___________________________________________________________
     int a[20];
     int i;
     int sum = 0;
     for (i = 0; i < 20; i++)
         sum += A[i];
-
+___________________________________________________________
 add  x9, x8, x0             # x9=&A[0]，给寄存器x9赋数组A【0】的地址
 add  x10, x0, x0            # sum=0
 add  x11, x0, x0            # i=0
@@ -92,34 +188,7 @@ Loop:
     addi x9, x9, 4          # &A[i+1]
     addi x11, x11, 1        # i++
     j Loop
-Done:
-
-
-
-###########################################################
-### % RISC-V  逻辑运算指令
-###########################################################
-% Language                  C          RISC-v
-% Logical operations    operators   instructions
-% Bit-by-bit AND            &           and
-% Bit-by-bit OR             |           or
-% Bit-by-bit XOR            ^           xor
-% Shift left logical        <<          sll
-% Shift right logical       >>          srl
-Register:
-    and x5, x6, x7      # x5 = x6 & x7
-Immediate:
-    andi x5, x6, 3      # x5 = x6 & 3
-% Note:
-在RISC-V指令集中没有专门的逻辑非指令，
-可以使用逻辑异或指令xor与0x1111_1111按位异或即可得到逻辑非的结果
-
-
-
-###########################################################
-### % RISC-V  算术移位指令
-###########################################################
-% 算术移位指令， sra, srai
+___________________________________________________________
 
 
 

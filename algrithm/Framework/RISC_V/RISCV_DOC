@@ -1,21 +1,23 @@
 ###########################################################
-### % RISC-V(RV32I)教程
+### % RISC-V(RVOS)教程
 ###########################################################
-0 % 进入RISC-V(RV32I)工作目录
-cd /home/ysh/ws/riscv-operating-system-mooc-main/code/asm
+-1 % 进入RISC-V(RV32I)工作目录
+  cd /home/ysh/ws/riscv-operating-system-mooc-main/code/asm
 
 
 0 % 编译程序
-cd add
-make
+  cd add
+  make
 
 
-1 % 调式程序，启动( QUEM系统级模拟器 )，启动( GDB )
-  % (QEMU, -nographic不启动图形界面, -smp 1只启动一个核心CPU)
-  % (QEMU, -s远程调式)(QEMU目标机与本地机的连接为本地的回环)
-  % QEMU为目标机(在qemu中自动启动一个gdbserver)(默认端口号为1234)
-  % 本地机为调式机器(gdb)
-make debug
+1 % 调式程序，启动( QUEM系统级模拟器 ) 与 (本地机器连接)
+  make debug
+% (QEMU, -nographic不启动图形界面, -smp 1只启动一个核心CPU)
+% (QEMU, -s在qemu中自动启动一个gdbserver)
+% QEMU为目标机(默认端口号为1234)
+% (QEMU目标机与本地机的连接为本地的回环)
+% (QEMU, -S启动一个程序，它会告诉GDB停在那里，方便调式)
+  si        % 单步执行程序，用于调式
 
 
 
@@ -26,11 +28,11 @@ make debug
 ###########################################################
 % Big Endian & Little Endian(大端格式 & 小端格式)
 % RV32I采用小端格式
-    大端与小端是指字节在存储器中存储顺序的两种方式
-    大端是将一个字数据的最低位字节存储在最高字节地址上
-    小端是将一个字数据的最低位字节存储在最低字节地址上
+大端与小端是指字节在存储器中存储顺序的两种方式
+大端是将一个字数据的最低位字节存储在最高字节地址上
+小端是将一个字数据的最低位字节存储在最低字节地址上
 
-  
+
 % RV32I汇编    
 instruction         % (指令)
 pseudo-instruction  % (伪指令)
