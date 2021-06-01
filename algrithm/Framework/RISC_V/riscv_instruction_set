@@ -107,7 +107,7 @@ _______________
 ###########################################################
 ### % RISC-V(Load storage instruction) 加载存储指令
 ###########################################################
-0 % Load from Memory to Register，将数据从存储器装载到寄存器
+0 % Load from Memory to Register(存储器->寄存器)
 C code, c语言代码
     int A[100];
     g = h + A[3];
@@ -119,7 +119,7 @@ Using Load Word(lw) in RISC-V:
     x12 ->offset in bytes
     
 
-1 % Store form Register to Memory，将数据从寄存器存储到存储器中
+1 % Store form Register to Memory(寄存器->存储器)
 C code, c语言代码
     int A[100];
     A[10] = h + A[3]
@@ -137,6 +137,31 @@ x15+2 and x15+40 must be multiples of 4
 ###########################################################
 ### % RISC-V(Conditional branch instruction) 条件分支指令
 ###########################################################
+BEQ  RS1, RS2, IMM      % Branch if EQual. 比较RS1和RS2的值, 
+beq  x5, x6, 100        % 如果相等,则执行路径跳转到一个新的地址
+
+BNE  RS1, RS2, IMM      % Branch if Not Equal. 比较RS1和RS2的值,
+bne  x5, x6, 100        % 如果不相等,则执行路径跳转到一个新的地址
+
+BLT  RS1, RS2, IMM      % Branch if Greater than or Equal. 按照“有符号方式”
+blt  x5, x6, 100        % 比较RS1和RS2的值,如果RS1 < RS2,则执行路径跳转到一个新的地址
+
+BLTU RS1, RS2, IMM      % Branch if Less Than(Unsigned). 按照“无符号方式”
+bltu x5, x6, 100        % 比较RS1和RS2的值,如果RS1 < RS2,则执行路径跳转到一个新的地址
+
+BGE  RS1, RS2, IMM      % Branch if Greater than or Equal. 按照“有符号方式”
+bge  x5, x6, 100        % 比较RS1和RS2的值,如果RS1 >= RS2,则执行路径跳转到一个新的地址
+
+BGEU RS1, RS2, IMM      % Branch if greater than or Equal(Unsigned). 按照“无符号方式”
+bge  x5, x6, 100        % 比较RS1和RS2的值,如果RS1 >= RS2,则执行路径跳转到一个新的地址
+_______________________________________________________________
+(31:25)        [24:20]  [19:15]  [14:13]    (11:7)       [6:0]
+imm[12|10:5]   RS2      RS1      funct3     imm[4:1|11]  opcode
+_______________________________________________________________
+跳转的目标计算方法：先将 IMM*2，符号位扩展后和PC值相加得到最终的目标地址，
+所以跳转范围是以PC为基准，+/-4KB左右(-4096, 4094)
+具体编程时， 不会直接写IMM，而是用标号代替，交由链接器来最终决定“IMM”的值
+“IMM*2”就为了指令对齐。
 
 
 
@@ -213,7 +238,6 @@ add x18, x19, x10   =>00000 01010 10011 000 10010 0110011
 % 12bits        5bits       3bits       5bits       7bits
 % Imm[11:0]     rs1         funct3      rd          opcode
 imm[11:0] can hold values in range [-2048, +2047]
-
 
 addi x15, x1, -50   =>111111001110,00001,000,01111,0010011
 111111001110    00001       000         01111       0010011

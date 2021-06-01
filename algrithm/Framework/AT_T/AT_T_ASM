@@ -1,21 +1,31 @@
 ###########################################################
-### % AT&T汇编
-### % 立即数前面要加一个$, 寄存器前面要加一个%
+### % AT&T VS Intel
+###########################################################
+    AT&T                    Intel
+movl %eax, %ebx             mov ebx, eax
+movl $0xFF00EE88, %eax      mov eax, FF00EE88h
+
+
+
+###########################################################
+### % AT&T (立即数前面要加一个$), (寄存器前面要加一个%)
 ###########################################################
 .section .data  #声明一个数据段
 .section .text  #声明一个代码段
 .globl main     #声明一个全局标号main
-
 movl $1, %eax   #把立即数1，放入eax寄存器中
-
+$6              #这是一个立即数
+6               #这是一个地址
+%eax            #这是一个寄存器
 
 
 
 ###########################################################
 ### % AT&T DATA TYPE(数据类型)
 ###########################################################
+Command                 Data Type
 .ascii                  ASCII Text
-.asciz .strint          ASCII Text, end with '\0'
+.asciz, .string         ASCII Text, endwith '\0'
 .byte                   8-bits interer:Byte
 .short .word .hword     16-bits integer:Word
 .int .long              32-bits integer:Doubleword
@@ -24,10 +34,10 @@ movl $1, %eax   #把立即数1，放入eax寄存器中
 .float .single          Single-precision floating-point number(32-bits)
 .double                 Double-precision floating-point number(64-bits)
 
+
 % AT&T 定义常量
 .equ LINUX_SYS_CALL, 0x80   # 定义LINUX_SYS_CALL为常量0x80
 int $LINUX_SYS_CALL         # 调用0x80中断
-
 
 
 
@@ -48,39 +58,51 @@ section .bss        # Block Started by Symbol,also known as uninitialized data
 
 
 
-
 ###########################################################
-### % AT&T INDEXED MEMORY MODE
+### % AT&T 内存
 ###########################################################
 base_address(offset_address, index, size)
-===>base_address + offset_address + (index*size)
-% Base address
-% Offset address(must be register)
-% Index(must be register)
-% Size(can be number)
-
-# % 定义一个数据段， 它里面有11个数据元素，每个数据元素的数据类型为int
-# % 其中values为这个数据元素的基地址
+==> base_address + offset_address + index*size
+1 % Base address
+2 % Offset address(must be register)
+3 % Index(must be register)
+4 % Size(can be number)
+! Any zero can be ignored. But hte comma must be used as placeholder.
+___________________________________________________
 .section .data
 values:
     .int 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60
+___________________________________________________
+# % 例程1 __________________
+# % 定义一个数据段， 它里面有11个数据元素，每个数据元素的数据类型为int
+# % 其中 (values) 为这个数据元素的基地址
 # % 使用下面的代码，可以将这个数据段中的第3个数据元素放入eax寄存器中
+# % 0(, 2, 4) = 0 + 2*4 = 8;    %eax=20
 movl $2, %edi
 movl values(, %edi, 4), %eax
 
-# % 把values基地址的内容放到寄存器eax中，此时eax=10
+
+# % 例程2 __________________ =>
+# % 把values所在地址的内容放到寄存器eax中，此时eax=10
 movl values, %eax
 
-# % 把values的地址放入寄存器edi中   
+
+# % 例程3 __________________ =>
+# % 把values的地址放入寄存器edi中，此时edi为一个指针 
 movl $values, %edi 
 
+
+# % 例程4 __________________ =>
 # % 把寄存器ebx中的内容放入寄存器edi的地址中    
 movl %ebx, (%edi) 
 
+
+# % 例程5 __________________ =>
 # % 把立即数99放到（寄存器edi+4所在的地址中）
 movl $99, 4(%edi)
 
 
+# % 例程6 __________________
 .section .data
 values:
     .int 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60
@@ -98,9 +120,8 @@ main:
     
     
     
-    
 ###########################################################
-### % AT&T XCHG指令实现冒泡算法[32bits intel]
+### % AT&T(XCHG指令)实现冒泡算法[32bits intel]
 ########################################################### 
 % 冒泡算法C语言
 for (out = array_size-1; out > 0; out--) {
@@ -110,10 +131,7 @@ for (out = array_size-1; out > 0; out--) {
         }
     }
 }
-   
-   
-   
-# bubble.s - An example of the XCHG instruction
+% 冒泡算法ASM语言
 .section .data
 values:
     .int 105, 235, 61, 315, 134, 221, 53, 145, 117, 5
@@ -145,7 +163,4 @@ end:
     int $0x80
     
     
-
-
-
 
