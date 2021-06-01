@@ -1,0 +1,7 @@
+###########################################################
+### % RISCV_OS
+###########################################################
+levels    Supported Modes     Intended Usage
+1         M                   Simple embedded sydtems
+2         M, U                Secure embedded systems
+3         M, S, U             Systems running Unix-like operating systems
