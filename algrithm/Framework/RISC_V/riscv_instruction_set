@@ -1,4 +1,36 @@
 ###########################################################
+### % RISC-V指令扩展(CSR指令)
+###########################################################
+CSRRW(Atomic Read/Write CSR)
+CSRRW RD, CSR, RS1
+crrw t6, mscratch, t6       % t6 = mscratch; mscratch = t6
+___________________________________________________________
+31:0            19:15       14:12   11:7    6:0
+csr             rs1         funct3  rd     opcode
+12              5           3       5       7
+___________________________________________________________
+source/dest     source      CSRRW   dest    SYSTEM
+1 % CSRRW先读出“CSR”中的值，将其按“XLEN位”的宽度进行“零扩展(zero-extend)”
+  后写入“RD”；   然后将“RS1”中的值写入“CSR”。
+2 % 以上两步操作以“原子性(atomically)”方式完成
+3 % 如果“RD”是“x0”，则不对“CSR”执行读的操作。
+4 % 伪指令+++++++++++Base Instruction(Write CSR)
+  csrw csr, rs  <=> csrrw x0, csr, rs
+
+
+CSRRS(Atomic Read and Set Bits in CSR)
+CSRRS RD, CSR, RS1  
+csrrs x5, mie, x6           % x5 = mie; mie |= x6;
+1 % CSRRS先读出“CSR”中的值，将其按“XLEN位”的宽度进行“零扩展(zero-extend)”
+  后写入“RD”； 然后逐个检查“RS1”中的值，如果某一位为“1”则对“CSR”的对应位
+  置“1”，否则保持不变。
+2 % 2 % 以上两步操作以“原子性(atomically)”方式完成
+3 % 伪指令++++++++++Base Instruction(Read CSR)
+  csrr rd, csr <=> csrrs rd, csr, x0
+
+
+
+###########################################################
 ### % RISC-V(Arithmetic Instruction) 算术运算指令
 ###########################################################
 % (ADD)加法指令语法构成 (  add x1, x2, x3  )
