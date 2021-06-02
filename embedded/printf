@@ -1,12 +1,15 @@
 ###########################################################
-### % 使用串口调式STM32_MDK
+### % 使用串口调式STM32_GNU_printf
 ###########################################################
 /* USER CODE BEGIN Includes */
 #include <string.h>
 #include <stdio.h>
+#define HAL_MAX_DELAY 0xFFFF
 
 /* USER CODE END Includes */
 
+/* Private variables--------------------------------*/
+UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 #ifdef __GNUC__
@@ -17,7 +20,8 @@
 
 PUTCHAR_PROTOTYPE
 {
-    HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);//使用串口发送出去
+    /* 注意下面第一个参数是&huart1，因为cubemx配置了串口1自动生成的 */
+    HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, HAL_MAX_DELAY);
     return ch;
 }
 /* USER CODE END PV */
@@ -39,48 +43,9 @@ PUTCHAR_PROTOTYPE
 
 
 ###########################################################
-### % 重定向printf_gnu
-###########################################################
-#include "stdio.h"
-
-#ifdef __GNUC__
-    /* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf */
-    /* set to 'Yes') calls __io_putchar() */
-    #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
-#else
-    #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
-#endif /* __GNUC__ */
-
-
-/**
-  * @brief  Retargets the C library printf function to the USART.
-  * @param  None
-  * @retval None
-  */
-PUTCHAR_PROTOTYPE
-{
-    /* 注意下面第一个参数是&huart1，因为cubemx配置了串口1自动生成的 */
-    HAL_UART_Transmit(&huart1, (uint8_t*)&ch, 1, HAL_MAX_DELAY);
-    return ch;
-}
-
-
-int _write(int file, char *ptr, int len)
-{
-    int DataIdx;
-
-    for (DataIdx = 0; DataIdx < len; DataIdx++)
-    {
-        __io_putchar(*ptr++);
-    }
-
-    return len;
-}
-
-
-
-###########################################################
 ### % 使用ITM调式STM32_gnu
+### % ITM机制是一种调试机制，是新一代调试方式，在这之前，
+### % 有一种比较出名的调试方式，称为半主机（semihosting）方式
 ###########################################################
 /* USER CODE BEGIN Include */
 #include "stdio.h"
@@ -111,3 +76,54 @@ while (1)
     
     
     
+###########################################################
+### % gnu_printf模板
+###########################################################
+#include "stdio.h"
+
+#ifdef __GNUC__
+    /* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf */
+    /* set to 'Yes') calls __io_putchar() */
+    #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#else
+    #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif /* __GNUC__ */
+
+/**
+  * @brief  Retargets the C library printf function to the USART.
+  * @param  None
+  * @retval None
+  */
+PUTCHAR_PROTOTYPE
+{
+    /* 注意下面第一个参数是&huart1，因为cubemx配置了串口1自动生成的 */
+    HAL_UART_Transmit(&huart1, (uint8_t*)&ch, 1, HAL_MAX_DELAY);
+    return ch;
+}
+
+
+// % 直接修改_write函數。_write函數在syscalls.c中， 
+// % 使用__weak定義， 所以可以直接在其他文件中定義_write函數
+__attribute__((weak)) int _write(int file, char *ptr, int len)
+{
+	int DataIdx;
+	for (DataIdx = 0; DataIdx < len; DataIdx++)
+	{
+		__io_putchar(*ptr++);
+	}
+	return len;
+}
+
+
+// % (HAL_UART_Transmit)发送字符到串口
+// % (printf)           函数发送到串口 
+char *strs = "Hello World\r\n";
+while (1)
+{
+    HAL_UART_Transmit(&huart1, strs, strlen(strs), 100);
+    HAL_Delay(500);
+    printf("Test1\r\n");
+}
+
+
+

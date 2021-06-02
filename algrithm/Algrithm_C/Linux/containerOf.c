@@ -76,15 +76,11 @@ void func(struct ST *pst)
     printf("pst = %p\n", pst);
     printf("pi = %p\n", pi);
     printf("pj = %p\n", pj);
-    printf("pc = %p\n", pc);
-    
-    
-
-    
+    printf("pc = %p\n", pc); 
 }
 
 
-int main()
+int main(int argc, cosnt char *argv[])
 {
     method_1();
     method_2();
@@ -96,6 +92,7 @@ int main()
     struct ST *pst = container_of(pc, struct ST, c);
     printf("&s = %p\n", &s);
     printf("pst = %p\n", pst);
+    return 0;
 }
 
 
