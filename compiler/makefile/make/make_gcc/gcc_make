@@ -1,5 +1,5 @@
 ###########################################################
-### gcc_make
+### % gcc_make编译选项
 ###########################################################
 -E                          # 指示编译器仅对输入文件进行预处理
 -S                          # 告诉 GCC编译器 在为 C 代码产生了汇编语言文件后停止编译
@@ -21,13 +21,18 @@
 -Ldir                       # 将 dir目录加入搜索库文件的目录路径
 -llib                       # 链接lib库
 
--pipe	                    # 使用管道代替编译中临时文件, 在使用非 gnu 汇编工具的时候, 可能有些问题
--ansi                       # 关闭 gnu c中与 ansi c 不兼容的特性, 激活 ansi c 的专有特性
-                             （包括禁止一些 asm inline typeof 关键字, 以及 UNIX,vax 等预处理宏）
+-pipe	                    # 使用管道代替编译中临时文件, 在使用
+                              非 gnu 汇编工具的时候, 可能有些问题
+-ansi                       # 关闭 gnu c中与 ansi c 不兼容的特性, 
+                               激活 ansi c 的专有特性
+                             （包括禁止一些 asm inline typeof 关键字, 
+                               以及 UNIX,vax 等预处理宏）
 
 
--nostdinc                   # 使编译器不再系统缺省的头文件目录里面找头文件, 一般和 -I 联合使用,明确限定头文件的位置
--imacros file               # 将 file 文件的宏, 扩展到 gcc/g++ 的输入文件, 宏定义本身并不出现在输入文件中
+-nostdinc                   # 使编译器不再系统缺省的头文件目录里面找头文件, 
+                              一般和 -I 联合使用,明确限定头文件的位置
+-imacros file               # 将 file 文件的宏, 扩展到 gcc/g++ 的输入文件, 
+                              宏定义本身并不出现在输入文件中
 -Dmacro                     # 相当于 C 语言中的 #define macro　　
 -Dmacro=defn                # 相当于 C 语言中的 #define macro=defn　　
 -Umacro                     # 相当于 C 语言中的 #undef macro
@@ -36,69 +41,79 @@
 -DMACRO=DEFN                # 以字符串"DEFN"定义 MACRO 宏
 
 -Wl,option                  # 通过该选项将参数 option 作为后续链接器 ld 使用的参数
--Wl,rpath=/path/to/lib      # 为链接器指定一个非默认的运行时库的搜索路径，运行采用了该选项编译的程序时，
-                              链接器会在-rpath 指定的目录中搜索所需的 so 库文件，以将其载入内存中
+-Wl,rpath=/path/to/lib      # 为链接器指定一个非默认的运行时库的搜索路径，运行采用了
+                              该选项编译的程序时，链接器会在-rpath 指定的目录中搜索
+                              所需的 so 库文件，以将其载入内存中
 　　　
 -D name=definition          # 加入宏定义，若不指定def，则默认为1
 
 -O0, -O1, -O2, -O3          # 编译器的优化选项的 4 个级别，
-                              -O0 表示没有优化, -O1为 缺省值，-O3 优化级别最高
-
-
-
-
-###########################################################
-### archive
-###########################################################
-ar == archive
-rcs== replace create save
-GCC编译器制作静态库文件 .a
-格式：ar rcs  libxxx.a xx1.o xx2.o
-ar命令最常见的用法是将目标文件打包为静态链接库
-
-gcc -c hello.c			1 生成目标文件	
-ar -r libhello.a hello.o	2 把生成的 hello.o 这个文件归档,生成一个 libhello.a
-gcc main.c libhello.a -o App	3 使用静态库
-gcc -L. main.c -o App -lhello	4 加入搜索库文件的目录路径,并指定要链接的库文件名
+                              -O0 表示没有优化, -O1为 缺省值，
+                              -O3 优化级别最高
 
 
 
 ###########################################################
-### shared
+### % GCC编译器制作静态库文件(.a)
 ###########################################################
-shared	表示生成共享库格式
-fpic	产生位置无关码(position independent code)
-库名规则：	libxxx.so
-l	链接共享库存，只要库名即可（去掉lib及版本号）
-L	链接库所在路径
+(ar == archive) (rcs == replace create save)
+% 格式：ar rcs  libxxx.a xx1.o xx2.o
+% ar命令最常见的用法是将目标文件打包为静态链接库
+1 生成目标文件
+% gcc -c hello.c            
+2 把生成的 hello.o 这个文件归档,生成一个 libhello.a      	
+% ar -r libhello.a hello.o  
+3 使用静态库      
+% gcc main.c libhello.a -o App    
+4 加入搜索库文件的目录路径,并指定要链接的库文件名
+% gcc -L. main.c -o App -lhello   
+
+
+
+###########################################################
+### % GCC编译器制作共享库文件(.so)
+###########################################################
+shared      % (表示生成共享库格式)
+fpic        % {产生位置无关码(position independent code)}
+libxxx.so   % 库名规则：	
+l           % 链接共享库存，只要库名即可（去掉lib及版本号）
+L	        % 链接库所在路径
+
 GCC编译器制作动态库文件 .so
-### 
-gcc -c -fpic hello.c		1 编译独立的代码目标文件 -fpic
-gcc -shared hello.o -o libmy.so 2 编译生成共享库
-gcc -fpic -shared hello.o -o libmy.so	3 第1部和第2部合并写法
-gcc main.c libmy.so -o App	4 使用共享库
-5 定位共享库依赖 LIBRARY_PATH, 运行时依赖 LD_LIBRARY_PATH.
-
+_____________________________
+1 编译独立的代码目标文件 -fpic
+% gcc -c -fpic hello.c		
+2 编译生成共享库
+gcc -shared hello.o -o libmy.so 
+3 第1部和第2部合并写法
+% gcc -fpic -shared hello.o -o libmy.so
+4 使用共享库	
+% gcc main.c libmy.so -o App	
+5 库依赖环境
+% 定位共享库依赖 LIBRARY_PATH, 
+% 运行时依赖 LD_LIBRARY_PATH.
 
 
 
 ###########################################################
-### 
+### % LDD, ldconfig
 ###########################################################
 gcc -I 或者 gcc -L 用于命令行方式指定头文件、库文件的搜索路径。
-如果是源码安装一些东西，发生了找不到头文件、库文件的时候，用的makefile直接编译还好；
-如果是用的configure，甚至其他的来生成makefile，或者有的时候，甚至都不知道怎么编译出来的。这时候就傻了。
-这时候，可以用C_INCLUDE_PATH、CPLUS_INCLUDE_PATH（for c++）、LIBRARY_PATH作为环境变量来指定GCC的相应搜索路径。
-另外，环境变量CPPFLAGS、LDFLAGS等用于makefile。
-
+如果是源码安装一些东西，   发生了找不到头文件、   库文件的时候，
+用的makefile直接编译还好；如果是用的configure，甚至其他的来
+生成makefile，或者有的时候，甚至都不知道怎么编译出来的。这时候就傻了。
+这时候，可以用C_INCLUDE_PATH、CPLUS_INCLUDE_PATH（for c++）、
+LIBRARY_PATH作为环境变量来指定GCC的相应搜索路径。
+% 另外，环境变量 CPPFLAGS、LDFLAGS等用于makefile。
 C_INCLUDE_PATH
 LIBRARY_PATH
 LD_LIBRARY_PATH
 
 
-ldd 是list, dynamic, dependencies的缩写， 意思是， 列出动态库依赖关系
+0 % ldd(list dynamic dependencies)列出动态库依赖关系
 
-ldconfig几个需要注意的地方:
+
+1 % ldconfig几个需要注意的地方:
 1. 往/lib和/usr/lib里面加东西，是不用修改/etc/ld.so.conf的，
    但是完了之后要调一下ldconfig，不然这个library会找不到
 2. 想往上面两个目录以外加东西的时候，一定要修改/etc/ld.so.conf，

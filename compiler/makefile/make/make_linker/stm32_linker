@@ -75,25 +75,6 @@ Nano.specs还处理两个额外的gcc库：libstdc ++ _ s.a和libsupc ++ _ s.a�
 
 
 
-
-
-
-
-
-
-###############################################################
-% sudo gedit ~/.bashrc
-###############################################################
-% GNU Arm Embedded Toolchain ->CORTEX-M 编译环境
-export GCC_HOME=/opt/gcc-arm-none-eabi-7-2018-q2-update-linux\
-                /gcc-arm-none-eabi-7-2018-q2-update/
-export PATH=$PATH:$GCC_HOME/bin
-
-
-
-
-
-
 ###############################################################
 % OpenOCD
 % ST_Link

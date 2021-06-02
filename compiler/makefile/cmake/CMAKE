@@ -198,7 +198,8 @@ VAR变量代表包含这个文件的路径
 FIND_PROGRAM(<VAR> name path1 path2 …)
 VAR变量代表包含这个程序的全路径
 
-% FIND_PACKAGE(<name> [major.minor] [QUIET] [NO_MODULE] [[REQUIRED | COMPONENTS] [componets …]])
+% FIND_PACKAGE(<name> [major.minor] [QUIET] 
+% [NO_MODULE] [[REQUIRED | COMPONENTS] [componets …]])
 用来调用预定义在CMAKE_MODULE_PATH下的Find<name>.cmake模块,你也可以自己定义Find<name>
 模块,通过SET(CMAKE_MODULE_PATH dir)将其放入工程的某个目录供工程使用
 
