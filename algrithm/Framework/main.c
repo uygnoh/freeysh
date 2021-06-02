@@ -5,7 +5,7 @@ struct book {
 };
 typedef struct book * ptrs;
 
-int main()
+int main(int argc, const char *argv[])
 {
     ptrs ptr;
     struct book k;
