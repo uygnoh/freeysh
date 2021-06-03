@@ -1,29 +1,9 @@
 ###########################################################
-### putty 
+###% putty(是一个Telnet、SSH、rlogin、纯TCP以及串行接口连接软件)
 ###########################################################
-PuTTY是一个Telnet、SSH、rlogin、纯TCP以及串行接口连接软件。
-较早的版本仅支持Windows平台，在最近的版本中开始支持各类Unix平台，并打算移植至Mac OS X上。
-除了官方版本外，有许多第三方的团体或个人将PuTTY移植到其他平台上，像是以Symbian为基础的移动电话。
-PuTTY为一开放源代码软件，主要由Simon Tatham维护，使用MIT licence授权。
-随着Linux在服务器端应用的普及，Linux系统管理越来越依赖于远程。
-在各种远程登录工具中，Putty是出色的工具之一。
-
-
-特色
-PuTTY包括了：
-    支持IPv6连接。
-    可以控制SSH连接时加密协定的种类。
-    目前有3DES、AES、Blowfish、DES（不建议使用）及RC4。CLI版本的SCP及SFTP Client，分别叫做pscp与psftp。
-    自带SSH Forwarding的功能，包括X11 Forwarding。
-    完全模拟xterm、VT102及ECMA-48终端机的能力。
-    支持公钥认证。
-    
-    
-    
-   权限不够 
+1 PuTTY权限不够 
 % Unable to open serial port /dev/ttyUSB0
-解决办法：
-通过增加udev规则来实现。步骤如下：
+解决办法：通过增加udev规则来实现。步骤如下：
 创建文件/etc/udev/rules.d/70-ttyusb.rules
 在文件内增加一行
 KERNEL=="ttyUSB[0-9]*", MODE="0666"
